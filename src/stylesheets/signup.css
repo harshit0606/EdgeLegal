@@ -1,0 +1,120 @@
+
+.container {
+    padding: 0;
+    padding-top: 16px;
+  }
+  .signupContainer {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  .signupCard {
+    width: 50%;
+    box-shadow: 0px 4px 20px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 0.5rem 1.5rem;
+    padding-bottom: 1rem;
+  }
+  .logo {
+    color: #109CF1;
+    margin-top: 0;
+    margin-bottom: 0.2rem;
+  }
+  .inputDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    margin-bottom: 1rem;
+  }
+  .labelStyle {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .inputStyle {
+    padding: 15px 12px;
+    background: #F0F0F0;
+    border: 1px solid #F0F0F0;
+    border-radius: 12px;
+    outline: none;
+    /* '&::placeholder': {
+      color: '#B6B6B6';
+      font-size: '14px';
+      font-family: 'Poppins';
+    } */
+  }
+  .buttonStyle {
+    width: 100%;
+    background: #109CF1;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 0.5rem;
+    font-family: Poppins;
+    /* '&:hover': {
+      cursor: 'pointer';
+    } */
+  }
+  .messageCard {
+    width: 50%;
+    padding: 1rem;
+    background: #F0F0F0;
+  }
+  .messageHead {
+    font-size: 20px;
+    font-weight: 600;
+    color: #575757;
+    margin: 0.5rem 0;
+  }
+  .messageBody {
+    font-size: 19px;
+    font-weight: 300;
+    color: #575757;
+    margin: 0.5rem 0;
+    /* line-spacing: 5px; */
+  }
+  .messageFooter {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    font-size: 19px;
+    color: #575757;
+    font-weight: '700';
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .messageSpan {
+    margin-right: 1rem;
+  }
+  .loginLink {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0.8rem 2rem;
+    padding-right: 12rem;
+    background: #F0F0F0;
+  }
+  .loginButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* '&:hover': {
+      cursor: pointer;
+    } */
+  }
+  .login {
+    color: #3C5BFA;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    margin-right: 8px;
+  }
