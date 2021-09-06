@@ -13,7 +13,6 @@ import login from "./components/login.js";
 
 function App() {
   return (
-    <div className="App">
       <Router>
         <Switch>
           {/* <Route exact path="/" component={home} /> */}
@@ -21,7 +20,7 @@ function App() {
           <Route exact path="/login" component={login} />
         </Switch>
       </Router>
-    </div>
+
   );
 }
 
