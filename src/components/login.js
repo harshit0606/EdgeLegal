@@ -16,16 +16,20 @@ function Login(){
         e.preventDefault();
         
         if(username!=="" && password!==""){
+            console.log(username);
+            console.log(password);
             console.log("login submitted");
             axios.post(`${url}/api/auth/signin`,{
                 "username": username,
                 "password": password
             })
             .then((response)=>{
+                console.log("response",response);
                 setCookie("token", response.data.accessToken);
                 alert("You are successfuly logged in");
             })
             .catch((error)=>{
+                console.log("error",error);
                 alert("Wrong username or password");
             });
         }else{
