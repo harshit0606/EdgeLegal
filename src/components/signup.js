@@ -1,8 +1,8 @@
 import react,{useState} from "react";
 import styles from "../stylesheets/signup.css";
 
-// import axios from "axios";
-// import {useCookies} from 'react-cookie';
+import axios from "axios";
+import {useCookies} from 'react-cookie';
 
 import signupFooter from '../images/signupFooter.svg';
 import arrow from '../images/arrow.svg';

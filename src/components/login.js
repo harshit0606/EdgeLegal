@@ -1,19 +1,33 @@
 import react,{useState} from "react";
 import styles from "../stylesheets/login.css";
+import url from "../config.js";
 
-// import axios from "axios";
-// import {useCookies} from 'react-cookie';
+import axios from "axios";
+import {useCookies} from 'react-cookie';
 
 function Login(){
+
+    const [cookies, setCookie, removeCookie] = useCookies(['name']);
 
     const [username,setUsername] = useState(null);
     const [password,setPassword] = useState(null);
     
     function handleSubmit(e){
         e.preventDefault();
-
+        
         if(username!=="" && password!==""){
             console.log("login submitted");
+            axios.post(`${url}/api/auth/signin`,{
+                "username": username,
+                "password": password
+            })
+            .then((response)=>{
+                setCookie("token", response.data.accessToken);
+                alert("You are successfuly logged in");
+            })
+            .catch((error)=>{
+                alert("Wrong username or password");
+            });
         }else{
             alert("enter both username and password");
         }
@@ -21,10 +35,10 @@ function Login(){
 
     return (
         <div>
-            <div className="container">
+            {/* <div className="container"> */}
                 <div className="loginHeader">Edge Logo</div>
                 <div className="loginCard">
-                    <h2 className="loginTitle">Login in to Edge</h2>
+                    <h2 className="loginTitle">Log in to Edge</h2>
                     <form>
                     <div className="inputDiv">
                         <label htmlFor='username' className="labelStyle">
@@ -58,7 +72,7 @@ function Login(){
                     </form>
                 </div>
             </div>
-        </div>
+        // </div>
     );
 }
 
