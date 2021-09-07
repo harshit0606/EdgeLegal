@@ -1,0 +1,24 @@
+.safe-custody-btns-div
+{
+    background-color: #F0F0F0;
+    display: flex;
+}
+
+.safe-custody-btns
+{
+    background-color: transparent;
+    background-repeat:no-repeat;
+    border: none;
+}
+
+.safe-custody-btns-clicked
+{
+    background-color :#ffff;
+}
+
+.safe-custody-div
+{
+    margin: 2%;
+    background-color: #ffff;
+    height: 80vh;
+}

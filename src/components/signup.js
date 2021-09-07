@@ -1,5 +1,6 @@
 import react,{useState} from "react";
 import styles from "../stylesheets/signup.css";
+import url from "../config.js";
 
 import axios from "axios";
 import {useCookies} from 'react-cookie';
@@ -9,56 +10,55 @@ import arrow from '../images/arrow.svg';
 
 function Signup(){
 
+    const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
+
     function handleSubmit(e){
         e.preventDefault();
-        console.log("signup submitted");
-    }
-
-    function handleChange(){
-
+        axios.post(`${url}/api/auth/signup`,{
+            "name": name,
+            "email": email,
+            "phone": phone,
+            "firmSize": firmSize,
+            "password": password
+        })
+        .then((response)=>{
+            setCookie("token", response.data.accessToken);
+            alert("You are successfuly signed up");
+        })
+        .catch((error)=>{
+            alert("Something went wrong! Try Again!");
+        });
     }
 
     function goToLogin(){
         window.location.href = "/login";
     }
 
-    const [firstName,setFirstname] = useState(null);
-    const [lastName,setLastname] = useState(null);
+    const [name,setName] = useState(null);
     const [email,setEmail] = useState(null);
     const [phone,setPhone] = useState(null);
     const [firmSize,setFirmSize] = useState(null);
+    const [password,setPassword] = useState(null);
 
     return (
         <div>
             <div className="container">
                 <div className="signupContainer">
                     <div className="signupCard">
-                        <form>
+                        <form onSubmit={(e)=>{handleSubmit(e)}} >
                             <h1 className="logo">Logo</h1>
                             <div className="inputDiv">
-                            <label htmlFor='firstName' className="labelStyle">
+                            <label htmlFor='name' className="labelStyle">
                                 First name
                             </label>
                             <input
-                                placeholder='Enter first name'
+                                placeholder='Enter full name'
                                 type='text'
-                                name='firstName'
-                                value={firstName}
-                                onChange={handleChange}
+                                name='name'
+                                value={name}
+                                onChange={(e)=>{setName(e.target.value)}}
                                 className="inputStyle"
-                            />
-                            </div>
-                            <div className="inputDiv">
-                            <label htmlFor='lastName' className="labelStyle">
-                                Last name
-                            </label>
-                            <input
-                                placeholder='Enter last name'
-                                type='text'
-                                name='lastName'
-                                value={lastName}
-                                onChange={handleChange}
-                                className="inputStyle"
+                                required
                             />
                             </div>
                             <div className="inputDiv">
@@ -70,8 +70,9 @@ function Signup(){
                                 type='text'
                                 name='email'
                                 value={email}
-                                onChange={handleChange}
+                                onChange={(e)=>{setEmail(e.target.value)}}
                                 className="inputStyle"
+                                required
                             />
                             </div>
                             <div className="inputDiv">
@@ -83,8 +84,9 @@ function Signup(){
                                 type='text'
                                 name='phone'
                                 value={phone}
-                                onChange={handleChange}
+                                onChange={(e)=>{setPhone(e.target.value)}}
                                 className="inputStyle"
+                                required
                             />
                             </div>
                             <div className="inputDiv">
@@ -96,11 +98,26 @@ function Signup(){
                                 type='text'
                                 name='firmSize'
                                 value={firmSize}
-                                onChange={handleChange}
+                                onChange={(e)=>{setFirmSize(e.target.value)}}
                                 className="inputStyle"
+                                required
                             />
                             </div>
-                            <button onClick={(e)=>{handleSubmit(e)}} className="buttonStyle">
+                            <div className="inputDiv">
+                                <label htmlFor='password' className="labelStyle">
+                                Password
+                                </label>
+                                <input
+                                placeholder='Enter password'
+                                type='password'
+                                name='password'
+                                value={password}
+                                onChange={(e)=>{setPassword(e.target.value)}}
+                                className="inputStyle"
+                                required
+                                />
+                            </div>
+                            <button className="buttonStyle">
                             Get Started
                             </button>
                         </form>
