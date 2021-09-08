@@ -1,0 +1,78 @@
+/* .propertyDiv
+{
+    background-color: #F7F8F6;
+} */
+
+.propertyPageHeadings
+{
+    background-color: #F0F0F0;
+}
+
+.propertyPagesubHeads
+{
+    background-color: #FFFF;
+}
+
+.propertyPageBtns
+{
+    background-color: #002B5C;
+    border-radius: 0.4rem;
+    color: white;
+    padding: 0.5% 2%;
+    margin-right: 2%;
+    font-size: small;
+}
+.propertyPageHeads
+{
+    display:inline-block;
+    margin-right: 5%;
+    font-weight: bold;
+    padding: 1.5%;
+}
+
+.propertyPagesubHeads
+{
+    padding: 2% 0.5%;
+}
+
+.propertyPagesubHeads input
+{
+    width: 95%;
+    margin-bottom: 5%;
+}
+
+.propertyPageFirstDiv
+{
+    padding-top: 2%;
+}
+
+.searchBtn
+{
+    margin: 5% 0 0 30%;
+}
+
+.lotsScrollDiv
+{
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align:justify;
+    width: 100%;
+    height: 110px;
+}
+
+.popupFormInputs 
+{
+    width: 90%;
+    margin-bottom: 10%;
+}
+
+.editBtn
+{
+    background-color: transparent;
+    border: none;
+}
+
+.relatedMattersDiv h6
+{
+    height: 55%;
+}

@@ -7,6 +7,7 @@ import contacts from "../icons/contacts.jpg";
 import safeCustody from "../icons/safeCustody.jpg";
 
 import RenderSafeCustody from "./safeCustody.js";
+import RenderProperty from "./property/property.js";
 
 function renderDashboard(){
     return (
@@ -73,23 +74,34 @@ function renderSafeCustody(){
     );
 }
 
+function renderProperty(){
+
+  return (
+      <div>
+          <RenderProperty />
+      </div>
+  );
+}
+
 function Profile(){
 
     const [current,setCurrent] = useState("dashboard");
 
     return (
         <div className="row">
-            <div className="col-3 profile-menu">
-                <button className={current==="dashboard" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("dashboard")}}><img src={dashboard} /> &nbsp; &nbsp; &nbsp; Dashboard</button><br />
-                <button className={current==="matters" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("matters")}}><img src={matters} /> &nbsp; &nbsp; &nbsp; Matters</button><br />
-                <button className={current==="contacts" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("contacts")}}><img src={contacts} /> &nbsp; &nbsp; &nbsp; Contacts</button><br />
-                <button className={current==="safeCustody" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("safeCustody")}}><img src={safeCustody} /> &nbsp; &nbsp; &nbsp; Safe Custody</button><br />
+            <div className="col-2 profile-menu">
+                <button className={current==="dashboard" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("dashboard")}}><img src={dashboard} /> &nbsp; Dashboard</button><br />
+                <button className={current==="matters" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("matters")}}><img src={matters} /> &nbsp; Matters</button><br />
+                <button className={current==="contacts" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("contacts")}}><img src={contacts} /> &nbsp; Contacts</button><br />
+                <button className={current==="safeCustody" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("safeCustody")}}><img src={safeCustody} /> &nbsp; Custody</button><br />
+                <button className={current==="property" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("property")}}><img src={safeCustody} /> &nbsp; Property</button><br />
             </div>
-            <div className="col-9 profile-main">
+            <div className="col-10 profile-main">
             {current==="dashboard" && renderDashboard()}
             {current==="matters" && renderMatters()}
             {current==="contacts" && renderContacts()}
             {current==="safeCustody" && renderSafeCustody()}
+            {current==="property" && renderProperty()}
             </div>
         </div>
     );
