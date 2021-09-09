@@ -12,14 +12,41 @@ import signup from "./components/signup.js";
 import login from "./components/login.js";
 import profile from "./components/profile.js";
 
+import {useCookies} from 'react-cookie';
+
+function PrivateRoute(props) {
+  const { isLoggedIn, path, Component } = props;
+  return (
+    <Route
+      path={path}
+      render={(props) => {
+        return isLoggedIn ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={{ pathname: '/', state: { from: path } }} />
+        );
+      }}
+    />
+  );
+}
+
 function App() {
+  
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const loggedInToken = cookies.token;
+
   return (
       <Router>
         <Switch>
           {/* <Route exact path="/" component={home} /> */}
           <Route exact path="/" component={signup} />
           <Route exact path="/login" component={login} />
-          <Route exact path="/profile" component={profile} />
+          <PrivateRoute
+              path="/profile"
+              Component={profile}
+              isLoggedIn={loggedInToken}
+            />
+          {/* <Route exact path="/profile" component={profile} /> */}
         </Switch>
       </Router>
 

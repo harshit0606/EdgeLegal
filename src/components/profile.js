@@ -90,8 +90,7 @@ function renderProperty(){
 
 function Profile(){
 
-    const [current,setCurrent] = useState("dashboard");
-
+    const [current,setCurrent] = useState("property");
     return (
         <div className="row">
             <div className="col-2 profile-menu">
@@ -102,11 +101,14 @@ function Profile(){
                 <button className={current==="property" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("property")}}><FaRegBuilding /> &nbsp; Property</button><br />
             </div>
             <div className="col-10 profile-main">
-            {current==="dashboard" && renderDashboard()}
-            {current==="matters" && renderMatters()}
-            {current==="contacts" && renderContacts()}
-            {current==="safeCustody" && renderSafeCustody()}
-            {current==="property" && renderProperty()}
+              {/* <div>
+                hello
+              </div> */}
+              {current==="dashboard" && renderDashboard()}
+              {current==="matters" && renderMatters()}
+              {current==="contacts" && renderContacts()}
+              {current==="safeCustody" && renderSafeCustody()}
+              {current==="property" && renderProperty()}
             </div>
         </div>
     );

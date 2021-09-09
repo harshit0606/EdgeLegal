@@ -48,7 +48,7 @@
 
 .searchBtn
 {
-    margin: 5% 0 0 30%;
+    margin: 5% 0 5% 70%;
 }
 
 .lotsScrollDiv
@@ -96,5 +96,12 @@
 
 .newPropertyMainBtnsClicked
 {
-    background: white;
+    background-color: white;
+}
+
+.leftPropertyDiv
+{
+    background-color: white;
+    padding-top: 5%;
+    padding-left: 2%;
 }

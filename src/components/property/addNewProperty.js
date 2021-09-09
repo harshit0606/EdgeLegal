@@ -170,7 +170,7 @@ function AddNewProperty() {
     >
       <div className="modal-dialog modal-dialog-centered modal-lg">
         <div
-          style={{ height: "45rem" }}
+          style={{ height: "40rem" }}
           className="modal-content popupNewProperty"
         >
           <div className="modal-header newPropertyHead">

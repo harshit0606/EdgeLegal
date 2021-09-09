@@ -1,4 +1,8 @@
-import react from "react";
+import react, { useEffect,useState } from "react";
+import axios from "axios";
+import url from "../../config.js";
+import {useCookies} from 'react-cookie';
+
 import styles from "../../stylesheets/property.css";
 
 import PopupFormR from "./popupformR.js";
@@ -6,8 +10,51 @@ import PopupFormUnR from "./popupformUnR.js";
 import Lot from "./lot.js";
 import RelatedMattersLot from "./relatedMatters.js";
 import AddNewProperty from "./addNewProperty.js";
+import ParticularProperty from "./particularProperty.js";
 
 function RenderProperty(){
+
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const loggedInToken = cookies.token;
+
+    const [allProperties,setAllProperties] = useState(null);
+    const [titleRef,setTitleRef] = useState(null);
+    const [address,setAddress] = useState(null);
+
+    // useEffect(()=>{
+        
+    // },[]);
+
+    function getAllProperties(){
+        axios.get(`${url}/api/property?requestId=1234567&titleRef=${titleRef}&address=${address}`,{
+            headers:{
+                'Content-Type':'application/json',
+                "Authorization" :`Bearer ${loggedInToken}`
+            }
+        },{
+            withCredentials: true
+        })
+        .then((response)=>{
+            setAllProperties(response.data.data.properties);
+            console.log("in axios then",response.data.data);
+        });
+    }
+
+    function renderAllProperties(){
+        console.log("all properties",allProperties);
+        return (
+            allProperties?.map((property)=>{
+                const propertyAddress = "" + property.unit + "/ " + property.streetNo + "/ " + property.street + "/ " + property.suburb + "/ " + property.state + "/ " + property.postCode + "/ " + property.country;
+                return (
+                <ParticularProperty 
+                    titleRef = {property.titleType}
+                    address = {propertyAddress}
+                />
+                );
+            })
+        );
+    }
+
     return (
         <div>
             <div className="row propertyDiv">
@@ -18,13 +65,34 @@ function RenderProperty(){
                             <button className="propertyPageBtns" data-bs-toggle="modal" data-bs-target="#staticBackdrop3">+ Add New</button>
                             <AddNewProperty />
                         </div>
-                        <div>
-                            <label for="titleReference">Title Reference</label>
-                            <input id="titleReference" type="text"/>
-                            <label for="address">Address</label>
-                            <input id="address" type="text"/>
-                            <button className="propertyPageBtns searchBtn">Search</button>
+                        <div className="leftPropertyDiv">
+                            <div className="row">
+                                <div className="col-4">
+                                    <label for="titleReference">Title Ref.</label>
+                                    <input style={{width:'100%',marginTop:'20%'}} id="titleReference" value={titleRef} onChange={(e)=>{setTitleRef(e.target.value)}} type="text"/>
+                                </div>
+                                <div className="col-8">
+                                    <label for="address">Address</label>
+                                    <input style={{width:'90%',marginTop:'8%'}} id="address" value={address} onChange={(e)=>{setAddress(e.target.value)}} type="text"/>
+                                </div>
+                            </div>
+                            <button className="propertyPageBtns searchBtn" onClick={()=>{
+                                getAllProperties()
+                            }} >Search</button>
+                            <div className="row">
+                                <div style={{marginBottom:'5%'}} className="col-4">
+                                    <label for="titleReference">Title Ref.</label>
+                                </div>
+                                <div style={{marginBottom:'5%'}} className="col-8">
+                                    <label for="address">Address</label>
+                                </div>
+                            </div>
+                            {renderAllProperties()}
                         </div>
+                        
+                        {/* <ParticularProperty />
+                        <ParticularProperty />
+                        <ParticularProperty /> */}
                     </div>
                 </div>
                 <div className="col-9">
