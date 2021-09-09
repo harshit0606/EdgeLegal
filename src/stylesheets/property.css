@@ -76,3 +76,25 @@
 {
     height: 55%;
 }
+
+.newPropertyHead
+{
+    background-color: #F0F0F0;
+}
+
+.newPropertyBtnTray
+{
+    background-color: #F0F0F0;
+    padding: 0%;
+}
+
+.newPropertyMainBtns
+{
+    border:none;
+    height: 3rem;
+}
+
+.newPropertyMainBtnsClicked
+{
+    background: white;
+}

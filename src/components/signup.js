@@ -49,7 +49,7 @@ function Signup(){
                             <h1 className="logo">Logo</h1>
                             <div className="inputDiv">
                             <label htmlFor='name' className="labelStyle">
-                                First name
+                                Name
                             </label>
                             <input
                                 placeholder='Enter full name'
@@ -108,7 +108,7 @@ function Signup(){
                                 Password
                                 </label>
                                 <input
-                                placeholder='Enter password'
+                                placeholder='Choose password'
                                 type='password'
                                 name='password'
                                 value={password}

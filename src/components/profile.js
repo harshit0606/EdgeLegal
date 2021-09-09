@@ -9,6 +9,11 @@ import safeCustody from "../icons/safeCustody.jpg";
 import RenderSafeCustody from "./safeCustody.js";
 import RenderProperty from "./property/property.js";
 
+import { RiContactsBook2Line } from 'react-icons/ri';
+import { MdDashboard } from 'react-icons/md';
+import { FaChartPie,FaRegBuilding } from 'react-icons/fa';
+import { BiBuildings } from 'react-icons/bi';
+
 function renderDashboard(){
     return (
         <div>
@@ -90,11 +95,11 @@ function Profile(){
     return (
         <div className="row">
             <div className="col-2 profile-menu">
-                <button className={current==="dashboard" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("dashboard")}}><img src={dashboard} /> &nbsp; Dashboard</button><br />
-                <button className={current==="matters" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("matters")}}><img src={matters} /> &nbsp; Matters</button><br />
-                <button className={current==="contacts" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("contacts")}}><img src={contacts} /> &nbsp; Contacts</button><br />
-                <button className={current==="safeCustody" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("safeCustody")}}><img src={safeCustody} /> &nbsp; Custody</button><br />
-                <button className={current==="property" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("property")}}><img src={safeCustody} /> &nbsp; Property</button><br />
+                <button className={current==="dashboard" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("dashboard")}}><MdDashboard /> &nbsp; Dashboard</button><br />
+                <button className={current==="matters" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("matters")}}><FaChartPie /> &nbsp; Matters</button><br />
+                <button className={current==="contacts" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("contacts")}}><RiContactsBook2Line /> &nbsp; Contacts</button><br />
+                <button className={current==="safeCustody" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("safeCustody")}}><BiBuildings /> &nbsp; Custody</button><br />
+                <button className={current==="property" ? "profile-btns profile-btns-clicked" : "profile-btns" } onClick={()=>{setCurrent("property")}}><FaRegBuilding /> &nbsp; Property</button><br />
             </div>
             <div className="col-10 profile-main">
             {current==="dashboard" && renderDashboard()}

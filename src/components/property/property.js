@@ -5,6 +5,7 @@ import PopupFormR from "./popupformR.js";
 import PopupFormUnR from "./popupformUnR.js";
 import Lot from "./lot.js";
 import RelatedMattersLot from "./relatedMatters.js";
+import AddNewProperty from "./addNewProperty.js";
 
 function RenderProperty(){
     return (
@@ -14,7 +15,8 @@ function RenderProperty(){
                     <div>
                         <div className="propertyPageHeadings">
                             <h6 className="propertyPageHeads">Property</h6>
-                            <button className="propertyPageBtns">+ Add New</button>
+                            <button className="propertyPageBtns" data-bs-toggle="modal" data-bs-target="#staticBackdrop3">+ Add New</button>
+                            <AddNewProperty />
                         </div>
                         <div>
                             <label for="titleReference">Title Reference</label>
