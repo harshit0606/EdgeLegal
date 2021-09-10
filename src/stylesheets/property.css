@@ -57,7 +57,7 @@
     overflow-y: auto;
     text-align:justify;
     width: 100%;
-    height: 110px;
+    /* height: 110px; */
 }
 
 .popupFormInputs 
@@ -104,4 +104,14 @@
     background-color: white;
     padding-top: 5%;
     padding-left: 2%;
+}
+
+.hideSection
+{
+    display: none;
+}
+
+.particularPrprty:hover
+{
+    background-color: pink;
 }

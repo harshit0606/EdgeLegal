@@ -1,9 +1,12 @@
 import react from "react";
 import styles from "../../stylesheets/property.css";
 
-function PopupFormUnR(){
+function PopupFormUnR(props){
+
+    const {modalId} = props;
+
     return (
-        <div className="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div className="modal fade" id={`staticBackdrop${modalId}`} data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div class="modal-header">
@@ -11,7 +14,7 @@ function PopupFormUnR(){
                         <button className="propertyPageBtns">Save</button>
                         <button className="propertyPageBtns">Delete</button>
                         <button className="propertyPageBtns">Cancel</button>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target={`#staticBackdrop${modalId}`} aria-label="Close"></button>
                     </div>
                 <div class="modal-body">
                    <div>

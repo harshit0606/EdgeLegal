@@ -21,7 +21,6 @@ function Login(){
         .then((response)=>{
             setCookie("token", response.data.accessToken);
             window.location.href="/profile";
-            //alert("You are successfuly logged in");
         })
         .catch((error)=>{
             alert("Wrong username or password");

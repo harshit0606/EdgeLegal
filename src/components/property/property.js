@@ -21,9 +21,7 @@ function RenderProperty(){
     const [titleRef,setTitleRef] = useState(null);
     const [address,setAddress] = useState(null);
 
-    // useEffect(()=>{
-        
-    // },[]);
+    const [specificProperty,setSpecificProperty] = useState(null);
 
     function getAllProperties(){
         axios.get(`${url}/api/property?requestId=1234567&titleRef=${titleRef}&address=${address}`,{
@@ -46,20 +44,71 @@ function RenderProperty(){
             allProperties?.map((property)=>{
                 const propertyAddress = "" + property.unit + "/ " + property.streetNo + "/ " + property.street + "/ " + property.suburb + "/ " + property.state + "/ " + property.postCode + "/ " + property.country;
                 return (
-                <ParticularProperty 
-                    titleRef = {property.titleType}
-                    address = {propertyAddress}
-                />
+                    <div className="row particularPrprty" onClick={()=>{fetchPropertyData(property.id)}}>
+                        <h6 className="col-4">{property.titleType}</h6>
+                        <h6 className="col-8">{propertyAddress}</h6>
+                    </div>
                 );
             })
         );
     }
 
+    function fetchPropertyData(id){
+        document.getElementById("searchPropertyDiv").classList.add("hideSection");
+        document.getElementById("mainPropertyDiv").classList.remove("hideSection");
+        axios.get(`${url}/api/property/${id}?requestId=1234567`,{
+            headers:{
+                'Content-Type':'application/json',
+                "Authorization" :`Bearer ${loggedInToken}`
+            }
+        },{
+            withCredentials: true
+        })
+        .then((response)=>{
+            console.log(response.data.data);
+            setSpecificProperty(response.data.data);
+        });
+    }
+
+    function backToSearch(){
+        document.getElementById("searchPropertyDiv").classList.remove("hideSection");
+        document.getElementById("mainPropertyDiv").classList.add("hideSection");
+    }
+    
+    function renderRegisteredLots(){
+        return (
+            specificProperty?.registeredProperties.map((registeredLot)=>{
+                return (
+                    <Lot 
+                        modal={1}
+                        registeredLot = {registeredLot}
+                    />
+                );
+            })
+        );
+    }
+
+    function renderUnregisteredLots(){
+        return (
+            specificProperty?.unregisteredProperties.map((unregisteredLot)=>{
+                return (
+                    <Lot 
+                        modal={2}
+                        unregisteredLot = {unregisteredLot}
+                    />
+                );
+            })
+        );
+    }
+
+    //const [count,setCount] = useState(0);
+
     return (
         <div>
             <div className="row propertyDiv">
-                <div className="col-3">
+                <div className="col-3" id="searchPropertyDiv">
                     <div>
+                        {/* <button onClick={()=>{fetchPropertyData()}}>Bello</button> */}
                         <div className="propertyPageHeadings">
                             <h6 className="propertyPageHeads">Property</h6>
                             <button className="propertyPageBtns" data-bs-toggle="modal" data-bs-target="#staticBackdrop3">+ Add New</button>
@@ -89,13 +138,10 @@ function RenderProperty(){
                             </div>
                             {renderAllProperties()}
                         </div>
-                        
-                        {/* <ParticularProperty />
-                        <ParticularProperty />
-                        <ParticularProperty /> */}
                     </div>
                 </div>
-                <div className="col-9">
+                <div className="col-12 hideSection" id="mainPropertyDiv">
+                    <button onClick={()=>{backToSearch()}}>Back</button>
                     <div>
                         <div>
                             <div className="propertyPageHeadings">
@@ -108,37 +154,37 @@ function RenderProperty(){
                                 <div className="row">
                                     <div className="col-3">
                                         <label>Building Name</label>
-                                        <input type="text" />
+                                        <input type="text" value={specificProperty?.buildingName}/>
                                     </div>
                                     <div className="col-3">
                                         <label>Unit</label>
-                                        <input type="text" />
+                                        <input type="text" value={specificProperty?.unit}/>
                                     </div>
                                     <div className="col-3">
                                         <label>Street No.</label>
-                                        <input type="text" />
+                                        <input type="text" value={specificProperty?.streetNo}/>
                                     </div>
                                     <div className="col-3">
                                         <label>Street</label>
-                                        <input type="text" />
+                                        <input type="text" value={specificProperty?.street}/>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-3">
                                         <label>Suburb</label>
-                                        <input type="text" />
+                                        <input type="text" value={specificProperty?.suburb}/>
                                     </div>
                                     <div className="col-3">
                                         <label>State</label>
-                                        <input type="text" />
+                                        <input type="text" value={specificProperty?.state}/>
                                     </div>
                                     <div className="col-3">
                                         <label>Post Code</label>
-                                        <input type="text" />
+                                        <input type="text" value={specificProperty?.postCode}/>
                                     </div>
                                     <div className="col-3">
                                         <label>County</label>
-                                        <input type="text" />
+                                        <input type="text" value={specificProperty?.county}/>
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +193,12 @@ function RenderProperty(){
                             <div className="propertyPageHeadings">
                                 <h6 className="propertyPageHeads" >Add/Edit Registered Lots</h6>
                                 <button className="propertyPageBtns" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">+ Add</button>
-                                <PopupFormR />
+                                <PopupFormR 
+                                    modalId={1}
+                                    //count ={count}
+                                    //countFn = {setCount}
+                                />
+                                {/* <button onClick={()=>{console.log("count:",count)}}>Hello</button> */}
                             </div>
                             <div className="propertyPagesubHeads">
                                 <div className="row">
@@ -180,12 +231,7 @@ function RenderProperty(){
                                     </div>
                                 </div>
                                 <div className="lotsScrollDiv">
-                                    <Lot modal={1}/>
-                                    <Lot modal={1}/>
-                                    <Lot modal={1}/>
-                                    <Lot modal={1}/>
-                                    <Lot modal={1}/>
-                                    <Lot modal={1}/>
+                                    {renderRegisteredLots()}
                                 </div>
                             </div>
                         </div>
@@ -193,7 +239,9 @@ function RenderProperty(){
                             <div className="propertyPageHeadings">
                                 <h6 className="propertyPageHeads" >Add/Edit Unregistered Lots</h6>
                                 <button className="propertyPageBtns" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">+ Add</button>
-                                <PopupFormUnR />
+                                <PopupFormUnR 
+                                    modalId={2}
+                                />
                             </div>
                             <div className="propertyPagesubHeads">
                             <div className="row">
@@ -226,12 +274,7 @@ function RenderProperty(){
                                     </div>
                                 </div>
                                 <div className="lotsScrollDiv">
-                                    <Lot modal={2}/>
-                                    <Lot modal={2}/>
-                                    <Lot modal={2}/>
-                                    <Lot modal={2}/>
-                                    <Lot modal={2}/>
-                                    <Lot modal={2}/>
+                                    {renderUnregisteredLots()}
                                 </div>
                             </div>
                         </div>

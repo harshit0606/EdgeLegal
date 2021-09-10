@@ -1,9 +1,12 @@
 import react from "react";
 import styles from "../../stylesheets/property.css";
 
-function PopupForm(){
+function PopupForm(props){
+
+    const {modalId,count,countFn} = props;
+
     return (
-        <div className="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div className="modal fade" id={`staticBackdrop${modalId}`} data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div class="modal-header">
@@ -11,7 +14,7 @@ function PopupForm(){
                         <button className="propertyPageBtns">Save</button>
                         <button className="propertyPageBtns">Delete</button>
                         <button className="propertyPageBtns">Cancel</button>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target={`#staticBackdrop${modalId}`} aria-label="Close" ></button>
                     </div>
                 <div class="modal-body">
                    <div>
@@ -36,6 +39,10 @@ function PopupForm(){
                                 <h6>Strata Plan No.</h6>
                                 <input className="popupFormInputs" type="text"></input>
                             </div>
+                            {/* <button onClick={()=>{
+                                countFn(count+1);
+                                console.log("count in child:",count)
+                            }}>Hello</button> */}
                        </div>
                        <h6>Description</h6>
                         <textarea rows="2" cols="55" />

@@ -1,45 +1,114 @@
 import react, { useState } from "react";
 import styles from "../../stylesheets/property.css";
+import axios from "axios";
 
 import PopupFormR from "./popupformR.js";
 import PopupFormUnR from "./popupformUnR.js";
 import Lot from "./lot.js";
+import url from "../../config.js";
 
-function AddNewProperty() {
+import {useCookies} from 'react-cookie';
+
+function AddNewProperty(props) {
+  
+  const { modalId } = props;
+
+  const [buildingName, setBuildingName] = useState(null);
+  const [unit, setUnit] = useState(null);
+  const [streetNo, setStreetNo] = useState(null);
+  const [street, setStreet] = useState(null);
+  const [suburb, setSuburb] = useState(null);
+  const [state, setState] = useState(null);
+  const [postCode, setPostCode] = useState(null);
+  const [county, setCounty] = useState(null);
+  const [registeredProperties,setRegisteredProperties] = useState([]);
+  const [unregisteredProperties,setUnregisteredProperties] = useState([]);
+
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const loggedInToken = cookies.token;
+
   function renderGeneral() {
     return (
-      <div className="row">
+      <div style={{ marginTop: "10%" }} className="row">
         <div className="col-4">
           <label>Building Name</label>
-          <input type="text" />
+          <input
+            type="text"
+            value={buildingName}
+            onChange={(e) => {
+              setBuildingName(e.target.value);
+            }}
+          />
         </div>
         <div className="col-4">
           <label>Unit &nbsp; </label>
-          <input type="text" />
+          <input
+            type="text"
+            value={unit}
+            onChange={(e) => {
+              setUnit(e.target.value);
+            }}
+          />
         </div>
         <div className="col-4">
           <label>Street No.</label>
-          <input type="text" />
+          <input
+            type="text"
+            value={streetNo}
+            onChange={(e) => {
+              setStreetNo(e.target.value);
+            }}
+          />
         </div>
         <div className="col-4">
           <label>Street</label>
-          <input type="text" />
+          <input
+            type="text"
+            value={street}
+            onChange={(e) => {
+              setStreet(e.target.value);
+            }}
+          />
         </div>
         <div className="col-4">
           <label>Suburb</label>
-          <input type="text" />
+          <input
+            type="text"
+            value={suburb}
+            onChange={(e) => {
+              setSuburb(e.target.value);
+            }}
+          />
         </div>
         <div className="col-4">
           <label>State</label>
-          <input type="text" />
+          <input
+            type="text"
+            value={state}
+            onChange={(e) => {
+              setState(e.target.value);
+            }}
+          />
         </div>
         <div className="col-4">
           <label>Post Code</label>
-          <input type="text" />
+          <input
+            type="text"
+            value={postCode}
+            onChange={(e) => {
+              setPostCode(e.target.value);
+            }}
+          />
         </div>
         <div className="col-4">
           <label>County</label>
-          <input type="text" />
+          <input
+            type="text"
+            value={county}
+            onChange={(e) => {
+              setCounty(e.target.value);
+            }}
+          />
         </div>
       </div>
     );
@@ -54,11 +123,11 @@ function AddNewProperty() {
             <button
               className="propertyPageBtns"
               data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop1"
+              data-bs-target="#staticBackdrop4"
             >
               + Add
             </button>
-            <PopupFormR />
+            <PopupFormR modalId={4} />
           </div>
           <div className="propertyPagesubHeads">
             <div className="row">
@@ -91,11 +160,6 @@ function AddNewProperty() {
               </div>
             </div>
             <div className="lotsScrollDiv">
-              <Lot modal={1} />
-              <Lot modal={1} />
-              <Lot modal={1} />
-              <Lot modal={1} />
-              <Lot modal={1} />
               <Lot modal={1} />
             </div>
           </div>
@@ -106,11 +170,11 @@ function AddNewProperty() {
             <button
               className="propertyPageBtns"
               data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop2"
+              data-bs-target="#staticBackdrop5"
             >
               + Add
             </button>
-            <PopupFormUnR />
+            <PopupFormUnR modalId={5} />
           </div>
           <div className="propertyPagesubHeads">
             <div className="row">
@@ -144,16 +208,43 @@ function AddNewProperty() {
             </div>
             <div className="lotsScrollDiv">
               <Lot modal={2} />
-              <Lot modal={2} />
-              <Lot modal={2} />
-              <Lot modal={2} />
-              <Lot modal={2} />
-              <Lot modal={2} />
             </div>
           </div>
         </div>
       </div>
     );
+  }
+
+  function onSave() {
+    axios.post(
+      `${url}/api/property`,{
+        "requestId": "1123445",
+        "data":{
+          "buildingName" : buildingName,
+          "unit" : unit,
+          "streetNo" : streetNo,
+          "street" : street,
+          "suburb" : suburb,
+          "state" : state,
+          "postCode" : postCode,
+          "county" : county,
+          "registeredProperties" : registeredProperties,
+          "unregisteredProperties" : unregisteredProperties
+        }
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${loggedInToken}`,
+        },
+      },
+      {
+        withCredentials: true,
+      }
+    )
+    .then((response)=>{
+      console.log("adding new property",response.data);
+    });
   }
 
   const [current, setCurrent] = useState("general");
@@ -223,6 +314,9 @@ function AddNewProperty() {
               <button
                 style={{ marginLeft: "50%", marginRight: "3%" }}
                 className="propertyPageBtns"
+                onClick={() => {
+                  onSave()
+                }}
               >
                 Save
               </button>

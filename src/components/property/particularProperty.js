@@ -7,10 +7,7 @@ function ParticularProperty(props){
 
     return (
         <div>
-            <div className="row">
-                <h6 className="col-4">{titleRef}</h6>
-                <h6 className="col-8">{address}</h6>
-            </div>
+            
         </div>
     );
 }
