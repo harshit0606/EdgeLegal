@@ -2,6 +2,8 @@ import react from "react";
 import styles from "../../stylesheets/property.css";
 
 import { FiEdit2 } from "react-icons/fi";
+import PopupFormR from "./popupformR.js";
+import PopupFormUnR from "./popupformUnR.js";
 
 function Lot(props) {
   const { modal, registeredLot } = props;
@@ -17,21 +19,45 @@ function Lot(props) {
           >
             <FiEdit2 />
           </button>
+          <PopupFormR 
+            modalId={modal} 
+            addBtn={0}
+          />
         </div>
         <div className="col-2">
-          <input value={registeredLot?.titleReference} type="text" placeholder="some value" />
+          <input
+            value={registeredLot?.titleReference}
+            type="text"
+            placeholder="some value"
+          />
         </div>
         <div className="col-1">
-          <input value={registeredLot?.lotNumber} type="text" placeholder="some value" />
+          <input
+            value={registeredLot?.lotNumber}
+            type="text"
+            placeholder="some value"
+          />
         </div>
         <div className="col-1">
-          <input value={registeredLot?.section} type="text" placeholder="some value" />
+          <input
+            value={registeredLot?.section}
+            type="text"
+            placeholder="some value"
+          />
         </div>
         <div className="col-3">
-          <input value={registeredLot?.depositedPlanNumber} type="text" placeholder="some value" />
+          <input
+            value={registeredLot?.depositedPlanNumber}
+            type="text"
+            placeholder="some value"
+          />
         </div>
         <div className="col-2">
-          <input value={registeredLot?.strataPlanNumber} type="text" placeholder="some value" />
+          <input
+            value={registeredLot?.strataPlanNumber}
+            type="text"
+            placeholder="some value"
+          />
         </div>
         <div className="col-2">
           <input type="text" placeholder="some value" />

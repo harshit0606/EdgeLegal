@@ -6,7 +6,7 @@ import matters from "../icons/matters.jpg";
 import contacts from "../icons/contacts.jpg";
 import safeCustody from "../icons/safeCustody.jpg";
 
-import RenderSafeCustody from "./safeCustody.js";
+import RenderSafeCustody from "./safeCustody/safeCustody.js";
 import RenderProperty from "./property/property.js";
 
 import { RiContactsBook2Line } from 'react-icons/ri';

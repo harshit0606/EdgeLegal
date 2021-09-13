@@ -22,3 +22,63 @@
     background-color: #ffff;
     height: 80vh;
 }
+
+/* .contentsInfo
+{
+    display: flex;
+} */
+
+.contentsInfo input
+{
+    width: 60%;
+    border: none;
+    font-weight: bold;
+    /* height: 2rem; */
+}
+
+.contentsInfo label
+{   
+    width: 100%;
+    color: #A0A5AA;
+}
+
+.safeContentsTop
+{
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5%;
+}
+
+.custodyPageBtns
+{
+    width: 20%;
+}
+
+.custodyPageBtns button
+{
+    background-color: #002B5C;
+    border-radius: 0.4rem;
+    color: white;
+    padding: 0.5% 2%;
+    margin-right: 2%;
+    /* font-size: small; */
+}
+
+.associatedDocs
+{
+    background-color:  #F0F0F0;
+    display: flex;
+    justify-content: space-between;
+    padding: 1%;
+}
+
+.associatedDocsHead
+{
+    margin-top: 1.5%;
+}
+
+.associatedDocsHead label
+{
+   font-weight: bold;
+}
+

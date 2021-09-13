@@ -10,7 +10,6 @@ import PopupFormUnR from "./popupformUnR.js";
 import Lot from "./lot.js";
 import RelatedMattersLot from "./relatedMatters.js";
 import AddNewProperty from "./addNewProperty.js";
-import ParticularProperty from "./particularProperty.js";
 
 function RenderProperty(){
 
@@ -141,20 +140,23 @@ function RenderProperty(){
                     </div>
                 </div>
                 <div className="col-12 hideSection" id="mainPropertyDiv">
-                    <button onClick={()=>{backToSearch()}}>Back</button>
+                    {/* <button onClick={()=>{backToSearch()}}>Back</button> */}
                     <div>
                         <div>
                             <div className="propertyPageHeadings">
                                 <h6 className="propertyPageHeads" >Property</h6>
                                 <button className="propertyPageBtns">Save</button>
                                 <button className="propertyPageBtns">Delete</button>
-                                <button className="propertyPageBtns">Cancel</button>
+                                <button onClick={()=>{backToSearch()}} className="propertyPageBtns">Cancel</button>
                             </div>
                             <div className="propertyPagesubHeads propertyPageFirstDiv">
                                 <div className="row">
                                     <div className="col-3">
                                         <label>Building Name</label>
-                                        <input type="text" value={specificProperty?.buildingName}/>
+                                        <input type="text" onChange={(e)=>{setSpecificProperty({
+                                            ...specificProperty,
+                                            buildingName: e.target.value
+                                        })}} value={specificProperty?.buildingName}/>
                                     </div>
                                     <div className="col-3">
                                         <label>Unit</label>
@@ -195,6 +197,7 @@ function RenderProperty(){
                                 <button className="propertyPageBtns" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">+ Add</button>
                                 <PopupFormR 
                                     modalId={1}
+                                    addBtn = {1}
                                     //count ={count}
                                     //countFn = {setCount}
                                 />
@@ -241,6 +244,7 @@ function RenderProperty(){
                                 <button className="propertyPageBtns" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">+ Add</button>
                                 <PopupFormUnR 
                                     modalId={2}
+                                    addBtn = {1}
                                 />
                             </div>
                             <div className="propertyPagesubHeads">

@@ -5,12 +5,12 @@ import axios from "axios";
 import PopupFormR from "./popupformR.js";
 import PopupFormUnR from "./popupformUnR.js";
 import Lot from "./lot.js";
+import EditLot from "./editLot.js";
 import url from "../../config.js";
 
-import {useCookies} from 'react-cookie';
+import { useCookies } from "react-cookie";
 
 function AddNewProperty(props) {
-  
   const { modalId } = props;
 
   const [buildingName, setBuildingName] = useState(null);
@@ -21,15 +21,36 @@ function AddNewProperty(props) {
   const [state, setState] = useState(null);
   const [postCode, setPostCode] = useState(null);
   const [county, setCounty] = useState(null);
-  const [registeredProperties,setRegisteredProperties] = useState([]);
-  const [unregisteredProperties,setUnregisteredProperties] = useState([]);
+  const [current, setCurrent] = useState("general");
+  const [tempRegistered, setTempRegistered] = useState([]);
+  const [tempUnregistered, setTempUnregistered] = useState([]);
 
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const loggedInToken = cookies.token;
+
+  // const x =[3,5];
+  // const y =[3,5];
+
+  function renderRegisteredLots() {
+    return tempRegistered?.map((registeredLot) => {
+      return <Lot modal={9} registeredLot={registeredLot} lotType={1} />;
+    });
+  }
+
+  function renderUnregisteredLots() {
+    return tempUnregistered?.map((unregisteredLot) => {
+      return (
+        <EditLot modal={10} unregisteredLot={unregisteredLot} lotType={2} />
+      );
+    });
+  }
 
   function renderGeneral() {
     return (
-      <div style={{ marginTop: "10%" }} className="row">
+      <div
+        // style={{ marginTop: "10%" }}
+        className="row"
+      >
         <div className="col-4">
           <label>Building Name</label>
           <input
@@ -127,7 +148,12 @@ function AddNewProperty(props) {
             >
               + Add
             </button>
-            <PopupFormR modalId={4} />
+            <PopupFormR
+              modalId={4}
+              tempRegistered={tempRegistered}
+              setTempRegistered={setTempRegistered}
+              addBtn = {1}
+            />
           </div>
           <div className="propertyPagesubHeads">
             <div className="row">
@@ -159,9 +185,7 @@ function AddNewProperty(props) {
                 <input type="text"></input>
               </div>
             </div>
-            <div className="lotsScrollDiv">
-              <Lot modal={1} />
-            </div>
+            <div className="lotsScrollDiv">{renderRegisteredLots()}</div>
           </div>
         </div>
         <div className="3">
@@ -174,7 +198,12 @@ function AddNewProperty(props) {
             >
               + Add
             </button>
-            <PopupFormUnR modalId={5} />
+            <PopupFormUnR
+              modalId={5}
+              tempUnregistered={tempUnregistered}
+              setTempUnregistered={setTempUnregistered}
+              addBtn = {1}
+            />
           </div>
           <div className="propertyPagesubHeads">
             <div className="row">
@@ -182,11 +211,11 @@ function AddNewProperty(props) {
                 <h6>Edit</h6>
               </div>
               <div className="col-2">
-                <h6>Title Ref</h6>
+                <h6>LotNo.</h6>
                 <input type="text"></input>
               </div>
-              <div className="col-1">
-                <h6>LotNo.</h6>
+              <div className="col-2">
+                <h6>Part of Lot</h6>
                 <input type="text"></input>
               </div>
               <div className="col-1">
@@ -194,21 +223,15 @@ function AddNewProperty(props) {
                 <input type="text"></input>
               </div>
               <div className="col-3">
-                <h6>Deposited Plan No.</h6>
+                <h6>Plan Number</h6>
                 <input type="text"></input>
               </div>
-              <div className="col-2">
-                <h6>Strata Plan</h6>
-                <input type="text"></input>
-              </div>
-              <div className="col-2">
+              <div className="col-3">
                 <h6>Description</h6>
                 <input type="text"></input>
               </div>
             </div>
-            <div className="lotsScrollDiv">
-              <Lot modal={2} />
-            </div>
+            <div className="lotsScrollDiv">{renderUnregisteredLots()}</div>
           </div>
         </div>
       </div>
@@ -216,42 +239,46 @@ function AddNewProperty(props) {
   }
 
   function onSave() {
-    axios.post(
-      `${url}/api/property`,{
-        "requestId": "1123445",
-        "data":{
-          "buildingName" : buildingName,
-          "unit" : unit,
-          "streetNo" : streetNo,
-          "street" : street,
-          "suburb" : suburb,
-          "state" : state,
-          "postCode" : postCode,
-          "county" : county,
-          "registeredProperties" : registeredProperties,
-          "unregisteredProperties" : unregisteredProperties
-        }
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${loggedInToken}`,
+    console.log("in bada save reg", tempRegistered);
+    console.log("in bada save unreg", tempUnregistered);
+    const data = {
+      buildingName: buildingName,
+      unit: unit,
+      streetNo: streetNo,
+      street: street,
+      suburb: suburb,
+      state: state,
+      postCode: postCode,
+      county: county,
+      registeredProperties: tempRegistered,
+      unregisteredProperties: tempUnregistered,
+    };
+    console.log(data);
+    axios
+      .post(
+        `${url}/api/property`,
+        {
+          requestId: "1123445",
+          data: data
         },
-      },
-      {
-        withCredentials: true,
-      }
-    )
-    .then((response)=>{
-      console.log("adding new property",response.data);
-    });
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log("adding new property", response.data);
+      });
   }
-
-  const [current, setCurrent] = useState("general");
 
   return (
     <div
-      className="modal fade "
+      className="modal fade"
       id="staticBackdrop3"
       data-bs-backdrop="static"
       data-bs-keyboard="false"
@@ -261,7 +288,7 @@ function AddNewProperty(props) {
     >
       <div className="modal-dialog modal-dialog-centered modal-lg">
         <div
-          style={{ height: "40rem" }}
+          // style={{ height: "32rem" }}
           className="modal-content popupNewProperty"
         >
           <div className="modal-header newPropertyHead">
@@ -312,10 +339,11 @@ function AddNewProperty(props) {
               </button>
             ) : (
               <button
+                data-bs-dismiss="modal"
                 style={{ marginLeft: "50%", marginRight: "3%" }}
                 className="propertyPageBtns"
                 onClick={() => {
-                  onSave()
+                  onSave();
                 }}
               >
                 Save
