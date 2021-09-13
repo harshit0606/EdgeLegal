@@ -23,17 +23,11 @@
     height: 80vh;
 }
 
-/* .contentsInfo
-{
-    display: flex;
-} */
-
 .contentsInfo input
 {
     width: 60%;
     border: none;
     font-weight: bold;
-    /* height: 2rem; */
 }
 
 .contentsInfo label
@@ -61,7 +55,6 @@
     color: white;
     padding: 0.5% 2%;
     margin-right: 2%;
-    /* font-size: small; */
 }
 
 .associatedDocs
@@ -80,5 +73,28 @@
 .associatedDocsHead label
 {
    font-weight: bold;
+}
+
+.popupAddContents
+{
+    background-color: #002B5C;
+    border-radius: 0.4rem;
+    color: white;
+    padding: 0.5% 2%;
+    margin-right: 2%;
+}
+
+.recepientsTop
+{
+    width: 25%;
+}
+
+.recepientsTop button
+{
+    background-color: #002B5C;
+    border-radius: 0.4rem;
+    color: white;
+    padding: 0.5% 2%;
+    margin-right: 5%;
 }
 

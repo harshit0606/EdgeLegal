@@ -39,7 +39,13 @@ function RenderSafeCustody() {
   function renderSafeRecepientsTop() {
     return (
       <div>
-        <h1>renderSafeRecepientsTop</h1>
+        <div className="safeContentsTop">
+          <h5 style={{ fontWeight: "bold" }}>Details for packet no.1</h5>
+          <div className="recepientsTop">
+            <button>Download </button>
+            <button onClick={()=>{window.print()}}>Prepare Receipt</button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -121,17 +127,14 @@ function RenderSafeCustody() {
             <button data-bs-toggle="modal" data-bs-target="#staticBackdrop">
               ADD
             </button>
-            
             <button>DELETE</button>
             <button>DOWNLOAD</button>
-            <button>PREPARE RECEIPT</button>
+            <button onClick={()=>{window.print()}}>PREPARE RECEIPT</button>
           </div>
         </div>
         <AddCustodyPopup />
         <div className="row associatedDocsHead">
-          <div className="col-1">
-    
-          </div>
+          <div className="col-1"></div>
           <div className="col-2">
             <label>Document Name</label>
           </div>
@@ -164,14 +167,33 @@ function RenderSafeCustody() {
   function renderSafeRecepients() {
     return (
       <div>
-        <h1>Recepients</h1>
-        <input
-          type="text"
-          value={d}
-          onChange={(e) => {
-            setD(e.target.value);
-          }}
-        ></input>
+        <div className="row associatedDocsHead">
+          <div className="col-1"></div>
+          <div className="col-2">
+            <label>Document Name</label>
+          </div>
+          <div className="col-2">
+            <label>Data Received</label>
+          </div>
+          <div className="col-1">
+            <label>Status</label>
+          </div>
+          <div className="col-2">
+            <label>Data Uplifted</label>
+          </div>
+          <div className="col-2">
+            <label>Uplifted By</label>
+          </div>
+          <div className="col-2">
+            <label>Comments</label>
+          </div>
+        </div>
+        <div>
+          <Document />
+          <Document />
+          <Document />
+          <Document />
+        </div>
       </div>
     );
   }
