@@ -3,12 +3,62 @@ import styles from "../../stylesheets/safeCustody.css";
 
 import Document from "./document.js";
 import AddCustodyPopup from "./addCustodyPopup.js";
+import AssociatedContacts from "./associatedContacts.js";
+import File from "./file.js";
 
 function RenderSafeCustody() {
+
   function renderSafeSelectTop() {
     return (
       <div>
-        <h1>renderSafeSelectTop</h1>
+        <div className="selectsFileDiv">
+          <div className="d-flex">
+            <h6 style={{paddingTop:'12%'}}>Status</h6>
+            <div className="dropdown" style={{marginLeft:'20%'}}>
+              <button
+                className="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton1"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                All
+              </button>
+              <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Active
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Iactive
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Uplifted
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    All
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <input
+            style={{ width: "40%" }}
+            placeholder="Search by packet no., Contact name, Address, Document name"
+          ></input>
+          <div className="custodyPageBtns" style={{ width: "22%" }}>
+            <button>Filter </button>
+            <button>Clear</button>
+            <button>More</button>
+            <button>Add</button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -16,7 +66,17 @@ function RenderSafeCustody() {
   function renderSafeContactsTop() {
     return (
       <div>
-        <h1>renderSafeContactsTop</h1>
+        <div className="safeContacts">
+          <div>
+            <h6 style={{ color: "#ACB8C9" }}>Contacts for packet no.1</h6>
+            <h5 style={{ fontWeight: "bold" }}>Associated Contacts</h5>
+          </div>
+          <div className="custodyPageBtns" style={{ paddingTop: "2%" }}>
+            <button>Save </button>
+            <button>Cancel</button>
+            <button>Delete</button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -36,14 +96,20 @@ function RenderSafeCustody() {
     );
   }
 
-  function renderSafeRecepientsTop() {
+  function renderSafeReceiptsTop() {
     return (
       <div>
         <div className="safeContentsTop">
-          <h5 style={{ fontWeight: "bold" }}>Details for packet no.1</h5>
+          <h5 style={{ fontWeight: "bold" }}>Receipts for packet no.1</h5>
           <div className="recepientsTop">
             <button>Download </button>
-            <button onClick={()=>{window.print()}}>Prepare Receipt</button>
+            <button
+              onClick={() => {
+                window.print();
+              }}
+            >
+              Prepare Receipt
+            </button>
           </div>
         </div>
       </div>
@@ -53,14 +119,35 @@ function RenderSafeCustody() {
   function renderSafeSelect() {
     return (
       <div>
-        <h1>Select File</h1>
-        <input
-          type="text"
-          value={a}
-          onChange={(e) => {
-            setA(e.target.value);
-          }}
-        ></input>
+        <div className="row safeSelectHeads">
+          <div className="col-2">
+            <label>Location</label>
+            <input type="text"></input>
+          </div>
+          <div className="col-2">
+            <label>Packet No.</label>
+            <input type="text"></input>
+          </div>
+          <div className="col-3">
+            <label>Contacts</label>
+            <input type="text"></input>
+          </div>
+          <div className="col-2">
+            <label>Status</label>
+            <input type="text"></input>
+          </div>
+          <div className="col-3">
+            <label>Comments</label>
+            <input type="text"></input>
+          </div>
+        </div>
+        <div>
+          <File />
+          <File />
+          <File />
+          <File />
+          <File />
+        </div>
       </div>
     );
   }
@@ -68,14 +155,54 @@ function RenderSafeCustody() {
   function renderSafeContacts() {
     return (
       <div>
-        <h1>Contacts</h1>
+        {/* <h1>Contacts</h1>
         <input
           type="text"
           value={b}
           onChange={(e) => {
             setB(e.target.value);
           }}
-        ></input>
+        ></input> */}
+        <div>
+          <div className="row associatedContacts">
+            <div className="col-1"></div>
+            <div className="col-2">
+              <label> Code</label>
+              <input type="text"></input>
+            </div>
+            <div className="col-1">
+              <label>F.Name</label>
+              <input type="text"></input>
+            </div>
+            <div className="col-1">
+              <label>L.Name</label>
+              <input type="text"></input>
+            </div>
+            <div className="col-2">
+              <label>Company</label>
+              <input type="text"></input>
+            </div>
+            <div className="col-1">
+              <label> Type</label>
+              <input type="text"></input>
+            </div>
+            <div className="col-2">
+              <label>Email Address</label>
+              <input type="text"></input>
+            </div>
+            <div className="col-2">
+              <label>Phone Number</label>
+              <input type="text"></input>
+            </div>
+          </div>
+          <div style={{ marginTop: "3%" }}>
+            <AssociatedContacts />
+            <AssociatedContacts />
+            <AssociatedContacts />
+            <AssociatedContacts />
+            <AssociatedContacts />
+          </div>
+        </div>
       </div>
     );
   }
@@ -129,7 +256,13 @@ function RenderSafeCustody() {
             </button>
             <button>DELETE</button>
             <button>DOWNLOAD</button>
-            <button onClick={()=>{window.print()}}>PREPARE RECEIPT</button>
+            <button
+              onClick={() => {
+                window.print();
+              }}
+            >
+              PREPARE RECEIPT
+            </button>
           </div>
         </div>
         <AddCustodyPopup />
@@ -164,7 +297,7 @@ function RenderSafeCustody() {
     );
   }
 
-  function renderSafeRecepients() {
+  function renderSafeReceipts() {
     return (
       <div>
         <div className="row associatedDocsHead">
@@ -210,7 +343,7 @@ function RenderSafeCustody() {
         {currentSafe === "select" && renderSafeSelectTop()}
         {currentSafe === "contacts" && renderSafeContactsTop()}
         {currentSafe === "contents" && renderSafeContentsTop()}
-        {currentSafe === "recepients" && renderSafeRecepientsTop()}
+        {currentSafe === "recepients" && renderSafeReceiptsTop()}
 
         <div className="safe-custody-btns-div">
           <button
@@ -274,7 +407,7 @@ function RenderSafeCustody() {
         {currentSafe === "select" && renderSafeSelect()}
         {currentSafe === "contacts" && renderSafeContacts()}
         {currentSafe === "contents" && renderSafeContents()}
-        {currentSafe === "recepients" && renderSafeRecepients()}
+        {currentSafe === "recepients" && renderSafeReceipts()}
       </div>
     </div>
   );

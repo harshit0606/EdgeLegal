@@ -98,3 +98,51 @@
     margin-right: 5%;
 }
 
+.safeContacts
+{
+    display: flex;
+    justify-content: space-between;
+    padding: 1% 2% 1% 2%;
+}
+
+.associatedContacts
+{
+    margin-top: 2%;
+}
+
+.associatedContacts label
+{
+    margin-bottom: 0.5rem;
+}
+
+.associatedContacts input
+{
+    width: 90%;
+}
+
+.selectsFileDiv
+{
+    display:flex;
+    justify-content: space-between;
+    padding: 1% 2% 1% 2%;
+}
+
+.safeSelectHeads label
+{
+    margin-bottom: 0.6rem;
+}
+
+.safeSelectHeads
+{
+    padding: 1.5% 2% 1% 2%;
+}
+
+.safeSelectHeads input
+{
+    width: 100%;
+}
+
+.dropdownStatus
+{
+    margin-left: 20%;
+}

@@ -4,8 +4,8 @@ import axios from "axios";
 
 import PopupFormR from "./popupformR.js";
 import PopupFormUnR from "./popupformUnR.js";
-import Lot from "./lot.js";
-import EditLot from "./editLot.js";
+import RegisteredLot from "./registeredLot.js";
+import UnregisteredLot from "./unregisteredLot.js";
 import url from "../../config.js";
 
 import { useCookies } from "react-cookie";
@@ -28,19 +28,16 @@ function AddNewProperty(props) {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const loggedInToken = cookies.token;
 
-  // const x =[3,5];
-  // const y =[3,5];
-
   function renderRegisteredLots() {
     return tempRegistered?.map((registeredLot) => {
-      return <Lot modal={9} registeredLot={registeredLot} lotType={1} />;
+      return <RegisteredLot modal={9} registeredLot={registeredLot} />;
     });
   }
 
   function renderUnregisteredLots() {
     return tempUnregistered?.map((unregisteredLot) => {
       return (
-        <EditLot modal={10} unregisteredLot={unregisteredLot} lotType={2} />
+        <UnregisteredLot modal={10} unregisteredLot={unregisteredLot} />
       );
     });
   }

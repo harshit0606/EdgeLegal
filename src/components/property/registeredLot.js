@@ -3,9 +3,8 @@ import styles from "../../stylesheets/property.css";
 
 import { FiEdit2 } from "react-icons/fi";
 import PopupFormR from "./popupformR.js";
-import PopupFormUnR from "./popupformUnR.js";
 
-function Lot(props) {
+function RegisteredLot(props) {
   const { modal, registeredLot } = props;
   console.log("modal", modal);
   return (
@@ -67,4 +66,4 @@ function Lot(props) {
   );
 }
 
-export default Lot;
+export default RegisteredLot;

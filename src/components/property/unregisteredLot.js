@@ -4,7 +4,7 @@ import { FiEdit2 } from "react-icons/fi";
 import PopupFormR from "./popupformR.js";
 import PopupFormUnR from "./popupformUnR.js";
 
-function EditLot(props){
+function UnregisteredLot(props){
     const { modal, unregisteredLot,lotType } = props;
     console.log("modal", modal);
   
@@ -44,4 +44,4 @@ function EditLot(props){
     );
 }
 
-export default EditLot;
+export default UnregisteredLot;

@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import react, { useState, useEffect } from "react";
 import styles from "../../stylesheets/property.css";
 
 function PopupForm(props) {
@@ -20,6 +20,7 @@ function PopupForm(props) {
   });
 
   function chotaSave() {
+    console.log(tempRegistered);
     setTempRegistered([...tempRegistered, chotaForm]);
     setChotaForm({
       titleReference: "",
@@ -30,7 +31,9 @@ function PopupForm(props) {
     });
     console.log("chotaForm", chotaForm);
   }
-
+  useEffect(()=>{
+    console.log("addBtn in popup form r",addBtn);
+  },[]);
   return (
     <div
       className="modal fade"
@@ -61,7 +64,6 @@ function PopupForm(props) {
             >
               Save
             </button>
-            {/* <button className="propertyPageBtns">Delete</button> */}
             {addBtn===0 && <button className="propertyPageBtns">Delete</button>}
             <button className="propertyPageBtns">Cancel</button>
             <button
