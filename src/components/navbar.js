@@ -1,11 +1,38 @@
 import react from "react";
 import styles from "../stylesheets/navbar.css";
+import { useHistory } from "react-router-dom";
 
 import { IoIosNotifications } from "react-icons/io";
 import { CgGirl } from "react-icons/cg";
+import AddPerson from "./contacts/addPerson.js";
+import AddOrganization from "./contacts/addOrganization.js";
 
 function Navbar(props) {
   const { current } = props;
+
+  // function addPerson() {
+  //   window.location.href = "/addPerson";
+  // }
+
+  // function addOrganization() {
+  //   window.location.href = "/addOrganization";
+  // }
+
+  function renderContactPageButtons() {
+    return (
+      <div className="navbarContactBtns">
+        <button data-bs-toggle="modal" data-bs-target="#staticBackdrop20">
+          + Person
+        </button>
+        <AddPerson />
+
+        <button data-bs-toggle="modal" data-bs-target="#staticBackdrop21">
+          + Organization
+        </button>
+        <AddOrganization />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -24,7 +51,8 @@ function Navbar(props) {
             {current === "contacts" && <h5>Contacts</h5>}
             {current === "safeCustody" && <h5>Safe Custody</h5>}
             {current === "property" && <h5>Property</h5>}
-            <div style={{ marginLeft: "75%" }} className="navbarBtns">
+            {current==="contacts" && renderContactPageButtons()}
+            <div style={{ marginLeft: "40%" }} className="navbarBtns">
               <button style={{ marginRight: "0%" }}>
                 <IoIosNotifications size={50} />
               </button>
