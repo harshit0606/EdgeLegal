@@ -1,0 +1,17 @@
+.associatedContacts
+{
+    margin-top: 2%;
+    margin-bottom: 4%;
+    padding-top: 2.5%;
+}
+
+.associatedContacts label
+{
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.associatedContacts input
+{
+    width: 90%;
+}

@@ -11,7 +11,7 @@ import url from "../../config.js";
 import { useCookies } from "react-cookie";
 
 function AddNewProperty(props) {
-  const { modalId } = props;
+  const { modalId,isEditTrue,setIsEditTrue } = props;
 
   const [buildingName, setBuildingName] = useState(null);
   const [unit, setUnit] = useState(null);
@@ -30,14 +30,14 @@ function AddNewProperty(props) {
 
   function renderRegisteredLots() {
     return tempRegistered?.map((registeredLot) => {
-      return <RegisteredLot modal={9} registeredLot={registeredLot} />;
+      return <RegisteredLot modal={9} registeredLot={registeredLot} isEditTrue={isEditTrue} setIsEditTrue={setIsEditTrue} />;
     });
   }
 
   function renderUnregisteredLots() {
     return tempUnregistered?.map((unregisteredLot) => {
       return (
-        <UnregisteredLot modal={10} unregisteredLot={unregisteredLot} />
+        <UnregisteredLot modal={10} unregisteredLot={unregisteredLot} isEditTrue={isEditTrue} setIsEditTrue={setIsEditTrue} />
       );
     });
   }
@@ -142,6 +142,7 @@ function AddNewProperty(props) {
               className="propertyPageBtns"
               data-bs-toggle="modal"
               data-bs-target="#staticBackdrop4"
+              onClick={()=>{setIsEditTrue(false)}}
             >
               + Add
             </button>
@@ -149,7 +150,7 @@ function AddNewProperty(props) {
               modalId={4}
               tempRegistered={tempRegistered}
               setTempRegistered={setTempRegistered}
-              addBtn = {1}
+              isEditTrue = {isEditTrue}
             />
           </div>
           <div className="propertyPagesubHeads">

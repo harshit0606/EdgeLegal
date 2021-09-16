@@ -13,6 +13,7 @@ import RelatedMattersLot from "./relatedMatters.js";
 import AddNewProperty from "./addNewProperty.js";
 
 function RenderProperty() {
+
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const loggedInToken = cookies.token;
 
@@ -23,7 +24,7 @@ function RenderProperty() {
   const [specificProperty, setSpecificProperty] = useState(null);
   const [registeredLots, setRegisteredLots] = useState(null);
   const [unregisteredLots, setUnregisteredLots] = useState(null);
-//   const [data, setData] = useState(null);
+  const [isEditTrue, setIsEditTrue] = useState(false);
 
   function getAllProperties() {
     axios
@@ -43,6 +44,26 @@ function RenderProperty() {
         setAllProperties(response.data.data.properties);
         console.log("in axios then", response.data.data);
       });
+  }
+
+  function deleteProperty() {
+    const id = specificProperty.id;
+    console.log("delete", id);
+    axios.delete(
+      `${url}/api/property/${id}?requestId=1234567`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${loggedInToken}`,
+        },
+      },
+      {
+        withCredentials: true,
+      }
+    )
+    .then((response) => {
+      console.log(response.data);
+    });
   }
 
   function renderAllProperties() {
@@ -109,24 +130,39 @@ function RenderProperty() {
   }
 
   function renderRegisteredLots() {
-    return registeredLots?.map((registeredLot) => {
-      return <RegisteredLot modal={1} registeredLot={registeredLot} />;
+    return registeredLots?.map((registeredLot,idx) => {
+      return (
+        <RegisteredLot
+          modal={1}
+          registeredLot={registeredLot}
+          isEditTrue={isEditTrue}
+          setIsEditTrue={setIsEditTrue}
+          idx = {idx}
+        />
+      );
     });
   }
 
   function renderUnregisteredLots() {
     return unregisteredLots?.map((unregisteredLot) => {
-      return <UnregisteredLot modal={2} unregisteredLot={unregisteredLot} />;
+      return (
+        <UnregisteredLot
+          modal={2}
+          unregisteredLot={unregisteredLot}
+          isEditTrue={isEditTrue}
+          setIsEditTrue={setIsEditTrue}
+        />
+      );
     });
   }
 
   function updateProperty() {
     const dataToBeSent = {
-        ...specificProperty,
-        registeredProperties: registeredLots,
-        unregisteredProperties: unregisteredLots,
-      };
-         axios
+      ...specificProperty,
+      registeredProperties: registeredLots,
+      unregisteredProperties: unregisteredLots,
+    };
+    axios
       .post(
         `${url}/api/property`,
         {
@@ -165,7 +201,10 @@ function RenderProperty() {
               >
                 + Add New
               </button>
-              <AddNewProperty />
+              <AddNewProperty
+                isEditTrue={isEditTrue}
+                setIsEditTrue={setIsEditTrue}
+              />
             </div>
             <div className="leftPropertyDiv">
               <div className="row">
@@ -227,7 +266,14 @@ function RenderProperty() {
                 >
                   Save
                 </button>
-                <button className="propertyPageBtns">Delete</button>
+                <button
+                  className="propertyPageBtns"
+                  onClick={() => {
+                    deleteProperty();
+                  }}
+                >
+                  Delete
+                </button>
                 <button
                   onClick={() => {
                     backToSearch();
@@ -355,6 +401,9 @@ function RenderProperty() {
                   className="propertyPageBtns"
                   data-bs-toggle="modal"
                   data-bs-target="#staticBackdrop1"
+                  onClick={() => {
+                    setIsEditTrue(false);
+                  }}
                 >
                   + Add
                 </button>
@@ -363,6 +412,7 @@ function RenderProperty() {
                   addBtn={1}
                   tempRegistered={registeredLots}
                   setTempRegistered={setRegisteredLots}
+                  isEditTrue={isEditTrue}
                 />
               </div>
               <div className="propertyPagesubHeads">
@@ -407,14 +457,19 @@ function RenderProperty() {
                   className="propertyPageBtns"
                   data-bs-toggle="modal"
                   data-bs-target="#staticBackdrop2"
+                  onClick={() => {
+                    setIsEditTrue(false);
+                  }}
                 >
                   + Add
                 </button>
+
                 <PopupFormUnR
                   modalId={2}
                   addBtn={1}
                   tempUnregistered={unregisteredLots}
                   setTempUnregistered={setUnregisteredLots}
+                  isEditTrue={isEditTrue}
                 />
               </div>
               <div className="propertyPagesubHeads">

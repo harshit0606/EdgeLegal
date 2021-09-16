@@ -8,19 +8,13 @@ import safeCustody from "../icons/safeCustody.jpg";
 
 import RenderSafeCustody from "./safeCustody/safeCustody.js";
 import RenderProperty from "./property/property.js";
+import Navbar from "./navbar.js";
+import RenderContacts from "./contacts/contacts.js";
 
 import { RiContactsBook2Line } from "react-icons/ri";
 import { MdDashboard } from "react-icons/md";
 import { FaChartPie, FaRegBuilding } from "react-icons/fa";
 import { BiBuildings } from "react-icons/bi";
-
-function renderDashboard() {
-  return (
-    <div>
-      <h1>dashboard</h1>
-    </div>
-  );
-}
 
 function renderMatters() {
   return (
@@ -59,7 +53,7 @@ function renderMatters() {
 function renderContacts() {
   return (
     <div>
-      <h1>Contacts</h1>
+      <RenderContacts />
     </div>
   );
 }
@@ -85,18 +79,6 @@ function Profile() {
   return (
     <div className="row">
       <div className="col-2 profile-menu">
-        <button
-          className={
-            current === "dashboard"
-              ? "profile-btns profile-btns-clicked"
-              : "profile-btns"
-          }
-          onClick={() => {
-            setCurrent("dashboard");
-          }}
-        >
-          <MdDashboard /> &nbsp; Profile
-        </button>
         <br />
         <button
           className={
@@ -152,7 +134,9 @@ function Profile() {
         <br />
       </div>
       <div className="col-10 profile-main">
-        {current === "dashboard" && renderDashboard()}
+        <Navbar 
+          current = {current}
+        />
         {current === "matters" && renderMatters()}
         {current === "contacts" && renderContacts()}
         {current === "safeCustody" && renderSafeCustody()}

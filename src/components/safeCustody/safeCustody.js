@@ -20,11 +20,10 @@ function RenderSafeCustody() {
                 type="button"
                 id="dropdownMenuButton1"
                 data-bs-toggle="dropdown"
-                aria-expanded="false"
               >
                 All
               </button>
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <ul className="dropdown-menu">
                 <li>
                   <a className="dropdown-item" href="#">
                     Active

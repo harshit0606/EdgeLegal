@@ -2,7 +2,13 @@ import react, { useState } from "react";
 import styles from "../../stylesheets/property.css";
 
 function PopupFormUnR(props) {
-  const { modalId, addBtn, tempUnregistered, setTempUnregistered } = props;
+  const {
+    modalId,
+    addBtn,
+    tempUnregistered,
+    setTempUnregistered,
+    isEditTrue,
+  } = props;
 
   const [chotaFormUn, setChotaFormUn] = useState({
     lotNumber: "",
@@ -56,7 +62,9 @@ function PopupFormUnR(props) {
             </button>
 
             {/* <button className="propertyPageBtns">Delete</button> */}
-            {addBtn===0 && <button className="propertyPageBtns">Delete</button>}
+            {isEditTrue == true && (
+              <button className="propertyPageBtns">Delete</button>
+            )}
             <button className="propertyPageBtns">Cancel</button>
             <button
               type="button"

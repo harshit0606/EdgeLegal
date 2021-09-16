@@ -1,0 +1,10 @@
+.navbarBtns button
+{
+    border: none;
+    background: transparent;
+}
+
+.navbarHeads h5
+{
+    font-weight: bold;
+}
