@@ -13,6 +13,7 @@ import login from "./components/login.js";
 import profile from "./components/profile.js";
 
 import {useCookies} from 'react-cookie';
+import Home from "./components/home.js";
 
 function PrivateRoute(props) {
   const { isLoggedIn, path, Component } = props;
@@ -41,6 +42,7 @@ function App() {
           {/* <Route exact path="/" component={home} /> */}
           <Route exact path="/" component={signup} />
           <Route exact path="/login" component={login} />
+          <Route exact path="/home" component={Home} />
           <PrivateRoute
               path="/profile"
               Component={profile}
