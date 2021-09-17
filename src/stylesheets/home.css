@@ -1,0 +1,7 @@
+.pagesDiv{
+    margin-left: 270px;
+    transition: 1s ease;
+}
+.pagesDiv.fullwidth{
+    margin-left: 70px;
+}

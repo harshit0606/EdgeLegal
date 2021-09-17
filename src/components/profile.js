@@ -75,6 +75,7 @@ function renderProperty() {
 }
 
 function Profile() {
+  
   const [current, setCurrent] = useState("property");
   return (
     <div className="row">

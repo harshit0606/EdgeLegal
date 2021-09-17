@@ -38,17 +38,27 @@ function App() {
   const loggedInToken = cookies.token;
 
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={signup} />
-        <Route exact path="/login" component={login} />
-        <PrivateRoute
+
+
+      <Router>
+        <Switch>
+          {/* <Route exact path="/" component={home} /> */}
+          <Route exact path="/" component={signup} />
+          <Route exact path="/login" component={login} />
+          <Route path="/home" component={Home} />
+             {/* <Route exact path="/addPerson" component={addPerson} />
+        <Route exact path="/addOrganization" component={addOrganization} /> */}
+         <PrivateRoute
           path="/edgeLegal"
           Component={profile}
           isLoggedIn={loggedInToken}
         />
-      </Switch>
-    </Router>
+          {/* <Route exact path="/profile" component={profile} /> */}
+        </Switch>
+      </Router>
+
+
+
   );
 }
 
