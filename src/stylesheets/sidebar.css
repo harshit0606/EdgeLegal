@@ -1,0 +1,67 @@
+.sidebarDiv{
+    width:270px;
+    background-color: #002B5C;
+    height: 100vh;
+}
+.logo_div{
+    display: flex;
+    height:50px;
+    align-items: center;
+}
+.logo_div img{
+    height: 18px;
+    width:23px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+.logo_div h1{
+    color:#DDE2FF;
+    font-size: 25px;
+    margin-top: 10px;
+    font-weight: 700;
+}
+.firstTab{
+    height:70px;
+    display: flex;
+    align-items: center;
+    padding: 10px 50px;
+    margin-top: 60px;
+}
+.firstTab p{
+    color: #9FA2B4;
+
+    font-size: 18px;
+    font-weight: 600;
+    height: fit-content;  
+}
+.firstTab img{
+    height:20px;
+    width:20px;
+    margin-right: 15px;
+}
+.sideTab{
+    height:70px;
+    display: flex;
+    align-items: center;
+    padding: 10px 50px;
+}
+.firstTab:hover{
+    background-color:#113966 ;
+    cursor: pointer;
+}
+.sideTab:hover{
+    background-color:#113966 ;
+    cursor: pointer;
+}
+.sideTab p{
+    color: #9FA2B4;
+    font-size: 18px;
+    font-weight: 600;
+    height: fit-content; 
+}
+.sideTab img{
+    height:20px;
+    width:18px;
+    margin-right: 15px;
+}
+

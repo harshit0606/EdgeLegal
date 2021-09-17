@@ -12,7 +12,10 @@ import signup from "./components/signup.js";
 import login from "./components/login.js";
 import profile from "./components/profile.js";
 
-import { useCookies } from "react-cookie";
+
+import {useCookies} from 'react-cookie';
+import Home from "./components/home.js";
+
 
 function PrivateRoute(props) {
   const { isLoggedIn, path, Component } = props;
