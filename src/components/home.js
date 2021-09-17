@@ -1,9 +1,9 @@
 import react from "react";
-
+import Sidebar from "./sidebar";
 function Home(){
     return (
         <div>
-            <h1>This is Home page.</h1>
+            <Sidebar/>
         </div>
     );
 }
