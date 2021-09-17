@@ -8,16 +8,29 @@ function PopupForm(props) {
     countFn,
     tempRegistered,
     setTempRegistered,
-    addBtn
+    isEditTrue,
+    idx,
+    regLot,
   } = props;
 
   const [chotaForm, setChotaForm] = useState({
     titleReference: "",
-    lotNumber: "",
+    lotNumber: "69",
     depositedPlanNumber: "",
     strataPlanNumber: "",
     section: "",
   });
+
+  useEffect(() => {
+    // if(regLot){
+    console.log("setting reg lot", regLot);
+    setChotaForm(regLot);
+    // }
+  }, [regLot]);
+
+  useEffect(() => {
+    console.log("chota form hu mai", chotaForm);
+  }, [chotaForm]);
 
   function chotaSave() {
     console.log(tempRegistered);
@@ -31,9 +44,7 @@ function PopupForm(props) {
     });
     console.log("chotaForm", chotaForm);
   }
-  useEffect(()=>{
-    console.log("addBtn in popup form r",addBtn);
-  },[]);
+
   return (
     <div
       className="modal fade"
@@ -64,7 +75,9 @@ function PopupForm(props) {
             >
               Save
             </button>
-            {addBtn===0 && <button className="propertyPageBtns">Delete</button>}
+            {isEditTrue == true && (
+              <button className="propertyPageBtns">Delete</button>
+            )}
             <button className="propertyPageBtns">Cancel</button>
             <button
               type="button"
@@ -81,8 +94,12 @@ function PopupForm(props) {
                   <h6>Title Reference</h6>
                   <input
                     className="popupFormInputs"
-                    value={chotaForm.titleReference}
+                    value={chotaForm?.titleReference}
                     onChange={(e) => {
+                      console.log(
+                        "kuch kr rhe h samajh ni arha",
+                        e.target.value
+                      );
                       setChotaForm({
                         ...chotaForm,
                         titleReference: e.target.value,
@@ -95,7 +112,7 @@ function PopupForm(props) {
                   <h6>Lot No.</h6>
                   <input
                     className="popupFormInputs"
-                    value={chotaForm.lotNumber}
+                    value={chotaForm?.lotNumber}
                     onChange={(e) => {
                       setChotaForm({
                         ...chotaForm,
@@ -109,7 +126,7 @@ function PopupForm(props) {
                   <h6>Section</h6>
                   <input
                     className="popupFormInputs"
-                    value={chotaForm.section}
+                    value={chotaForm?.section}
                     onChange={(e) => {
                       setChotaForm({
                         ...chotaForm,
@@ -123,7 +140,7 @@ function PopupForm(props) {
                   <h6>Deposited Plan No.</h6>
                   <input
                     className="popupFormInputs"
-                    value={chotaForm.depositedPlanNumber}
+                    value={chotaForm?.depositedPlanNumber}
                     onChange={(e) => {
                       setChotaForm({
                         ...chotaForm,
@@ -137,7 +154,7 @@ function PopupForm(props) {
                   <h6>Strata Plan No.</h6>
                   <input
                     className="popupFormInputs"
-                    value={chotaForm.strataPlanNumber}
+                    value={chotaForm?.strataPlanNumber}
                     onChange={(e) => {
                       setChotaForm({
                         ...chotaForm,
@@ -147,10 +164,6 @@ function PopupForm(props) {
                     type="text"
                   ></input>
                 </div>
-                {/* <button onClick={()=>{
-                                countFn(count+1);
-                                console.log("count in child:",count)
-                            }}>Hello</button> */}
               </div>
               <h6>Description</h6>
               <textarea rows="2" cols="55" />
