@@ -43,7 +43,7 @@ function App() {
         <Route exact path="/" component={signup} />
         <Route exact path="/login" component={login} />
         <PrivateRoute
-          path="/profile"
+          path="/edgeLegal"
           Component={profile}
           isLoggedIn={loggedInToken}
         />

@@ -1,10 +1,12 @@
-import react, { useState } from "react";
+import react, { useState, useEffect } from "react";
+import axios from "axios";
 import styles from "../../stylesheets/safeCustody.css";
-
+import url from "../../config.js";
 import Document from "./document.js";
 import AddCustodyPopup from "./addCustodyPopup.js";
 import AssociatedContacts from "./associatedContacts.js";
 import File from "./file.js";
+import { useCookies } from "react-cookie";
 import {
   FormControl,
   InputLabel,
@@ -14,16 +16,16 @@ import {
 } from "@material-ui/core";
 
 function RenderSafeCustody() {
-  const [age, setAge] = react.useState("");
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const loggedInToken = cookies.token;
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+  const [safeCustodyPackets,setSafeCustodyPackets] = useState(null);
+  const [safeCustodyStatus,setSafeCustodyStatus] = useState(null);
 
   function renderSafeSelectTop() {
     return (
       <div>
-        <div className="selectsFileDiv" >
+        <div className="selectsFileDiv">
           <div className="d-flex">
             <h6 style={{ paddingTop: "12%" }}>Status</h6>
             <Box sx={{ minWidth: 120 }} style={{ marginLeft: "25%" }}>
@@ -32,14 +34,14 @@ function RenderSafeCustody() {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={age}
+                  value={safeCustodyStatus}
                   label="Files"
-                  onChange={handleChange}
+                  onChange={(e)=>{getSafeCustody(e)}}
                 >
-                  <MenuItem value={"All"}>All</MenuItem>
-                  <MenuItem value={"Active"}>Active</MenuItem>
-                  <MenuItem value={"Inctive"}>Inctive</MenuItem>
-                  <MenuItem value={"Uplifted"}>Uplifted</MenuItem>
+                  <MenuItem value={"ALL"}>All</MenuItem>
+                  <MenuItem value={"ACTIVE"}>Active</MenuItem>
+                  <MenuItem value={"INACTIVE"}>Inactive</MenuItem>
+                  <MenuItem value={"UPLIFTED"}>Uplifted</MenuItem>
                 </Select>
               </FormControl>
             </Box>
@@ -112,6 +114,48 @@ function RenderSafeCustody() {
     );
   }
 
+  function getSafeCustody(e){
+    const currentStatus = e.target.value;
+    setSafeCustodyStatus(currentStatus);
+    axios
+      .get(
+        `${url}/api/safecustody?requestId=1124455&textField=aa&status=${currentStatus}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response.data.data.safeCustodyPackets);
+        setSafeCustodyPackets(response.data.data.safeCustodyPackets);
+      });
+  }
+
+  useEffect(() => {
+    axios
+      .get(
+        `${url}/api/safecustody?requestId=1124455&textField=aa&status=INACTIVE`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response.data.data.safeCustodyPackets);
+        setSafeCustodyPackets(response.data.data.safeCustodyPackets);
+      });
+  }, []);
+
   function renderSafeSelect() {
     return (
       <div>
@@ -138,11 +182,15 @@ function RenderSafeCustody() {
           </div>
         </div>
         <div>
-          <File />
-          <File />
-          <File />
-          <File />
-          <File />
+        {safeCustodyPackets?.map((packet)=>{
+          return (
+            <File 
+              packetNumber = {packet.packetNumber}
+              status={packet.status}
+              contents={packet.contents}
+            />
+          );
+        })}
         </div>
       </div>
     );
