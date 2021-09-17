@@ -15,7 +15,7 @@ function PopupForm(props) {
 
   const [chotaForm, setChotaForm] = useState({
     titleReference: "",
-    lotNumber: "69",
+    lotNumber: "",
     depositedPlanNumber: "",
     strataPlanNumber: "",
     section: "",
