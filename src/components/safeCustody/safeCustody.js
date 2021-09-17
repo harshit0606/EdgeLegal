@@ -5,47 +5,44 @@ import Document from "./document.js";
 import AddCustodyPopup from "./addCustodyPopup.js";
 import AssociatedContacts from "./associatedContacts.js";
 import File from "./file.js";
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Box,
+} from "@material-ui/core";
 
 function RenderSafeCustody() {
+  const [age, setAge] = react.useState("");
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
 
   function renderSafeSelectTop() {
     return (
       <div>
-        <div className="selectsFileDiv">
+        <div className="selectsFileDiv" >
           <div className="d-flex">
-            <h6 style={{paddingTop:'12%'}}>Status</h6>
-            <div className="dropdown" style={{marginLeft:'20%'}}>
-              <button
-                className="btn btn-secondary dropdown-toggle"
-                type="button"
-                id="dropdownMenuButton1"
-                data-bs-toggle="dropdown"
-              >
-                All
-              </button>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Active
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Iactive
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Uplifted
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    All
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <h6 style={{ paddingTop: "12%" }}>Status</h6>
+            <Box sx={{ minWidth: 120 }} style={{ marginLeft: "25%" }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Files</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={age}
+                  label="Files"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={"All"}>All</MenuItem>
+                  <MenuItem value={"Active"}>Active</MenuItem>
+                  <MenuItem value={"Inctive"}>Inctive</MenuItem>
+                  <MenuItem value={"Uplifted"}>Uplifted</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
           </div>
           <input
             style={{ width: "40%" }}
@@ -154,14 +151,6 @@ function RenderSafeCustody() {
   function renderSafeContacts() {
     return (
       <div>
-        {/* <h1>Contacts</h1>
-        <input
-          type="text"
-          value={b}
-          onChange={(e) => {
-            setB(e.target.value);
-          }}
-        ></input> */}
         <div>
           <div className="row associatedContacts">
             <div className="col-1"></div>
@@ -204,13 +193,6 @@ function RenderSafeCustody() {
         </div>
       </div>
     );
-  }
-  {
-    /* {x==="primary" && (<input readOnly placeholder="some name" />)}
-                {x==="client" && (<input placeholder="some name" />)} */
-  }
-  {
-    /* {x==="primary" ? <input readOnly>some name</input> : <input>some name</input>} */
   }
   function renderSafeContents() {
     var x = "client";
