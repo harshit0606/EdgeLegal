@@ -32,3 +32,66 @@ right: 10px;
     color: white;
     border:none;
 }
+.navbarBtns button
+{
+    border: none;
+    background: transparent;
+}
+
+.navbarHeads h5
+{
+    font-weight: bold;
+}
+
+.navbarContactBtns
+{
+    width:30%;
+    display:flex;
+    margin-left: 5%;
+}
+
+.navbarContactBtns button
+{
+    background-color: #002B5C;
+    border-radius: 0.4rem;
+    color: white;
+    padding: 0.5% 2%;
+    margin-right: 5%;
+    font-size: small;
+}
+
+.userDiv1
+{
+    padding: 2%;
+}
+
+.userDiv2
+{
+    padding: 1% 10% 1% 15%;
+}
+
+.userDiv3
+{
+    padding: 8% 10% 1% 15%;
+}
+
+.userImage
+{
+    width: 27%;
+    height:auto;
+}
+
+.dropdown-menu
+{
+    min-width:300%;
+}
+
+.logoutBtn
+{
+    background-color: #002B5C;
+    border-radius: 0.4rem;
+    color: white;
+    padding: 0.5% 2%;
+    margin-right: 2%;
+    font-size: small;
+}
