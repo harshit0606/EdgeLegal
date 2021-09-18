@@ -19,12 +19,12 @@ function RenderSafeCustody() {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const loggedInToken = cookies.token;
 
-  const [safeCustodyPackets,setSafeCustodyPackets] = useState(null);
-  const [safeCustodyStatus,setSafeCustodyStatus] = useState(null);
+  const [safeCustodyPackets, setSafeCustodyPackets] = useState(null);
+  const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
 
   function renderSafeSelectTop() {
     return (
-      <div >
+      <div>
         <div className="selectsFileDiv">
           <div className="d-flex">
             <h6 style={{ paddingTop: "12%" }}>Status</h6>
@@ -36,7 +36,9 @@ function RenderSafeCustody() {
                   id="demo-simple-select"
                   value={safeCustodyStatus}
                   label="Files"
-                  onChange={(e)=>{getSafeCustody(e)}}
+                  onChange={(e) => {
+                    getSafeCustody(e);
+                  }}
                 >
                   <MenuItem value={"ALL"}>All</MenuItem>
                   <MenuItem value={"ACTIVE"}>Active</MenuItem>
@@ -114,7 +116,7 @@ function RenderSafeCustody() {
     );
   }
 
-  function getSafeCustody(e){
+  function getSafeCustody(e) {
     const currentStatus = e.target.value;
     setSafeCustodyStatus(currentStatus);
     axios
@@ -160,6 +162,7 @@ function RenderSafeCustody() {
     return (
       <div>
         <div className="row safeSelectHeads">
+          <div className="col-1"></div>
           <div className="col-2">
             <label>Location</label>
             <input type="text"></input>
@@ -168,7 +171,7 @@ function RenderSafeCustody() {
             <label>Packet No.</label>
             <input type="text"></input>
           </div>
-          <div className="col-3">
+          <div className="col-2">
             <label>Contacts</label>
             <input type="text"></input>
           </div>
@@ -182,15 +185,15 @@ function RenderSafeCustody() {
           </div>
         </div>
         <div>
-        {safeCustodyPackets?.map((packet)=>{
-          return (
-            <File 
-              packetNumber = {packet.packetNumber}
-              status={packet.status}
-              contents={packet.contents}
-            />
-          );
-        })}
+          {safeCustodyPackets?.map((packet) => {
+            return (
+              <File
+                packetNumber={packet.packetNumber}
+                status={packet.status}
+                contents={packet.contents}
+              />
+            );
+          })}
         </div>
       </div>
     );

@@ -102,9 +102,12 @@ function SafeCustodystripe() {
             <li>
               <div className="userDiv3">
                 <h6 style={{fontWeight:'bold'}}>My Profile</h6>
+                {user?.siteInfoList.map((site)=>{
+                  return <h6>{site.siteName}</h6>
+                })}
+                {/* <h6>Warren and Warren</h6>
                 <h6>Warren and Warren</h6>
-                <h6>Warren and Warren</h6>
-                <h6>Warren and Warren</h6>
+                <h6>Warren and Warren</h6> */}
               </div>
               <button
               style={{border:'none',marginLeft:'30%'}}

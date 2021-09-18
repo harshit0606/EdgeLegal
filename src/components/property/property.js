@@ -26,6 +26,26 @@ function RenderProperty() {
   const [unregisteredLots, setUnregisteredLots] = useState(null);
   const [isEditTrue, setIsEditTrue] = useState(false);
 
+  useEffect(()=>{
+    axios
+      .get(
+        `${url}/api/property?requestId=1234567`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        setAllProperties(response.data.data.properties);
+        console.log("in axios then", response.data.data);
+      });
+  },[]);
+
   function getAllProperties() {
     axios
       .get(
@@ -541,11 +561,11 @@ function RenderProperty() {
                   </div>
                 </div>
                 <div className="lotsScrollDiv">
+                  {/* <RelatedMattersLot />
                   <RelatedMattersLot />
                   <RelatedMattersLot />
                   <RelatedMattersLot />
-                  <RelatedMattersLot />
-                  <RelatedMattersLot />
+                  <RelatedMattersLot /> */}
                 </div>
               </div>
             </div>
