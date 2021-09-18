@@ -1,51 +1,50 @@
-import react, { useState } from "react";
+import react, { useState, useEffect } from "react";
+import axios from "axios";
 import styles from "../../stylesheets/safeCustody.css";
-
+import url from "../../config.js";
 import Document from "./document.js";
 import AddCustodyPopup from "./addCustodyPopup.js";
 import AssociatedContacts from "./associatedContacts.js";
 import File from "./file.js";
+import { useCookies } from "react-cookie";
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Box,
+} from "@material-ui/core";
 
 function RenderSafeCustody() {
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const loggedInToken = cookies.token;
+
+  const [safeCustodyPackets,setSafeCustodyPackets] = useState(null);
+  const [safeCustodyStatus,setSafeCustodyStatus] = useState(null);
 
   function renderSafeSelectTop() {
     return (
       <div >
         <div className="selectsFileDiv">
           <div className="d-flex">
-            <h6 style={{paddingTop:'12%'}}>Status</h6>
-            <div className="dropdown" style={{marginLeft:'20%'}}>
-              <button
-                className="btn btn-secondary dropdown-toggle"
-                type="button"
-                id="dropdownMenuButton1"
-                data-bs-toggle="dropdown"
-              >
-                All
-              </button>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Active
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Iactive
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Uplifted
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    All
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <h6 style={{ paddingTop: "12%" }}>Status</h6>
+            <Box sx={{ minWidth: 120 }} style={{ marginLeft: "25%" }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Files</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={safeCustodyStatus}
+                  label="Files"
+                  onChange={(e)=>{getSafeCustody(e)}}
+                >
+                  <MenuItem value={"ALL"}>All</MenuItem>
+                  <MenuItem value={"ACTIVE"}>Active</MenuItem>
+                  <MenuItem value={"INACTIVE"}>Inactive</MenuItem>
+                  <MenuItem value={"UPLIFTED"}>Uplifted</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
           </div>
           <input
             style={{ width: "40%" }}
@@ -115,6 +114,48 @@ function RenderSafeCustody() {
     );
   }
 
+  function getSafeCustody(e){
+    const currentStatus = e.target.value;
+    setSafeCustodyStatus(currentStatus);
+    axios
+      .get(
+        `${url}/api/safecustody?requestId=1124455&textField=aa&status=${currentStatus}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response.data.data.safeCustodyPackets);
+        setSafeCustodyPackets(response.data.data.safeCustodyPackets);
+      });
+  }
+
+  useEffect(() => {
+    axios
+      .get(
+        `${url}/api/safecustody?requestId=1124455&textField=aa&status=INACTIVE`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response.data.data.safeCustodyPackets);
+        setSafeCustodyPackets(response.data.data.safeCustodyPackets);
+      });
+  }, []);
+
   function renderSafeSelect() {
     return (
       <div>
@@ -141,11 +182,15 @@ function RenderSafeCustody() {
           </div>
         </div>
         <div>
-          <File />
-          <File />
-          <File />
-          <File />
-          <File />
+        {safeCustodyPackets?.map((packet)=>{
+          return (
+            <File 
+              packetNumber = {packet.packetNumber}
+              status={packet.status}
+              contents={packet.contents}
+            />
+          );
+        })}
         </div>
       </div>
     );
@@ -154,14 +199,6 @@ function RenderSafeCustody() {
   function renderSafeContacts() {
     return (
       <div>
-        {/* <h1>Contacts</h1>
-        <input
-          type="text"
-          value={b}
-          onChange={(e) => {
-            setB(e.target.value);
-          }}
-        ></input> */}
         <div>
           <div className="row associatedContacts">
             <div className="col-1"></div>
@@ -204,13 +241,6 @@ function RenderSafeCustody() {
         </div>
       </div>
     );
-  }
-  {
-    /* {x==="primary" && (<input readOnly placeholder="some name" />)}
-                {x==="client" && (<input placeholder="some name" />)} */
-  }
-  {
-    /* {x==="primary" ? <input readOnly>some name</input> : <input>some name</input>} */
   }
   function renderSafeContents() {
     var x = "client";

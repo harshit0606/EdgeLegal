@@ -11,8 +11,6 @@ import home from "./components/home.js";
 import signup from "./components/signup.js";
 import login from "./components/login.js";
 import profile from "./components/profile.js";
-// import addPerson from "./components/contacts/addPerson.js";
-// import addOrganization from "./components/contacts/addOrganization.js";
 
 
 import {useCookies} from 'react-cookie';
@@ -41,6 +39,7 @@ function App() {
 
   return (
 
+
       <Router>
         <Switch>
           {/* <Route exact path="/" component={home} /> */}
@@ -49,14 +48,15 @@ function App() {
           <Route path="/home" component={Home} />
              {/* <Route exact path="/addPerson" component={addPerson} />
         <Route exact path="/addOrganization" component={addOrganization} /> */}
-          <PrivateRoute
-              path="/profile"
-              Component={profile}
-              isLoggedIn={loggedInToken}
-            />
+         <PrivateRoute
+          path="/edgeLegal"
+          Component={profile}
+          isLoggedIn={loggedInToken}
+        />
           {/* <Route exact path="/profile" component={profile} /> */}
         </Switch>
       </Router>
+
 
 
   );
