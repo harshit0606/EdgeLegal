@@ -59,6 +59,10 @@ function Sidebar(props) {
                 <img src={Safe}/>
                 <p>Safe Custody</p> 
             </div></Link>
+            <Link to="/home/property" style={{textDecoration:"none"}}><div className="sideTab" onClick={props.setCurrent("safeCustody")}>
+                <img src={Safe}/>
+                <p>Property</p> 
+            </div></Link>
             </div>
             <div className="minisidebar">
             <img  src={Ham} onClick={handleCollapse} />
@@ -79,6 +83,10 @@ function Sidebar(props) {
             
         </div></Link>
         <Link to="/home/safecustody" style={{textDecoration:"none"}}><div className="minisideTab">
+            <img src={Safe}/>
+            
+        </div></Link>
+        <Link to="/home/property" style={{textDecoration:"none"}}><div className="minisideTab">
             <img src={Safe}/>
             
         </div></Link>
