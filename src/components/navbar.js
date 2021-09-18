@@ -1,4 +1,4 @@
-import react from "react";
+import react, { useEffect, useState } from "react";
 import styles from "../stylesheets/navbar.css";
 import { useHistory } from "react-router-dom";
 import { useCookies } from "react-cookie";
