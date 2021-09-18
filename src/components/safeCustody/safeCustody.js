@@ -24,7 +24,7 @@ function RenderSafeCustody() {
 
   function renderSafeSelectTop() {
     return (
-      <div>
+      <div >
         <div className="selectsFileDiv">
           <div className="d-flex">
             <h6 style={{ paddingTop: "12%" }}>Status</h6>

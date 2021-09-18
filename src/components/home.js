@@ -8,6 +8,7 @@ import "../stylesheets/home.css";
 import Navbar from "./navbar.js";
 import{Link,Switch,Route} from "react-router-dom"
 import RenderContacts from "./contacts/contacts.js";
+import safeCustodystripe from "./topStripes/safeCustody";
 function Home() {
  
 
@@ -26,7 +27,7 @@ function Home() {
     return (
       <div className="root">
         <main className="content">
-          <div className="appBarSpacer" />
+          <div className="appBarSpacer"/>
           <div className="bodyDiv">
             <div className="contentDiv">
               <h2 className="contentTitle">Matters</h2>
@@ -90,12 +91,17 @@ function Home() {
       setCurrent={setCurrent}
       />
       <div className="pagesDiv">
+      <div className="stripes">
+        <Route path="/home/safecustody" exact component={safeCustodystripe} />
+      </div>
+      <div className="sidepagecontent">
       <Switch>
       <Route path="/home/matters" exact component={Matters} />
       <Route path="/home/contacts" exact component={RenderContacts} />
       <Route path="/home/safecustody" exact component={RenderSafeCustody} />
       <Route path="/home/property" exact component={RenderProperty} />  
   </Switch>
+    </div>
       </div>
     </div>
   );

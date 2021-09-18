@@ -1,7 +1,13 @@
 .pagesDiv{
     margin-left: 270px;
     transition: 1s ease;
+    
+    background-color: #F7F8FC;
+    height: 100vh;
 }
 .pagesDiv.fullwidth{
     margin-left: 70px;
+}
+.stripes{
+    
 }

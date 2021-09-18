@@ -3,6 +3,10 @@
     background-color: #F0F0F0;
     display: flex;
 }
+.safecustodyyDiv{
+
+    margin: 40px 30px;
+}
 
 .safe-custody-btns
 {
