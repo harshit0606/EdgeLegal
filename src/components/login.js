@@ -20,7 +20,7 @@ function Login(){
         })
         .then((response)=>{
             setCookie("token", response.data.accessToken);
-            window.location.href="/profile";
+            window.location.href="/home";
         })
         .catch((error)=>{
             alert("Wrong username or password");
