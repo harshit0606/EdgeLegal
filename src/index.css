@@ -10,6 +10,7 @@ body {
 body {
   margin: 0;
   font-family: 'Poppins', 'Mulish', sans-serif !important;
+  overflow-x: hidden;
 }
 p{
   margin: 0;

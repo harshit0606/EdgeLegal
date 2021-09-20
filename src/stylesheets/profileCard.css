@@ -1,0 +1,69 @@
+.profilecard{
+    position: absolute;
+    top:70px;
+    right:20px;
+    z-index: 4;
+    height:fit-content;
+    padding: 20px 30px;
+    width: 300px;
+    display: none;
+    box-shadow:0px 4px 20px rgba(0, 0, 0, 0.15);
+    background-color: white;
+    border-radius: 10px;
+    overflow-y: hidden;
+}
+.profilecard.show{
+    display:block;
+}
+.avatarDiv{
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.nameDiv{
+    display: flex;
+    flex-direction: column;
+    line-height: 13px;
+    margin-left: 10px;
+}
+.nameDiv h3{
+    font-size: 20px;
+    color: #1C1C1C;
+    margin-bottom: 0px;
+    font-family: 'Poppins', sans-serif;
+
+}
+.nameDiv p{
+    color:gray;
+    font-size: 14px;
+}
+.cardDiv h3{
+    font-size: 20px;
+    color: #4C5862;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.cardDiv p{
+    color:#90A0B7;
+    font-size: 14px;
+}
+.logoutdivv h2{
+    columns: #4C5862!important;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-right: 10px;
+}
+.avatarr{
+    cursor: pointer;
+}
+.backdroppp{
+    height: 100vh;
+    width:100%;
+    z-index: 2;
+    display: none;
+}
+.backdroppp.show{
+    display: block;
+}
