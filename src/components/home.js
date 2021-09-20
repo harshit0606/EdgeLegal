@@ -9,6 +9,7 @@ import Navbar from "./navbar.js";
 import{Link,Switch,Route} from "react-router-dom"
 import RenderContacts from "./contacts/contacts.js";
 import safeCustodystripe from "./topStripes/safeCustody";
+import homestripe from "./topStripes/homestripe";
 function Home() {
  
 
@@ -92,7 +93,7 @@ function Home() {
       />
       <div className="pagesDiv">
       <div className="stripes">
-        <Route path="/home/safecustody" exact component={safeCustodystripe} />
+      <Route path="/home" component={homestripe} />
       </div>
       <div className="sidepagecontent">
       <Switch>
