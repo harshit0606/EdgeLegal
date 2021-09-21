@@ -3,7 +3,9 @@
     transition: 1s ease;
     
     background-color: #F7F8FC;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
+    padding-bottom: 40px;
 }
 .pagesDiv.fullwidth{
     margin-left: 70px;

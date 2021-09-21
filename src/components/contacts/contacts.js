@@ -1,10 +1,13 @@
 import react from "react";
 import styles from "../../stylesheets/contacts.css";
 import AssociatedContacts from "../safeCustody/associatedContacts";
+import ContactStripe from "../topStripes/ContactStripe";
 
 function Contacts() {
   return (
-    <div style={{backgroundColor:'white'}}>
+    <div style={{backgroundColor:'white',marginLeft:"30px",marginRight:"30px",paddingBottom:"30px"}}>
+    <div><ContactStripe/></div>
+      
       <div className="row associatedContacts">
         <div className="col-1"></div>
         <div className="col-2">

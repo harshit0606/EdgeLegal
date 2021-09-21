@@ -95,3 +95,39 @@ right: 10px;
     margin-right: 2%;
     font-size: small;
 }
+.safeStripe{
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    padding: 15px 20px;
+    border-bottom: 1px solid lightgray;
+}
+.custodyAddbtn{
+    background-color:#002B5C ;
+    border-radius: 0.4rem;
+    color: white;
+    padding: 0.4% 2%;
+    margin-right: 10px;
+    font-size: 16px;
+    width: fit-content;
+    display: flex;
+   align-items: center;
+}
+.safeStripe p{
+    color: rgb(129, 129, 129);
+    font-weight: 500;
+    font-size: 18px;
+}
+.plusdiv{
+    background-color: white;
+    height: 20px;
+    width:20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color:#002B5C;
+    margin-right: 10px;
+    
+}
