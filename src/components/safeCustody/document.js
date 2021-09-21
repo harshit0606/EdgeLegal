@@ -3,7 +3,7 @@ import styles from "../../stylesheets/safeCustody.css";
 
 function Document() {
   return (
-    <div className="row" style={{marginTop:'2%'}}>
+    <div className="row" style={{marginTop:'2%',borderBottom:"1px solid lightgray",paddingBottom:"10px"}}>
       <div className="col-1">
         <input style={{marginLeft:'50%'}}type="checkbox" />
       </div>

@@ -14,6 +14,7 @@ import {
   MenuItem,
   Box,
 } from "@material-ui/core";
+import SafeStripe from "../topStripes/SafeStripe";
 
 function RenderSafeCustody() {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
@@ -25,6 +26,7 @@ function RenderSafeCustody() {
   function renderSafeSelectTop() {
     return (
       <div>
+      <div><SafeStripe/></div>
         <div className="selectsFileDiv">
           <div className="d-flex">
             <h6 style={{ paddingTop: "12%" }}>Status</h6>
@@ -56,7 +58,7 @@ function RenderSafeCustody() {
             <button>Filter </button>
             <button>Clear</button>
             <button>More</button>
-            <button>Add</button>
+            
           </div>
         </div>
       </div>
@@ -162,7 +164,7 @@ function RenderSafeCustody() {
     return (
       <div>
         <div className="row safeSelectHeads">
-          <div className="col-1"></div>
+          
           <div className="col-2">
             <label>Location</label>
             <input type="text"></input>
@@ -252,7 +254,7 @@ function RenderSafeCustody() {
         <div>
           <div style={{ padding: "2.5%" }} className="row">
             <div className="col-4">
-              <div>
+              <div style={{display:'flex',alignItems:"center"}}>
                 <label
                   for="contents"
                   style={{ marginRight: "5%", color: "#A0A5AA" }}
@@ -371,6 +373,9 @@ function RenderSafeCustody() {
 
   return (
     <div>
+      <div className="safe-custody-stripe">
+      
+      </div>
       <div className="safe-custody-div">
         {currentSafe === "select" && renderSafeSelectTop()}
         {currentSafe === "contacts" && renderSafeContactsTop()}
@@ -389,7 +394,7 @@ function RenderSafeCustody() {
             }}
           >
             {" "}
-            &nbsp; &nbsp; &nbsp; Select File
+             Select File
           </button>
           <br />
           <button
@@ -403,7 +408,7 @@ function RenderSafeCustody() {
             }}
           >
             {" "}
-            &nbsp; &nbsp; &nbsp; Contacts
+             Contacts
           </button>
           <br />
           <button
@@ -417,7 +422,7 @@ function RenderSafeCustody() {
             }}
           >
             {" "}
-            &nbsp; &nbsp; &nbsp; Contents
+             Contents
           </button>
           <br />
           <button
@@ -431,7 +436,7 @@ function RenderSafeCustody() {
             }}
           >
             {" "}
-            &nbsp; &nbsp; &nbsp; Recepients
+           Recepients
           </button>
           <br />
         </div>

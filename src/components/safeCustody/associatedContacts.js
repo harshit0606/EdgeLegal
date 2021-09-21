@@ -3,7 +3,7 @@ import styles from "../../stylesheets/safeCustody.css";
 
 function AssociatedContacts() {
   return (
-    <div>
+    <div className="associatedd">
       <div className="row">
         <div className="col-1">
           <input type="checkbox" style={{marginLeft:'50%'}}></input>
