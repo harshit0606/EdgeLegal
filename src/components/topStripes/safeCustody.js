@@ -37,17 +37,18 @@ function SafeCustodystripe() {
         setUser(response.data);
       });
   }, []);
+
   function renderContactPageButtons() {
     return (
       <div className="navbarContactBtns">
         <button data-bs-toggle="modal" data-bs-target="#staticBackdrop20">
           + Person
         </button>
-        <AddPerson />
+       
         <button data-bs-toggle="modal" data-bs-target="#staticBackdrop21">
           + Organization
         </button>
-        <AddOrganization />
+       
       </div>
     );
   }

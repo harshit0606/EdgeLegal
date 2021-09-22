@@ -21,3 +21,79 @@
     width:100%;
     margin-bottom: 10%;
 }
+.addPersonDiv{
+    height:100%;
+    width:100%;
+}
+.titleDiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:10px 30px;
+    background-color: #002B5C;
+}
+.titleDiv h2{
+    color:white;
+    font-size: 22px;
+}
+.titleDiv p{
+    color: white;
+    font-size: 20px;
+}
+.inputtDiv{
+    display: flex!important;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin-top: 10px;
+    padding-left: 2px;
+
+}
+.AddInput{
+    width:181px;
+    height:50px;
+    background-color: rgb(240, 240, 240);
+    border:none;
+    margin-right: 7px;
+    margin-left: 9px;
+    margin-bottom: 10px;
+}
+.labelll{
+    height:55px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-left: 30px;
+    background-color: rgb(233, 233, 233);
+}
+.labelll h3{
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+.modal-body{
+    padding:0;
+}
+.personnbtnDiv{
+    display: flex;
+    justify-content: right;
+    margin-left: 80%;
+}
+.personncancel{
+    background-color: #707070;
+    border-radius: 0.4rem;
+    color: white;
+    padding: 10px 14px;
+    margin-right: 2%;
+    font-size: small;
+    margin-right: 10px;
+    border:none;
+}
+.personnAdd{
+    background-color: #002B5C;
+    border-radius: 0.4rem;
+    color: white;
+    padding: 10px 14px;
+    border:none;
+    margin-right: 2%;
+    font-size: small;
+}
