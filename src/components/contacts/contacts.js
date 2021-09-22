@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import '../../stylesheets/contacts.css';
-import AssociatedContacts from '../safeCustody/associatedContacts';
+
 import axios from 'axios';
 import url from '../../config.js';
 import { useCookies } from 'react-cookie';
