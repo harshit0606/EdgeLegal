@@ -1,9 +1,15 @@
+
 import React, { useEffect, useState } from 'react';
 import '../../stylesheets/contacts.css';
 import AssociatedContacts from '../safeCustody/associatedContacts';
 import axios from 'axios';
 import url from '../../config.js';
 import { useCookies } from 'react-cookie';
+
+
+import AssociatedContacts from "../safeCustody/associatedContacts";
+import ContactStripe from "../topStripes/ContactStripe";
+
 
 function Contacts() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
@@ -49,10 +55,14 @@ function Contacts() {
   };
 
   return (
-    <div style={{ backgroundColor: 'white' }}>
-      <div className='row associatedContacts'>
-        <div className='col-1'></div>
-        <div className='col-2'>
+
+    <div style={{backgroundColor:'white',marginLeft:"30px",marginRight:"30px",paddingBottom:"30px"}}>
+    <div><ContactStripe/></div>
+      
+      <div className="row associatedContacts">
+        <div className="col-1"></div>
+        <div className="col-2">
+
           <label> Contact Code</label>
           <input type='text' name='contactCode' onChange={handleFilter}></input>
         </div>

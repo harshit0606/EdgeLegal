@@ -2,6 +2,7 @@
 {
     background-color: #F0F0F0;
     display: flex;
+   height:50px;   
 }
 .safecustodyyDiv{
 
@@ -13,11 +14,17 @@
     background-color: transparent;
     background-repeat:no-repeat;
     border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding:0 20px;
 }
 
 .safe-custody-btns-clicked
 {
     background-color :#ffff;
+    height:50px;
+    
 }
 
 .safe-custody-div
@@ -111,7 +118,7 @@
 
 .associatedContacts
 {
-    margin-top: 2%;
+    margin-top: 0%;
 }
 
 .associatedContacts label
@@ -149,4 +156,9 @@
 .dropdownStatus
 {
     margin-left: 20%;
+}
+.associatedd{
+    height: 50px;
+    border-bottom: 1px solid lightgray;
+    padding-top: 10px;
 }

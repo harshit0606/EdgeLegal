@@ -4,7 +4,8 @@ import '../../stylesheets/safeCustody.css';
 function AssociatedContacts(props) {
   const { contacts } = props;
   return (
-    <div>
+
+    <div className="associatedd">
       {contacts.map((contact) => (
         <div className='row'>
           <div className='col-1'>
@@ -33,6 +34,8 @@ function AssociatedContacts(props) {
           </div>
         </div>
       ))}
+
+
     </div>
   );
 }
