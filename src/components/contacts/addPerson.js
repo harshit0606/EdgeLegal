@@ -1,128 +1,59 @@
 import react from "react";
 import styles from "../../stylesheets/contacts.css";
 
-function AddPerson() {
+function AddPerson(props) {
   return (
-    <div>
-      <div
-        class="modal fade"
-        id="staticBackdrop20"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Add Person Details</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body addPersonMainDiv">
-              <div>
-                <div className="row">
-                  <div className="col-3">
-                    <input type="text"></input>
-                    <input type="text"></input>
-                    <input type="text"></input>
-                    <input type="text"></input>
-                    <input type="text"></input>
-                    <input type="text"></input>
-                  </div>
-                  <div className="col-3">
-                    <input type="text"></input>
-                    <input type="text"></input>
-                    <input type="text"></input>
-                    <input type="text"></input>
-                    <input type="text"></input>
-                    <input type="text"></input>
-                  </div>
-                  <div className="col-3">
-                    <input type="text"></input>
-                    <input type="text"></input>
-                    <input type="text"></input>
-                    <input type="text"></input>
-                    <input type="text"></input>
-                  </div>
-                  <div className="col-3">
-                    <input type="text"></input>
-                    <input type="text"></input>
-                    <input type="text"></input>
-                    <input type="text"></input>
-                    <input type="text"></input>
-                  </div>
-                </div>
-                <h6>Street Address</h6>
-                <div className="row">
-                  <div className="col-3">
-                    <input type="text"></input>
-                  </div>
-                  <div className="col-3">
-                    <input type="text"></input>
-                  </div>
-                  <div className="col-3">
-                    <input type="text"></input>
-                  </div>
-                  <div className="col-3">
-                    <input type="text"></input>
-                  </div>
-                  <div className="col-3">
-                    <input type="text"></input>
-                  </div>
-                  <div className="col-3">
-                    <input type="text"></input>
-                  </div>
-                  <div className="col-3">
-                    <input type="text"></input>
-                  </div>
-                </div>
-                <h6>Postal Address</h6>
-                <div className="row">
-                  <div className="col-3">
-                    <input type="text"></input>
-                  </div>
-                  <div className="col-3">
-                    <input type="text"></input>
-                  </div>
-                  <div className="col-3">
-                    <input type="text"></input>
-                  </div>
-                  <div className="col-3">
-                    <input type="text"></input>
-                  </div>
-                  <div className="col-3">
-                    <input type="text"></input>
-                  </div>
-                  <div className="col-3">
-                    <input type="text"></input>
-                  </div>
-                  <div className="col-3">
-                    <input type="text"></input>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Cancel
-              </button>
-              <button type="button" class="btn btn-primary">
-                OK
-              </button>
-            </div>
-          </div>
-        </div>
+    <div className="addPersonDiv">
+      <div className="titleDiv">
+        <h2>Add Person Details</h2>
+        <p style={{cursor:"pointer"}} onClick={props.close}>&#10006;</p>
       </div>
+      <div className="inputtDiv">
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+      </div>
+      <div className="labelll">
+        <h3>Street Address</h3>
+      </div>
+      <div className="inputtDiv">
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+        <input className="AddInput" type="text" placeholder="Type" />
+      </div>
+      <div className="labelll">
+        <h3>Postal Address</h3>
+        </div>
+        <div className="inputtDiv">
+          <input className="AddInput" type="text" placeholder="Type" />
+          <input className="AddInput" type="text" placeholder="Type" />
+          <input className="AddInput" type="text" placeholder="Type" />
+          <input className="AddInput" type="text" placeholder="Type" />
+          <input className="AddInput" type="text" placeholder="Type" />
+          <input className="AddInput" type="text" placeholder="Type" />
+          <input className="AddInput" type="text" placeholder="Type" />
+          <input className="AddInput" type="text" placeholder="Type" />
+        </div>
+        <div className="labelll">
+        <div className="personnbtnDiv">
+        <button className="personncancel">Cancel</button>
+        <button className="personnAdd">Add</button>
+        </div>
+        </div>
     </div>
   );
 }
