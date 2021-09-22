@@ -1,58 +1,108 @@
-import react, { useState, useEffect } from "react";
-import axios from "axios";
-import styles from "../../stylesheets/safeCustody.css";
-import url from "../../config.js";
-import Document from "./document.js";
-import AddCustodyPopup from "./addCustodyPopup.js";
-import AssociatedContacts from "./associatedContacts.js";
-import File from "./file.js";
-import { useCookies } from "react-cookie";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import '../../stylesheets/safeCustody.css';
+import url from '../../config.js';
+import Document from './document.js';
+import AddCustodyPopup from './addCustodyPopup.js';
+import AssociatedContacts from './associatedContacts.js';
+import File from './file.js';
+import { useCookies } from 'react-cookie';
 import {
   FormControl,
   InputLabel,
   Select,
   MenuItem,
   Box,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
 function RenderSafeCustody() {
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
 
   const [safeCustodyPackets, setSafeCustodyPackets] = useState(null);
+  const [custodyPacketContacts, setCustodyPacketContacts] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
+
+  const handleShowContacts = () => {
+    axios
+      .get(
+        `${url}/api/safecustody/1?requestId=1124455`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response.data.data);
+        setCustodyPacketContacts(response.data.data.custodyPacketContacts);
+        setFilteredData(response.data.data.custodyPacketContacts);
+        setCurrentSafe('contacts');
+      });
+  };
+
+  const filterData = (prop, val) => {
+    const newData = custodyPacketContacts.filter((data) =>
+      data.contactDetails[prop].includes(val)
+    );
+    setFilteredData(newData);
+  };
+
+  // const filterDataByType = (prop, val) => {
+  //   const newData = custodyPacketContacts.filter((data) => data[prop].includes(val));
+  //   setFilteredData(newData);
+  // };
+
+  const handleFilter = (e) => {
+    const { name } = e.target;
+    // setFormData({ ...formData, [name]: e.target.value });
+    // if(name==='contactType'){
+    //   filterDataByType(name, e.target.value);
+    // }
+
+    if (e.target.value === '') {
+      setFilteredData(custodyPacketContacts);
+    } else {
+      filterData(name, e.target.value);
+    }
+  };
 
   function renderSafeSelectTop() {
     return (
       <div>
-        <div className="selectsFileDiv">
-          <div className="d-flex">
-            <h6 style={{ paddingTop: "12%" }}>Status</h6>
-            <Box sx={{ minWidth: 120 }} style={{ marginLeft: "25%" }}>
+        <div className='selectsFileDiv'>
+          <div className='d-flex'>
+            <h6 style={{ paddingTop: '12%' }}>Status</h6>
+            <Box sx={{ minWidth: 120 }} style={{ marginLeft: '25%' }}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Files</InputLabel>
+                <InputLabel id='demo-simple-select-label'>Files</InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
                   value={safeCustodyStatus}
-                  label="Files"
+                  label='Files'
                   onChange={(e) => {
                     getSafeCustody(e);
                   }}
                 >
-                  <MenuItem value={"ALL"}>All</MenuItem>
-                  <MenuItem value={"ACTIVE"}>Active</MenuItem>
-                  <MenuItem value={"INACTIVE"}>Inactive</MenuItem>
-                  <MenuItem value={"UPLIFTED"}>Uplifted</MenuItem>
+                  <MenuItem value={'ALL'}>All</MenuItem>
+                  <MenuItem value={'ACTIVE'}>Active</MenuItem>
+                  <MenuItem value={'INACTIVE'}>Inactive</MenuItem>
+                  <MenuItem value={'UPLIFTED'}>Uplifted</MenuItem>
                 </Select>
               </FormControl>
             </Box>
           </div>
           <input
-            style={{ width: "40%" }}
-            placeholder="Search by packet no., Contact name, Address, Document name"
+            style={{ width: '40%' }}
+            placeholder='Search by packet no., Contact name, Address, Document name'
           ></input>
-          <div className="custodyPageBtns" style={{ width: "22%" }}>
+          <div className='custodyPageBtns' style={{ width: '22%' }}>
             <button>Filter </button>
             <button>Clear</button>
             <button>More</button>
@@ -66,12 +116,12 @@ function RenderSafeCustody() {
   function renderSafeContactsTop() {
     return (
       <div>
-        <div className="safeContacts">
+        <div className='safeContacts'>
           <div>
-            <h6 style={{ color: "#ACB8C9" }}>Contacts for packet no.1</h6>
-            <h5 style={{ fontWeight: "bold" }}>Associated Contacts</h5>
+            <h6 style={{ color: '#ACB8C9' }}>Contacts for packet no.1</h6>
+            <h5 style={{ fontWeight: 'bold' }}>Associated Contacts</h5>
           </div>
-          <div className="custodyPageBtns" style={{ paddingTop: "2%" }}>
+          <div className='custodyPageBtns' style={{ paddingTop: '2%' }}>
             <button>Save </button>
             <button>Cancel</button>
             <button>Delete</button>
@@ -84,9 +134,9 @@ function RenderSafeCustody() {
   function renderSafeContentsTop() {
     return (
       <div>
-        <div className="safeContentsTop">
-          <h5 style={{ fontWeight: "bold" }}>Details for packet no.1</h5>
-          <div className="custodyPageBtns">
+        <div className='safeContentsTop'>
+          <h5 style={{ fontWeight: 'bold' }}>Details for packet no.1</h5>
+          <div className='custodyPageBtns'>
             <button>Save </button>
             <button>Cancel</button>
             <button>Delete</button>
@@ -99,9 +149,9 @@ function RenderSafeCustody() {
   function renderSafeReceiptsTop() {
     return (
       <div>
-        <div className="safeContentsTop">
-          <h5 style={{ fontWeight: "bold" }}>Receipts for packet no.1</h5>
-          <div className="recepientsTop">
+        <div className='safeContentsTop'>
+          <h5 style={{ fontWeight: 'bold' }}>Receipts for packet no.1</h5>
+          <div className='recepientsTop'>
             <button>Download </button>
             <button
               onClick={() => {
@@ -118,13 +168,14 @@ function RenderSafeCustody() {
 
   function getSafeCustody(e) {
     const currentStatus = e.target.value;
+
     setSafeCustodyStatus(currentStatus);
     axios
       .get(
-        `${url}/api/safecustody?requestId=1124455&textField=aa&status=${currentStatus}`,
+        `${url}/api/safecustody?requestId=1124455&status=${currentStatus}`,
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${loggedInToken}`,
           },
         },
@@ -141,10 +192,10 @@ function RenderSafeCustody() {
   useEffect(() => {
     axios
       .get(
-        `${url}/api/safecustody?requestId=1124455&textField=aa&status=INACTIVE`,
+        `${url}/api/safecustody?requestId=1124455&status=INACTIVE`,
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${loggedInToken}`,
           },
         },
@@ -161,39 +212,34 @@ function RenderSafeCustody() {
   function renderSafeSelect() {
     return (
       <div>
-        <div className="row safeSelectHeads">
-          <div className="col-1"></div>
-          <div className="col-2">
+        <div className='row safeSelectHeads'>
+          <div className='col-1'></div>
+          <div className='col-2'>
             <label>Location</label>
-            <input type="text"></input>
+            <input type='text'></input>
           </div>
-          <div className="col-2">
+          <div className='col-2'>
             <label>Packet No.</label>
-            <input type="text"></input>
+            <input type='text'></input>
           </div>
-          <div className="col-2">
+          <div className='col-2'>
             <label>Contacts</label>
-            <input type="text"></input>
+            <input type='text'></input>
           </div>
-          <div className="col-2">
+          <div className='col-2'>
             <label>Status</label>
-            <input type="text"></input>
+            <input type='text'></input>
           </div>
-          <div className="col-3">
+          <div className='col-3'>
             <label>Comments</label>
-            <input type="text"></input>
+            <input type='text'></input>
           </div>
         </div>
         <div>
-          {safeCustodyPackets?.map((packet) => {
-            return (
-              <File
-                packetNumber={packet.packetNumber}
-                status={packet.status}
-                contents={packet.contents}
-              />
-            );
-          })}
+          {/** */}
+          {safeCustodyPackets?.map((packet) => (
+            <File packet={packet} />
+          ))}
         </div>
       </div>
     );
@@ -203,87 +249,111 @@ function RenderSafeCustody() {
     return (
       <div>
         <div>
-          <div className="row associatedContacts">
-            <div className="col-1"></div>
-            <div className="col-2">
+          <div className='row associatedContacts'>
+            <div className='col-1'></div>
+            <div className='col-2'>
               <label> Code</label>
-              <input type="text"></input>
+              <input
+                type='text'
+                name='contactCode'
+                onChange={handleFilter}
+              ></input>
             </div>
-            <div className="col-1">
+            <div className='col-1'>
               <label>F.Name</label>
-              <input type="text"></input>
+              <input
+                type='text'
+                name='firstName'
+                onChange={handleFilter}
+              ></input>
             </div>
-            <div className="col-1">
+            <div className='col-1'>
               <label>L.Name</label>
-              <input type="text"></input>
+              <input
+                type='text'
+                name='lastName'
+                onChange={handleFilter}
+              ></input>
             </div>
-            <div className="col-2">
+            <div className='col-2'>
               <label>Company</label>
-              <input type="text"></input>
+              <input
+                type='text'
+                name='companyName'
+                onChange={handleFilter}
+              ></input>
             </div>
-            <div className="col-1">
+            <div className='col-1'>
               <label> Type</label>
-              <input type="text"></input>
+              <input
+                type='text'
+                // name='contactType'
+                // onChange={handleFilter}
+              ></input>
             </div>
-            <div className="col-2">
+            <div className='col-2'>
               <label>Email Address</label>
-              <input type="text"></input>
+              <input
+                type='text'
+                name='emailAddress'
+                onChange={handleFilter}
+              ></input>
             </div>
-            <div className="col-2">
+            <div className='col-2'>
               <label>Phone Number</label>
-              <input type="text"></input>
+              <input
+                type='text'
+                name='telephoneNumber'
+                onChange={handleFilter}
+              ></input>
             </div>
           </div>
-          <div style={{ marginTop: "3%" }}>
-            <AssociatedContacts />
-            <AssociatedContacts />
-            <AssociatedContacts />
-            <AssociatedContacts />
-            <AssociatedContacts />
+          <div style={{ marginTop: '3%' }}>
+            <AssociatedContacts contacts={filteredData} />
           </div>
         </div>
       </div>
     );
   }
   function renderSafeContents() {
-    var x = "client";
+    var x = 'client';
     return (
       <div>
         <div>
-          <div style={{ padding: "2.5%" }} className="row">
-            <div className="col-4">
+          <div style={{ padding: '2.5%' }} className='row'>
+            <div className='col-4'>
               <div>
                 <label
-                  for="contents"
-                  style={{ marginRight: "5%", color: "#A0A5AA" }}
+                  for='contents'
+                  style={{ marginRight: '5%', color: '#A0A5AA' }}
                 >
                   Contents
                 </label>
-                <textarea rows="2" cols="25" id="contents"></textarea>
+                <textarea rows='2' cols='25' id='contents'></textarea>
               </div>
             </div>
-            <div className="col-8 contentsInfo">
-              <div className="d-flex">
+            <div className='col-8 contentsInfo'>
+              <div className='d-flex'>
                 <label>First Name:</label>
-                <input value="hello" type="text" />
+                <input value='hello' type='text' />
                 <label>Last Name:</label>
-                <input value="hello" type="text" />
+                <input value='hello' type='text' />
                 <label>Contact Type:</label>
-                <input value="hello" type="text" />
+                <input value='hello' type='text' />
               </div>
-              <div className="row">
+              <div className='row'>
                 <div>
-                  <label style={{ width: "10%" }}>Address:</label>
-                  <input value="hello" type="text" />
+                  <label style={{ width: '10%' }}>Address:</label>
+                  <input value='hello' type='text' />
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="associatedDocs">
-          <h6 style={{ fontWeight: "bold" }}>Associated documents</h6>
-          <div className="custodyPageBtns" style={{ width: "48%" }}>
-            <button data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <div className='associatedDocs'>
+          <h6 style={{ fontWeight: 'bold' }}>Associated documents</h6>
+          <div className='custodyPageBtns' style={{ width: '48%' }}>
+            <button data-bs-toggle='modal' data-bs-target='#staticBackdrop'>
               ADD
             </button>
             <button>DELETE</button>
@@ -298,24 +368,24 @@ function RenderSafeCustody() {
           </div>
         </div>
         <AddCustodyPopup />
-        <div className="row associatedDocsHead">
-          <div className="col-1"></div>
-          <div className="col-2">
+        <div className='row associatedDocsHead'>
+          <div className='col-1'></div>
+          <div className='col-2'>
             <label>Document Name</label>
           </div>
-          <div className="col-2">
+          <div className='col-2'>
             <label>Data Received</label>
           </div>
-          <div className="col-1">
+          <div className='col-1'>
             <label>Status</label>
           </div>
-          <div className="col-2">
+          <div className='col-2'>
             <label>Data Uplifted</label>
           </div>
-          <div className="col-2">
+          <div className='col-2'>
             <label>Uplifted By</label>
           </div>
-          <div className="col-2">
+          <div className='col-2'>
             <label>Comments</label>
           </div>
         </div>
@@ -332,24 +402,24 @@ function RenderSafeCustody() {
   function renderSafeReceipts() {
     return (
       <div>
-        <div className="row associatedDocsHead">
-          <div className="col-1"></div>
-          <div className="col-2">
+        <div className='row associatedDocsHead'>
+          <div className='col-1'></div>
+          <div className='col-2'>
             <label>Document Name</label>
           </div>
-          <div className="col-2">
+          <div className='col-2'>
             <label>Data Received</label>
           </div>
-          <div className="col-1">
+          <div className='col-1'>
             <label>Status</label>
           </div>
-          <div className="col-2">
+          <div className='col-2'>
             <label>Data Uplifted</label>
           </div>
-          <div className="col-2">
+          <div className='col-2'>
             <label>Uplifted By</label>
           </div>
-          <div className="col-2">
+          <div className='col-2'>
             <label>Comments</label>
           </div>
         </div>
@@ -363,7 +433,7 @@ function RenderSafeCustody() {
     );
   }
 
-  const [currentSafe, setCurrentSafe] = useState("select");
+  const [currentSafe, setCurrentSafe] = useState('select');
   const [a, setA] = useState(null);
   const [b, setB] = useState(null);
   const [c, setC] = useState(null);
@@ -371,75 +441,73 @@ function RenderSafeCustody() {
 
   return (
     <div>
-      <div className="safe-custody-div">
-        {currentSafe === "select" && renderSafeSelectTop()}
-        {currentSafe === "contacts" && renderSafeContactsTop()}
-        {currentSafe === "contents" && renderSafeContentsTop()}
-        {currentSafe === "recepients" && renderSafeReceiptsTop()}
+      <div className='safe-custody-div'>
+        {currentSafe === 'select' && renderSafeSelectTop()}
+        {currentSafe === 'contacts' && renderSafeContactsTop()}
+        {currentSafe === 'contents' && renderSafeContentsTop()}
+        {currentSafe === 'recepients' && renderSafeReceiptsTop()}
 
-        <div className="safe-custody-btns-div">
+        <div className='safe-custody-btns-div'>
           <button
             className={
-              currentSafe === "select"
-                ? "safe-custody-btns safe-custody-btns-clicked"
-                : "safe-custody-btns"
+              currentSafe === 'select'
+                ? 'safe-custody-btns safe-custody-btns-clicked'
+                : 'safe-custody-btns'
             }
             onClick={() => {
-              setCurrentSafe("select");
+              setCurrentSafe('select');
             }}
           >
-            {" "}
+            {' '}
             &nbsp; &nbsp; &nbsp; Select File
           </button>
           <br />
           <button
             className={
-              currentSafe === "contacts"
-                ? "safe-custody-btns safe-custody-btns-clicked"
-                : "safe-custody-btns"
+              currentSafe === 'contacts'
+                ? 'safe-custody-btns safe-custody-btns-clicked'
+                : 'safe-custody-btns'
             }
-            onClick={() => {
-              setCurrentSafe("contacts");
-            }}
+            onClick={handleShowContacts}
           >
-            {" "}
+            {' '}
             &nbsp; &nbsp; &nbsp; Contacts
           </button>
           <br />
           <button
             className={
-              currentSafe === "contents"
-                ? "safe-custody-btns safe-custody-btns-clicked"
-                : "safe-custody-btns"
+              currentSafe === 'contents'
+                ? 'safe-custody-btns safe-custody-btns-clicked'
+                : 'safe-custody-btns'
             }
             onClick={() => {
-              setCurrentSafe("contents");
+              setCurrentSafe('contents');
             }}
           >
-            {" "}
+            {' '}
             &nbsp; &nbsp; &nbsp; Contents
           </button>
           <br />
           <button
             className={
-              currentSafe === "recepients"
-                ? "safe-custody-btns safe-custody-btns-clicked"
-                : "safe-custody-btns"
+              currentSafe === 'recepients'
+                ? 'safe-custody-btns safe-custody-btns-clicked'
+                : 'safe-custody-btns'
             }
             onClick={() => {
-              setCurrentSafe("recepients");
+              setCurrentSafe('recepients');
             }}
           >
-            {" "}
-            &nbsp; &nbsp; &nbsp; Recepients
+            {' '}
+            &nbsp; &nbsp; &nbsp; Recipients
           </button>
           <br />
         </div>
 
-        {currentSafe === "select" && renderSafeSelect()}
-        {currentSafe === "contacts" && renderSafeContacts()}
-        {currentSafe === "contents" && renderSafeContents()}
-        {currentSafe === "recepients" && renderSafeReceipts()}
+        {currentSafe === 'select' && renderSafeSelect()}
+        {currentSafe === 'contacts' && renderSafeContacts()}
+        {currentSafe === 'contents' && renderSafeContents()}
+        {currentSafe === 'recepients' && renderSafeReceipts()}
       </div>
     </div>
   );
