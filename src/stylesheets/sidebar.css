@@ -28,7 +28,7 @@
     cursor: pointer;
 }
 .logo_div h1{
-    color:#DDE2FF;
+    color:white;
     font-size: 25px;
     margin-top: 10px;
     font-weight: 700;
@@ -41,7 +41,7 @@
     margin-top: 60px;
 }
 .firstTab p{
-    color: #9FA2B4;
+    color: white;
 
     font-size: 18px;
     font-weight: 600;
@@ -67,7 +67,7 @@
     cursor: pointer;
 }
 .sideTab p{
-    color: #9FA2B4;
+    color: white;
     font-size: 18px;
     font-weight: 600;
     height: fit-content; 
