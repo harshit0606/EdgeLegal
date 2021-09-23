@@ -45,7 +45,9 @@ function RenderProperty() {
         console.log("in axios then", response.data.data);
       });
   },[]);
-
+useEffect(()=>{
+  getAllProperties();
+},[]);
   function getAllProperties() {
     axios
       .get(
@@ -229,11 +231,19 @@ function RenderProperty() {
               </div>
             </div>
             <div className="leftPropertyDiv">
+            <div className="row" >
+              <div className="col-4">
+              <p>Title Ref.</p>
+              </div>
+              <div className="col-8">
+              <p>Address</p>
+              </div>
+            </div>
               <div className="row">
                 <div className="col-4">
-                  <label for="titleReference">Title Ref.</label>
+                
                   <input
-                    style={{ width: "100%", marginTop: "20%" }}
+                    style={{ width: "100%", marginTop:"10px",marginBottom:"10px" }}
                     id="titleReference"
                     value={titleRef}
                     onChange={(e) => {
@@ -243,9 +253,9 @@ function RenderProperty() {
                   />
                 </div>
                 <div className="col-8">
-                  <label for="address">Address</label>
+                  
                   <input
-                    style={{ width: "90%", marginTop: "8%" }}
+                    style={{ width: "90%" ,marginTop:"10px",marginBottom:"10px"  }}
                     id="address"
                     value={address}
                     onChange={(e) => {
@@ -255,21 +265,16 @@ function RenderProperty() {
                   />
                 </div>
               </div>
-              <button
+              {/*<button
                 className="propertyPageBtns searchBtn"
                 onClick={() => {
                   getAllProperties();
                 }}
               >
                 Search
-              </button>
+              </button>*/}
               <div className="row">
-                <div style={{ marginBottom: "5%" }} className="col-4">
-                  <label for="titleReference">Title Ref.</label>
-                </div>
-                <div style={{ marginBottom: "5%" }} className="col-8">
-                  <label for="address">Address</label>
-                </div>
+                
               </div>
               {renderAllProperties()}
             </div>

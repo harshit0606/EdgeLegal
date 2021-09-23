@@ -452,20 +452,7 @@ function RenderSafeCustody(props) {
         {currentSafe === 'recepients' && renderSafeReceiptsTop()}
 
         <div className='safe-custody-btns-div'>
-          <button
-            className={
-              currentSafe === 'select'
-                ? 'safe-custody-btns safe-custody-btns-clicked'
-                : 'safe-custody-btns'
-            }
-            onClick={() => {
-              setCurrentSafe('select');
-            }}
-          >
-            {' '}
-            Select File
-          </button>
-          <br />
+          
           <button
             className={
               currentSafe === 'contacts'
