@@ -166,7 +166,7 @@ function AllSafeCustody() {
         <div>
           {/** */}
           {safeCustodyPackets?.map((packet) => (
-            <Link to={`/home/safecustody/${packet.id}`}>
+            <Link style={{textDecoration:"none"}} to={`/home/safecustody/${packet.id}`}>
               <File packet={packet} />
             </Link>
           ))}
@@ -181,22 +181,7 @@ function AllSafeCustody() {
       <div className='safe-custody-div'>
         {currentSafe === 'select' && renderSafeSelectTop()}
 
-        <div className='safe-custody-btns-div'>
-          <button
-            className={
-              currentSafe === 'select'
-                ? 'safe-custody-btns safe-custody-btns-clicked'
-                : 'safe-custody-btns'
-            }
-            onClick={() => {
-              setCurrentSafe('select');
-            }}
-          >
-            {' '}
-            Select File
-          </button>
-          <br />
-        </div>
+        
 
         {currentSafe === 'select' && renderSafeSelect()}
       </div>
