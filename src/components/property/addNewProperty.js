@@ -44,12 +44,23 @@ function AddNewProperty(props) {
 
   function renderGeneral() {
     return (
+      <div className="generalDiv">
+      
       <div
         // style={{ marginTop: "10%" }}
-        className="row"
+        className="row "
       >
+      <div className="col-4">
+      <p>Building Name</p>
+      </div>
+      <div className="col-4">
+      <p>Unit</p>
+      </div>
+      <div className="col-4">
+      <p>Street No.</p>
+      </div>
         <div className="col-4">
-          <label>Building Name</label>
+          
           <input
             type="text"
             value={buildingName}
@@ -59,7 +70,7 @@ function AddNewProperty(props) {
           />
         </div>
         <div className="col-4">
-          <label>Unit &nbsp; </label>
+          
           <input
             type="text"
             value={unit}
@@ -69,7 +80,7 @@ function AddNewProperty(props) {
           />
         </div>
         <div className="col-4">
-          <label>Street No.</label>
+          
           <input
             type="text"
             value={streetNo}
@@ -79,7 +90,16 @@ function AddNewProperty(props) {
           />
         </div>
         <div className="col-4">
-          <label>Street</label>
+      <p>Street</p>
+      </div>
+      <div className="col-4">
+      <p>Suburb</p>
+      </div>
+      <div className="col-4">
+      <p>State</p>
+      </div>
+        <div className="col-4">
+       
           <input
             type="text"
             value={street}
@@ -89,7 +109,7 @@ function AddNewProperty(props) {
           />
         </div>
         <div className="col-4">
-          <label>Suburb</label>
+          
           <input
             type="text"
             value={suburb}
@@ -99,7 +119,7 @@ function AddNewProperty(props) {
           />
         </div>
         <div className="col-4">
-          <label>State</label>
+         
           <input
             type="text"
             value={state}
@@ -128,6 +148,7 @@ function AddNewProperty(props) {
             }}
           />
         </div>
+      </div>
       </div>
     );
   }
@@ -301,6 +322,7 @@ function AddNewProperty(props) {
             ></button>
           </div>
           <div className="newPropertyBtnTray">
+          <div>
             <button
               className={
                 current === "general"
@@ -325,9 +347,11 @@ function AddNewProperty(props) {
             >
               Attached Lots
             </button>
+            </div>
+            <div style={{width:"200px",display:"flex",alignItems:"center"}}>
             {current === "general" ? (
               <button
-                style={{ marginLeft: "50%", marginRight: "3%" }}
+                style={{  }}
                 onClick={() => {
                   setCurrent("attached");
                 }}
@@ -338,7 +362,7 @@ function AddNewProperty(props) {
             ) : (
               <button
                 data-bs-dismiss="modal"
-                style={{ marginLeft: "50%", marginRight: "3%" }}
+                style={{  }}
                 className="propertyPageBtns"
                 onClick={() => {
                   onSave();
@@ -350,6 +374,7 @@ function AddNewProperty(props) {
             <button className="propertyPageBtns" data-bs-dismiss="modal">
               Cancel
             </button>
+            </div>
           </div>
           <div className="modal-body">
             {current === "general" ? renderGeneral() : renderAttachedLots()}

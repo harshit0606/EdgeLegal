@@ -285,6 +285,7 @@ useEffect(()=>{
             <div>
               <div className="propertyPageHeadings">
                 <h6 className="propertyPageHeads">Property</h6>
+                <div style={{width:"350px"}}>
                 <button
                   className="propertyPageBtns"
                   onClick={() => {
@@ -309,6 +310,7 @@ useEffect(()=>{
                 >
                   Cancel
                 </button>
+                </div>
               </div>
               <div className="propertyPagesubHeads propertyPageFirstDiv">
                 <div className="row">
