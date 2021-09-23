@@ -208,12 +208,13 @@ function RenderProperty() {
   }
 
   return (
-    <div>
+    <div >
       <div className="row propertyDiv">
-        <div className="col-3" id="searchPropertyDiv">
+        <div  id="searchPropertyDiv">
           <div>
             <div className="propertyPageHeadings">
               <h6 className="propertyPageHeads">Property</h6>
+              <div >
               <button
                 className="propertyPageBtns"
                 data-bs-toggle="modal"
@@ -225,6 +226,7 @@ function RenderProperty() {
                 isEditTrue={isEditTrue}
                 setIsEditTrue={setIsEditTrue}
               />
+              </div>
             </div>
             <div className="leftPropertyDiv">
               <div className="row">

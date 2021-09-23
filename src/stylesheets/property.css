@@ -1,16 +1,23 @@
-/* .propertyDiv
+ .propertyDiv
 {
-    background-color: #F7F8F6;
-} */
+    margin:10px 30px;
+} 
 
 .propertyPageHeadings
 {
-    background-color: #F0F0F0;
+   background-color: white;
+   border-bottom: 1px solid lightgray;
+    display: flex;
+    justify-content: space-between;
+    
+    align-items: center;
+    padding:10px 30px;
 }
 
 .propertyPagesubHeads
 {
     background-color: #FFFF;
+    
 }
 
 .propertyPageBtns
@@ -18,17 +25,20 @@
     background-color: #002B5C;
     border-radius: 0.4rem;
     color: white;
-    padding: 0.5% 2%;
+    padding:8px 10px;
+    border:none;
     margin-right: 2%;
-    font-size: small;
+    width: 100px;
+    font-size: 14px;
 }
 
 .propertyPageHeads
 {
-    display:inline-block;
-    margin-right: 5%;
-    font-weight: bold;
-    padding: 1.5%;
+    
+   font-size: 18px;
+   
+    margin-bottom: 0px;
+    color:#818181;
 }
 
 .propertyPagesubHeads
