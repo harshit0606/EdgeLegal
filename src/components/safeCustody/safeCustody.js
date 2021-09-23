@@ -16,14 +16,35 @@ import {
 } from '@material-ui/core';
 import SafeStripe from '../topStripes/SafeStripe';
 
-function RenderSafeCustody() {
+function RenderSafeCustody(props) {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
-
+  const { id } = props.match.params;
   const [safeCustodyPackets, setSafeCustodyPackets] = useState(null);
   const [custodyPacketContacts, setCustodyPacketContacts] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get(
+        `${url}/api/safecustody/${id}?requestId=1124455`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response.data.data);
+        setCustodyPacketContacts(response.data.data.custodyPacketContacts);
+        setFilteredData(response.data.data.custodyPacketContacts);
+      });
+  }, []);
 
   const handleShowContacts = () => {
     axios
@@ -49,7 +70,7 @@ function RenderSafeCustody() {
 
   const filterData = (prop, val) => {
     const newData = custodyPacketContacts.filter((data) =>
-      data.contactDetails[prop].includes(val)
+      data.contactDetails[prop].toLowerCase().includes(val.toLowerCase())
     );
     setFilteredData(newData);
   };
@@ -191,26 +212,6 @@ function RenderSafeCustody() {
         setSafeCustodyPackets(response.data.data.safeCustodyPackets);
       });
   }
-
-  useEffect(() => {
-    axios
-      .get(
-        `${url}/api/safecustody?requestId=1124455&status=INACTIVE`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        console.log(response.data.data.safeCustodyPackets);
-        setSafeCustodyPackets(response.data.data.safeCustodyPackets);
-      });
-  }, []);
 
   function renderSafeSelect() {
     return (
@@ -435,7 +436,7 @@ function RenderSafeCustody() {
     );
   }
 
-  const [currentSafe, setCurrentSafe] = useState('select');
+  const [currentSafe, setCurrentSafe] = useState('contacts');
   const [a, setA] = useState(null);
   const [b, setB] = useState(null);
   const [c, setC] = useState(null);
