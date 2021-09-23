@@ -44,7 +44,7 @@
 
 .propertyPagesubHeads
 {
-    padding: 2% 0.5%;
+    padding: 20px 20px;
 }
 
 .propertyPagesubHeads input
@@ -95,13 +95,16 @@
 }
 
 .newPropertyBtnTray
-{
-    background-color: #F0F0F0;
-    padding: 0%;
+{   display: flex;
+    background-color: #c7c7c7;
+    padding: 0px 0;
+    justify-content: space-between;
+    padding-right: 20px;
 }
 
 .newPropertyMainBtns
 {
+    background-color: #c7c7c7;
     border:none;
     height: 3rem;
 }
@@ -126,4 +129,10 @@
 .particularPrprty:hover
 {
     background-color: pink;
+}
+.generalDiv{
+    padding:20px 30px;
+}
+.generalDiv input{
+    margin-bottom: 10px;
 }
