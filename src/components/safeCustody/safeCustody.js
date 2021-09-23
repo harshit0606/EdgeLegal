@@ -15,6 +15,7 @@ import {
   Box,
 } from '@material-ui/core';
 import SafeStripe from '../topStripes/SafeStripe';
+import {Link} from "react-router-dom";
 
 function RenderSafeCustody(props) {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
@@ -147,7 +148,7 @@ function RenderSafeCustody(props) {
           </div>
           <div className='custodyPageBtns' style={{ paddingTop: '2%' }}>
             <button>Save </button>
-            <button>Cancel</button>
+            <Link to="/home/safecustody"><button>Cancel</button></Link>
             <button>Delete</button>
           </div>
         </div>
@@ -162,7 +163,7 @@ function RenderSafeCustody(props) {
           <h5 style={{ fontWeight: 'bold' }}>Details for packet no.1</h5>
           <div className='custodyPageBtns'>
             <button>Save </button>
-            <button>Cancel</button>
+            <Link to="/home/safecustody"><button>Cancel</button></Link>
             <button>Delete</button>
           </div>
         </div>
