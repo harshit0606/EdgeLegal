@@ -5,8 +5,9 @@ function AssociatedContacts(props) {
   const { contacts } = props;
   return (
 
-    <div className="associatedd">
+    <div >
       {contacts.map((contact) => (
+        <div className="associatedd">
         <div className='row'>
           <div className='col-1'>
             <input type='checkbox' style={{ marginLeft: '50%' }}></input>
@@ -32,6 +33,7 @@ function AssociatedContacts(props) {
           <div className='col-2'>
             <p>{contact.contactDetails.telephoneNumber}</p>
           </div>
+        </div>
         </div>
       ))}
 

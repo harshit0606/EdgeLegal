@@ -1,6 +1,7 @@
 import react, { useState, useEffect } from "react";
 import Sidebar from "./sidebar";
-import RenderSafeCustody from "./safeCustody/safeCustody.js";
+import RenderAllSafeCustody from "./safeCustody/AllSafeCustody.js";
+import RenderSafeCustody from "./safeCustody/safeCustody";
 import RenderProperty from "./property/property.js";
 import Matters from "./matters";
 import "../stylesheets/profile.css";
@@ -75,6 +76,13 @@ function Home() {
       </div>
     );
   }
+  function renderAllSafeCustody(){
+    return (
+      <div>
+        <RenderAllSafeCustody />
+      </div>
+    );
+  }
 
   function renderProperty() {
     return (
@@ -99,7 +107,8 @@ function Home() {
       <Switch>
       <Route path="/home/matters" exact component={Matters} />
       <Route path="/home/contacts" exact component={RenderContacts} />
-      <Route path="/home/safecustody" exact component={RenderSafeCustody} />
+      <Route path="/home/safecustody" exact component={RenderAllSafeCustody} />
+      <Route path="/home/safecustody/:id" exact component={RenderSafeCustody}/>
       <Route path="/home/property" exact component={RenderProperty} />  
   </Switch>
     </div>

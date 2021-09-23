@@ -443,7 +443,7 @@ function RenderSafeCustody() {
     );
   }
 
-  const [currentSafe, setCurrentSafe] = useState('select');
+  const [currentSafe, setCurrentSafe] = useState('contacts');
   const [a, setA] = useState(null);
   const [b, setB] = useState(null);
   const [c, setC] = useState(null);
@@ -463,22 +463,7 @@ function RenderSafeCustody() {
 
 
         <div className='safe-custody-btns-div'>
-          <button
-            className={
-              currentSafe === 'select'
-                ? 'safe-custody-btns safe-custody-btns-clicked'
-                : 'safe-custody-btns'
-            }
-            onClick={() => {
-              setCurrentSafe('select');
-            }}
-          >
-
-            {" "}
-             Select File
-
-          </button>
-          <br />
+         
           <button
             className={
               currentSafe === 'contacts'
