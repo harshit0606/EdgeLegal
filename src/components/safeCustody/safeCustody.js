@@ -13,19 +13,38 @@ import {
   Select,
   MenuItem,
   Box,
+} from '@material-ui/core';
+import SafeStripe from '../topStripes/SafeStripe';
 
-} from "@material-ui/core";
-import SafeStripe from "../topStripes/SafeStripe";
-
-
-function RenderSafeCustody() {
+function RenderSafeCustody(props) {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
-
+  const { id } = props.match.params;
   const [safeCustodyPackets, setSafeCustodyPackets] = useState(null);
   const [custodyPacketContacts, setCustodyPacketContacts] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get(
+        `${url}/api/safecustody/${id}?requestId=1124455`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response.data.data);
+        setCustodyPacketContacts(response.data.data.custodyPacketContacts);
+        setFilteredData(response.data.data.custodyPacketContacts);
+      });
+  }, []);
 
   const handleShowContacts = () => {
     axios
@@ -51,7 +70,7 @@ function RenderSafeCustody() {
 
   const filterData = (prop, val) => {
     const newData = custodyPacketContacts.filter((data) =>
-      data.contactDetails[prop].includes(val)
+      data.contactDetails[prop].toLowerCase().includes(val.toLowerCase())
     );
     setFilteredData(newData);
   };
@@ -78,13 +97,13 @@ function RenderSafeCustody() {
   function renderSafeSelectTop() {
     return (
       <div>
-
-      <div><SafeStripe/></div>
-        <div className="selectsFileDiv">
-          <div className="d-flex">
-            <h6 style={{ paddingTop: "12%" }}>Status</h6>
-            <Box sx={{ minWidth: 120 }} style={{ marginLeft: "25%" }}>
-
+        <div>
+          <SafeStripe />
+        </div>
+        <div className='selectsFileDiv'>
+          <div className='d-flex'>
+            <h6 style={{ paddingTop: '12%' }}>Status</h6>
+            <Box sx={{ minWidth: 120 }} style={{ marginLeft: '25%' }}>
               <FormControl fullWidth>
                 <InputLabel id='demo-simple-select-label'>Files</InputLabel>
                 <Select
@@ -112,7 +131,6 @@ function RenderSafeCustody() {
             <button>Filter </button>
             <button>Clear</button>
             <button>More</button>
-            
           </div>
         </div>
       </div>
@@ -195,34 +213,11 @@ function RenderSafeCustody() {
       });
   }
 
-  useEffect(() => {
-    axios
-      .get(
-        `${url}/api/safecustody?requestId=1124455&status=INACTIVE`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        console.log(response.data.data.safeCustodyPackets);
-        setSafeCustodyPackets(response.data.data.safeCustodyPackets);
-      });
-  }, []);
-
   function renderSafeSelect() {
     return (
       <div>
-
-        <div className="row safeSelectHeads">
-          
-          <div className="col-2">
-
+        <div className='row safeSelectHeads'>
+          <div className='col-2'>
             <label>Location</label>
             <input type='text'></input>
           </div>
@@ -328,11 +323,9 @@ function RenderSafeCustody() {
     return (
       <div>
         <div>
-
-          <div style={{ padding: "2.5%" }} className="row">
-            <div className="col-4">
-              <div style={{display:'flex',alignItems:"center"}}>
-
+          <div style={{ padding: '2.5%' }} className='row'>
+            <div className='col-4'>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <label
                   for='contents'
                   style={{ marginRight: '5%', color: '#A0A5AA' }}
@@ -384,7 +377,7 @@ function RenderSafeCustody() {
             <label>Document Name</label>
           </div>
           <div className='col-2'>
-            <label>Data Received</label>
+            <label>Date Received</label>
           </div>
           <div className='col-1'>
             <label>Status</label>
@@ -451,19 +444,28 @@ function RenderSafeCustody() {
 
   return (
     <div>
-
-      <div className="safe-custody-stripe">
-      
-      </div>
-      <div className="safe-custody-div">
-        {currentSafe === "select" && renderSafeSelectTop()}
-        {currentSafe === "contacts" && renderSafeContactsTop()}
-        {currentSafe === "contents" && renderSafeContentsTop()}
-        {currentSafe === "recepients" && renderSafeReceiptsTop()}
-
+      <div className='safe-custody-stripe'></div>
+      <div className='safe-custody-div'>
+        {currentSafe === 'select' && renderSafeSelectTop()}
+        {currentSafe === 'contacts' && renderSafeContactsTop()}
+        {currentSafe === 'contents' && renderSafeContentsTop()}
+        {currentSafe === 'recepients' && renderSafeReceiptsTop()}
 
         <div className='safe-custody-btns-div'>
-         
+          <button
+            className={
+              currentSafe === 'select'
+                ? 'safe-custody-btns safe-custody-btns-clicked'
+                : 'safe-custody-btns'
+            }
+            onClick={() => {
+              setCurrentSafe('select');
+            }}
+          >
+            {' '}
+            Select File
+          </button>
+          <br />
           <button
             className={
               currentSafe === 'contacts'
@@ -472,10 +474,8 @@ function RenderSafeCustody() {
             }
             onClick={handleShowContacts}
           >
-
-            {" "}
-             Contacts
-
+            {' '}
+            Contacts
           </button>
           <br />
           <button
@@ -488,10 +488,8 @@ function RenderSafeCustody() {
               setCurrentSafe('contents');
             }}
           >
-
-            {" "}
-             Contents
-
+            {' '}
+            Contents
           </button>
           <br />
           <button
@@ -504,10 +502,8 @@ function RenderSafeCustody() {
               setCurrentSafe('recepients');
             }}
           >
-
-            {" "}
-           Recepients
-
+            {' '}
+            Recepients
           </button>
           <br />
         </div>
