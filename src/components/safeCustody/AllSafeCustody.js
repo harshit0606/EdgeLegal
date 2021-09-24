@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../../stylesheets/safeCustody.css';
 import url from '../../config.js';
 import Document from './document.js';
-import AddCustodyPopup from './addCustodyPopup.js';
+import AddCustodyForm from './AddCustodyForm';
 import AssociatedContacts from './associatedContacts.js';
 import File from './file.js';
 import { useCookies } from 'react-cookie';
@@ -25,6 +25,7 @@ function AllSafeCustody() {
   const [custodyPacketContacts, setCustodyPacketContacts] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
+  const [isAddCustodyOpen, setIsAddCustoduOpen] = useState(false);
 
   useEffect(() => {
     axios
@@ -45,6 +46,11 @@ function AllSafeCustody() {
         setSafeCustodyPackets(response.data.data.safeCustodyPackets);
       });
   }, []);
+
+  const handleAddCustody = () => {
+    setIsAddCustoduOpen(true);
+    console.log('add');
+  };
 
   function getSafeCustody(e) {
     const currentStatus = e.target.value;
@@ -73,7 +79,7 @@ function AllSafeCustody() {
     return (
       <div>
         <div>
-          <SafeStripe />
+          <SafeStripe addCustody={handleAddCustody} />
         </div>
         <div className='selectsFileDiv'>
           <div className='d-flex'>
@@ -108,6 +114,9 @@ function AllSafeCustody() {
             <button>More</button>
           </div>
         </div>
+        {isAddCustodyOpen && (
+          <AddCustodyForm closeForm={() => setIsAddCustoduOpen(false)} />
+        )}
       </div>
     );
   }
@@ -166,7 +175,10 @@ function AllSafeCustody() {
         <div>
           {/** */}
           {safeCustodyPackets?.map((packet) => (
-            <Link style={{textDecoration:"none"}} to={`/home/safecustody/${packet.id}`}>
+            <Link
+              style={{ textDecoration: 'none' }}
+              to={`/home/safecustody/${packet.id}`}
+            >
               <File packet={packet} />
             </Link>
           ))}
@@ -180,8 +192,6 @@ function AllSafeCustody() {
       <div className='safe-custody-stripe'></div>
       <div className='safe-custody-div'>
         {currentSafe === 'select' && renderSafeSelectTop()}
-
-        
 
         {currentSafe === 'select' && renderSafeSelect()}
       </div>
