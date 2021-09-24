@@ -16,7 +16,7 @@ function RenderProperty() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
 
-  const [allProperties, setAllProperties] = useState(null);
+  const [allProperties, setAllProperties] = useState([]);
   const [titleRef, setTitleRef] = useState(null);
   const [address, setAddress] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
@@ -24,27 +24,41 @@ function RenderProperty() {
   const [registeredLots, setRegisteredLots] = useState(null);
   const [unregisteredLots, setUnregisteredLots] = useState(null);
   const [isEditTrue, setIsEditTrue] = useState(false);
+  const [boolVal, setBoolVal] = useState(false);
 
   useEffect(() => {
-    axios
-      .get(
-        `${url}/api/property?requestId=1234567`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        setAllProperties(response.data.data.properties);
-        setFilteredData(response.data.data.properties);
-        console.log('in axios then', response.data.data);
+    const propertyData = (data) => {
+      // console.log('data', data);
+      var dataArray = [];
+      data.forEach((d) => {
+        const propertyAddress = `${d.unit}/ ${d.streetNo}/ ${d.street}/ ${d.suburb}/ ${d.state}/ ${d.postCode}/ ${d.country}`;
+        dataArray.push({ titleRef: 'title', address: propertyAddress });
       });
-  }, []);
+      setAllProperties(dataArray);
+      setFilteredData(dataArray);
+    };
+    if (!boolVal && allProperties.length === 0) {
+      axios
+        .get(
+          `${url}/api/property?requestId=1234567`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${loggedInToken}`,
+            },
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((response) => {
+          // setAllProperties(response.data.data.properties);
+          propertyData(response.data.data.properties);
+          // setFilteredData(response.data.data.properties);
+          console.log('in axios then', response.data.data);
+        });
+    }
+  }, [boolVal, allProperties, filteredData]);
   // useEffect(() => {
   //   getAllProperties();
   // }, []);
@@ -70,19 +84,20 @@ function RenderProperty() {
 
   const filterData = (prop, val) => {
     const newData = allProperties.filter((data) => {
-      if (val === ' ' || val === '/') {
-        return data;
-      } else {
-        return (
-          data['unit']?.toLowerCase().includes(val.toLowerCase()) ||
-          data['streetNo']?.toLowerCase().includes(val.toLowerCase()) ||
-          data['street']?.toLowerCase().includes(val.toLowerCase()) ||
-          data['suburb']?.toLowerCase().includes(val.toLowerCase()) ||
-          data['state']?.toLowerCase().includes(val.toLowerCase()) ||
-          data['postCode']?.toLowerCase().includes(val.toLowerCase()) ||
-          data['country']?.toLowerCase().includes(val.toLowerCase())
-        );
-      }
+      // if (val === ' ' || val === '/') {
+      //   return data;
+      // } else {
+      //   return (
+      //     data['unit']?.toLowerCase().includes(val.toLowerCase()) ||
+      //     data['streetNo']?.toLowerCase().includes(val.toLowerCase()) ||
+      //     data['street']?.toLowerCase().includes(val.toLowerCase()) ||
+      //     data['suburb']?.toLowerCase().includes(val.toLowerCase()) ||
+      //     data['state']?.toLowerCase().includes(val.toLowerCase()) ||
+      //     data['postCode']?.toLowerCase().includes(val.toLowerCase()) ||
+      //     data['country']?.toLowerCase().includes(val.toLowerCase())
+      //   );
+      // }
+      return data[prop]?.toLowerCase().includes(val.toLowerCase());
     });
     setFilteredData(newData);
   };
@@ -118,23 +133,24 @@ function RenderProperty() {
   }
 
   function renderAllProperties() {
-    console.log('all properties', allProperties);
+    // console.log('all properties', allProperties);
+
     return filteredData?.map((property) => {
-      const propertyAddress =
-        '' +
-        property.unit +
-        '/ ' +
-        property.streetNo +
-        '/ ' +
-        property.street +
-        '/ ' +
-        property.suburb +
-        '/ ' +
-        property.state +
-        '/ ' +
-        property.postCode +
-        '/ ' +
-        property.country;
+      // const propertyAddress =
+      //   '' +
+      //   property.unit +
+      //   '/ ' +
+      //   property.streetNo +
+      //   '/ ' +
+      //   property.street +
+      //   '/ ' +
+      //   property.suburb +
+      //   '/ ' +
+      //   property.state +
+      //   '/ ' +
+      //   property.postCode +
+      //   '/ ' +
+      //   property.country;
       return (
         <div
           className='row particularPrprty'
@@ -142,8 +158,8 @@ function RenderProperty() {
             fetchPropertyData(property.id);
           }}
         >
-          <h6 className='col-4'>{property.titleType}</h6>
-          <h6 className='col-8'>{propertyAddress}</h6>
+          <h6 className='col-4'>{property.titleRef}</h6>
+          <h6 className='col-8'>{property.address}</h6>
         </div>
       );
     });
@@ -290,7 +306,7 @@ function RenderProperty() {
                       marginBottom: '10px',
                     }}
                     id='address'
-                    name='titleRef'
+                    name='address'
                     onChange={handleFilter}
                     type='text'
                   />

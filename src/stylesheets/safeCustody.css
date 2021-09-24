@@ -1,164 +1,143 @@
-.safe-custody-btns-div
-{
-    background-color: #F0F0F0;
-    display: flex;
-   height:50px;   
+.safe-custody-btns-div {
+  background-color: #f0f0f0;
+  display: flex;
+  height: 50px;
 }
-.safecustodyyDiv{
-
-    margin: 40px 30px;
+.safecustodyyDiv {
+  margin: 40px 30px;
 }
 
-.safe-custody-btns
-{
-    background-color: transparent;
-    background-repeat:no-repeat;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding:0 20px;
+.safe-custody-btns {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
 }
 
-.safe-custody-btns-clicked
-{
-    background-color :#ffff;
-    height:50px;
-    
+.safe-custody-btns-clicked {
+  background-color: #ffff;
+  height: 50px;
 }
 
-.safe-custody-div
-{
-    margin: 2%;
-    background-color: #ffff;
-    height: 80vh;
+.safe-custody-div {
+  margin: 2%;
+  background-color: #ffff;
+  height: 80vh;
 }
 
-.contentsInfo input
-{
-    width: 60%;
-    border: none;
-    font-weight: bold;
+.contentsInfo input {
+  width: 60%;
+  border: none;
+  font-weight: bold;
 }
 
-.contentsInfo label
-{   
-    width: 100%;
-    color: #A0A5AA;
+.contentsInfo label {
+  width: 100%;
+  color: #a0a5aa;
 }
 
-.safeContentsTop
-{
-    display: flex;
-    justify-content: space-between;
-    padding: 1.5%;
+.safeContentsTop {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5%;
 }
 
-.custodyPageBtns
-{
-    width: 20%;
+.custodyPageBtns {
+  width: 20%;
 }
 
-.custodyPageBtns button
-{
-    background-color: #002B5C;
-    border-radius: 0.4rem;
-    color: white;
-    padding: 0.5% 2%;
-    margin-right: 2%;
+.custodyPageBtns button {
+  background-color: #c4cacd;
+  border: none;
+  border-radius: 5px;
+  color: #202526;
+  outline: none;
+  padding: 5px 12px;
+  margin-right: 3%;
+  font-size: 0.9rem;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
 }
 
-.associatedDocs
-{
-    background-color:  #F0F0F0;
-    display: flex;
-    justify-content: space-between;
-    padding: 1%;
+.associatedDocs {
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  padding: 1%;
 }
 
-.associatedDocsHead
-{
-    margin-top: 1.5%;
+.associatedDocsHead {
+  margin-top: 1.5%;
 }
 
-.associatedDocsHead label
-{
-   font-weight: bold;
+.associatedDocsHead label {
+  font-weight: bold;
 }
 
-.popupAddContents
-{
-    background-color: #002B5C;
-    border-radius: 0.4rem;
-    color: white;
-    padding: 0.5% 2%;
-    margin-right: 2%;
+.popupAddContents {
+  background-color: #002b5c;
+  border-radius: 0.4rem;
+  color: white;
+  padding: 0.5% 2%;
+  margin-right: 2%;
 }
 
-.recepientsTop
-{
-    width: 25%;
+.recepientsTop {
+  width: 25%;
 }
 
-.recepientsTop button
-{
-    background-color: #002B5C;
-    border-radius: 0.4rem;
-    color: white;
-    padding: 0.5% 2%;
-    margin-right: 5%;
+.recepientsTop button {
+  background-color: #002b5c;
+  border-radius: 0.4rem;
+  color: white;
+  padding: 0.5% 2%;
+  margin-right: 5%;
 }
 
-.safeContacts
-{
-    display: flex;
-    justify-content: space-between;
-    padding: 1% 2% 1% 2%;
+.safeContacts {
+  display: flex;
+  justify-content: space-between;
+  padding: 1% 2% 1% 2%;
 }
 
-.associatedContacts
-{
-    margin-top: 0%;
+.associatedContacts {
+  margin-top: 0%;
 }
 
-.associatedContacts label
-{
-    margin-bottom: 0.5rem;
+.associatedContacts label {
+  margin-bottom: 0.5rem;
 }
 
-.associatedContacts input
-{
-    width: 90%;
+.associatedContacts input {
+  width: 90%;
 }
 
-.selectsFileDiv
-{
-    display:flex;
-    justify-content: space-between;
-    padding: 1% 2% 1% 2%;
+.selectsFileDiv {
+  display: flex;
+  justify-content: space-between;
+  padding: 1% 2% 1% 2%;
 }
 
-.safeSelectHeads label
-{
-    margin-bottom: 0.6rem;
+.safeSelectHeads label {
+  margin-bottom: 0.6rem;
 }
 
-.safeSelectHeads
-{
-    padding: 1.5% 2% 1% 2%;
+.safeSelectHeads {
+  padding: 1.5% 2% 1% 2%;
 }
 
-.safeSelectHeads input
-{
-    width: 100%;
+.safeSelectHeads input {
+  width: 100%;
 }
 
-.dropdownStatus
-{
-    margin-left: 20%;
+.dropdownStatus {
+  margin-left: 20%;
 }
-.associatedd{
-    height: 50px;
-    border-bottom: 1px solid lightgray;
-    padding-top: 10px;
+.associatedd {
+  height: 50px;
+  border-bottom: 1px solid lightgray;
+  padding-top: 10px;
 }
