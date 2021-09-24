@@ -453,7 +453,6 @@ function RenderSafeCustody(props) {
         {currentSafe === 'recepients' && renderSafeReceiptsTop()}
 
         <div className='safe-custody-btns-div'>
-          
           <button
             className={
               currentSafe === 'contacts'
