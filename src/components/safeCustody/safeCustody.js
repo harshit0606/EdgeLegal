@@ -16,8 +16,7 @@ import {
 } from '@material-ui/core';
 import SafeStripe from '../topStripes/SafeStripe';
 
-import {Link } from "react-router-dom";
-
+import { Link } from 'react-router-dom';
 
 function RenderSafeCustody(props) {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
@@ -44,8 +43,8 @@ function RenderSafeCustody(props) {
       )
       .then((response) => {
         console.log(response.data.data);
-        setCustodyPacketContacts(response.data.data.custodyPacketContacts);
-        setFilteredData(response.data.data.custodyPacketContacts);
+        setCustodyPacketContacts(response.data?.data?.custodyPacketContacts);
+        setFilteredData(response.data?.data?.custodyPacketContacts);
       });
   }, []);
 
@@ -65,8 +64,8 @@ function RenderSafeCustody(props) {
       )
       .then((response) => {
         console.log(response.data.data);
-        setCustodyPacketContacts(response.data.data.custodyPacketContacts);
-        setFilteredData(response.data.data.custodyPacketContacts);
+        setCustodyPacketContacts(response.data?.data?.custodyPacketContacts);
+        setFilteredData(response.data?.data?.custodyPacketContacts);
         setCurrentSafe('contacts');
       });
   };
@@ -151,7 +150,9 @@ function RenderSafeCustody(props) {
           <div className='custodyPageBtns' style={{ paddingTop: '2%' }}>
             <button>Save </button>
 
-            <Link to="/home/safecustody"><button>Cancel</button></Link>
+            <Link to='/home/safecustody'>
+              <button>Cancel</button>
+            </Link>
 
             <button>Delete</button>
           </div>
@@ -166,8 +167,9 @@ function RenderSafeCustody(props) {
         <div className='safeContentsTop'>
           <h5 style={{ fontWeight: 'bold' }}>Details for packet no.1</h5>
           <div className='custodyPageBtns'>
-
-            <Link to="/home/safecustody"><button>Cancel</button></Link>
+            <Link to='/home/safecustody'>
+              <button>Cancel</button>
+            </Link>
 
             <button>Delete</button>
           </div>

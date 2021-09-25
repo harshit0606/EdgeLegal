@@ -17,7 +17,7 @@
   background-color: #fff;
   border-radius: 5px;
   width: 70%;
-  height: 80%;
+  height: 82%;
   text-align: center;
   /* padding: 0px 10px 0px 10px; */
   /* box-shadow: 0px 6px 35px rgba(85, 85, 85, 0.7); */
@@ -32,7 +32,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 15px;
+  padding: 12px 25px;
 }
 
 .addCustody-heading {
@@ -42,9 +42,14 @@
 .close-form-btn {
   border: none;
   background-color: #002b5c;
-  color: #fff;
+  color: #fff !important;
   font-size: 0.8rem;
   outline: none;
+}
+
+.close-form-btn img {
+  height: 1rem;
+  width: 1rem;
 }
 
 .addCustody-dropzone-div {
