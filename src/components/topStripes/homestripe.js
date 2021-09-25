@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import "../../stylesheets/stripes.css";
 import Bell from "../../icons/bell.png";
@@ -7,6 +7,8 @@ import Photo from "../../icons/avatar-4.png";
 import axios from "axios";
 import url from "../../config.js";
 import { AiOutlineLogout } from "react-icons/ai";
+import { FiEdit } from "react-icons/fi";
+import { Modal, Button } from "react-bootstrap";
 import "../../stylesheets/profileCard.css";
 function HomeStipe() {
   const [cookies, setCookie, removeCookie, get] = useCookies(["token"]);
@@ -15,7 +17,8 @@ function HomeStipe() {
     removeCookie("token");
     window.location.href = "/";
   }
-  const [user,setUser] = useState(null);
+  const [user, setUser] = useState(null);
+  const [show, setShow] = useState(false);
   useEffect(() => {
     axios
       .get(
@@ -31,32 +34,34 @@ function HomeStipe() {
         }
       )
       .then((response) => {
-        console.log("userdetails",response.data);
+        console.log("userdetails", response.data);
         setUser(response.data);
       });
   }, []);
 
-  
-function showProfile(){
+  function showProfile() {
     const profile = document.querySelector(".profilecard");
     const backdrop = document.querySelector(".backdroppp");
 
     if (profile) {
-        profile.classList.toggle("show");
-      }
-      if(backdrop){
-          backdrop.classList.toggle("show");
-      }
-}
+      profile.classList.toggle("show");
+    }
+    if (backdrop) {
+      backdrop.classList.toggle("show");
+    }
+  }
 
-
-
-
+  const handleShow = () => {
+    setShow(true);
+  };
+  const handleClose = () => {
+    setShow(false);
+  };
 
   return (
     <div className="homestripe">
       <div className="safestrip">
-      <div className="backdroppp" onClick={showProfile}></div>
+        <div className="backdroppp" onClick={showProfile}></div>
         <div className="safe_iconsDiv">
           <img className="safe_iconsDivimg" src={Bell} />
           <div onClick={showProfile} className="avatarr">
@@ -65,12 +70,72 @@ function showProfile(){
         </div>
       </div>
       <div className="profilecard">
+        <div
+          onClick={handleShow}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            cursor: "pointer",
+          }}
+        >
+          <FiEdit />
+        </div>
         <div className="avatarDiv">
           <Avatar sx={{ width: 56, height: 56 }} src={Photo} />
           <div className="nameDiv">
-            <h3>{user?.firstName} {user?.lastName}</h3>
+            <h3>
+              {user?.firstName} {user?.lastName}
+            </h3>
             <p>{user?.login}</p>
           </div>
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Body>
+              <div className="editprofileDiv">
+                <h3>Edit Details</h3>
+                <div className="editnamediv">
+                <div class="row">
+                <div class="col-12">
+                <label> First Name</label> </div>
+                <div class="col-12">
+                  <input/></div> 
+                <div class="col-12">
+                <label>Second Name</label></div>
+                </div>
+                <div class="row">
+                <div class="col-12">
+                <input /><br/></div>
+               
+                </div>
+                  <div class="row">
+                  <div class="col-12">
+                  <label>Email</label>
+                  </div>
+                  <div class="col-12">
+                  <input/>
+                  </div>
+                  </div>
+                  <div class="row">
+                  <div class="col-12">
+                  <label>Phone</label>
+                  </div>
+                  <div class="col-12">
+                  <input/>
+                  </div>
+                  </div>
+                  <div class="row">
+                  <div class="col-12">
+                  <label>Password</label>
+                  </div>
+                  <div class="col-12">
+                  <input/>
+                  </div>
+                  </div>
+                </div>
+                <button className="EditProfileBtn">Edit</button>
+              </div>
+            </Modal.Body>
+          </Modal>
         </div>
         <div className="cardDiv">
           <h3>Company Name</h3>
@@ -81,12 +146,15 @@ function showProfile(){
           <p>2.0.102</p>
           <hr></hr>
           <h3>My profile</h3>
-          {user?.siteInfoList.map((site)=>{
-            return <p>{site.siteName}</p>
+          {user?.siteInfoList.map((site) => {
+            return <p>{site.siteName}</p>;
           })}
-          <div onClick={() => {
-            logout();
-          }} className="logoutdivv">
+          <div
+            onClick={() => {
+              logout();
+            }}
+            className="logoutdivv"
+          >
             <h2>
               Logout <AiOutlineLogout />
             </h2>
