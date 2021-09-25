@@ -131,3 +131,23 @@ right: 10px;
     margin-right: 10px;
     
 }
+.editprofileDiv{
+    height: 400px;
+    padding:10px 30px;
+}
+.editprofileDiv h3{
+    text-align: center;
+}
+.editnamediv input{
+    margin-right: 20px!important;
+    width: 100%;
+}
+.EditProfileBtn{
+    background-color: #002b5c;
+  border-radius: 0.4rem;
+  border:none;
+  color: white;
+  padding: 6px 20px;
+  margin-top: 20px;
+  margin-left: 45%;
+}
