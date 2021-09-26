@@ -69,7 +69,7 @@ function HomeStipe() {
         </div>
       <div className="backdroppp" onClick={showProfile}></div>
         
-        <div className="safe_iconsDiv">
+          <div className="safe_iconsDiv">
           <img className="safe_iconsDivimg" src={Bell} />
           <div onClick={showProfile} className="avatarr">
             <Avatar sx={{ width: 56, height: 56 }} src={Photo} />
