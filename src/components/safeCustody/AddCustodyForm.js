@@ -1,5 +1,6 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
+import closeBtn from '../../images/close-white-btn.svg';
 import '../../stylesheets/AddCustodyForm.css';
 
 const AddCustodyForm = (props) => {
@@ -11,7 +12,7 @@ const AddCustodyForm = (props) => {
           <h2 className='addCustody-heading'>Add Safe Custody Item</h2>
           <button onClick={closeForm} className='close-form-btn'>
             {' '}
-            Close
+            <img src={closeBtn} alt='close-btn' />
           </button>
         </div>
         <div className='addCustody-dropzone-div'>

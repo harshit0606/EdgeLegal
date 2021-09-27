@@ -1,5 +1,5 @@
-import react, { useState, useEffect } from "react";
-import styles from "../../stylesheets/property.css";
+import react, { useState, useEffect } from 'react';
+import styles from '../../stylesheets/property.css';
 
 function PopupForm(props) {
   const {
@@ -14,90 +14,90 @@ function PopupForm(props) {
   } = props;
 
   const [chotaForm, setChotaForm] = useState({
-    titleReference: "",
-    lotNumber: "",
-    depositedPlanNumber: "",
-    strataPlanNumber: "",
-    section: "",
+    titleReference: '',
+    lotNumber: '',
+    depositedPlanNumber: '',
+    strataPlanNumber: '',
+    section: '',
   });
 
   useEffect(() => {
     // if(regLot){
-    console.log("setting reg lot", regLot);
+    console.log('setting reg lot', regLot);
     setChotaForm(regLot);
     // }
   }, [regLot]);
 
   useEffect(() => {
-    console.log("chota form hu mai", chotaForm);
+    console.log('chota form hu mai', chotaForm);
   }, [chotaForm]);
 
   function chotaSave() {
     console.log(tempRegistered);
     setTempRegistered([...tempRegistered, chotaForm]);
     setChotaForm({
-      titleReference: "",
-      lotNumber: "",
-      depositedPlanNumber: "",
-      strataPlanNumber: "",
-      section: "",
+      titleReference: '',
+      lotNumber: '',
+      depositedPlanNumber: '',
+      strataPlanNumber: '',
+      section: '',
     });
-    console.log("chotaForm", chotaForm);
+    console.log('chotaForm', chotaForm);
   }
 
   return (
     <div
-      className="modal fade"
+      className='modal fade'
       id={`staticBackdrop${modalId}`}
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="staticBackdropLabel"
-      aria-hidden="true"
+      data-bs-backdrop='static'
+      data-bs-keyboard='false'
+      tabindex='-1'
+      aria-labelledby='staticBackdropLabel'
+      aria-hidden='true'
     >
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          <div class="modal-header">
+      <div className='modal-dialog modal-dialog-centered'>
+        <div className='modal-content'>
+          <div class='modal-header'>
             <h5
-              style={{ marginRight: "10%" }}
-              className="modal-title"
-              id="staticBackdropLabel"
+              style={{ marginRight: '10%' }}
+              className='modal-title'
+              id='staticBackdropLabel'
             >
               Registered Lots
             </h5>
             <button
-              data-bs-toggle="modal"
+              data-bs-toggle='modal'
               data-bs-target={`#staticBackdrop${modalId}`}
               onClick={() => {
                 chotaSave();
               }}
-              className="propertyPageBtns"
+              className='propertyPageBtns'
             >
               Save
             </button>
             {isEditTrue == true && (
-              <button className="propertyPageBtns">Delete</button>
+              <button className='propertyPageBtns'>Delete</button>
             )}
-            <button className="propertyPageBtns">Cancel</button>
+            <button className='propertyPageBtns'>Cancel</button>
             <button
-              type="button"
-              class="btn-close"
-              data-bs-toggle="modal"
+              type='button'
+              class='btn-close'
+              data-bs-toggle='modal'
               data-bs-target={`#staticBackdrop${modalId}`}
-              aria-label="Close"
+              aria-label='Close'
             ></button>
           </div>
-          <div class="modal-body">
-            <div>
-              <div className="row">
-                <div className="col-4">
+          <div className='modal-body'>
+            <div style={{ padding: '12px' }}>
+              <div className='row'>
+                <div className='col-4'>
                   <h6>Title Reference</h6>
                   <input
-                    className="popupFormInputs"
+                    className='popupFormInputs'
                     value={chotaForm?.titleReference}
                     onChange={(e) => {
                       console.log(
-                        "kuch kr rhe h samajh ni arha",
+                        'kuch kr rhe h samajh ni arha',
                         e.target.value
                       );
                       setChotaForm({
@@ -105,13 +105,13 @@ function PopupForm(props) {
                         titleReference: e.target.value,
                       });
                     }}
-                    type="text"
+                    type='text'
                   ></input>
                 </div>
-                <div className="col-4">
+                <div className='col-4'>
                   <h6>Lot No.</h6>
                   <input
-                    className="popupFormInputs"
+                    className='popupFormInputs'
                     value={chotaForm?.lotNumber}
                     onChange={(e) => {
                       setChotaForm({
@@ -119,13 +119,13 @@ function PopupForm(props) {
                         lotNumber: e.target.value,
                       });
                     }}
-                    type="text"
+                    type='text'
                   ></input>
                 </div>
-                <div className="col-4">
+                <div className='col-4'>
                   <h6>Section</h6>
                   <input
-                    className="popupFormInputs"
+                    className='popupFormInputs'
                     value={chotaForm?.section}
                     onChange={(e) => {
                       setChotaForm({
@@ -133,13 +133,13 @@ function PopupForm(props) {
                         section: e.target.value,
                       });
                     }}
-                    type="text"
+                    type='text'
                   ></input>
                 </div>
-                <div className="col-4">
+                <div className='col-4'>
                   <h6>Deposited Plan No.</h6>
                   <input
-                    className="popupFormInputs"
+                    className='popupFormInputs'
                     value={chotaForm?.depositedPlanNumber}
                     onChange={(e) => {
                       setChotaForm({
@@ -147,13 +147,13 @@ function PopupForm(props) {
                         depositedPlanNumber: e.target.value,
                       });
                     }}
-                    type="text"
+                    type='text'
                   ></input>
                 </div>
-                <div className="col-4">
+                <div className='col-4'>
                   <h6>Strata Plan No.</h6>
                   <input
-                    className="popupFormInputs"
+                    className='popupFormInputs'
                     value={chotaForm?.strataPlanNumber}
                     onChange={(e) => {
                       setChotaForm({
@@ -161,12 +161,12 @@ function PopupForm(props) {
                         strataPlanNumber: e.target.value,
                       });
                     }}
-                    type="text"
+                    type='text'
                   ></input>
                 </div>
               </div>
               <h6>Description</h6>
-              <textarea rows="2" cols="55" />
+              <textarea rows='2' cols='55' />
             </div>
           </div>
         </div>

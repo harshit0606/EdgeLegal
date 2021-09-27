@@ -42,8 +42,8 @@ function AllSafeCustody() {
         }
       )
       .then((response) => {
-        console.log(response.data.data.safeCustodyPackets);
-        setSafeCustodyPackets(response.data.data.safeCustodyPackets);
+        console.log(response.data?.data?.safeCustodyPackets);
+        setSafeCustodyPackets(response.data?.data?.safeCustodyPackets);
       });
   }, []);
 
@@ -70,8 +70,8 @@ function AllSafeCustody() {
         }
       )
       .then((response) => {
-        console.log(response.data.data.safeCustodyPackets);
-        setSafeCustodyPackets(response.data.data.safeCustodyPackets);
+        console.log(response.data?.data?.safeCustodyPackets);
+        setSafeCustodyPackets(response.data?.data?.safeCustodyPackets);
       });
   }
 

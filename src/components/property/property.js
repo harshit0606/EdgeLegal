@@ -36,8 +36,9 @@ function RenderProperty() {
       });
       setAllProperties(dataArray);
       setFilteredData(dataArray);
+      setBoolVal(true);
     };
-    if (!boolVal && allProperties.length === 0) {
+    if (!boolVal) {
       axios
         .get(
           `${url}/api/property?requestId=1234567`,
@@ -58,7 +59,7 @@ function RenderProperty() {
           console.log('in axios then', response.data.data);
         });
     }
-  }, [boolVal, allProperties, filteredData]);
+  }, [boolVal, filteredData]);
   // useEffect(() => {
   //   getAllProperties();
   // }, []);
@@ -272,6 +273,7 @@ function RenderProperty() {
                 <AddNewProperty
                   isEditTrue={isEditTrue}
                   setIsEditTrue={setIsEditTrue}
+                  setBoolVal={setBoolVal}
                 />
               </div>
             </div>
@@ -328,35 +330,33 @@ function RenderProperty() {
         <div className='col-12 hideSection' id='mainPropertyDiv'>
           <div>
             <div>
-
-              <div className="propertyPageHeadings">
-                <h6 className="propertyPageHeads">Property</h6>
-                <div style={{width:"350px"}}>
-
-                <button
-                  className='propertyPageBtns'
-                  onClick={() => {
-                    updateProperty();
-                  }}
-                >
-                  Save
-                </button>
-                <button
-                  className='propertyPageBtns'
-                  onClick={() => {
-                    deleteProperty();
-                  }}
-                >
-                  Delete
-                </button>
-                <button
-                  onClick={() => {
-                    backToSearch();
-                  }}
-                  className='propertyPageBtns'
-                >
-                  Cancel
-                </button>
+              <div className='propertyPageHeadings'>
+                <h6 className='propertyPageHeads'>Property</h6>
+                <div style={{ width: '350px' }}>
+                  <button
+                    className='propertyPageBtns'
+                    onClick={() => {
+                      updateProperty();
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className='propertyPageBtns'
+                    onClick={() => {
+                      deleteProperty();
+                    }}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    onClick={() => {
+                      backToSearch();
+                    }}
+                    className='propertyPageBtns'
+                  >
+                    Cancel
+                  </button>
                 </div>
               </div>
               <div className='propertyPagesubHeads propertyPageFirstDiv'>
