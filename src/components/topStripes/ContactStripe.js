@@ -24,7 +24,7 @@ function ContactStripe() {
             <button onClick={showAddPeople} className="custodyAddbtn"><span className="plusdiv">+</span> Person</button>
             <button onClick={showOrgModal} className="custodyAddbtn"><span className="plusdiv">+</span> Organisation</button>
             </div>
-            <Modal size="lg" show={peopleShow} onHide={handleClose}>
+            <Modal size="xl" show={peopleShow} onHide={handleClose}>
            <Modal.Body>
            <AddPerson close={handleClose}/>
            </Modal.Body>
