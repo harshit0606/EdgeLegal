@@ -11,7 +11,7 @@
     margin-left: 50px;
 }
 .safe_iconsDiv{
-    width:200px;
+    width:150px;
     display: flex;
    position: absolute;
 right: 10px;
@@ -156,5 +156,18 @@ right: 10px;
     margin-left: 400px;
 }
 .searchhdiv input{
-    width: 300px;
+    width: 340px;
+    outline: none;
+    border: 1px solid lightgray;
+}
+.logo_divv{
+    height:50px;
+    width:80px;
+    margin-left: 200px;
+}
+.logo_divv img{
+    height: 50px;
+    width: 80px;
+    object-fit: contain;
+    margin:0;
 }
