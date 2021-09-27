@@ -151,3 +151,10 @@ right: 10px;
   margin-top: 20px;
   margin-left: 45%;
 }
+.searchhdiv{
+    display: flex;
+    margin-left: 400px;
+}
+.searchhdiv input{
+    width: 300px;
+}

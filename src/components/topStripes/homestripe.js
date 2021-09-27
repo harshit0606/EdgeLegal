@@ -10,6 +10,7 @@ import { AiOutlineLogout } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
 import { Modal, Button } from "react-bootstrap";
 import "../../stylesheets/profileCard.css";
+import{MdSearch} from "react-icons/md";
 function HomeStipe() {
   const [cookies, setCookie, removeCookie, get] = useCookies(["token"]);
   const loggedInToken = cookies.token;
@@ -61,8 +62,14 @@ function HomeStipe() {
   return (
     <div className="homestripe">
       <div className="safestrip">
-        <div className="backdroppp" onClick={showProfile}></div>
-        <div className="safe_iconsDiv">
+      <div className="searchhdiv">
+          <input placeholder="Search" />
+          <div style={{backgroundColor:"lightgray",width:"fit-content",padding:"2px 2px",cursor:"pointer"}}>
+          <MdSearch size={25}/></div>
+        </div>
+      <div className="backdroppp" onClick={showProfile}></div>
+        
+          <div className="safe_iconsDiv">
           <img className="safe_iconsDivimg" src={Bell} />
           <div onClick={showProfile} className="avatarr">
             <Avatar sx={{ width: 56, height: 56 }} src={Photo} />

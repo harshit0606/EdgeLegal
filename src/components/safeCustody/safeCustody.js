@@ -250,9 +250,64 @@ function RenderSafeCustody(props) {
         </div>
         <div>
           {/** */}
-          {safeCustodyPackets?.map((packet) => (
-            <File packet={packet} />
-          ))}
+          {safeCustodyPackets?.map((packet,index) => {            
+            if(index % 2 == 0)
+              return(
+                <div className="contacttdatadiv">
+                <div className='row '>
+                <div className='col-1'>
+                  <input type='checkbox' />
+                </div>
+                <div className='col-2'>
+                  <h6>{packet.siteName}</h6>
+                </div>
+                <div className='col-2'>
+                  <h6>{packet.packetNumber}</h6>
+                </div>
+                <div className='col-2'>
+                  <h6>{packet.companyName}</h6>
+                </div>
+                <div className='col-2'>
+                  <h6>{packet.status}</h6>
+                </div>
+                <div className='col-3'>
+                  <h6>{'comments'}</h6>
+                </div>
+              </div>
+               </div>
+            );
+           else{
+             return(
+              <div className="lightcontacttdatadiv">
+              <div className='row '>
+              <div className='col-1'>
+                <input type='checkbox' />
+              </div>
+              <div className='col-2'>
+                <h6>{packet.siteName}</h6>
+              </div>
+              <div className='col-2'>
+                <h6>{packet.packetNumber}</h6>
+              </div>
+              <div className='col-2'>
+                <h6>{packet.companyName}</h6>
+              </div>
+              <div className='col-2'>
+                <h6>{packet.status}</h6>
+              </div>
+              <div className='col-3'>
+                <h6>{'comments'}</h6>
+              </div>
+            </div>
+             </div>
+            
+          );
+            }
+      
+          
+          }
+      )
+        }
         </div>
       </div>
     );
@@ -403,7 +458,110 @@ function RenderSafeCustody(props) {
           </div>
         </div>
         <div>
+
           <Document reciepts={custodyPacketReciepts} />
+
+//         <div className="contacttdatadiv">
+//         <div className='row' >
+//         <div className='col-1'>
+//           <input style={{ marginLeft: '50%' }} type='checkbox' />
+//         </div>
+//         <div className='col-2'>
+//           <label>Document Name</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Date Received</label>
+//         </div>
+//         <div className='col-1'>
+//           <label>Status</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Data Uplifted</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Uplifted By</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Comments</label>
+//         </div>
+//       </div>
+//       </div>
+//       <div className="lightcontacttdatadiv">
+//       <div className='row' >
+//       <div className='col-1'>
+//         <input style={{ marginLeft: '50%' }} type='checkbox' />
+//       </div>
+//       <div className='col-2'>
+//         <label>Document Name</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Date Received</label>
+//       </div>
+//       <div className='col-1'>
+//         <label>Status</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Data Uplifted</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Uplifted By</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Comments</label>
+//       </div>
+//     </div>
+//     </div>
+//           <div className="contacttdatadiv">
+//         <div className='row' >
+//         <div className='col-1'>
+//           <input style={{ marginLeft: '50%' }} type='checkbox' />
+//         </div>
+//         <div className='col-2'>
+//           <label>Document Name</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Date Received</label>
+//         </div>
+//         <div className='col-1'>
+//           <label>Status</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Data Uplifted</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Uplifted By</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Comments</label>
+//         </div>
+//       </div>
+//       </div>
+//       <div className="lightcontacttdatadiv">
+//       <div className='row' >
+//       <div className='col-1'>
+//         <input style={{ marginLeft: '50%' }} type='checkbox' />
+//       </div>
+//       <div className='col-2'>
+//         <label>Document Name</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Date Received</label>
+//       </div>
+//       <div className='col-1'>
+//         <label>Status</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Data Uplifted</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Uplifted By</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Comments</label>
+//       </div>
+//     </div>
+//     </div>
+
         </div>
       </div>
     );
