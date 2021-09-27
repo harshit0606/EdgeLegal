@@ -136,7 +136,7 @@ function RenderProperty() {
   function renderAllProperties() {
     // console.log('all properties', allProperties);
 
-    return filteredData?.map((property) => {
+    return filteredData?.map((property,index) => {
       // const propertyAddress =
       //   '' +
       //   property.unit +
@@ -152,9 +152,10 @@ function RenderProperty() {
       //   property.postCode +
       //   '/ ' +
       //   property.country;
+      if(index%2==0)
       return (
         <div
-          className='row particularPrprty'
+          className='row contacttdatadiv'
           onClick={() => {
             fetchPropertyData(property.id);
           }}
@@ -163,6 +164,19 @@ function RenderProperty() {
           <h6 className='col-8'>{property.address}</h6>
         </div>
       );
+      else{
+        return (
+          <div
+            className='row lightcontacttdatadiv'
+            onClick={() => {
+              fetchPropertyData(property.id);
+            }}
+          >
+            <h6 className='col-4'>{property.titleRef}</h6>
+            <h6 className='col-8'>{property.address}</h6>
+          </div>
+        );
+      }
     });
   }
 
@@ -322,6 +336,7 @@ function RenderProperty() {
               >
                 Search
               </button>*/}
+              <br/>
               <div className='row'></div>
               {renderAllProperties()}
             </div>
