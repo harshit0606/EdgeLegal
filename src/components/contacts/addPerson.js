@@ -70,7 +70,7 @@ function AddPerson(props) {
         </div>
         <div className="labelll">
         <div className="personnbtnDiv">
-        <button className="personncancel">Cancel</button>
+        <button onClick={props.close} className="personncancel">Cancel</button>
         <button className="personnAdd">Add</button>
         </div>
         </div>
