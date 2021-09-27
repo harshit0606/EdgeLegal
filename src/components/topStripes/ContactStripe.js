@@ -29,7 +29,7 @@ function ContactStripe() {
            <AddPerson close={handleClose}/>
            </Modal.Body>
            </Modal> 
-           <Modal size="lg" show={orgShow} onHide={handleClose}>
+           <Modal size="xl" show={orgShow} onHide={handleClose}>
            <Modal.Body>
            <AddOrganization close={handleClose}/>
            </Modal.Body> 

@@ -460,7 +460,7 @@ function RenderSafeCustody(props) {
         <div>
 
           <Document reciepts={custodyPacketReciepts} />
-
+{/*
 //         <div className="contacttdatadiv">
 //         <div className='row' >
 //         <div className='col-1'>
@@ -560,7 +560,7 @@ function RenderSafeCustody(props) {
 //         <label>Comments</label>
 //       </div>
 //     </div>
-//     </div>
+            //     </div>*/}
 
         </div>
       </div>
