@@ -24,6 +24,7 @@ function RenderSafeCustody(props) {
   const { id } = props.match.params;
   const [safeCustodyPackets, setSafeCustodyPackets] = useState(null);
   const [custodyPacketContacts, setCustodyPacketContacts] = useState([]);
+  const [custodyPacketReciepts, setCustodyPacketReciepts] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
 
@@ -44,6 +45,7 @@ function RenderSafeCustody(props) {
       .then((response) => {
         console.log(response.data.data);
         setCustodyPacketContacts(response.data?.data?.custodyPacketContacts);
+        setCustodyPacketReciepts(response.data?.data?.custodyPacketReciepts);
         setFilteredData(response.data?.data?.custodyPacketContacts);
       });
   }, []);
@@ -401,10 +403,7 @@ function RenderSafeCustody(props) {
           </div>
         </div>
         <div>
-          <Document />
-          <Document />
-          <Document />
-          <Document />
+          <Document reciepts={custodyPacketReciepts} />
         </div>
       </div>
     );
@@ -435,10 +434,7 @@ function RenderSafeCustody(props) {
           </div>
         </div>
         <div>
-          <Document />
-          <Document />
-          <Document />
-          <Document />
+          <Document reciepts={custodyPacketReciepts} />
         </div>
       </div>
     );
