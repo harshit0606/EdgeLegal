@@ -73,7 +73,7 @@ function RenderSafeCustody(props) {
   };
 
   const filterData = (prop, val) => {
-    const newData = custodyPacketContacts.filter((data) =>
+    const newData = filteredData.filter((data) =>
       data.contactDetails[prop].toLowerCase().includes(val.toLowerCase())
     );
     setFilteredData(newData);
