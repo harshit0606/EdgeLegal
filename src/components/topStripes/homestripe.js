@@ -11,6 +11,7 @@ import { FiEdit } from "react-icons/fi";
 import { Modal, Button } from "react-bootstrap";
 import "../../stylesheets/profileCard.css";
 import{MdSearch} from "react-icons/md";
+import companyLogo from "../../images/company.png"
 function HomeStipe() {
   const [cookies, setCookie, removeCookie, get] = useCookies(["token"]);
   const loggedInToken = cookies.token;
@@ -61,14 +62,15 @@ function HomeStipe() {
 
   return (
     <div className="homestripe">
+    <div className="backdroppp" onClick={showProfile}></div>
       <div className="safestrip">
       <div className="searchhdiv">
-          <input placeholder="Search" />
+          <input style={{outline:'none'}} placeholder="Search" />
           <div style={{backgroundColor:"lightgray",width:"fit-content",padding:"2px 2px",cursor:"pointer"}}>
           <MdSearch size={25}/></div>
         </div>
-      <div className="backdroppp" onClick={showProfile}></div>
-        
+      
+        <div className="logo_divv"><img src={companyLogo}/></div>
           <div className="safe_iconsDiv">
           <img className="safe_iconsDivimg" src={Bell} />
           <div onClick={showProfile} className="avatarr">

@@ -11,6 +11,7 @@ function Login(){
 
     const [username,setUsername] = useState(null);
     const [password,setPassword] = useState(null);
+    const [error,setError]=useState(null);
     
     function handleSubmit(e){
         e.preventDefault();
@@ -23,7 +24,7 @@ function Login(){
             window.location.href="/home";
         })
         .catch((error)=>{
-            alert("Wrong username or password");
+            setError("Wrong Username or password");
         });
     }
 
@@ -61,7 +62,11 @@ function Login(){
                             className="inputStyle"
                             required
                             />
-                        </div>
+                        </div>{
+                            error&&(
+                                <p style={{textAlign:"center",color:"red",fontSize:"14px"}}>{error}</p>
+                            )
+                        }
                         <button className="buttonStyle">
                             Log in
                         </button>

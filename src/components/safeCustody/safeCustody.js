@@ -503,178 +503,110 @@ function RenderSafeCustody(props) {
         </div>
         <div>
           <Document reciepts={custodyPacketReciepts} />
-          //{' '}
-          <div className='contacttdatadiv'>
-            //{' '}
-            <div className='row'>
-              //{' '}
-              <div className='col-1'>
-                // <input style={{ marginLeft: '50%' }} type='checkbox' />
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Document Name</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Date Received</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-1'>
-                // <label>Status</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Data Uplifted</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Uplifted By</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Comments</label>
-                //{' '}
-              </div>
-              //{' '}
-            </div>
-            //{' '}
-          </div>
-          //{' '}
-          <div className='lightcontacttdatadiv'>
-            //{' '}
-            <div className='row'>
-              //{' '}
-              <div className='col-1'>
-                // <input style={{ marginLeft: '50%' }} type='checkbox' />
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Document Name</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Date Received</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-1'>
-                // <label>Status</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Data Uplifted</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Uplifted By</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Comments</label>
-                //{' '}
-              </div>
-              //{' '}
-            </div>
-            //{' '}
-          </div>
-          //{' '}
-          <div className='contacttdatadiv'>
-            //{' '}
-            <div className='row'>
-              //{' '}
-              <div className='col-1'>
-                // <input style={{ marginLeft: '50%' }} type='checkbox' />
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Document Name</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Date Received</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-1'>
-                // <label>Status</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Data Uplifted</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Uplifted By</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Comments</label>
-                //{' '}
-              </div>
-              //{' '}
-            </div>
-            //{' '}
-          </div>
-          //{' '}
-          <div className='lightcontacttdatadiv'>
-            //{' '}
-            <div className='row'>
-              //{' '}
-              <div className='col-1'>
-                // <input style={{ marginLeft: '50%' }} type='checkbox' />
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Document Name</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Date Received</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-1'>
-                // <label>Status</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Data Uplifted</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Uplifted By</label>
-                //{' '}
-              </div>
-              //{' '}
-              <div className='col-2'>
-                // <label>Comments</label>
-                //{' '}
-              </div>
-              //{' '}
-            </div>
-            //{' '}
-          </div>
+
+{/*
+//         <div className="contacttdatadiv">
+//         <div className='row' >
+//         <div className='col-1'>
+//           <input style={{ marginLeft: '50%' }} type='checkbox' />
+//         </div>
+//         <div className='col-2'>
+//           <label>Document Name</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Date Received</label>
+//         </div>
+//         <div className='col-1'>
+//           <label>Status</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Data Uplifted</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Uplifted By</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Comments</label>
+//         </div>
+//       </div>
+//       </div>
+//       <div className="lightcontacttdatadiv">
+//       <div className='row' >
+//       <div className='col-1'>
+//         <input style={{ marginLeft: '50%' }} type='checkbox' />
+//       </div>
+//       <div className='col-2'>
+//         <label>Document Name</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Date Received</label>
+//       </div>
+//       <div className='col-1'>
+//         <label>Status</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Data Uplifted</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Uplifted By</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Comments</label>
+//       </div>
+//     </div>
+//     </div>
+//           <div className="contacttdatadiv">
+//         <div className='row' >
+//         <div className='col-1'>
+//           <input style={{ marginLeft: '50%' }} type='checkbox' />
+//         </div>
+//         <div className='col-2'>
+//           <label>Document Name</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Date Received</label>
+//         </div>
+//         <div className='col-1'>
+//           <label>Status</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Data Uplifted</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Uplifted By</label>
+//         </div>
+//         <div className='col-2'>
+//           <label>Comments</label>
+//         </div>
+//       </div>
+//       </div>
+//       <div className="lightcontacttdatadiv">
+//       <div className='row' >
+//       <div className='col-1'>
+//         <input style={{ marginLeft: '50%' }} type='checkbox' />
+//       </div>
+//       <div className='col-2'>
+//         <label>Document Name</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Date Received</label>
+//       </div>
+//       <div className='col-1'>
+//         <label>Status</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Data Uplifted</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Uplifted By</label>
+//       </div>
+//       <div className='col-2'>
+//         <label>Comments</label>
+//       </div>
+//     </div>
+            //     </div>*/}
+
+
         </div>
       </div>
     );
