@@ -80,9 +80,10 @@
   width: 80px;
   height: 100vh;
   background-color: #002b5c;
-  position: absolute;
-  top: 0;
+  position: fixed;
   left: 0;
+  top: 0;
+  
 }
 .minisidebar img {
   /* margin-left: 20px;
