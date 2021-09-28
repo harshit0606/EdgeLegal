@@ -8,11 +8,22 @@ import { useCookies } from 'react-cookie';
 import AssociatedContacts from '../safeCustody/associatedContacts';
 import ContactStripe from '../topStripes/ContactStripe';
 
+const filterFields = {
+  contactCode: '',
+  firstName: '',
+  lastName: '',
+  companyName: '',
+  contactType: '',
+  emailAddress: '',
+  telephoneNumber: '',
+};
+
 function Contacts() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
   const [contactLists, setContactLists] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [filterInput, setFilterInput] = useState(filterFields);
 
   useEffect(() => {
     axios
@@ -29,28 +40,51 @@ function Contacts() {
         }
       )
       .then((response) => {
-        console.log(response.data.data);
+        // console.log(response.data.data);
         setContactLists(response.data.data.contactLists);
         setFilteredData(response.data.data.contactLists);
         // setSafeCustodyPackets(response.data.data.safeCustodyPackets);
       });
   }, []);
 
-  const filterData = (prop, val) => {
-    const newData = filteredData.filter((data) =>
-      data[prop].toLowerCase().includes(val.toLowerCase())
+  const filterData = (obj) => {
+    // console.log(obj);
+    const newData = contactLists.filter(
+      (data) =>
+        data['contactCode']
+          .toLowerCase()
+          .includes(obj['contactCode'].toLowerCase()) &&
+        data['firstName']
+          .toLowerCase()
+          .includes(obj['firstName'].toLowerCase()) &&
+        data['lastName']
+          .toLowerCase()
+          .includes(obj['lastName'].toLowerCase()) &&
+        data['companyName']
+          .toLowerCase()
+          .includes(obj['companyName'].toLowerCase()) &&
+        data['contactType']
+          .toLowerCase()
+          .includes(obj['contactType'].toLowerCase()) &&
+        data['emailAddress']
+          .toLowerCase()
+          .includes(obj['emailAddress'].toLowerCase()) &&
+        data['telephoneNumber']
+          .toLowerCase()
+          .includes(obj['telephoneNumber'].toLowerCase())
     );
     setFilteredData(newData);
   };
 
   const handleFilter = (e) => {
     const { name } = e.target;
+    setFilterInput({ ...filterInput, [name]: e.target.value });
+    filterData({ ...filterInput, [name]: e.target.value });
+    // if (e.target.value === '') {
+    //   setFilteredData(contactLists);
+    // } else {
 
-    if (e.target.value === '') {
-      setFilteredData(contactLists);
-    } else {
-      filterData(name, e.target.value);
-    }
+    // }
   };
 
   return (
