@@ -56,7 +56,7 @@ function SafeCustodystripe() {
     <div className="safestrip">
       <p>Safe Custody</p>
       <div className="safe_iconsDiv">
-        <button className="safeadd">Add</button>
+        <button className="safeadd"><span className="plusdiv">+</span>Add</button>
         <img className="safe_iconsDivimg" src={Bell} />
         {/* {renderContactPageButtons()} */}
         {/* <Avatar src={Photo}/> */}

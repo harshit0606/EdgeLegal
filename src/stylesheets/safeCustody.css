@@ -87,16 +87,11 @@
 }
 
 .recepientsTop {
-  width: 25%;
+  width: 270px;
+  display: flex;
 }
 
-.recepientsTop button {
-  background-color: #002b5c;
-  border-radius: 0.4rem;
-  color: white;
-  padding: 0.5% 2%;
-  margin-right: 5%;
-}
+
 
 .safeContacts {
   display: flex;

@@ -186,8 +186,9 @@ function RenderSafeCustody(props) {
         <div className='safeContentsTop'>
           <h5 style={{ fontWeight: 'bold' }}>Receipts for packet no.1</h5>
           <div className='recepientsTop'>
-            <button>Download </button>
+            <button className="custodyAddbtn">Download </button>
             <button
+            className="custodyAddbtn"
               onClick={() => {
                 window.print();
               }}
