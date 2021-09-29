@@ -1,7 +1,7 @@
 import react,{useState} from "react";
 import styles from "../stylesheets/login.css";
 import url from "../config.js";
-
+import Logo from "../icons/edgelogo.png";
 import axios from "axios";
 import {useCookies} from 'react-cookie';
 
@@ -31,9 +31,9 @@ function Login(){
     return (
         <div>
             {/* <div className="container"> */}
-                <div className="loginHeader">Edge Logo</div>
-                <div className="loginCard">
-                    <h2 className="loginTitle">Log in to Edge</h2>
+               <img style={{height:"70px",width:"200px",marginLeft:"20px"}} src={Logo}/>
+                               <div className="loginCard">
+                    <h2 className="loginTitle">Log in to Edge Legal</h2>
                     <form onSubmit={(e)=>{handleSubmit(e)}} >
                         <div className="inputDiv">
                             <label htmlFor='username' className="labelStyle">

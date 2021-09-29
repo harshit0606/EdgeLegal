@@ -11,7 +11,7 @@ import { FiEdit } from "react-icons/fi";
 import { Modal, Button } from "react-bootstrap";
 import "../../stylesheets/profileCard.css";
 import{MdSearch} from "react-icons/md";
-import companyLogo from "../../images/company.png"
+import companyLogo from "../../icons/edgelogo.png"
 function HomeStipe() {
   const [cookies, setCookie, removeCookie, get] = useCookies(["token"]);
   const loggedInToken = cookies.token;

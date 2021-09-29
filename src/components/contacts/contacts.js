@@ -94,6 +94,7 @@ function Contacts() {
         marginLeft: '30px',
         marginRight: '30px',
         paddingBottom: '30px',
+        overflow:"hidden"
       }}
     >
       <div>
@@ -101,17 +102,17 @@ function Contacts() {
       </div>
 
       <div className='row associatedContacts'>
-        <div className='col-1'></div>
+        
         <div className='col-2'>
           <label> Contact Code</label>
           <input type='text' name='contactCode' onChange={handleFilter}></input>
         </div>
         <div className='col-1'>
-          <label>F.Name</label>
+          <label>First Name</label>
           <input type='text' name='firstName' onChange={handleFilter}></input>
         </div>
         <div className='col-1'>
-          <label>L.Name</label>
+          <label>Last Name</label>
           <input type='text' name='lastName' onChange={handleFilter}></input>
         </div>
         <div className='col-2'>
