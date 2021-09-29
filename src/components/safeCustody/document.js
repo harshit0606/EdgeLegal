@@ -1,12 +1,13 @@
 import React, { Fragment } from 'react';
+import moment from 'moment';
 import '../../stylesheets/safeCustody.css';
 
 const Document = (props) => {
-  console.log(props?.reciepts);
-  const { reciepts } = props;
+  // console.log(props?.data);
+  const { data } = props;
   return (
     <Fragment>
-      {reciepts.map((reciept) => (
+      {data?.custodyPacketAttachments?.map((d) => (
         <div
           className='row'
           style={{
@@ -19,22 +20,22 @@ const Document = (props) => {
             <input style={{ marginLeft: '50%' }} type='checkbox' />
           </div>
           <div className='col-2'>
-            <label>Document Name</label>
+            <label>{d.name ? d.name : 'name'}</label>
           </div>
           <div className='col-2'>
-            <label>Date Received</label>
+            <label>{d.dateReceived ? d.dateReceived : 'date'}</label>
           </div>
           <div className='col-1'>
-            <label>Status</label>
+            <label>{data.status}</label>
           </div>
           <div className='col-2'>
-            <label>Data Uplifted</label>
+            <label>{moment(d.uploadDate).format('Do MMM, YYYY')}</label>
           </div>
           <div className='col-2'>
-            <label>Uplifted By</label>
+            <label>{d.uploadedBy}</label>
           </div>
           <div className='col-2'>
-            <label>Comments</label>
+            <label>{d.comment ? d.comment : 'comment'}</label>
           </div>
         </div>
       ))}
