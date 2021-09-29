@@ -17,6 +17,7 @@ import {
 import SafeStripe from '../topStripes/SafeStripe';
 
 import { Link } from 'react-router-dom';
+import AddCustodyForm from './AddCustodyForm';
 
 const filterFields = {
   contactCode: '',
@@ -34,10 +35,11 @@ function RenderSafeCustody(props) {
   const { id } = props.match.params;
   const [safeCustodyPackets, setSafeCustodyPackets] = useState(null);
   const [custodyPacketContacts, setCustodyPacketContacts] = useState([]);
-  const [custodyPacketReciepts, setCustodyPacketReciepts] = useState([]);
+  const [custodyPacket, setCustodyPacket] = useState({});
   const [filteredData, setFilteredData] = useState([]);
   const [filterInput, setFilterInput] = useState(filterFields);
   const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
+  const [isAddCustodyOpen, setIsAddCustoduOpen] = useState(false);
 
   useEffect(() => {
     axios
@@ -54,12 +56,17 @@ function RenderSafeCustody(props) {
         }
       )
       .then((response) => {
-        console.log(response.data.data.custodyPacketContacts);
+        console.log(response.data.data);
         setCustodyPacketContacts(response.data?.data?.custodyPacketContacts);
-        setCustodyPacketReciepts(response.data?.data?.custodyPacketReciepts);
+        setCustodyPacket(response.data?.data);
         setFilteredData(response.data?.data?.custodyPacketContacts);
       });
   }, []);
+
+  const handleAddCustody = () => {
+    setIsAddCustoduOpen(true);
+    console.log('add');
+  };
 
   const handleShowContacts = () => {
     axios
@@ -465,9 +472,7 @@ function RenderSafeCustody(props) {
         <div className='associatedDocs'>
           <h6 style={{ fontWeight: 'bold' }}>Associated documents</h6>
           <div className='custodyPageBtns' style={{ width: '48%' }}>
-            <button data-bs-toggle='modal' data-bs-target='#staticBackdrop'>
-              ADD
-            </button>
+            <button onClick={handleAddCustody}>ADD</button>
             <button>DELETE</button>
             <button>DOWNLOAD</button>
             <button
@@ -479,7 +484,9 @@ function RenderSafeCustody(props) {
             </button>
           </div>
         </div>
-        <AddCustodyPopup />
+        {isAddCustodyOpen && (
+          <AddCustodyForm closeForm={() => setIsAddCustoduOpen(false)} />
+        )}
         <div className='row associatedDocsHead'>
           <div className='col-1'></div>
           <div className='col-2'>
@@ -502,9 +509,9 @@ function RenderSafeCustody(props) {
           </div>
         </div>
         <div>
-          <Document reciepts={custodyPacketReciepts} />
+          <Document data={custodyPacket} />
 
-{/*
+          {/*
 //         <div className="contacttdatadiv">
 //         <div className='row' >
 //         <div className='col-1'>
@@ -605,8 +612,6 @@ function RenderSafeCustody(props) {
 //       </div>
 //     </div>
             //     </div>*/}
-
-
         </div>
       </div>
     );
@@ -637,7 +642,7 @@ function RenderSafeCustody(props) {
           </div>
         </div>
         <div>
-          <Document reciepts={custodyPacketReciepts} />
+          <Document data={custodyPacket} />
         </div>
       </div>
     );

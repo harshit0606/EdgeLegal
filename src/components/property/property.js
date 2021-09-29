@@ -32,7 +32,11 @@ function RenderProperty() {
       var dataArray = [];
       data.forEach((d) => {
         const propertyAddress = `${d.unit}/ ${d.streetNo}/ ${d.street}/ ${d.suburb}/ ${d.state}/ ${d.postCode}/ ${d.country}`;
-        dataArray.push({ titleRef: 'title', address: propertyAddress });
+        dataArray.push({
+          titleRef: 'title',
+          address: propertyAddress,
+          id: d.id,
+        });
       });
       setAllProperties(dataArray);
       setFilteredData(dataArray);
@@ -136,7 +140,7 @@ function RenderProperty() {
   function renderAllProperties() {
     // console.log('all properties', allProperties);
 
-    return filteredData?.map((property,index) => {
+    return filteredData?.map((property, index) => {
       // const propertyAddress =
       //   '' +
       //   property.unit +
@@ -152,19 +156,19 @@ function RenderProperty() {
       //   property.postCode +
       //   '/ ' +
       //   property.country;
-      if(index%2==0)
-      return (
-        <div
-          className='row contacttdatadiv'
-          onClick={() => {
-            fetchPropertyData(property.id);
-          }}
-        >
-          <h6 className='col-4'>{property.titleRef}</h6>
-          <h6 className='col-8'>{property.address}</h6>
-        </div>
-      );
-      else{
+      if (index % 2 == 0)
+        return (
+          <div
+            className='row contacttdatadiv'
+            onClick={() => {
+              fetchPropertyData(property.id);
+            }}
+          >
+            <h6 className='col-4'>{property.titleRef}</h6>
+            <h6 className='col-8'>{property.address}</h6>
+          </div>
+        );
+      else {
         return (
           <div
             className='row lightcontacttdatadiv'
@@ -336,7 +340,7 @@ function RenderProperty() {
               >
                 Search
               </button>*/}
-              <br/>
+              <br />
               <div className='row'></div>
               {renderAllProperties()}
             </div>
