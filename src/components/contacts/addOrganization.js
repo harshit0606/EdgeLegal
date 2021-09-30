@@ -5,7 +5,6 @@ import { useCookies } from 'react-cookie';
 import '../../stylesheets/contacts.css';
 
 const initialData = {
-  id: '',
   type: '',
   subType: '',
   legalName: '',
@@ -66,7 +65,6 @@ function AddOrganization(props) {
           }
         );
         console.log(data);
-        setOrganizationDetails({ ...organizationDetails, id: data.id });
         setOtherDetails({
           ...otherDetails,
           companyId: data?.organizationId,
