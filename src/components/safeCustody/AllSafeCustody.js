@@ -173,78 +173,70 @@ function AllSafeCustody() {
           </div>
         </div>
         <div>
-        {safeCustodyPackets?.map((packet,index) => {            
-          if(index % 2 == 0)
-            return(
-              <Link
-              style={{ textDecoration: 'none' }}
-              to={`/home/safecustody/${packet.id}`}
-            >
-              <div className="contacttdatadiv">
-              <div className='row '>
-              <div className='col-1'>
-                <input style={{marginLeft:"20px"}} type='checkbox' />
-              </div>
-              <div className='col-2'>
-                <h6>{packet.siteName}</h6>
-              </div>
-              <div className='col-2'>
-                <h6>{packet.packetNumber}</h6>
-              </div>
-              <div className='col-2'>
-                <h6>{packet.companyName}</h6>
-              </div>
-              <div className='col-2'>
-                <h6>{packet.status}</h6>
-              </div>
-              <div className='col-3'>
-                <h6>{'comments'}</h6>
-              </div>
-            </div>
-             </div>
-             </Link>
-          );
-         else{
-           return(
-            <Link
-            style={{ textDecoration: 'none' }}
-            to={`/home/safecustody/${packet.id}`}
-          >
-            <div className="lightcontacttdatadiv">
-            <div className='row '>
-            <div className='col-1'>
-              <input style={{marginLeft:"20px"}} type='checkbox' />
-            </div>
-            <div className='col-2'>
-              <h6>{packet.siteName}</h6>
-            </div>
-            <div className='col-2'>
-              <h6>{packet.packetNumber}</h6>
-            </div>
-            <div className='col-2'>
-              <h6>{packet.companyName}</h6>
-            </div>
-            <div className='col-2'>
-              <h6>{packet.status}</h6>
-            </div>
-            <div className='col-3'>
-              <h6>{'comments'}</h6>
-            </div>
-          </div>
-           </div>
-           </Link>
-          
-        );
-          }
-    
-        
-        }
-    )
-      }
-      </div>
-
-
-          
+          {safeCustodyPackets?.map((packet, index) => {
+            if (index % 2 == 0)
+              return (
+                <Link
+                  style={{ textDecoration: 'none' }}
+                  to={`/home/safecustody/${packet.id}`}
+                >
+                  <div className='contacttdatadiv'>
+                    <div className='row '>
+                      <div className='col-1'>
+                        <input style={{ marginLeft: '20px' }} type='checkbox' />
+                      </div>
+                      <div className='col-2'>
+                        <h6>{packet.siteName}</h6>
+                      </div>
+                      <div className='col-2'>
+                        <h6>{packet.packetNumber}</h6>
+                      </div>
+                      <div className='col-2'>
+                        <h6>{packet.companyName}</h6>
+                      </div>
+                      <div className='col-2'>
+                        <h6>{packet.status}</h6>
+                      </div>
+                      <div className='col-3'>
+                        <h6>{'comments'}</h6>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              );
+            else {
+              return (
+                <Link
+                  style={{ textDecoration: 'none' }}
+                  to={`/home/safecustody/${packet.id}`}
+                >
+                  <div className='lightcontacttdatadiv'>
+                    <div className='row '>
+                      <div className='col-1'>
+                        <input style={{ marginLeft: '20px' }} type='checkbox' />
+                      </div>
+                      <div className='col-2'>
+                        <h6>{packet.siteName}</h6>
+                      </div>
+                      <div className='col-2'>
+                        <h6>{packet.packetNumber}</h6>
+                      </div>
+                      <div className='col-2'>
+                        <h6>{packet.companyName}</h6>
+                      </div>
+                      <div className='col-2'>
+                        <h6>{packet.status}</h6>
+                      </div>
+                      <div className='col-3'>
+                        <h6>{'comments'}</h6>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              );
+            }
+          })}
+        </div>
       </div>
     );
   }
