@@ -54,7 +54,6 @@ function AddPerson(props) {
     siteId: '',
   });
   const [sameAddress, setSameAddress] = useState(false);
-  // const [userProfile, setUserProfile] = useState({});
   const [boolVal, setBoolVal] = useState(false);
 
   useEffect(async () => {

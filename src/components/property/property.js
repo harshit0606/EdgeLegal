@@ -36,6 +36,7 @@ function RenderProperty() {
           titleRef: 'title',
           address: propertyAddress,
           id: d.id,
+          details: d,
         });
       });
       setAllProperties(dataArray);
@@ -133,13 +134,14 @@ function RenderProperty() {
         }
       )
       .then((response) => {
+        setBoolVal(false);
         console.log(response.data);
+        window.location.reload();
       });
   }
 
   function renderAllProperties() {
     // console.log('all properties', allProperties);
-
     return filteredData?.map((property, index) => {
       // const propertyAddress =
       //   '' +
@@ -156,59 +158,35 @@ function RenderProperty() {
       //   property.postCode +
       //   '/ ' +
       //   property.country;
-      if (index % 2 == 0)
-        return (
-          <div
-            className='row contacttdatadiv'
-            onClick={() => {
-              fetchPropertyData(property.id);
-            }}
-          >
-            <h6 className='col-4'>{property.titleRef}</h6>
-            <h6 className='col-8'>{property.address}</h6>
-          </div>
-        );
-      else {
-        return (
-          <div
-            className='row lightcontacttdatadiv'
-            onClick={() => {
-              fetchPropertyData(property.id);
-            }}
-          >
-            <h6 className='col-4'>{property.titleRef}</h6>
-            <h6 className='col-8'>{property.address}</h6>
-          </div>
-        );
-      }
+      // console.log(property.details);
+      return (
+        <div
+          className={`row ${
+            index % 2 === 0 ? 'contacttdatadiv' : 'lightcontacttdatadiv'
+          }`}
+          onClick={() => {
+            fetchPropertyData(property.details);
+          }}
+        >
+          <h6 className='col-4'>{property.titleRef}</h6>
+          <h6 className='col-8'>{property.address}</h6>
+        </div>
+      );
     });
   }
 
-  function fetchPropertyData(id) {
+  function fetchPropertyData(details) {
+    console.log('details', details);
+    setSpecificProperty(details);
+    setRegisteredLots(details.registeredProperties);
+    setUnregisteredLots(details.unregisteredProperties);
+
     document.getElementById('searchPropertyDiv').classList.add('hideSection');
     document.getElementById('mainPropertyDiv').classList.remove('hideSection');
-    axios
-      .get(
-        `${url}/api/property/${id}?requestId=1234567`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        console.log(response.data.data);
-        setSpecificProperty(response.data.data);
-        setRegisteredLots(response.data.data.registeredProperties);
-        setUnregisteredLots(response.data.data.unregisteredProperties);
-      });
   }
 
   function backToSearch() {
+    setSpecificProperty(null);
     document
       .getElementById('searchPropertyDiv')
       .classList.remove('hideSection');
@@ -266,11 +244,12 @@ function RenderProperty() {
         }
       )
       .then((response) => {
-        console.log('property update response', response.data);
+        // console.log('property update response', response.data);
+        // setSpecificProperty(dataToBeSent);
+        window.location.reload();
       });
-    console.log('update property', dataToBeSent);
+    // console.log('update property', dataToBeSent);
     //console.log("update property", specificProperty);
-    setSpecificProperty(dataToBeSent);
   }
 
   return (

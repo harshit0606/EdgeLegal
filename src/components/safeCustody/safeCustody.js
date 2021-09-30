@@ -56,7 +56,7 @@ function RenderSafeCustody(props) {
         }
       )
       .then((response) => {
-        console.log(response.data.data);
+        console.log('all data', response.data.data);
         setCustodyPacketContacts(response.data?.data?.custodyPacketContacts);
         setCustodyPacket(response.data?.data);
         setFilteredData(response.data?.data?.custodyPacketContacts);
@@ -65,7 +65,6 @@ function RenderSafeCustody(props) {
 
   const handleAddCustody = () => {
     setIsAddCustoduOpen(true);
-    console.log('add');
   };
 
   const handleShowContacts = () => {
