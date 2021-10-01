@@ -20,6 +20,14 @@
     color:#1F252C;
     
 }
+.col-2{
+    text-overflow: ellipsis " [..]"!important;
+}
+.col-2 p{
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
 .lightcontacttdatadiv{
     height: 50px;
       padding-top: 15px;

@@ -265,7 +265,7 @@ function RenderProperty() {
                   data-bs-toggle='modal'
                   data-bs-target='#staticBackdrop3'
                 >
-                  + Add New
+                <span className="plusdiv">+</span>Add New
                 </button>
                 <AddNewProperty
                   isEditTrue={isEditTrue}

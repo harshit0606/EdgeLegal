@@ -107,7 +107,7 @@ right: 10px;
     border-radius: 0.4rem;
     color: black;
     border: none;
-    padding: 0.4% 10px;
+    padding: 5px 10px;
     margin-right: 10px;
     font-size: 16px;
     width: fit-content;
@@ -135,16 +135,13 @@ right: 10px;
     
 }
 .editprofileDiv{
-    height: 400px;
+    height: 300px;
     padding:10px 30px;
 }
 .editprofileDiv h3{
     text-align: center;
 }
-.editnamediv input{
-    margin-right: 20px!important;
-    width: 100%;
-}
+
 .EditProfileBtn{
     background-color: #002b5c;
   border-radius: 0.4rem;
@@ -152,7 +149,16 @@ right: 10px;
   color: white;
   padding: 6px 20px;
   margin-top: 20px;
-  margin-left: 45%;
+  margin-left:82%;
+  
+}
+.editProfile-input{
+    padding: 5px 10px;
+    border: none;
+    border: 1px solid lightgray;
+    margin:10px 10px;
+    width:95%;
+    outline: none;
 }
 .searchhdiv{
     display: flex;

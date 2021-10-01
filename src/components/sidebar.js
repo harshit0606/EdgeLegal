@@ -8,10 +8,11 @@ import contacts from '../icons/contacts.png';
 import { Link } from 'react-router-dom';
 import '../stylesheets/sidebar.css';
 function Sidebar(props) {
-  const mainSidebar = document.querySelector('#side');
-  const minisidebar = document.querySelector('.minisidebar');
 
   function handleCollapse(e) {
+    const mainSidebar = document.querySelector('#side');
+    const minisidebar = document.querySelector('.minisidebar');
+    
     e.preventDefault();
     if (props.collapse == false) {
       if (mainSidebar) mainSidebar.classList.add('collapsse');

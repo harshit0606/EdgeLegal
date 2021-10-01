@@ -101,47 +101,28 @@ function HomeStipe() {
           <Modal show={show} onHide={handleClose}>
             <Modal.Body>
               <div className="editprofileDiv">
+
                 <h3>Edit Details</h3>
+                <p style={{fontSize:"20px" ,cursor:"pointer",position:"absolute",top:"10px",right:"20px"}} onClick={handleClose}>&#10006;</p>
                 <div className="editnamediv">
                 <div class="row">
-                <div class="col-12">
-                <label> First Name</label> </div>
-                <div class="col-12">
-                  <input/></div> 
-                <div class="col-12">
-                <label>Second Name</label></div>
+                    <div class="col-12">
+                  <input className="editProfile-input" placeholder="Current Password"/></div> 
                 </div>
                 <div class="row">
                 <div class="col-12">
-                <input /><br/></div>
+                <input className="editProfile-input" placeholder="New Password" /><br/></div>
                
                 </div>
                   <div class="row">
                   <div class="col-12">
-                  <label>Email</label>
+                  <input className="editProfile-input" placeholder="Confirm Password"/>
                   </div>
-                  <div class="col-12">
-                  <input/>
-                  </div>
-                  </div>
-                  <div class="row">
-                  <div class="col-12">
-                  <label>Phone</label>
-                  </div>
-                  <div class="col-12">
-                  <input/>
-                  </div>
-                  </div>
-                  <div class="row">
-                  <div class="col-12">
-                  <label>Password</label>
-                  </div>
-                  <div class="col-12">
-                  <input/>
-                  </div>
-                  </div>
+                  
                 </div>
                 <button className="EditProfileBtn">Edit</button>
+             
+              </div>
               </div>
             </Modal.Body>
           </Modal>
