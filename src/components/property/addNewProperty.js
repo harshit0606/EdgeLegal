@@ -1,5 +1,5 @@
-import react, { useState } from 'react';
-import styles from '../../stylesheets/property.css';
+import React, { useState } from 'react';
+import '../../stylesheets/property.css';
 import axios from 'axios';
 
 import PopupFormR from './popupformR.js';
