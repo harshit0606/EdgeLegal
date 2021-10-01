@@ -1,23 +1,81 @@
 import React, { useState } from 'react';
+import moment from 'moment';
+import axios from 'axios';
 import Dropzone from 'react-dropzone';
 import closeBtn from '../../images/close-white-btn.svg';
 import '../../stylesheets/AddCustodyForm.css';
+import url from '../../config.js';
+import { useCookies } from 'react-cookie';
 
 const initialData = {
-  id: '',
   name: '',
-  safeCustodyPacketId: '',
-  path: '',
-  type: '',
-  documentHeld: '',
-  deliveredTo: '',
-  recieptId: '',
+  safeCustodyPacketId: 1, // will make it dynamic later because now it is coming in custodyPacketContact
   dateOfDocument: '',
   dateReceived: '',
+  comments: '',
 };
 
 const AddCustodyForm = (props) => {
   const { closeForm } = props;
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const loggedInToken = cookies.token;
+  const [formData, setFormData] = useState(initialData);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [fileName, setFileName] = useState('');
+
+  const handleFormChange = (e) => {
+    const { name } = e.target;
+    setFormData({ ...formData, [name]: e.target.value });
+  };
+
+  const handleUploadFile = (acceptedFile) => {
+    setUploadedFile(acceptedFile[0]);
+    setFileName(acceptedFile[0].name);
+    setFormData({
+      ...formData,
+      dateReceived: moment(new Date()).format('YYYY-MM-DD'),
+    });
+    // console.log(acceptedFile[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    var inputData = new FormData();
+    if (uploadedFile) {
+      const data = {
+        requestId: 11223,
+        data: {
+          ...formData,
+        },
+      };
+      inputData.append('custodyAttachment', data);
+      inputData.append('attachment', uploadedFile);
+      try {
+        const { data } = await axios.post(
+          `${url}/api/safecustody/attachment`,
+          inputData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${loggedInToken}`,
+            },
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        // console.log(data);
+        setFormData(initialData);
+        setUploadedFile(null);
+        setFileName('');
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      alert('Please upload file');
+    }
+  };
+
   return (
     <div className='addCustody-popup-container'>
       <div className='addCustody-popup-grid'>
@@ -29,7 +87,7 @@ const AddCustodyForm = (props) => {
           </button>
         </div>
         <div className='addCustody-dropzone-div'>
-          <Dropzone>
+          <Dropzone onDrop={handleUploadFile}>
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps({ className: 'addCustody-dropzone' })}>
                 <input {...getInputProps()} />
@@ -37,26 +95,28 @@ const AddCustodyForm = (props) => {
               </div>
             )}
           </Dropzone>
+          <span>{fileName}</span>
         </div>
         <div className='addCustody-datePicker'>
           <div className='date-input-div'>
             <label htmlFor='date-received'>Date Received</label>
             <input
               type='date'
-              name='date-received'
-              // value={formData.employer_extract_date}
-              // onChange={handleFormChange}
+              name='dateReceived'
+              disabled
+              value={formData.dateReceived}
+              onChange={handleFormChange}
               className='date-input'
             />
           </div>
           <div className='date-input-div'>
-            <label htmlFor='date-received'>Date of document</label>
+            <label htmlFor='date-of-document'>Date of document</label>
             <input
               type='date'
-              name='date-received'
+              name='dateOfDocument'
               className='date-input'
-              // value={formData.employer_extract_date}
-              // onChange={handleFormChange}
+              value={formData.dateOfDocument}
+              onChange={handleFormChange}
             />
           </div>
         </div>
@@ -64,10 +124,10 @@ const AddCustodyForm = (props) => {
           <label htmlFor='document-name'>Document name</label>
           <input
             type='text'
-            name='document-name'
+            name='name'
             className='document-name'
-            // value={formData.employer_extract_date}
-            // onChange={handleFormChange}
+            value={fileName}
+            onChange={handleFormChange}
           />
         </div>
         <div className='addCustody-endDiv'>
@@ -76,15 +136,17 @@ const AddCustodyForm = (props) => {
             <textarea
               rows='4'
               cols='50'
-              name='comment'
+              name='comments'
               className='comment'
-              // value={formData.employer_extract_date}
-              // onChange={handleFormChange}
+              value={formData.comments}
+              onChange={handleFormChange}
             />
           </div>
           <div className='addCustody-buttonDiv'>
             <button className='cancelButton'>Cancel</button>
-            <button className='addButton'>Add</button>
+            <button className='addButton' onClick={handleSubmit}>
+              Add
+            </button>
           </div>
         </div>
       </div>
