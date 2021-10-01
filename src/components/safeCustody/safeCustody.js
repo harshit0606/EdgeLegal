@@ -369,7 +369,7 @@ function RenderSafeCustody(props) {
       <div>
         <div>
           <div className='row associatedContacts'>
-            <div className='col-1'></div>
+            
             <div className='col-2'>
               <label> Code</label>
               <input
