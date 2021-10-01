@@ -146,7 +146,7 @@ function RenderSafeCustody(props) {
       <div>
         <div className='safeContacts'>
           <div>
-            <h6 style={{ color: '#ACB8C9' }}>Contacts for packet no.1</h6>
+            
             <h5 style={{ fontWeight: 'bold' }}>Associated Contacts</h5>
           </div>
           <div className='custodyPageBtns' style={{ paddingTop: '2%' }}>
@@ -652,7 +652,7 @@ function RenderSafeCustody(props) {
             }}
           >
             {' '}
-            Recepients
+            Receipts
           </button>
           <br />
         </div>
