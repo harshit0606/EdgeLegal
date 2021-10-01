@@ -17,6 +17,17 @@ import {
 import SafeStripe from '../topStripes/SafeStripe';
 
 import { Link } from 'react-router-dom';
+import AddCustodyForm from './AddCustodyForm';
+
+const filterFields = {
+  contactCode: '',
+  firstName: '',
+  lastName: '',
+  companyName: '',
+  contactType: '',
+  emailAddress: '',
+  telephoneNumber: '',
+};
 
 function RenderSafeCustody(props) {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
@@ -24,9 +35,11 @@ function RenderSafeCustody(props) {
   const { id } = props.match.params;
   const [safeCustodyPackets, setSafeCustodyPackets] = useState(null);
   const [custodyPacketContacts, setCustodyPacketContacts] = useState([]);
-  const [custodyPacketReciepts, setCustodyPacketReciepts] = useState([]);
+  const [custodyPacket, setCustodyPacket] = useState({});
   const [filteredData, setFilteredData] = useState([]);
+  const [filterInput, setFilterInput] = useState(filterFields);
   const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
+  const [isAddCustodyOpen, setIsAddCustoduOpen] = useState(false);
 
   useEffect(() => {
     axios
@@ -43,12 +56,16 @@ function RenderSafeCustody(props) {
         }
       )
       .then((response) => {
-        console.log(response.data.data);
+        console.log('all data', response.data.data);
         setCustodyPacketContacts(response.data?.data?.custodyPacketContacts);
-        setCustodyPacketReciepts(response.data?.data?.custodyPacketReciepts);
+        setCustodyPacket(response.data?.data);
         setFilteredData(response.data?.data?.custodyPacketContacts);
       });
   }, []);
+
+  const handleAddCustody = () => {
+    setIsAddCustoduOpen(true);
+  };
 
   const handleShowContacts = () => {
     axios
@@ -72,30 +89,68 @@ function RenderSafeCustody(props) {
       });
   };
 
-  const filterData = (prop, val) => {
-    const newData = filteredData.filter((data) =>
-      data.contactDetails[prop].toLowerCase().includes(val.toLowerCase())
+  // const filterData = (prop, val) => {
+  //   const newData = filteredData.filter((data) =>
+  //     data.contactDetails[prop].toLowerCase().includes(val.toLowerCase())
+  //   );
+  //   setFilteredData(newData);
+  // };
+
+  // // const filterDataByType = (prop, val) => {
+  // //   const newData = custodyPacketContacts.filter((data) => data[prop].includes(val));
+  // //   setFilteredData(newData);
+  // // };
+
+  // const handleFilter = (e) => {
+  //   const { name } = e.target;
+  //   // setFormData({ ...formData, [name]: e.target.value });
+  //   // if(name==='contactType'){
+  //   //   filterDataByType(name, e.target.value);
+  //   // }
+
+  //   if (e.target.value === '') {
+  //     setFilteredData(custodyPacketContacts);
+  //   } else {
+  //     filterData(name, e.target.value);
+  //   }
+  // };
+
+  const filterData = (obj) => {
+    // console.log(obj);
+    const newData = custodyPacketContacts.filter(
+      (data) =>
+        data.contactDetails['contactCode']
+          .toLowerCase()
+          .includes(obj['contactCode'].toLowerCase()) &&
+        data.contactDetails['firstName']
+          .toLowerCase()
+          .includes(obj['firstName'].toLowerCase()) &&
+        data.contactDetails['lastName']
+          .toLowerCase()
+          .includes(obj['lastName'].toLowerCase()) &&
+        data.contactDetails['companyName']
+          .toLowerCase()
+          .includes(obj['companyName'].toLowerCase()) &&
+        data.contactDetails['emailAddress']
+          .toLowerCase()
+          .includes(obj['emailAddress'].toLowerCase()) &&
+        data.contactDetails['telephoneNumber']
+          .toLowerCase()
+          .includes(obj['telephoneNumber'].toLowerCase())
     );
     setFilteredData(newData);
   };
 
-  // const filterDataByType = (prop, val) => {
-  //   const newData = custodyPacketContacts.filter((data) => data[prop].includes(val));
-  //   setFilteredData(newData);
-  // };
-
   const handleFilter = (e) => {
     const { name } = e.target;
-    // setFormData({ ...formData, [name]: e.target.value });
-    // if(name==='contactType'){
-    //   filterDataByType(name, e.target.value);
-    // }
+    setFilterInput({ ...filterInput, [name]: e.target.value });
+    filterData({ ...filterInput, [name]: e.target.value });
+    // console.log(filteredData);
+    // if (e.target.value === '') {
+    //   setFilteredData(contactLists);
+    // } else {
 
-    if (e.target.value === '') {
-      setFilteredData(custodyPacketContacts);
-    } else {
-      filterData(name, e.target.value);
-    }
+    // }
   };
 
   function renderSafeSelectTop() {
@@ -251,64 +306,59 @@ function RenderSafeCustody(props) {
         </div>
         <div>
           {/** */}
-          {safeCustodyPackets?.map((packet,index) => {            
-            if(index % 2 == 0)
-              return(
-                <div className="contacttdatadiv">
-                <div className='row '>
-                <div className='col-1'>
-                  <input type='checkbox' />
+          {safeCustodyPackets?.map((packet, index) => {
+            if (index % 2 == 0)
+              return (
+                <div className='contacttdatadiv'>
+                  <div className='row '>
+                    <div className='col-1'>
+                      <input type='checkbox' />
+                    </div>
+                    <div className='col-2'>
+                      <h6>{packet.siteName}</h6>
+                    </div>
+                    <div className='col-2'>
+                      <h6>{packet.packetNumber}</h6>
+                    </div>
+                    <div className='col-2'>
+                      <h6>{packet.companyName}</h6>
+                    </div>
+                    <div className='col-2'>
+                      <h6>{packet.status}</h6>
+                    </div>
+                    <div className='col-3'>
+                      <h6>{'comments'}</h6>
+                    </div>
+                  </div>
                 </div>
-                <div className='col-2'>
-                  <h6>{packet.siteName}</h6>
+              );
+            else {
+              return (
+                <div className='lightcontacttdatadiv'>
+                  <div className='row '>
+                    <div className='col-1'>
+                      <input type='checkbox' />
+                    </div>
+                    <div className='col-2'>
+                      <h6>{packet.siteName}</h6>
+                    </div>
+                    <div className='col-2'>
+                      <h6>{packet.packetNumber}</h6>
+                    </div>
+                    <div className='col-2'>
+                      <h6>{packet.companyName}</h6>
+                    </div>
+                    <div className='col-2'>
+                      <h6>{packet.status}</h6>
+                    </div>
+                    <div className='col-3'>
+                      <h6>{'comments'}</h6>
+                    </div>
+                  </div>
                 </div>
-                <div className='col-2'>
-                  <h6>{packet.packetNumber}</h6>
-                </div>
-                <div className='col-2'>
-                  <h6>{packet.companyName}</h6>
-                </div>
-                <div className='col-2'>
-                  <h6>{packet.status}</h6>
-                </div>
-                <div className='col-3'>
-                  <h6>{'comments'}</h6>
-                </div>
-              </div>
-               </div>
-            );
-           else{
-             return(
-              <div className="lightcontacttdatadiv">
-              <div className='row '>
-              <div className='col-1'>
-                <input type='checkbox' />
-              </div>
-              <div className='col-2'>
-                <h6>{packet.siteName}</h6>
-              </div>
-              <div className='col-2'>
-                <h6>{packet.packetNumber}</h6>
-              </div>
-              <div className='col-2'>
-                <h6>{packet.companyName}</h6>
-              </div>
-              <div className='col-2'>
-                <h6>{packet.status}</h6>
-              </div>
-              <div className='col-3'>
-                <h6>{'comments'}</h6>
-              </div>
-            </div>
-             </div>
-            
-          );
+              );
             }
-      
-          
-          }
-      )
-        }
+          })}
         </div>
       </div>
     );
@@ -422,9 +472,7 @@ function RenderSafeCustody(props) {
         <div className='associatedDocs'>
           <h6 style={{ fontWeight: 'bold' }}>Associated documents</h6>
           <div className='custodyPageBtns' style={{ width: '48%' }}>
-            <button data-bs-toggle='modal' data-bs-target='#staticBackdrop'>
-              ADD
-            </button>
+            <button onClick={handleAddCustody}>ADD</button>
             <button>DELETE</button>
             <button>DOWNLOAD</button>
             <button
@@ -436,7 +484,9 @@ function RenderSafeCustody(props) {
             </button>
           </div>
         </div>
-        <AddCustodyPopup />
+        {isAddCustodyOpen && (
+          <AddCustodyForm closeForm={() => setIsAddCustoduOpen(false)} />
+        )}
         <div className='row associatedDocsHead'>
           <div className='col-1'></div>
           <div className='col-2'>
@@ -459,9 +509,9 @@ function RenderSafeCustody(props) {
           </div>
         </div>
         <div>
+          <Document data={custodyPacket} />
 
-          <Document reciepts={custodyPacketReciepts} />
-{/*
+          {/*
 //         <div className="contacttdatadiv">
 //         <div className='row' >
 //         <div className='col-1'>
@@ -562,7 +612,6 @@ function RenderSafeCustody(props) {
 //       </div>
 //     </div>
             //     </div>*/}
-
         </div>
       </div>
     );
@@ -593,7 +642,7 @@ function RenderSafeCustody(props) {
           </div>
         </div>
         <div>
-          <Document reciepts={custodyPacketReciepts} />
+          <Document data={custodyPacket} />
         </div>
       </div>
     );

@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import closeBtn from '../../images/close-white-btn.svg';
 import '../../stylesheets/AddCustodyForm.css';
+
+const initialData = {
+  id: '',
+  name: '',
+  safeCustodyPacketId: '',
+  path: '',
+  type: '',
+  documentHeld: '',
+  deliveredTo: '',
+  recieptId: '',
+  dateOfDocument: '',
+  dateReceived: '',
+};
 
 const AddCustodyForm = (props) => {
   const { closeForm } = props;
