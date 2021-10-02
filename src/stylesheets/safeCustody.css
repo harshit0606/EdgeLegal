@@ -28,15 +28,21 @@
   height: 80vh;
 }
 
-.contentsInfo input {
-  width: 60%;
-  border: none;
-  font-weight: bold;
+.contentsInfo{
+  display: flex;
+width:1000px;
 }
 
-.contentsInfo label {
-  width: 100%;
+.contentsInfo span {
+  flex:0.3;
   color: #a0a5aa;
+}
+.contentsInfo p {
+  flex:0.7;
+  
+}
+.data-show-div{
+  display: flex;
 }
 
 .safeContentsTop {

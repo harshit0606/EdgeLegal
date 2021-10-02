@@ -33,6 +33,7 @@
     margin-right: 2%;
     width: 110px;
     display: flex;
+    justify-content: center;    
     font-size: 14px;
 }
 

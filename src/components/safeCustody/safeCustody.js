@@ -384,7 +384,7 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
             <div className="col-1">
-              <label>F.Name</label>
+              <label>First Name</label>
               <input
                 type="text"
                 name="firstName"
@@ -392,7 +392,7 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
             <div className="col-1">
-              <label>L.Name</label>
+              <label>Last Name</label>
               <input
                 type="text"
                 name="lastName"
@@ -445,32 +445,30 @@ function RenderSafeCustody(props) {
       <div>
         <div>
           <div style={{ padding: "2.5%" }} className="row">
-            <div className="col-4">
+            <div className="col-12">
               <div style={{ display: "flex", alignItems: "center" }}>
                 <label
                   for="contents"
-                  style={{ marginRight: "5%", color: "#A0A5AA" }}
+                  style={{ marginRight: "5%", color: "#A0A5AA",}}
                 >
                   Contents
                 </label>
-                <textarea rows="2" cols="25" id="contents"></textarea>
+                <textarea rows="2" cols="100" id="contents"></textarea>
               </div>
+              <br></br>
             </div>
-            <div className="col-8 contentsInfo">
-              <div className="d-flex">
-                <label>First Name:</label>
-                <input value="hello" type="text" />
-                <label>Last Name:</label>
-                <input value="hello" type="text" />
-                <label>Contact Type:</label>
-                <input value="hello" type="text" />
+            <div className="contentsInfo">
+              <div style={{marginRight:"90px",display:"flex",flexDirection:"column",width:"500px"}} >
+              <div className="data-show-div"><span>First Name : </span><p>firstname</p></div>
+              <div className="data-show-div"><span>Last Name : </span><p> lastname</p></div>
+              <div className="data-show-div"><span>Contact Type : </span> <p> type</p></div>
               </div>
-              <div className="row">
-                <div>
-                  <label style={{ width: "10%" }}>Address:</label>
-                  <input value="hello" type="text" />
+              
+                <div style={{width:"500px",flexWrap:"wrap"}}>
+                <div className="data-show-div"><span>Address:</span><p>full address</p></div>
+                  
                 </div>
-              </div>
+              
             </div>
           </div>
         </div>

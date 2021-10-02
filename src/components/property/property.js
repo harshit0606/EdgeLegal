@@ -330,7 +330,7 @@ function RenderProperty() {
             <div>
               <div className='propertyPageHeadings'>
                 <h6 className='propertyPageHeads'>Property</h6>
-                <div style={{ width: '350px' }}>
+                <div style={{ width: '350px',display:"flex" }}>
                   <button
                     className='propertyPageBtns'
                     onClick={() => {
