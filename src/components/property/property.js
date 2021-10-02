@@ -28,12 +28,12 @@ function RenderProperty() {
 
   useEffect(() => {
     const propertyData = (data) => {
-      // console.log('data', data);
+      console.log('data', data);
       var dataArray = [];
       data.forEach((d) => {
         const propertyAddress = `${d.unit}/ ${d.streetNo}/ ${d.street}/ ${d.suburb}/ ${d.state}/ ${d.postCode}/ ${d.country}`;
         dataArray.push({
-          titleRef: 'title',
+          titleRef: d.registeredProperties.length === 0 ? '' : 'title',
           address: propertyAddress,
           id: d.id,
           details: d,
@@ -265,7 +265,7 @@ function RenderProperty() {
                   data-bs-toggle='modal'
                   data-bs-target='#staticBackdrop3'
                 >
-                <span className="plusdiv">+</span>Add New
+                  <span className='plusdiv'>+</span>Add New
                 </button>
                 <AddNewProperty
                   isEditTrue={isEditTrue}

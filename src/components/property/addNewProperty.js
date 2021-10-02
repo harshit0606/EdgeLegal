@@ -12,7 +12,6 @@ import { useCookies } from 'react-cookie';
 
 function AddNewProperty(props) {
   const { modalId, isEditTrue, setIsEditTrue, setBoolVal } = props;
-
   const [buildingName, setBuildingName] = useState(null);
   const [unit, setUnit] = useState(null);
   const [streetNo, setStreetNo] = useState(null);
@@ -361,7 +360,16 @@ function AddNewProperty(props) {
             >
               {current === 'general' ? (
                 <button
-                  style={{}}
+                  disabled={
+                    !buildingName ||
+                    !unit ||
+                    !streetNo ||
+                    !street ||
+                    !suburb ||
+                    !state ||
+                    !postCode ||
+                    !country
+                  }
                   onClick={() => {
                     setCurrent('attached');
                   }}
@@ -372,7 +380,6 @@ function AddNewProperty(props) {
               ) : (
                 <button
                   data-bs-dismiss='modal'
-                  style={{}}
                   className='propertyPageBtns'
                   onClick={() => {
                     onSave();
