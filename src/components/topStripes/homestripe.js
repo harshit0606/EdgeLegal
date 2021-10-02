@@ -120,7 +120,7 @@ function HomeStipe() {
                   </div>
                   
                 </div>
-                <button className="EditProfileBtn">Edit</button>
+                <button className="EditProfileBtn">Update</button>
              
               </div>
               </div>
