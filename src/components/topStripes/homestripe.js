@@ -102,7 +102,7 @@ function HomeStipe() {
             <Modal.Body>
               <div className="editprofileDiv">
 
-                <h3>Edit Details</h3>
+                <h3>Change Password</h3>
                 <p style={{fontSize:"20px" ,cursor:"pointer",position:"absolute",top:"10px",right:"20px"}} onClick={handleClose}>&#10006;</p>
                 <div className="editnamediv">
                 <div class="row">
