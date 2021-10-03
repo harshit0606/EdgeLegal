@@ -1,77 +1,87 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../stylesheets/safeCustody.css';
 
 function AssociatedContacts(props) {
-  const { contacts } = props;
-  return (
+  const { contacts, selected } = props;
+  const [selectedIndex, setSelectedIndex] = useState('');
 
-    <div >
-      {contacts.map((contact,index) => {
-        if(index%2==0)
-        return(
-        <div className="contacttdatadiv">
-        <div className='row'>
-          <div className='col-1'>
-            <input type='checkbox' style={{ marginLeft: '50%' }}></input>
-          </div>
-          <div className='col-2'>
-            <p>{contact.contactDetails.contactCode}</p>
-          </div>
-          <div className='col-1'>
-            <p>{contact.contactDetails.firstName}</p>
-          </div>
-          <div className='col-1'>
-            <p>{contact.contactDetails.lastName}</p>
-          </div>
-          <div className='col-2'>
-            <p>{contact.contactDetails.companyName}</p>
-          </div>
-          <div className='col-1'>
-            <p>{contact.contactType}</p>
-          </div>
-          <div className='col-2'>
-            <p>{contact.contactDetails.emailAddress}</p>
-          </div>
-          <div className='col-2'>
-            <p>{contact.contactDetails.telephoneNumber}</p>
-          </div>
-        </div>
-        </div>)
-        else{
-            return(
-              <div className="lightcontacttdatadiv">
-        <div className='row'>
-          <div className='col-1'>
-            <input type='checkbox' style={{ marginLeft: '50%' }}></input>
-          </div>
-          <div className='col-2'>
-            <p>{contact.contactDetails.contactCode}</p>
-          </div>
-          <div className='col-1'>
-            <p>{contact.contactDetails.firstName}</p>
-          </div>
-          <div className='col-1'>
-            <p>{contact.contactDetails.lastName}</p>
-          </div>
-          <div className='col-2'>
-            <p>{contact.contactDetails.companyName}</p>
-          </div>
-          <div className='col-1'>
-            <p>{contact.contactType}</p>
-          </div>
-          <div className='col-2'>
-            <p>{contact.contactDetails.emailAddress}</p>
-          </div>
-          <div className='col-2'>
-            <p>{contact.contactDetails.telephoneNumber}</p>
-          </div>
-        </div>
-        </div>
-            )
+  const handleClick = (data, ind) => {
+    selected(data);
+    setSelectedIndex(ind);
+  };
+  // console.log(contacts);
+  return (
+    <div>
+      {contacts?.map((contact, index) => {
+        if (index % 2 == 0)
+          return (
+            <div className='contacttdatadiv' key={index}>
+              <div className='row'>
+                <div className='col-1'>
+                  <input
+                    type='checkbox'
+                    onClick={() => handleClick(contact, index)}
+                    checked={selectedIndex === index}
+                    style={{ marginLeft: '50%' }}
+                  ></input>
+                </div>
+                <div className='col-2'>
+                  <p>{contact.contactDetails.contactCode}</p>
+                </div>
+                <div className='col-1'>
+                  <p>{contact.contactDetails.firstName}</p>
+                </div>
+                <div className='col-1'>
+                  <p>{contact.contactDetails.lastName}</p>
+                </div>
+                <div className='col-2'>
+                  <p>{contact.contactDetails.companyName}</p>
+                </div>
+                <div className='col-1'>
+                  <p>{contact.contactType}</p>
+                </div>
+                <div className='col-2'>
+                  <p>{contact.contactDetails.emailAddress}</p>
+                </div>
+                <div className='col-2'>
+                  <p>{contact.contactDetails.telephoneNumber}</p>
+                </div>
+              </div>
+            </div>
+          );
+        else {
+          return (
+            <div className='lightcontacttdatadiv'>
+              <div className='row'>
+                <div className='col-1'>
+                  <input type='checkbox' style={{ marginLeft: '50%' }}></input>
+                </div>
+                <div className='col-2'>
+                  <p>{contact.contactDetails.contactCode}</p>
+                </div>
+                <div className='col-1'>
+                  <p>{contact.contactDetails.firstName}</p>
+                </div>
+                <div className='col-1'>
+                  <p>{contact.contactDetails.lastName}</p>
+                </div>
+                <div className='col-2'>
+                  <p>{contact.contactDetails.companyName}</p>
+                </div>
+                <div className='col-1'>
+                  <p>{contact.contactType}</p>
+                </div>
+                <div className='col-2'>
+                  <p>{contact.contactDetails.emailAddress}</p>
+                </div>
+                <div className='col-2'>
+                  <p>{contact.contactDetails.telephoneNumber}</p>
+                </div>
+              </div>
+            </div>
+          );
         }
       })}
-
-
     </div>
   );
 }

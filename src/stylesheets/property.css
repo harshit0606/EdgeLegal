@@ -1,33 +1,29 @@
- .propertyDiv
-{
-    margin:10px 20px;
-    padding-bottom: 20px;
-} 
-
-.propertyPageHeadings
-{
-   background-color:#F3F5F6;
-   border-bottom: 1px solid lightgray;
-    display: flex;
-    justify-content: space-between;
-    
-    align-items: center;
-    padding:15px 30px;
+.propertyDiv {
+  margin: 10px 20px;
+  padding-bottom: 20px;
 }
 
-.propertyPagesubHeads
-{
-    background-color: #FFFF;
-    
+.propertyPageHeadings {
+  background-color: #f3f5f6;
+  border-bottom: 1px solid lightgray;
+  display: flex;
+  justify-content: space-between;
+
+  align-items: center;
+  padding: 15px 30px;
 }
 
-.propertyPageBtns
-{
-    background-color: lightgray;
-    border-radius: 0.4rem;
-    color: black;
-    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+.propertyPagesubHeads {
+  background-color: #ffff;
+}
+
+.propertyPageBtns {
+  background-color: lightgray;
+  border-radius: 0.4rem;
+  color: black;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
     0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+
     padding:8px 5px;
     border:none;
     margin-right: 2%;
@@ -35,112 +31,101 @@
     display: flex;
     justify-content: center;    
     font-size: 14px;
+
 }
 
-.propertyPageHeads
-{
+.propertyPageBtns:disabled:hover {
+  cursor: no-drop;
+}
+
+.propertyPageHeads {
+  font-size: 18px;
+
+  margin-bottom: 0px;
+  color: #818181;
+}
+
+.propertyPagesubHeads {
+  padding: 20px 20px;
+}
+
+.propertyPagesubHeads input {
+  width: 95%;
+  margin-bottom: 5%;
+}
+
+.propertyPageFirstDiv {
+  padding-top: 2%;
+}
+
+.searchBtn {
+  margin: 5% 0 5% 70%;
+}
+
+.lotsScrollDiv {
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: justify;
+  width: 100%;
+  /* height: 110px; */
+}
+
+.popupFormInputs {
+  width: 90%;
+  margin-bottom: 10%;
+}
+
+.editBtn {
+  background-color: transparent;
+  border: none;
+}
+
+.relatedMattersDiv h6 {
+  height: 55%;
+}
+
+.newPropertyHead {
+  background-color: #f0f0f0;
+}
+
+.newPropertyBtnTray {
+  display: flex;
+  background-color: #c7c7c7;
+  padding: 0px 0;
+  justify-content: space-between;
+  padding-right: 20px;
+}
+
+.newPropertyMainBtns {
+  background-color: #c7c7c7;
+  border: none;
+  height: 3rem;
+}
+
+.newPropertyMainBtnsClicked {
+  background-color: white;
+}
+
+.leftPropertyDiv {
+  background-color: white;
+  padding-top: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.hideSection {
+  display: none;
+}
+
+.particularPrprty:hover {
+  background-color: pink;
+}
+.generalDiv {
+  padding: 20px 30px;
+}
+.generalDiv input {
+  margin-bottom: 10px;
+}
+/* @media(max-width:400px{
     
-   font-size: 18px;
-   
-    margin-bottom: 0px;
-    color:#818181;
-}
-
-.propertyPagesubHeads
-{
-    padding: 20px 20px;
-}
-
-.propertyPagesubHeads input
-{
-    width: 95%;
-    margin-bottom: 5%;
-}
-
-.propertyPageFirstDiv
-{
-    padding-top: 2%;
-}
-
-.searchBtn
-{
-    margin: 5% 0 5% 70%;
-}
-
-.lotsScrollDiv
-{
-    overflow-x: hidden;
-    overflow-y: auto;
-    text-align:justify;
-    width: 100%;
-    /* height: 110px; */
-}
-
-.popupFormInputs 
-{
-    width: 90%;
-    margin-bottom: 10%;
-}
-
-.editBtn
-{
-    background-color: transparent;
-    border: none;
-}
-
-.relatedMattersDiv h6
-{
-    height: 55%;
-}
-
-.newPropertyHead
-{
-    background-color: #F0F0F0;
-}
-
-.newPropertyBtnTray
-{   display: flex;
-    background-color: #c7c7c7;
-    padding: 0px 0;
-    justify-content: space-between;
-    padding-right: 20px;
-}
-
-.newPropertyMainBtns
-{
-    background-color: #c7c7c7;
-    border:none;
-    height: 3rem;
-}
-
-.newPropertyMainBtnsClicked
-{
-    background-color: white;
-}
-
-.leftPropertyDiv
-{
-    background-color: white;
-    padding-top: 30px;
-    padding-left:10px;
-    padding-right: 10px;
-}
-
-.hideSection
-{
-    display: none;
-}
-
-.particularPrprty:hover
-{
-    background-color: pink;
-}
-.generalDiv{
-    padding:20px 30px;
-}
-.generalDiv input{
-    margin-bottom: 10px;
-}
-@media(max-width:400px{
-    
-})
+}) */

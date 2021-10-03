@@ -148,6 +148,7 @@ function AddPerson(props) {
       // console.log(data);
       setPersonDetails(initialData);
       props.close();
+      // window.location.reload();
     } catch (err) {
       console.log(err);
     }
@@ -163,9 +164,11 @@ function AddPerson(props) {
       </div>
       <div className='inputtDiv'>
         <select className='AddInput' name='type' onChange={handleFormChange}>
-          <option value='Type'>Type</option>
-          <option value='Type1'>Type1</option>
-          <option value='Type2'>Type2</option>
+          <option value='' disabled selected>
+            Type
+          </option>
+          <option value='OWNER'>Owner</option>
+          <option value='TENANT'>Tenant</option>
         </select>
         <select className='AddInput' name='gender' onChange={handleFormChange}>
           <option value='Male'>Male</option>

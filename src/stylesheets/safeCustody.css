@@ -52,7 +52,8 @@ width:1000px;
 }
 
 .custodyPageBtns {
-  width: 20%;
+  width: 40%;
+  margin-left: 4%;
 }
 
 .custodyPageBtns button {
@@ -97,12 +98,12 @@ width:1000px;
   display: flex;
 }
 
-
-
 .safeContacts {
   display: flex;
-  justify-content: space-between;
-  padding: 1% 2% 1% 2%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1% 2%;
 }
 
 .associatedContacts {

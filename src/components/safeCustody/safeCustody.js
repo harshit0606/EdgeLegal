@@ -13,11 +13,13 @@ import {
   Select,
   MenuItem,
   Box,
+
 } from "@material-ui/core";
 import SafeStripe from "../topStripes/SafeStripe";
 import { Modal, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import AddCustodyForm from "./AddCustodyForm";
+
 
 const filterFields = {
   contactCode: "",
@@ -40,8 +42,15 @@ function RenderSafeCustody(props) {
   const [filterInput, setFilterInput] = useState(filterFields);
   const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
   const [isAddCustodyOpen, setIsAddCustoduOpen] = useState(false);
+
+  const [openLinkContactForm, setOpenLinkContactForm] = useState(false);
+  const [contactLists, setContactLists] = useState([]);
+  const [selectedContact, setSelectedContact] = useState(null);
+
+
   const [contentShow, setContentShow] = useState(false);
   const [size, setSize] = useState(1);
+
   useEffect(() => {
     axios
       .get(
@@ -96,31 +105,41 @@ function RenderSafeCustody(props) {
       });
   };
 
-  // const filterData = (prop, val) => {
-  //   const newData = filteredData.filter((data) =>
-  //     data.contactDetails[prop].toLowerCase().includes(val.toLowerCase())
-  //   );
-  //   setFilteredData(newData);
-  // };
+  const handleOpenLinkForm = async () => {
+    await axios
+      .get(
+        `${url}/api/contacts?requestId=1124455&textField=&type=`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        // console.log(res.data?.data);
+        setContactLists(res.data?.data?.contactLists);
+        setOpenLinkContactForm(true);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
-  // // const filterDataByType = (prop, val) => {
-  // //   const newData = custodyPacketContacts.filter((data) => data[prop].includes(val));
-  // //   setFilteredData(newData);
-  // // };
+  const handleUnLink = () => {
+    if (selectedContact) {
+      console.log('will unlink');
+    }
+  };
 
-  // const handleFilter = (e) => {
-  //   const { name } = e.target;
-  //   // setFormData({ ...formData, [name]: e.target.value });
-  //   // if(name==='contactType'){
-  //   //   filterDataByType(name, e.target.value);
-  //   // }
-
-  //   if (e.target.value === '') {
-  //     setFilteredData(custodyPacketContacts);
-  //   } else {
-  //     filterData(name, e.target.value);
-  //   }
-  // };
+  const handleSetPrimary = () => {
+    if (selectedContact) {
+      console.log('will set primary');
+    }
+  };
 
   const filterData = (obj) => {
     // console.log(obj);
@@ -208,16 +227,16 @@ function RenderSafeCustody(props) {
       <div>
         <div className="safeContacts">
           <div>
-            <h5 style={{ fontWeight: "bold" }}>Associated Contacts</h5>
+
+            <h5 style={{ fontWeight: 'bold' }}>Associated Contacts</h5>
           </div>
-          <div className="custodyPageBtns" style={{ paddingTop: "2%" }}>
-            <button>Save </button>
+          <div className='custodyPageBtns'>
+            <button onClick={handleOpenLinkForm}>Add </button>
 
-            <Link to="/home/safecustody">
-              <button>Cancel</button>
-            </Link>
+            <button onClick={handleUnLink}>Delete</button>
 
-            <button>Delete</button>
+
+            <button onClick={handleSetPrimary}>Set Primary Contact</button>
           </div>
         </div>
       </div>
@@ -244,12 +263,14 @@ function RenderSafeCustody(props) {
   function renderSafeReceiptsTop() {
     return (
       <div>
-        <div className="safeContentsTop">
-          <h5 style={{ fontWeight: "bold" }}>Receipts for packet no.1</h5>
-          <div className="recepientsTop">
-            <button className="custodyAddbtn">Download </button>
+
+        <div className='safeContentsTop'>
+          <h5 style={{ fontWeight: 'bold' }}>Receipts for packet no.1</h5>
+          <div className='recepientsTop'>
+            <button className='custodyAddbtn'>Download </button>
             <button
-              className="custodyAddbtn"
+              className='custodyAddbtn'
+
               onClick={() => {
                 window.print();
               }}
@@ -374,8 +395,10 @@ function RenderSafeCustody(props) {
     return (
       <div>
         <div>
-          <div className="row associatedContacts">
-            <div className="col-2">
+
+          <div className='row associatedContacts'>
+            <div className='col-2'>
+
               <label> Code</label>
               <input
                 type="text"
@@ -432,10 +455,22 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
           </div>
-          <div style={{ marginTop: "3%" }}>
-            <AssociatedContacts contacts={filteredData} />
+
+          <div style={{ marginTop: '3%' }}>
+            <AssociatedContacts
+              contacts={filteredData}
+              selected={selectedContact}
+            />
+
           </div>
         </div>
+        {openLinkContactForm && (
+          <LinkContactForm
+            closeForm={() => setOpenLinkContactForm(false)}
+            contactLists={contactLists}
+            safeCustodyPacketId={id}
+          />
+        )}
       </div>
     );
   }
