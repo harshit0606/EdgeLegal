@@ -14,6 +14,12 @@ import {
   MenuItem,
   Box,
 } from '@material-ui/core';
+
+import upArrow from '../../images/upArrow.svg';
+import downArrow from '../../images/downArrow.svg';
+import downArrowColoured from '../../images/downArrowColoured.svg';
+import upArrowColoured from '../../images/upArrowColoured.svg';
+
 import SafeStripe from '../topStripes/SafeStripe';
 import { Link } from 'react-router-dom';
 
@@ -26,6 +32,8 @@ function AllSafeCustody() {
   const [filteredData, setFilteredData] = useState([]);
   const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
   const [isAddCustodyOpen, setIsAddCustoduOpen] = useState(false);
+  const [sortOrder, setSortOrder] = useState('');
+  const [sortField, setSortField] = useState('');
 
   useEffect(() => {
     axios
@@ -147,28 +155,217 @@ function AllSafeCustody() {
     }
   };
 
+  const handleSort = (field, order) => {
+    if (sortOrder === order && sortField === field) {
+      setSortOrder('');
+      setSortField('');
+      setFilteredData(custodyPacketContacts);
+    } else {
+      setSortOrder(order);
+      setSortField(field);
+      let sortedData = filteredData.sort((a, b) => {
+        if (order === 'asc') {
+          return a[field] < b[field] ? -1 : 1;
+        } else {
+          return a[field] < b[field] ? 1 : -1;
+        }
+      });
+      setFilteredData(sortedData);
+    }
+  };
+
   function renderSafeSelect() {
     return (
       <div>
         <div className='row safeSelectHeads'>
           <div className='col-2'>
-            <label>Location</label>
+            <label className='associatedContacts-label'>
+              Location
+              <div className='associatedContacts-label-btn'>
+                {sortOrder === 'asc' && sortField === 'siteName' ? (
+                  <img
+                    src={upArrowColoured}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('siteName', 'asc')}
+                  />
+                ) : (
+                  <img
+                    src={upArrow}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('siteName', 'asc')}
+                  />
+                )}
+                {sortOrder === 'desc' && sortField === 'siteName' ? (
+                  <img
+                    src={downArrowColoured}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('siteName', 'desc')}
+                  />
+                ) : (
+                  <img
+                    src={downArrow}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('siteName', 'desc')}
+                  />
+                )}
+              </div>
+            </label>
             <input type='text'></input>
           </div>
           <div className='col-2'>
-            <label>Packet No.</label>
+            <label className='associatedContacts-label'>
+              Packet No.
+              <div className='associatedContacts-label-btn'>
+                {sortOrder === 'asc' && sortField === 'packetNumber' ? (
+                  <img
+                    src={upArrowColoured}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('packetNumber', 'asc')}
+                  />
+                ) : (
+                  <img
+                    src={upArrow}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('packetNumber', 'asc')}
+                  />
+                )}
+                {sortOrder === 'desc' && sortField === 'packetNumber' ? (
+                  <img
+                    src={downArrowColoured}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('packetNumber', 'desc')}
+                  />
+                ) : (
+                  <img
+                    src={downArrow}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('packetNumber', 'desc')}
+                  />
+                )}
+              </div>
+            </label>
             <input type='text'></input>
           </div>
           <div className='col-2'>
-            <label>Contacts</label>
+            <label className='associatedContacts-label'>
+              Contacts
+              <div className='associatedContacts-label-btn'>
+                {sortOrder === 'asc' && sortField === 'companyName' ? (
+                  <img
+                    src={upArrowColoured}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('companyName', 'asc')}
+                  />
+                ) : (
+                  <img
+                    src={upArrow}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('companyName', 'asc')}
+                  />
+                )}
+                {sortOrder === 'desc' && sortField === 'companyName' ? (
+                  <img
+                    src={downArrowColoured}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('companyName', 'desc')}
+                  />
+                ) : (
+                  <img
+                    src={downArrow}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('companyName', 'desc')}
+                  />
+                )}
+              </div>
+            </label>
             <input type='text'></input>
           </div>
           <div className='col-2'>
-            <label>Status</label>
+            <label className='associatedContacts-label'>
+              Status
+              <div className='associatedContacts-label-btn'>
+                {sortOrder === 'asc' && sortField === 'status' ? (
+                  <img
+                    src={upArrowColoured}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('status', 'asc')}
+                  />
+                ) : (
+                  <img
+                    src={upArrow}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('status', 'asc')}
+                  />
+                )}
+                {sortOrder === 'desc' && sortField === 'status' ? (
+                  <img
+                    src={downArrowColoured}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('status', 'desc')}
+                  />
+                ) : (
+                  <img
+                    src={downArrow}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('status', 'desc')}
+                  />
+                )}
+              </div>
+            </label>
             <input type='text'></input>
           </div>
           <div className='col-3'>
-            <label>Comments</label>
+            <label className='associatedContacts-label'>
+              Comment
+              <div className='associatedContacts-label-btn'>
+                {sortOrder === 'asc' && sortField === 'comment' ? (
+                  <img
+                    src={upArrowColoured}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('comment', 'asc')}
+                  />
+                ) : (
+                  <img
+                    src={upArrow}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('comment', 'asc')}
+                  />
+                )}
+                {sortOrder === 'desc' && sortField === 'comment' ? (
+                  <img
+                    src={downArrowColoured}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('comment', 'desc')}
+                  />
+                ) : (
+                  <img
+                    src={downArrow}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('comment', 'desc')}
+                  />
+                )}
+              </div>
+            </label>
             <input type='text'></input>
           </div>
         </div>

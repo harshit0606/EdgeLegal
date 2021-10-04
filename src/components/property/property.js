@@ -3,6 +3,11 @@ import axios from 'axios';
 import url from '../../config.js';
 import { useCookies } from 'react-cookie';
 
+import upArrow from '../../images/upArrow.svg';
+import downArrow from '../../images/downArrow.svg';
+import downArrowColoured from '../../images/downArrowColoured.svg';
+import upArrowColoured from '../../images/upArrowColoured.svg';
+
 import styles from '../../stylesheets/property.css';
 
 import PopupFormR from './popupformR.js';
@@ -25,6 +30,8 @@ function RenderProperty() {
   const [unregisteredLots, setUnregisteredLots] = useState(null);
   const [isEditTrue, setIsEditTrue] = useState(false);
   const [boolVal, setBoolVal] = useState(false);
+  const [sortOrder, setSortOrder] = useState('');
+  const [sortField, setSortField] = useState('');
 
   useEffect(() => {
     const propertyData = (data) => {
@@ -114,6 +121,25 @@ function RenderProperty() {
       setFilteredData(allProperties);
     } else {
       filterData(name, e.target.value);
+    }
+  };
+
+  const handleSort = (field, order) => {
+    if (sortOrder === order && sortField === field) {
+      setSortOrder('');
+      setSortField('');
+      setFilteredData(allProperties);
+    } else {
+      setSortOrder(order);
+      setSortField(field);
+      let sortedData = filteredData.sort((a, b) => {
+        if (order === 'asc') {
+          return a[field] < b[field] ? -1 : 1;
+        } else {
+          return a[field] < b[field] ? 1 : -1;
+        }
+      });
+      setFilteredData(sortedData);
     }
   };
 
@@ -277,10 +303,79 @@ function RenderProperty() {
             <div className='leftPropertyDiv'>
               <div className='row'>
                 <div className='col-4'>
-                  <p>Title Ref.</p>
+                  <p className='associatedContacts-label'>
+                    Title Ref.
+                    <div className='associatedContacts-label-btn'>
+                      {sortOrder === 'asc' && sortField === 'titleRef' ? (
+                        <img
+                          src={upArrowColoured}
+                          alt='asc'
+                          className='label-btn-img-1'
+                          onClick={() => handleSort('titleRef', 'asc')}
+                        />
+                      ) : (
+                        <img
+                          src={upArrow}
+                          alt='asc'
+                          className='label-btn-img-1'
+                          onClick={() => handleSort('titleRef', 'asc')}
+                        />
+                      )}
+                      {sortOrder === 'desc' && sortField === 'titleRef' ? (
+                        <img
+                          src={downArrowColoured}
+                          alt='desc'
+                          className='label-btn-img-2'
+                          onClick={() => handleSort('titleRef', 'desc')}
+                        />
+                      ) : (
+                        <img
+                          src={downArrow}
+                          alt='desc'
+                          className='label-btn-img-2'
+                          onClick={() => handleSort('titleRef', 'desc')}
+                        />
+                      )}
+                    </div>
+                  </p>
+                  {/*<p>Title Ref.</p>*/}
                 </div>
                 <div className='col-8'>
-                  <p>Address</p>
+                  <p className='associatedContacts-label'>
+                    Address
+                    <div className='associatedContacts-label-btn'>
+                      {sortOrder === 'asc' && sortField === 'address' ? (
+                        <img
+                          src={upArrowColoured}
+                          alt='asc'
+                          className='label-btn-img-1'
+                          onClick={() => handleSort('address', 'asc')}
+                        />
+                      ) : (
+                        <img
+                          src={upArrow}
+                          alt='asc'
+                          className='label-btn-img-1'
+                          onClick={() => handleSort('address', 'asc')}
+                        />
+                      )}
+                      {sortOrder === 'desc' && sortField === 'address' ? (
+                        <img
+                          src={downArrowColoured}
+                          alt='desc'
+                          className='label-btn-img-2'
+                          onClick={() => handleSort('address', 'desc')}
+                        />
+                      ) : (
+                        <img
+                          src={downArrow}
+                          alt='desc'
+                          className='label-btn-img-2'
+                          onClick={() => handleSort('address', 'desc')}
+                        />
+                      )}
+                    </div>
+                  </p>
                 </div>
               </div>
               <div className='row'>
@@ -330,7 +425,7 @@ function RenderProperty() {
             <div>
               <div className='propertyPageHeadings'>
                 <h6 className='propertyPageHeads'>Property</h6>
-                <div style={{ width: '350px',display:"flex" }}>
+                <div style={{ width: '350px', display: 'flex' }}>
                   <button
                     className='propertyPageBtns'
                     onClick={() => {
