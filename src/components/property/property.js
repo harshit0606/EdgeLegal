@@ -17,6 +17,23 @@ import UnregisteredLot from './unregisteredLot.js';
 import RelatedMattersLot from './relatedMatters.js';
 import AddNewProperty from './addNewProperty.js';
 
+const filterRegisterFields = {
+  depositedPlanNumber: '',
+  description: '',
+  lotNumber: '',
+  strataPlanNumber: '',
+  titleReference: '',
+  section: '',
+};
+
+const filterUnregisterFields = {
+  partOfLot: '',
+  description: '',
+  lot: '',
+  plan: '',
+  section: '',
+};
+
 function RenderProperty() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
@@ -25,9 +42,16 @@ function RenderProperty() {
   const [titleRef, setTitleRef] = useState(null);
   const [address, setAddress] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
-  const [specificProperty, setSpecificProperty] = useState(null);
-  const [registeredLots, setRegisteredLots] = useState(null);
-  const [unregisteredLots, setUnregisteredLots] = useState(null);
+  const [filterRegisterInput, setFilterRegisterInput] =
+    useState(filterRegisterFields);
+  const [filteredRegisterLot, setFilteredRegisterLot] = useState([]);
+  const [filterUnregisterInput, setFilterUnregisterInput] = useState(
+    filterUnregisterFields
+  );
+  const [filteredUnregisterLot, setFilteredUnregisterLot] = useState([]);
+  const [specificProperty, setSpecificProperty] = useState([]);
+  const [registeredLots, setRegisteredLots] = useState([]);
+  const [unregisteredLots, setUnregisteredLots] = useState([]);
   const [isEditTrue, setIsEditTrue] = useState(false);
   const [boolVal, setBoolVal] = useState(false);
   const [sortOrder, setSortOrder] = useState('');
@@ -72,28 +96,6 @@ function RenderProperty() {
         });
     }
   }, [boolVal, filteredData]);
-  // useEffect(() => {
-  //   getAllProperties();
-  // }, []);
-  // function getAllProperties() {
-  //   axios
-  //     .get(
-  //       `${url}/api/property?requestId=1234567&titleRef=${titleRef}&address=${address}`,
-  //       {
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           Authorization: `Bearer ${loggedInToken}`,
-  //         },
-  //       },
-  //       {
-  //         withCredentials: true,
-  //       }
-  //     )
-  //     .then((response) => {
-  //       setAllProperties(response.data.data.properties);
-  //       console.log('in axios then', response.data.data);
-  //     });
-  // }
 
   const filterData = (prop, val) => {
     const newData = allProperties.filter((data) => {
@@ -124,6 +126,69 @@ function RenderProperty() {
     }
   };
 
+  const filterRegisterData = (obj) => {
+    const newData = registeredLots?.filter(
+      (data) =>
+        (data['description']
+          ? data['description']
+              ?.toLowerCase()
+              .includes(obj['description']?.toLowerCase())
+          : true) &&
+        data['depositedPlanNumber'].includes(obj['depositedPlanNumber']) &&
+        data['lotNumber']
+          .toLowerCase()
+          .includes(obj['lotNumber'].toLowerCase()) &&
+        data['strataPlanNumber']
+          .toLowerCase()
+          .includes(obj['strataPlanNumber'].toLowerCase()) &&
+        data['titleReference']
+          .toLowerCase()
+          .includes(obj['titleReference'].toLowerCase()) &&
+        data['section'].toLowerCase().includes(obj['section'].toLowerCase())
+    );
+    // console.log(newData);
+    setFilteredRegisterLot(newData);
+  };
+
+  const handleFilterRegister = (e) => {
+    const { name } = e.target;
+    setFilterRegisterInput({ ...filterRegisterInput, [name]: e.target.value });
+    filterRegisterData({ ...filterRegisterInput, [name]: e.target.value });
+  };
+
+  const filterUnregisterData = (obj) => {
+    // console.log(obj);
+    const newData = unregisteredLots?.filter(
+      (data) =>
+        (data['description']
+          ? data['description']
+              ?.toLowerCase()
+              .includes(obj['description']?.toLowerCase())
+          : true) &&
+        (data['lot']
+          ? data['lot']?.toLowerCase().includes(obj['lot']?.toLowerCase())
+          : true) &&
+        (data['plan']
+          ? data['plan']?.toLowerCase().includes(obj['plan']?.toLowerCase())
+          : true) &&
+        data['partOfLot']
+          .toLowerCase()
+          .includes(obj['partOfLot'].toLowerCase()) &&
+        data['section'].toLowerCase().includes(obj['section'].toLowerCase())
+    );
+    // console.log(newData);
+    setFilteredUnregisterLot(newData);
+  };
+
+  const handleFilterUnregister = (e) => {
+    const { name } = e.target;
+    setFilterUnregisterInput({
+      ...filterUnregisterInput,
+      [name]: e.target.value,
+    });
+    filterUnregisterData({ ...filterUnregisterInput, [name]: e.target.value });
+  };
+
   const handleSort = (field, order) => {
     if (sortOrder === order && sortField === field) {
       setSortOrder('');
@@ -140,6 +205,44 @@ function RenderProperty() {
         }
       });
       setFilteredData(sortedData);
+    }
+  };
+
+  const handleRegisterSort = (field, order) => {
+    if (sortOrder === order && sortField === field) {
+      setSortOrder('');
+      setSortField('');
+      setFilteredRegisterLot(registeredLots);
+    } else {
+      setSortOrder(order);
+      setSortField(field);
+      let sortedData = filteredRegisterLot.sort((a, b) => {
+        if (order === 'asc') {
+          return a[field] < b[field] ? -1 : 1;
+        } else {
+          return a[field] < b[field] ? 1 : -1;
+        }
+      });
+      setFilteredRegisterLot(sortedData);
+    }
+  };
+
+  const handleUnregisterSort = (field, order) => {
+    if (sortOrder === order && sortField === field) {
+      setSortOrder('');
+      setSortField('');
+      setFilteredUnregisterLot(unregisteredLots);
+    } else {
+      setSortOrder(order);
+      setSortField(field);
+      let sortedData = filteredUnregisterLot.sort((a, b) => {
+        if (order === 'asc') {
+          return a[field] < b[field] ? -1 : 1;
+        } else {
+          return a[field] < b[field] ? 1 : -1;
+        }
+      });
+      setFilteredUnregisterLot(sortedData);
     }
   };
 
@@ -161,30 +264,13 @@ function RenderProperty() {
       )
       .then((response) => {
         setBoolVal(false);
-        console.log(response.data);
+        // console.log(response.data);
         window.location.reload();
       });
   }
 
   function renderAllProperties() {
-    // console.log('all properties', allProperties);
     return filteredData?.map((property, index) => {
-      // const propertyAddress =
-      //   '' +
-      //   property.unit +
-      //   '/ ' +
-      //   property.streetNo +
-      //   '/ ' +
-      //   property.street +
-      //   '/ ' +
-      //   property.suburb +
-      //   '/ ' +
-      //   property.state +
-      //   '/ ' +
-      //   property.postCode +
-      //   '/ ' +
-      //   property.country;
-      // console.log(property.details);
       return (
         <div
           className={`row ${
@@ -205,7 +291,9 @@ function RenderProperty() {
     console.log('details', details);
     setSpecificProperty(details);
     setRegisteredLots(details.registeredProperties);
+    setFilteredRegisterLot(details.registeredProperties);
     setUnregisteredLots(details.unregisteredProperties);
+    setFilteredUnregisterLot(details.unregisteredProperties);
 
     document.getElementById('searchPropertyDiv').classList.add('hideSection');
     document.getElementById('mainPropertyDiv').classList.remove('hideSection');
@@ -220,11 +308,12 @@ function RenderProperty() {
   }
 
   function renderRegisteredLots() {
-    return registeredLots?.map((registeredLot, idx) => {
+    return filteredRegisterLot?.map((registeredLot, idx) => {
       return (
         <RegisteredLot
           modal={1}
           registeredLot={registeredLot}
+          handleFilter={handleFilterRegister}
           isEditTrue={isEditTrue}
           setIsEditTrue={setIsEditTrue}
           idx={idx}
@@ -234,7 +323,7 @@ function RenderProperty() {
   }
 
   function renderUnregisteredLots() {
-    return unregisteredLots?.map((unregisteredLot) => {
+    return filteredUnregisterLot?.map((unregisteredLot) => {
       return (
         <UnregisteredLot
           modal={2}
@@ -590,28 +679,306 @@ function RenderProperty() {
                     <h6>Edit</h6>
                   </div>
                   <div className='col-2'>
-                    <h6>Title Reference</h6>
-                    <input type='text'></input>
+                    <label className='associatedContacts-label'>
+                      Title Reference
+                      <div className='associatedContacts-label-btn'>
+                        {sortOrder === 'asc' &&
+                        sortField === 'titleReference' ? (
+                          <img
+                            src={upArrowColoured}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleRegisterSort('titleReference', 'asc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={upArrow}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleRegisterSort('titleReference', 'asc')
+                            }
+                          />
+                        )}
+                        {sortOrder === 'desc' &&
+                        sortField === 'titleReference' ? (
+                          <img
+                            src={downArrowColoured}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleRegisterSort('titleReference', 'desc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={downArrow}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleRegisterSort('titleReference', 'desc')
+                            }
+                          />
+                        )}
+                      </div>
+                    </label>
+                    <input
+                      type='text'
+                      name='titleReference'
+                      onChange={handleFilterRegister}
+                    ></input>
                   </div>
                   <div className='col-1'>
-                    <h6>LotNo.</h6>
-                    <input type='text'></input>
+                    <label className='associatedContacts-label'>
+                      Lot No.
+                      <div className='associatedContacts-label-btn'>
+                        {sortOrder === 'asc' && sortField === 'lotNumber' ? (
+                          <img
+                            src={upArrowColoured}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleRegisterSort('lotNumber', 'asc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={upArrow}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleRegisterSort('lotNumber', 'asc')
+                            }
+                          />
+                        )}
+                        {sortOrder === 'desc' && sortField === 'lotNumber' ? (
+                          <img
+                            src={downArrowColoured}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleRegisterSort('lotNumber', 'desc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={downArrow}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleRegisterSort('lotNumber', 'desc')
+                            }
+                          />
+                        )}
+                      </div>
+                    </label>
+                    <input
+                      type='text'
+                      name='lotNumber'
+                      onChange={handleFilterRegister}
+                    ></input>
                   </div>
                   <div className='col-1'>
-                    <h6>Section</h6>
-                    <input type='text'></input>
+                    <label className='associatedContacts-label'>
+                      Section
+                      <div className='associatedContacts-label-btn'>
+                        {sortOrder === 'asc' && sortField === 'section' ? (
+                          <img
+                            src={upArrowColoured}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() => handleRegisterSort('section', 'asc')}
+                          />
+                        ) : (
+                          <img
+                            src={upArrow}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() => handleRegisterSort('section', 'asc')}
+                          />
+                        )}
+                        {sortOrder === 'desc' && sortField === 'section' ? (
+                          <img
+                            src={downArrowColoured}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleRegisterSort('section', 'desc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={downArrow}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleRegisterSort('section', 'desc')
+                            }
+                          />
+                        )}
+                      </div>
+                    </label>
+                    <input
+                      type='text'
+                      name='section'
+                      onChange={handleFilterRegister}
+                    ></input>
                   </div>
                   <div className='col-3'>
-                    <h6>Deposited Plan No.</h6>
-                    <input type='text'></input>
+                    <label className='associatedContacts-label'>
+                      Deposited Plan No.
+                      <div className='associatedContacts-label-btn'>
+                        {sortOrder === 'asc' &&
+                        sortField === 'depositedPlanNumber' ? (
+                          <img
+                            src={upArrowColoured}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleRegisterSort('depositedPlanNumber', 'asc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={upArrow}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleRegisterSort('depositedPlanNumber', 'asc')
+                            }
+                          />
+                        )}
+                        {sortOrder === 'desc' &&
+                        sortField === 'depositedPlanNumber' ? (
+                          <img
+                            src={downArrowColoured}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleRegisterSort('depositedPlanNumber', 'desc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={downArrow}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleRegisterSort('depositedPlanNumber', 'desc')
+                            }
+                          />
+                        )}
+                      </div>
+                    </label>
+                    <input
+                      type='text'
+                      name='depositedPlanNumber'
+                      onChange={handleFilterRegister}
+                    ></input>
                   </div>
                   <div className='col-2'>
-                    <h6>Strata Plan No.</h6>
-                    <input type='text'></input>
+                    <label className='associatedContacts-label'>
+                      Strata Plan No.
+                      <div className='associatedContacts-label-btn'>
+                        {sortOrder === 'asc' &&
+                        sortField === 'strataPlanNumber' ? (
+                          <img
+                            src={upArrowColoured}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleRegisterSort('strataPlanNumber', 'asc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={upArrow}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleRegisterSort('strataPlanNumber', 'asc')
+                            }
+                          />
+                        )}
+                        {sortOrder === 'desc' &&
+                        sortField === 'strataPlanNumber' ? (
+                          <img
+                            src={downArrowColoured}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleRegisterSort('strataPlanNumber', 'desc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={downArrow}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleRegisterSort('strataPlanNumber', 'desc')
+                            }
+                          />
+                        )}
+                      </div>
+                    </label>
+                    <input
+                      type='text'
+                      name='strataPlanNumber'
+                      onChange={handleFilterRegister}
+                    ></input>
                   </div>
                   <div className='col-2'>
-                    <h6>Description</h6>
-                    <input type='text'></input>
+                    <label className='associatedContacts-label'>
+                      Description
+                      <div className='associatedContacts-label-btn'>
+                        {sortOrder === 'asc' && sortField === 'description' ? (
+                          <img
+                            src={upArrowColoured}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleRegisterSort('description', 'asc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={upArrow}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleRegisterSort('description', 'asc')
+                            }
+                          />
+                        )}
+                        {sortOrder === 'desc' && sortField === 'description' ? (
+                          <img
+                            src={downArrowColoured}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleRegisterSort('description', 'desc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={downArrow}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleRegisterSort('description', 'desc')
+                            }
+                          />
+                        )}
+                      </div>
+                    </label>
+                    <input
+                      type='text'
+                      name='description'
+                      onChange={handleFilterRegister}
+                    ></input>
                   </div>
                 </div>
                 <div className='lotsScrollDiv'>{renderRegisteredLots()}</div>
@@ -647,24 +1014,238 @@ function RenderProperty() {
                     <h6>Edit</h6>
                   </div>
                   <div className='col-2'>
-                    <h6>Lot No.</h6>
-                    <input type='text'></input>
+                    <label className='associatedContacts-label'>
+                      Lot No.
+                      <div className='associatedContacts-label-btn'>
+                        {sortOrder === 'asc' && sortField === 'lot' ? (
+                          <img
+                            src={upArrowColoured}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() => handleUnregisterSort('lot', 'asc')}
+                          />
+                        ) : (
+                          <img
+                            src={upArrow}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() => handleUnregisterSort('lot', 'asc')}
+                          />
+                        )}
+                        {sortOrder === 'desc' && sortField === 'lot' ? (
+                          <img
+                            src={downArrowColoured}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() => handleUnregisterSort('lot', 'desc')}
+                          />
+                        ) : (
+                          <img
+                            src={downArrow}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() => handleUnregisterSort('lot', 'desc')}
+                          />
+                        )}
+                      </div>
+                    </label>
+                    <input
+                      type='text'
+                      name='lot'
+                      onChange={handleFilterUnregister}
+                    ></input>
                   </div>
                   <div className='col-2'>
-                    <h6>Part of Lot</h6>
-                    <input type='text'></input>
+                    <label className='associatedContacts-label'>
+                      Part of lot
+                      <div className='associatedContacts-label-btn'>
+                        {sortOrder === 'asc' && sortField === 'partOfLot' ? (
+                          <img
+                            src={upArrowColoured}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleUnregisterSort('partOfLot', 'asc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={upArrow}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleUnregisterSort('partOfLot', 'asc')
+                            }
+                          />
+                        )}
+                        {sortOrder === 'desc' && sortField === 'partOfLot' ? (
+                          <img
+                            src={downArrowColoured}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleUnregisterSort('partOfLot', 'desc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={downArrow}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleUnregisterSort('partOfLot', 'desc')
+                            }
+                          />
+                        )}
+                      </div>
+                    </label>
+                    <input
+                      type='text'
+                      name='partOfLot'
+                      onChange={handleFilterUnregister}
+                    ></input>
                   </div>
                   <div className='col-1'>
-                    <h6>Section</h6>
-                    <input type='text'></input>
+                    <label className='associatedContacts-label'>
+                      Section
+                      <div className='associatedContacts-label-btn'>
+                        {sortOrder === 'asc' && sortField === 'section' ? (
+                          <img
+                            src={upArrowColoured}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleUnregisterSort('section', 'asc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={upArrow}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleUnregisterSort('section', 'asc')
+                            }
+                          />
+                        )}
+                        {sortOrder === 'desc' && sortField === 'section' ? (
+                          <img
+                            src={downArrowColoured}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleUnregisterSort('section', 'desc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={downArrow}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleUnregisterSort('section', 'desc')
+                            }
+                          />
+                        )}
+                      </div>
+                    </label>
+                    <input
+                      type='text'
+                      name='section'
+                      onChange={handleFilterUnregister}
+                    ></input>
                   </div>
                   <div className='col-3'>
-                    <h6>Plan Number</h6>
-                    <input type='text'></input>
+                    <label className='associatedContacts-label'>
+                      Plan Number
+                      <div className='associatedContacts-label-btn'>
+                        {sortOrder === 'asc' && sortField === 'plan' ? (
+                          <img
+                            src={upArrowColoured}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() => handleUnregisterSort('plan', 'asc')}
+                          />
+                        ) : (
+                          <img
+                            src={upArrow}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() => handleUnregisterSort('plan', 'asc')}
+                          />
+                        )}
+                        {sortOrder === 'desc' && sortField === 'plan' ? (
+                          <img
+                            src={downArrowColoured}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() => handleUnregisterSort('plan', 'desc')}
+                          />
+                        ) : (
+                          <img
+                            src={downArrow}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() => handleUnregisterSort('plan', 'desc')}
+                          />
+                        )}
+                      </div>
+                    </label>
+                    <input
+                      type='text'
+                      name='plan'
+                      onChange={handleFilterUnregister}
+                    ></input>
                   </div>
                   <div className='col-3'>
-                    <h6>Description</h6>
-                    <input type='text'></input>
+                    <label className='associatedContacts-label'>
+                      Description
+                      <div className='associatedContacts-label-btn'>
+                        {sortOrder === 'asc' && sortField === 'description' ? (
+                          <img
+                            src={upArrowColoured}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleUnregisterSort('description', 'asc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={upArrow}
+                            alt='asc'
+                            className='label-btn-img-1'
+                            onClick={() =>
+                              handleUnregisterSort('description', 'asc')
+                            }
+                          />
+                        )}
+                        {sortOrder === 'desc' && sortField === 'description' ? (
+                          <img
+                            src={downArrowColoured}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleUnregisterSort('description', 'desc')
+                            }
+                          />
+                        ) : (
+                          <img
+                            src={downArrow}
+                            alt='desc'
+                            className='label-btn-img-2'
+                            onClick={() =>
+                              handleUnregisterSort('description', 'desc')
+                            }
+                          />
+                        )}
+                      </div>
+                    </label>
+                    <input
+                      type='text'
+                      name='description'
+                      onChange={handleFilterUnregister}
+                    ></input>
                   </div>
                 </div>
                 <div className='lotsScrollDiv'>{renderUnregisteredLots()}</div>

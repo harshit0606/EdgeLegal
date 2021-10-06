@@ -19,6 +19,10 @@ import { Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import AddCustodyForm from './AddCustodyForm';
 import LinkContactForm from './LinkContactForm';
+import upArrow from '../../images/upArrow.svg';
+import downArrow from '../../images/downArrow.svg';
+import downArrowColoured from '../../images/downArrowColoured.svg';
+import upArrowColoured from '../../images/upArrowColoured.svg';
 
 const filterFields = {
   contactCode: '',
@@ -48,6 +52,8 @@ function RenderSafeCustody(props) {
 
   const [contentShow, setContentShow] = useState(false);
   const [size, setSize] = useState(1);
+  const [sortOrder, setSortOrder] = useState('');
+  const [sortField, setSortField] = useState('');
 
   useEffect(() => {
     axios
@@ -79,6 +85,11 @@ function RenderSafeCustody(props) {
   };
   const handleContentShow = () => {
     setContentShow(true);
+  };
+
+  const handleSelectedContact = (data) => {
+    console.log(data);
+    setSelectedContact(data);
   };
 
   const handleShowContacts = () => {
@@ -127,15 +138,70 @@ function RenderSafeCustody(props) {
       });
   };
 
-  const handleUnLink = () => {
+  const handleUnLink = async () => {
     if (selectedContact) {
-      console.log('will unlink');
+      let formData = {
+        requestId: 11223,
+        data: {
+          safeCustodyPacketId: selectedContact.safeCustodyPacketId,
+          contactId: selectedContact.contactId,
+          contactType: selectedContact.contactType,
+          contactRole: selectedContact.contactRole,
+        },
+      };
+
+      console.log(formData);
+
+      await axios
+        .delete(
+          `${url}/api/safecustody/contact`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${loggedInToken}`,
+            },
+            data: formData,
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => window.location.reload())
+        .catch((err) => console.log(err));
     }
   };
 
-  const handleSetPrimary = () => {
+  const handleSetPrimary = async () => {
     if (selectedContact) {
-      console.log('will set primary');
+      let formData = {
+        requestId: 11223,
+        data: {
+          safeCustodyPacketId: selectedContact.safeCustodyPacketId,
+          contactId: selectedContact.contactId,
+          contactType: selectedContact.contactType,
+          contactRole: selectedContact.contactRole,
+          primaryContact: true,
+        },
+      };
+
+      // console.log(formData);
+
+      await axios
+        .put(
+          `${url}/api/safecustody/contact`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${loggedInToken}`,
+            },
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => window.location.reload())
+        .catch((e) => console.log(e));
     }
   };
 
@@ -175,6 +241,25 @@ function RenderSafeCustody(props) {
     // } else {
 
     // }
+  };
+
+  const handleSort = (field, order) => {
+    if (sortOrder === order && sortField === field) {
+      setSortOrder('');
+      setSortField('');
+      setFilteredData(custodyPacketContacts);
+    } else {
+      setSortOrder(order);
+      setSortField(field);
+      let sortedData = filteredData.sort((a, b) => {
+        if (order === 'asc') {
+          return a.contactDetails[field] < b.contactDetails[field] ? -1 : 1;
+        } else {
+          return a.contactDetails[field] < b.contactDetails[field] ? 1 : -1;
+        }
+      });
+      setFilteredData(sortedData);
+    }
   };
 
   function renderSafeSelectTop() {
@@ -391,7 +476,41 @@ function RenderSafeCustody(props) {
         <div>
           <div className='row associatedContacts'>
             <div className='col-2'>
-              <label> Code</label>
+              <label className='associatedContacts-label'>
+                Code
+                <div className='associatedContacts-label-btn'>
+                  {sortOrder === 'asc' && sortField === 'contactCode' ? (
+                    <img
+                      src={upArrowColoured}
+                      alt='asc'
+                      className='label-btn-img-1'
+                      onClick={() => handleSort('contactCode', 'asc')}
+                    />
+                  ) : (
+                    <img
+                      src={upArrow}
+                      alt='asc'
+                      className='label-btn-img-1'
+                      onClick={() => handleSort('contactCode', 'asc')}
+                    />
+                  )}
+                  {sortOrder === 'desc' && sortField === 'contactCode' ? (
+                    <img
+                      src={downArrowColoured}
+                      alt='desc'
+                      className='label-btn-img-2'
+                      onClick={() => handleSort('contactCode', 'desc')}
+                    />
+                  ) : (
+                    <img
+                      src={downArrow}
+                      alt='desc'
+                      className='label-btn-img-2'
+                      onClick={() => handleSort('contactCode', 'desc')}
+                    />
+                  )}
+                </div>
+              </label>
               <input
                 type='text'
                 name='contactCode'
@@ -399,7 +518,41 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
             <div className='col-1'>
-              <label>First Name</label>
+              <label className='associatedContacts-label'>
+                First Name
+                <div className='associatedContacts-label-btn'>
+                  {sortOrder === 'asc' && sortField === 'firstName' ? (
+                    <img
+                      src={upArrowColoured}
+                      alt='asc'
+                      className='label-btn-img-1'
+                      onClick={() => handleSort('firstName', 'asc')}
+                    />
+                  ) : (
+                    <img
+                      src={upArrow}
+                      alt='asc'
+                      className='label-btn-img-1'
+                      onClick={() => handleSort('firstName', 'asc')}
+                    />
+                  )}
+                  {sortOrder === 'desc' && sortField === 'firstName' ? (
+                    <img
+                      src={downArrowColoured}
+                      alt='desc'
+                      className='label-btn-img-2'
+                      onClick={() => handleSort('firstName', 'desc')}
+                    />
+                  ) : (
+                    <img
+                      src={downArrow}
+                      alt='desc'
+                      className='label-btn-img-2'
+                      onClick={() => handleSort('firstName', 'desc')}
+                    />
+                  )}
+                </div>
+              </label>
               <input
                 type='text'
                 name='firstName'
@@ -407,7 +560,41 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
             <div className='col-1'>
-              <label>Last Name</label>
+              <label className='associatedContacts-label'>
+                Last Name
+                <div className='associatedContacts-label-btn'>
+                  {sortOrder === 'asc' && sortField === 'lastName' ? (
+                    <img
+                      src={upArrowColoured}
+                      alt='asc'
+                      className='label-btn-img-1'
+                      onClick={() => handleSort('lastName', 'asc')}
+                    />
+                  ) : (
+                    <img
+                      src={upArrow}
+                      alt='asc'
+                      className='label-btn-img-1'
+                      onClick={() => handleSort('lastName', 'asc')}
+                    />
+                  )}
+                  {sortOrder === 'desc' && sortField === 'lastName' ? (
+                    <img
+                      src={downArrowColoured}
+                      alt='desc'
+                      className='label-btn-img-2'
+                      onClick={() => handleSort('lastName', 'desc')}
+                    />
+                  ) : (
+                    <img
+                      src={downArrow}
+                      alt='desc'
+                      className='label-btn-img-2'
+                      onClick={() => handleSort('lastName', 'desc')}
+                    />
+                  )}
+                </div>
+              </label>
               <input
                 type='text'
                 name='lastName'
@@ -415,7 +602,41 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
             <div className='col-2'>
-              <label>Company</label>
+              <label className='associatedContacts-label'>
+                Company
+                <div className='associatedContacts-label-btn'>
+                  {sortOrder === 'asc' && sortField === 'companyName' ? (
+                    <img
+                      src={upArrowColoured}
+                      alt='asc'
+                      className='label-btn-img-1'
+                      onClick={() => handleSort('companyName', 'asc')}
+                    />
+                  ) : (
+                    <img
+                      src={upArrow}
+                      alt='asc'
+                      className='label-btn-img-1'
+                      onClick={() => handleSort('companyName', 'asc')}
+                    />
+                  )}
+                  {sortOrder === 'desc' && sortField === 'companyName' ? (
+                    <img
+                      src={downArrowColoured}
+                      alt='desc'
+                      className='label-btn-img-2'
+                      onClick={() => handleSort('companyName', 'desc')}
+                    />
+                  ) : (
+                    <img
+                      src={downArrow}
+                      alt='desc'
+                      className='label-btn-img-2'
+                      onClick={() => handleSort('companyName', 'desc')}
+                    />
+                  )}
+                </div>
+              </label>
               <input
                 type='text'
                 name='companyName'
@@ -423,7 +644,41 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
             <div className='col-1'>
-              <label> Type</label>
+              <label className='associatedContacts-label'>
+                Type
+                <div className='associatedContacts-label-btn'>
+                  {sortOrder === 'asc' && sortField === 'contactType' ? (
+                    <img
+                      src={upArrowColoured}
+                      alt='asc'
+                      className='label-btn-img-1'
+                      onClick={() => handleSort('contactType', 'asc')}
+                    />
+                  ) : (
+                    <img
+                      src={upArrow}
+                      alt='asc'
+                      className='label-btn-img-1'
+                      onClick={() => handleSort('contactType', 'asc')}
+                    />
+                  )}
+                  {sortOrder === 'desc' && sortField === 'contactType' ? (
+                    <img
+                      src={downArrowColoured}
+                      alt='desc'
+                      className='label-btn-img-2'
+                      onClick={() => handleSort('contactType', 'desc')}
+                    />
+                  ) : (
+                    <img
+                      src={downArrow}
+                      alt='desc'
+                      className='label-btn-img-2'
+                      onClick={() => handleSort('contactType', 'desc')}
+                    />
+                  )}
+                </div>
+              </label>
               <input
                 type='text'
                 // name='contactType'
@@ -431,7 +686,41 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
             <div className='col-2'>
-              <label>Email Address</label>
+              <label className='associatedContacts-label'>
+                Email Address
+                <div className='associatedContacts-label-btn'>
+                  {sortOrder === 'asc' && sortField === 'emailAddress' ? (
+                    <img
+                      src={upArrowColoured}
+                      alt='asc'
+                      className='label-btn-img-1'
+                      onClick={() => handleSort('emailAddress', 'asc')}
+                    />
+                  ) : (
+                    <img
+                      src={upArrow}
+                      alt='asc'
+                      className='label-btn-img-1'
+                      onClick={() => handleSort('emailAddress', 'asc')}
+                    />
+                  )}
+                  {sortOrder === 'desc' && sortField === 'emailAddress' ? (
+                    <img
+                      src={downArrowColoured}
+                      alt='desc'
+                      className='label-btn-img-2'
+                      onClick={() => handleSort('emailAddress', 'desc')}
+                    />
+                  ) : (
+                    <img
+                      src={downArrow}
+                      alt='desc'
+                      className='label-btn-img-2'
+                      onClick={() => handleSort('emailAddress', 'desc')}
+                    />
+                  )}
+                </div>
+              </label>
               <input
                 type='text'
                 name='emailAddress'
@@ -439,7 +728,41 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
             <div className='col-2'>
-              <label>Phone Number</label>
+              <label className='associatedContacts-label'>
+                Phone Number
+                <div className='associatedContacts-label-btn'>
+                  {sortOrder === 'asc' && sortField === 'telephoneNumber' ? (
+                    <img
+                      src={upArrowColoured}
+                      alt='asc'
+                      className='label-btn-img-1'
+                      onClick={() => handleSort('telephoneNumber', 'asc')}
+                    />
+                  ) : (
+                    <img
+                      src={upArrow}
+                      alt='asc'
+                      className='label-btn-img-1'
+                      onClick={() => handleSort('telephoneNumber', 'asc')}
+                    />
+                  )}
+                  {sortOrder === 'desc' && sortField === 'telephoneNumber' ? (
+                    <img
+                      src={downArrowColoured}
+                      alt='desc'
+                      className='label-btn-img-2'
+                      onClick={() => handleSort('telephoneNumber', 'desc')}
+                    />
+                  ) : (
+                    <img
+                      src={downArrow}
+                      alt='desc'
+                      className='label-btn-img-2'
+                      onClick={() => handleSort('telephoneNumber', 'desc')}
+                    />
+                  )}
+                </div>
+              </label>
               <input
                 type='text'
                 name='telephoneNumber'
@@ -451,7 +774,7 @@ function RenderSafeCustody(props) {
           <div style={{ marginTop: '3%' }}>
             <AssociatedContacts
               contacts={filteredData}
-              selected={setSelectedContact}
+              selected={handleSelectedContact}
             />
           </div>
         </div>
