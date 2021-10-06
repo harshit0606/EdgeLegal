@@ -12,6 +12,7 @@ import upArrowColoured from '../../images/upArrowColoured.svg';
 
 import AssociatedContacts from '../safeCustody/associatedContacts';
 import ContactStripe from '../topStripes/ContactStripe';
+import { Link } from 'react-router-dom';
 
 const filterFields = {
   contactCode: '',
@@ -419,7 +420,7 @@ function Contacts() {
                     <p>{contact.contactCode}</p>
                   </div>
                   <div className='col-1'>
-                    <p>{contact.firstName}</p>
+                    <Link to="/home/singlecontact"><p>{contact.firstName}</p></Link> 
                   </div>
                   <div className='col-1'>
                     <p>{contact.lastName}</p>
@@ -463,7 +464,7 @@ function Contacts() {
                     <p>{contact.contactCode}</p>
                   </div>
                   <div className='col-1'>
-                    <p>{contact.firstName}</p>
+                  <p>{contact.firstName}</p>
                   </div>
                   <div className='col-1'>
                     <p>{contact.lastName}</p>

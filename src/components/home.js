@@ -11,6 +11,7 @@ import{Link,Switch,Route} from "react-router-dom"
 import RenderContacts from "./contacts/contacts.js";
 import safeCustodystripe from "./topStripes/safeCustody";
 import homestripe from "./topStripes/homestripe";
+import SingleContact from "./contacts/SingleContact"
 function Home() {
  
 
@@ -109,7 +110,8 @@ function Home() {
       <Route path="/home/contacts" exact component={RenderContacts} />
       <Route path="/home/safecustody" exact component={RenderAllSafeCustody} />
       <Route path="/home/safecustody/:id" exact component={RenderSafeCustody}/>
-      <Route path="/home/property" exact component={RenderProperty} />  
+      <Route path="/home/property" exact component={RenderProperty} />
+      <Route path="/home/singlecontact" exact component={SingleContact}/>  
   </Switch>
     </div>
       </div>
