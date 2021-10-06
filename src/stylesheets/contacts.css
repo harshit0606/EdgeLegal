@@ -3,7 +3,7 @@
   margin-bottom: 4%;
   padding-top: 2.5%;
   color: #212529;
-  padding-left: 100px;
+  padding-left: 30px;
   margin-right: -90px;
 }
 
@@ -41,6 +41,10 @@
   background-color: #e8ebed;
   padding-top: 15px;
   color: #1f252c;
+}
+.col-1{
+  padding: 0px 5px;
+
 }
 .col-2 {
   text-overflow: ellipsis ' [..]' !important;

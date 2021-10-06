@@ -409,7 +409,7 @@ function Contacts() {
             return (
               <div className='contacttdatadiv'>
                 <div className='row'>
-                  <div className='col-1'>
+                  <div style={{flex: ".5 0 0%"}}>
                     <input
                       type='checkbox'
                       style={{ marginLeft: '50%' }}
@@ -453,7 +453,7 @@ function Contacts() {
             return (
               <div className='lightcontacttdatadiv'>
                 <div className='row'>
-                  <div className='col-1'>
+                  <div style={{flex: ".5 0 0%"}}>
                     <input
                       type='checkbox'
                       style={{ marginLeft: '50%' }}
