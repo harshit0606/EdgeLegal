@@ -143,7 +143,9 @@ const AddCustodyForm = (props) => {
             />
           </div>
           <div className='addCustody-buttonDiv'>
-            <button className='cancelButton'>Cancel</button>
+            <button className='cancelButton' onClick={closeForm}>
+              Cancel
+            </button>
             <button className='addButton' onClick={handleSubmit}>
               Add
             </button>

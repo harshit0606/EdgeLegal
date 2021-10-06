@@ -54,7 +54,12 @@ function AssociatedContacts(props) {
             <div className='lightcontacttdatadiv'>
               <div className='row'>
                 <div className='col-1'>
-                  <input type='checkbox' style={{ marginLeft: '50%' }}></input>
+                  <input
+                    onClick={() => handleClick(contact, index)}
+                    checked={selectedIndex === index}
+                    type='checkbox'
+                    style={{ marginLeft: '50%' }}
+                  ></input>
                 </div>
                 <div className='col-2'>
                   <p>{contact.contactDetails.contactCode}</p>
