@@ -80,12 +80,27 @@
 
 .lotsScrollDiv {
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: scroll;
   text-align: justify;
   width: 100%;
-  /* height: 110px; */
+  max-height: 125px;
 }
-
+.lotsScrollDiv::-webkit-scrollbar{
+  width: 8px !important;
+  border-radius: 50%!important;
+  
+  
+}
+.lotsScrollDiv::-webkit-scrollbar-track{
+  background-color: rgb(255, 255, 255) !important;
+  
+}
+.lotsScrollDiv::-webkit-scrollbar-thumb{
+  background-color: rgb(255, 255, 255) !important;
+}
+.lotsScrollDiv:hover::-webkit-scrollbar-thumb{
+  background-color: rgb(184, 184, 184) !important;
+}
 .popupFormInputs {
   width: 90%;
   margin-bottom: 10%;

@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import "../../stylesheets/stripes.css";
 import Bell from "../../icons/bell.png";
 import { Avatar } from "@mui/material";
-import Photo from "../../icons/avatar-4.png";
+import Photo from "../../icons/avatar-4 (1).png";
 import axios from "axios";
 import url from "../../config.js";
 import { AiOutlineLogout } from "react-icons/ai";

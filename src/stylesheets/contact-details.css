@@ -1,0 +1,44 @@
+.main-contact-detail-div{
+    padding:20px 40px;
+    height: 100px;
+}
+.contact-detail-horizontal{
+    display: flex;
+    padding:10px 0px;
+}
+.smaller-detail-div{
+    display: flex;
+    flex-direction: column;
+    flex:0.4;
+    justify-content: left;
+    padding-left: 20px;
+}
+.smaller-detail-div p{
+    color:rgb(73, 73, 73);
+    margin-bottom: 5px;
+}
+.smaller-detail-div h3{
+    font-size: 18px;
+    font-weight: bold;
+    color:rgb(53, 53, 53);
+}
+.matter-table-row{
+    display: flex;
+    
+}
+.table-cell1{
+    flex:0.15;
+    padding:15px 10px;
+}
+.table-cell2{
+    flex:0.15;
+    padding:15px 10px;
+}
+.table-cell3{
+    flex:0.35;
+    padding:15px 10px;
+}
+.table-cell4{
+    flex:0.35;
+    padding:15px 10px;
+}

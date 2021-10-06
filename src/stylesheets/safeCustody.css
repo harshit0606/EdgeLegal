@@ -25,7 +25,8 @@
 .safe-custody-div {
   margin: 2%;
   background-color: #ffff;
-  height: 80vh;
+  min-height: 100vh;
+  height: 100%;
 }
 
 .contentsInfo{
