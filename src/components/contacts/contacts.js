@@ -420,16 +420,16 @@ function Contacts() {
                     <p>{contact.contactCode}</p>
                   </div>
                   <div className='col-1'>
-                    <Link to="/home/singlecontact"><p>{contact.firstName}</p></Link> 
+                    <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.firstName}</p></Link> 
                   </div>
                   <div className='col-1'>
-                    <p>{contact.lastName}</p>
+                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.lastName}</p></Link>
                   </div>
                   <div className='col-2'>
-                    <p>{contact.companyName}</p>
+                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.companyName}</p></Link>
                   </div>
                   <div className='col-1'>
-                    <p>{contact.contactType}</p>
+                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.contactType}</p></Link>
                   </div>
                   <div className='col-2'>
                     <OverlayTrigger
@@ -441,11 +441,11 @@ function Contacts() {
                         </Tooltip>
                       }
                     >
-                      <p>{contact.emailAddress}</p>
+                    <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.emailAddress}</p></Link>
                     </OverlayTrigger>
                   </div>
                   <div className='col-2'>
-                    <p>{contact.telephoneNumber}</p>
+                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.telephoneNumber}</p></Link>
                   </div>
                 </div>
               </div>
@@ -461,19 +461,19 @@ function Contacts() {
                     ></input>
                   </div>
                   <div className='col-2'>
-                    <p>{contact.contactCode}</p>
+                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.contactCode}</p></Link>
                   </div>
                   <div className='col-1'>
-                  <p>{contact.firstName}</p>
+                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.firstName}</p></Link>
                   </div>
                   <div className='col-1'>
-                    <p>{contact.lastName}</p>
+                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.lastName}</p></Link>
                   </div>
                   <div className='col-2'>
-                    <p>{contact.companyName}</p>
+                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.companyName}</p></Link>
                   </div>
                   <div className='col-1'>
-                    <p>{contact.contactType}</p>
+                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.contactType}</p></Link>
                   </div>
                   <div className='col-2'>
                     <OverlayTrigger
@@ -485,11 +485,11 @@ function Contacts() {
                         </Tooltip>
                       }
                     >
-                      <p>{contact.emailAddress}</p>
+                    <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"> <p>{contact.emailAddress}</p></Link>
                     </OverlayTrigger>
                   </div>
                   <div className='col-2'>
-                    <p>{contact.telephoneNumber}</p>
+                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.telephoneNumber}</p></Link>
                   </div>
                 </div>
               </div>

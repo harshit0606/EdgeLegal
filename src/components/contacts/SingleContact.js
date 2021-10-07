@@ -1,6 +1,8 @@
 import React,{useState} from 'react'
+import attachid from './attachid';
 import Detail from "./Detail"
 import Matter from "./matters"
+import Attachid from './attachid';
 function SingleContact() {
     const[currScreen,setCurrScreen]=useState('details');
 
@@ -23,7 +25,7 @@ function renderMatters(){
 }
 function renderAttachId(){
   return(
-    <div>attach id</div>
+    <div><Attachid/></div>
   )
 }
 
