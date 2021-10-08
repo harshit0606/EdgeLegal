@@ -4,6 +4,7 @@ import '../../stylesheets/safeCustody.css';
 import url from '../../config.js';
 import Document from './document.js';
 import AddCustodyForm from './AddCustodyForm';
+import AddNewSafeCustodyForm from './AddNewSafeCustodyForm';
 import AssociatedContacts from './associatedContacts.js';
 import File from './file.js';
 import { useCookies } from 'react-cookie';
@@ -23,15 +24,28 @@ import upArrowColoured from '../../images/upArrowColoured.svg';
 import SafeStripe from '../topStripes/SafeStripe';
 import { Link } from 'react-router-dom';
 
+
+const filterFields = {
+  companyName: '',
+  packetNumber: '',
+  siteName: '',
+  status: '',
+  comment: '',
+};
+
+
+
 function AllSafeCustody() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
   const [currentSafe, setCurrentSafe] = useState('select');
-  const [safeCustodyPackets, setSafeCustodyPackets] = useState(null);
-  const [custodyPacketContacts, setCustodyPacketContacts] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [filterInput, setFilterInput] = useState(filterFields);
+  const [safeCustodyPackets, setSafeCustodyPackets] = useState([]);
+  const [filteredSafeCustodyPackets, setFilteredSafeCustodyPackets] = useState([]);
   const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
   const [isAddCustodyOpen, setIsAddCustoduOpen] = useState(false);
+  const [newCustodyForm, setNewCustodyForm] = useState(false);
   const [sortOrder, setSortOrder] = useState('');
   const [sortField, setSortField] = useState('');
 
@@ -52,6 +66,7 @@ function AllSafeCustody() {
       .then((response) => {
         console.log(response.data?.data?.safeCustodyPackets);
         setSafeCustodyPackets(response.data?.data?.safeCustodyPackets);
+        setFilteredData(response.data?.data?.safeCustodyPackets)
       });
   }, []);
 
@@ -80,6 +95,7 @@ function AllSafeCustody() {
       .then((response) => {
         console.log(response.data?.data?.safeCustodyPackets);
         setSafeCustodyPackets(response.data?.data?.safeCustodyPackets);
+        setFilteredData(response.data?.data?.safeCustodyPackets)
       });
   }
 
@@ -87,7 +103,7 @@ function AllSafeCustody() {
     return (
       <div>
         <div>
-          <SafeStripe addCustody={handleAddCustody} />
+          <SafeStripe addCustody={() => setNewCustodyForm(true)} />
         </div>
         <div className='selectsFileDiv'>
           <div className='d-flex'>
@@ -122,48 +138,56 @@ function AllSafeCustody() {
             <button>More</button>
           </div>
         </div>
-        {isAddCustodyOpen && (
-          <AddCustodyForm closeForm={() => setIsAddCustoduOpen(false)} />
+        {newCustodyForm && (
+          <AddNewSafeCustodyForm closeForm={() => setNewCustodyForm(false)} />
         )}
       </div>
     );
   }
 
-  const filterData = (prop, val) => {
-    const newData = custodyPacketContacts.filter((data) =>
-      data.contactDetails[prop].includes(val)
+const filterData = (obj) => {
+    // console.log(obj);
+    const newData = safeCustodyPackets.filter(
+      (data) =>
+        data['companyName']
+          .toLowerCase()
+          .includes(obj['companyName'].toLowerCase()) &&
+        data['packetNumber']
+          .toLowerCase()
+          .includes(obj['packetNumber'].toLowerCase()) &&
+        data['siteName']
+          .toLowerCase()
+          .includes(obj['siteName'].toLowerCase()) &&
+        data['status']
+          .toLowerCase()
+          .includes(obj['status'].toLowerCase()) &&
+        (data['comment'] ? 
+        data['comment']?.toLowerCase().includes(obj['comment'].toLowerCase()) : true)
     );
     setFilteredData(newData);
   };
 
-  // const filterDataByType = (prop, val) => {
-  //   const newData = custodyPacketContacts.filter((data) => data[prop].includes(val));
-  //   setFilteredData(newData);
-  // };
-
   const handleFilter = (e) => {
     const { name } = e.target;
-    // setFormData({ ...formData, [name]: e.target.value });
-    // if(name==='contactType'){
-    //   filterDataByType(name, e.target.value);
-    // }
+    setFilterInput({ ...filterInput, [name]: e.target.value });
+    filterData({ ...filterInput, [name]: e.target.value });
+    // console.log(filteredData);
+    // if (e.target.value === '') {
+    //   setFilteredData(contactLists);
+    // } else {
 
-    if (e.target.value === '') {
-      setFilteredData(custodyPacketContacts);
-    } else {
-      filterData(name, e.target.value);
-    }
+    // }
   };
 
   const handleSort = (field, order) => {
     if (sortOrder === order && sortField === field) {
       setSortOrder('');
       setSortField('');
-      setFilteredData(custodyPacketContacts);
+      setFilteredData(safeCustodyPackets);
     } else {
       setSortOrder(order);
       setSortField(field);
-      let sortedData = filteredData.sort((a, b) => {
+      let sortedData = filteredSafeCustodyPackets.sort((a, b) => {
         if (order === 'asc') {
           return a[field] < b[field] ? -1 : 1;
         } else {
@@ -214,7 +238,7 @@ function AllSafeCustody() {
                 )}
               </div>
             </label>
-            <input type='text'></input>
+            <input type='text' name='siteName' onChange={handleFilter}></input>
           </div>
           <div className='col-2'>
             <label className='associatedContacts-label'>
@@ -252,7 +276,7 @@ function AllSafeCustody() {
                 )}
               </div>
             </label>
-            <input type='text'></input>
+            <input type='text' name='packetNumber' onChange={handleFilter}></input>
           </div>
           <div className='col-2'>
             <label className='associatedContacts-label'>
@@ -290,7 +314,7 @@ function AllSafeCustody() {
                 )}
               </div>
             </label>
-            <input type='text'></input>
+            <input type='text' name='companyName' onChange={handleFilter}></input>
           </div>
           <div className='col-2'>
             <label className='associatedContacts-label'>
@@ -328,7 +352,7 @@ function AllSafeCustody() {
                 )}
               </div>
             </label>
-            <input type='text'></input>
+            <input type='text' name='status' onChange={handleFilter}></input>
           </div>
           <div className='col-3'>
             <label className='associatedContacts-label'>
@@ -366,11 +390,11 @@ function AllSafeCustody() {
                 )}
               </div>
             </label>
-            <input type='text'></input>
+            <input type='text' name='comment' onChange={handleFilter}></input>
           </div>
         </div>
         <div>
-          {safeCustodyPackets?.map((packet, index) => {
+          {filteredData?.map((packet, index) => {
             if (index % 2 == 0)
               return (
                 <Link
