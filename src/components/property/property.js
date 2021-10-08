@@ -386,6 +386,7 @@ function RenderProperty() {
                   isEditTrue={isEditTrue}
                   setIsEditTrue={setIsEditTrue}
                   setBoolVal={setBoolVal}
+                  numberOfRegisteredLots={registeredLots.length}
                 />
               </div>
             </div>
@@ -655,7 +656,7 @@ function RenderProperty() {
             <div className='2'>
               <div className='propertyPageHeadings'>
                 <h6 className='propertyPageHeads'>Add/Edit Registered Lots</h6>
-                <button
+                {registeredLots.length<3 && (<button
                   className='propertyPageBtns'
                   data-bs-toggle='modal'
                   data-bs-target='#staticBackdrop1'
@@ -664,7 +665,7 @@ function RenderProperty() {
                   }}
                 >
                   + Add
-                </button>
+                </button>)}
                 <PopupFormR
                   modalId={1}
                   addBtn={1}
@@ -989,7 +990,7 @@ function RenderProperty() {
                 <h6 className='propertyPageHeads'>
                   Add/Edit Unregistered Lots
                 </h6>
-                <button
+                {unregisteredLots.length < 3 && (<button
                   className='propertyPageBtns'
                   data-bs-toggle='modal'
                   data-bs-target='#staticBackdrop2'
@@ -998,7 +999,7 @@ function RenderProperty() {
                   }}
                 >
                   + Add
-                </button>
+                </button>)}
 
                 <PopupFormUnR
                   modalId={2}
