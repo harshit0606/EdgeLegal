@@ -1,13 +1,13 @@
-import react, { useState } from 'react';
-import styles from '../../stylesheets/property.css';
+import React, { useState } from 'react';
+import '../../stylesheets/property.css';
 
 import { FiEdit2 } from 'react-icons/fi';
-import PopupFormR from './popupformR.js';
+import EditRegFormPopup from './EditRegFormPopup';
 
 function RegisteredLot(props) {
-  const { modal, registeredLot, isEditTrue, setIsEditTrue, idx } = props;
-  // console.log('modal', modal);
-  const [selectedLot, setSelectedLot] = useState(null);
+  const { registeredLot, idx } = props;
+  const [selectedLot, setSelectedLot] = useState([]);
+  const [isEditTrue, setIsEditTrue] = useState(false);
   return (
     <div>
       <div className='row'>
@@ -15,24 +15,18 @@ function RegisteredLot(props) {
           <button
             id={idx}
             className='editBtn'
-            data-bs-toggle='modal'
-            data-bs-target={`#staticBackdrop${modal}`}
             onClick={() => {
-              setSelectedLot(registeredLot);
-              console.log('i got clicked');
+              // setSelectedLot(registeredLot);
+              // console.log('i got clicked');
               setIsEditTrue(true);
             }}
           >
             <FiEdit2 />
           </button>
           {isEditTrue && (
-            <PopupFormR
-              modalId={modal}
-              addBtn={0}
-              isEditTrue={isEditTrue}
-              regLot={selectedLot}
-              idx={idx}
-              key={selectedLot?.titleReference?.length}
+            <EditRegFormPopup
+              setIsEditTrue={setIsEditTrue}
+              regDetails={registeredLot}
             />
           )}
         </div>

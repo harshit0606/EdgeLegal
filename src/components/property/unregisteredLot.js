@@ -1,11 +1,12 @@
-import react from 'react';
-import styles from '../../stylesheets/property.css';
+import React, { useState } from 'react';
+import '../../stylesheets/property.css';
 import { FiEdit2 } from 'react-icons/fi';
-import PopupFormR from './popupformR.js';
-import PopupFormUnR from './popupformUnR.js';
+
+import EditUnRegFormPopup from './EditUnRegFormPopup';
 
 function UnregisteredLot(props) {
-  const { modal, unregisteredLot, lotType, isEditTrue, setIsEditTrue } = props;
+  const { unregisteredLot } = props;
+  const [isEditTrue, setIsEditTrue] = useState(false);
   // console.log('modal', modal);
 
   return (
@@ -14,15 +15,18 @@ function UnregisteredLot(props) {
         <div className='col-1'>
           <button
             className='editBtn'
-            data-bs-toggle='modal'
-            data-bs-target={`#staticBackdrop${modal}`}
             onClick={() => {
               setIsEditTrue(true);
             }}
           >
             <FiEdit2 />
           </button>
-          <PopupFormUnR modalId={modal} addBtn={0} isEditTrue={isEditTrue} />
+          {isEditTrue && (
+            <EditUnRegFormPopup
+              setIsEditTrue={setIsEditTrue}
+              unregDetails={unregisteredLot}
+            />
+          )}
         </div>
         <div className='col-2'>
           <input value={unregisteredLot?.lotNumber} disabled type='text' />
