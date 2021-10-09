@@ -52,19 +52,36 @@ function RenderProperty() {
   const [specificProperty, setSpecificProperty] = useState([]);
   const [registeredLots, setRegisteredLots] = useState([]);
   const [unregisteredLots, setUnregisteredLots] = useState([]);
+
+  // to delete property
+  const [selected, setSelected] = useState([]);
+
   const [isEditTrue, setIsEditTrue] = useState(false);
+  const [isAddTrue, setIsAddTrue] = useState(false);
   const [boolVal, setBoolVal] = useState(false);
   const [sortOrder, setSortOrder] = useState('');
   const [sortField, setSortField] = useState('');
 
+  console.log('length', filteredData.length);
+
   useEffect(() => {
     const propertyData = (data) => {
-      console.log('data', data);
+      // console.log('data', data);
       var dataArray = [];
       data.forEach((d) => {
-        const propertyAddress = `${d.unit}/ ${d.streetNo}/ ${d.street}/ ${d.suburb}/ ${d.state}/ ${d.postCode}/ ${d.country}`;
+        const propertyAddress = `${d.unit}/${d.streetNo}/${d.street}/${d.suburb}/${d.state}/${d.postCode}/${d.country}`;
+        let titleRefs = '';
+        if (d.registeredProperties.length > 0) {
+          d.registeredProperties.forEach((r) => {
+            if (titleRefs === '') {
+              titleRefs += `${r.titleReference}`;
+            } else {
+              titleRefs += `/${r.titleReference}`;
+            }
+          });
+        }
         dataArray.push({
-          titleRef: d.registeredProperties.length === 0 ? '' : 'title',
+          titleRef: d.registeredProperties.length === 0 ? '' : titleRefs,
           address: propertyAddress,
           id: d.id,
           details: d,
@@ -99,19 +116,6 @@ function RenderProperty() {
 
   const filterData = (prop, val) => {
     const newData = allProperties.filter((data) => {
-      // if (val === ' ' || val === '/') {
-      //   return data;
-      // } else {
-      //   return (
-      //     data['unit']?.toLowerCase().includes(val.toLowerCase()) ||
-      //     data['streetNo']?.toLowerCase().includes(val.toLowerCase()) ||
-      //     data['street']?.toLowerCase().includes(val.toLowerCase()) ||
-      //     data['suburb']?.toLowerCase().includes(val.toLowerCase()) ||
-      //     data['state']?.toLowerCase().includes(val.toLowerCase()) ||
-      //     data['postCode']?.toLowerCase().includes(val.toLowerCase()) ||
-      //     data['country']?.toLowerCase().includes(val.toLowerCase())
-      //   );
-      // }
       return data[prop]?.toLowerCase().includes(val.toLowerCase());
     });
     setFilteredData(newData);
@@ -269,6 +273,79 @@ function RenderProperty() {
       });
   }
 
+  const deletePropertyOnMain = async () => {
+    let str = selected.join(',');
+    // console.log('str', str);
+    if (selected.length === 1) {
+      try {
+        const res = await axios.delete(
+          `${url}/api/property/${str}?requestId=1234567`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${loggedInToken}`,
+            },
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        console.log('single delete', res);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      try {
+        const res = await axios.delete(
+          `${url}/api/property/m/${str}?requestId=1234567`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${loggedInToken}`,
+            },
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        console.log('bulk delete', res);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+  const handleSelectToDelete = (id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+    setSelected(newSelected);
+  };
+
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelecteds = filteredData?.map((row) => row.details.id);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
+
+  // to check whether the property is selected or not
+  const isSelected = (id) => selected.indexOf(id) !== -1;
+
   function renderAllProperties() {
     return filteredData?.map((property, index) => {
       return (
@@ -276,12 +353,33 @@ function RenderProperty() {
           className={`row ${
             index % 2 === 0 ? 'contacttdatadiv' : 'lightcontacttdatadiv'
           }`}
-          onClick={() => {
-            fetchPropertyData(property.details);
-          }}
+          key={property.details.id}
         >
-          <h6 className='col-4'>{property.titleRef}</h6>
-          <h6 className='col-8'>{property.address}</h6>
+          <input
+            className='col-1'
+            style={{ padding: '5px' }}
+            type='checkbox'
+            checked={isSelected(property.details.id)}
+            onChange={() => handleSelectToDelete(property.details.id)}
+          />
+          <h6
+            style={{ padding: '0 15px' }}
+            onClick={() => {
+              fetchPropertyData(property.details);
+            }}
+            className='col-4'
+          >
+            {property.titleRef}
+          </h6>
+          <h6
+            style={{ padding: '0 15px' }}
+            onClick={() => {
+              fetchPropertyData(property.details);
+            }}
+            className='col-6'
+          >
+            {property.address}
+          </h6>
         </div>
       );
     });
@@ -374,7 +472,7 @@ function RenderProperty() {
           <div>
             <div className='propertyPageHeadings'>
               <h6 className='propertyPageHeads'>Property</h6>
-              <div>
+              <div className='propertyButton-div'>
                 <button
                   className='propertyPageBtns'
                   data-bs-toggle='modal'
@@ -382,6 +480,14 @@ function RenderProperty() {
                 >
                   <span className='plusdiv'>+</span>Add New
                 </button>
+                {selected.length > 0 && (
+                  <button
+                    className='propertyButton-delete'
+                    onClick={deletePropertyOnMain}
+                  >
+                    Delete
+                  </button>
+                )}
                 <AddNewProperty
                   isEditTrue={isEditTrue}
                   setIsEditTrue={setIsEditTrue}
@@ -392,6 +498,16 @@ function RenderProperty() {
             </div>
             <div className='leftPropertyDiv'>
               <div className='row'>
+                <div className='col-1' style={{ textAlign: 'center' }}>
+                  <input
+                    type='checkbox'
+                    checked={
+                      filteredData.length > 0 &&
+                      selected.length === filteredData.length
+                    }
+                    onChange={handleSelectAllClick}
+                  />
+                </div>
                 <div className='col-4'>
                   <p className='associatedContacts-label'>
                     Title Ref.
@@ -430,7 +546,7 @@ function RenderProperty() {
                   </p>
                   {/*<p>Title Ref.</p>*/}
                 </div>
-                <div className='col-8'>
+                <div className='col-6'>
                   <p className='associatedContacts-label'>
                     Address
                     <div className='associatedContacts-label-btn'>
@@ -469,6 +585,7 @@ function RenderProperty() {
                 </div>
               </div>
               <div className='row'>
+                <div className='col-1'></div>
                 <div className='col-4'>
                   <input
                     style={{
@@ -482,7 +599,7 @@ function RenderProperty() {
                     type='text'
                   />
                 </div>
-                <div className='col-8'>
+                <div className='col-6'>
                   <input
                     style={{
                       width: '90%',
@@ -656,22 +773,22 @@ function RenderProperty() {
             <div className='2'>
               <div className='propertyPageHeadings'>
                 <h6 className='propertyPageHeads'>Add/Edit Registered Lots</h6>
-                {registeredLots.length<3 && (<button
+                <button
                   className='propertyPageBtns'
                   data-bs-toggle='modal'
                   data-bs-target='#staticBackdrop1'
                   onClick={() => {
-                    setIsEditTrue(false);
+                    setIsAddTrue(false);
                   }}
                 >
                   + Add
-                </button>)}
+                </button>
                 <PopupFormR
                   modalId={1}
                   addBtn={1}
                   tempRegistered={registeredLots}
                   setTempRegistered={setRegisteredLots}
-                  isEditTrue={isEditTrue}
+                  isAddTrue={isAddTrue}
                 />
               </div>
               <div className='propertyPagesubHeads'>
@@ -990,23 +1107,23 @@ function RenderProperty() {
                 <h6 className='propertyPageHeads'>
                   Add/Edit Unregistered Lots
                 </h6>
-                {unregisteredLots.length < 3 && (<button
+                <button
                   className='propertyPageBtns'
                   data-bs-toggle='modal'
                   data-bs-target='#staticBackdrop2'
                   onClick={() => {
-                    setIsEditTrue(false);
+                    setIsAddTrue(false);
                   }}
                 >
                   + Add
-                </button>)}
+                </button>
 
                 <PopupFormUnR
                   modalId={2}
                   addBtn={1}
                   tempUnregistered={unregisteredLots}
                   setTempUnregistered={setUnregisteredLots}
-                  isEditTrue={isEditTrue}
+                  isAddTrue={isAddTrue}
                 />
               </div>
               <div className='propertyPagesubHeads'>

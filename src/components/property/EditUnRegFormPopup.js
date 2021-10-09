@@ -1,41 +1,18 @@
 import React, { useState } from 'react';
 import '../../stylesheets/property.css';
 
-function PopupFormUnR(props) {
-  const { modalId, addBtn, tempUnregistered, setTempUnregistered, isAddTrue } =
-    props;
+function EditUnRegFormPopup(props) {
+  const { setIsEditTrue, unregDetails } = props;
 
-  const [chotaFormUn, setChotaFormUn] = useState({
-    lotNumber: '',
-    partOfLot: '',
-    section: '',
-    planNumber: '',
-    description: '',
-  });
+  const [chotaFormUn, setChotaFormUn] = useState(unregDetails);
 
   function chotaSave() {
-    setTempUnregistered([...tempUnregistered, chotaFormUn]);
-    setChotaFormUn({
-      lotNumber: '',
-      partOfLot: '',
-      section: '',
-      planNumber: '',
-      description: '',
-    });
     console.log('chotaFormUn', chotaFormUn);
   }
 
   return (
-    <div
-      className='modal fade'
-      id={`staticBackdrop${modalId}`}
-      data-bs-backdrop='static'
-      data-bs-keyboard='false'
-      tabindex='-1'
-      aria-labelledby='staticBackdropLabel'
-      aria-hidden='true'
-    >
-      <div className='modal-dialog modal-dialog-centered'>
+    <div className='propertyPopup-container'>
+      <div className='propertyPopup-grid'>
         <div className='modal-content'>
           <div class='modal-header'>
             <h5
@@ -46,8 +23,6 @@ function PopupFormUnR(props) {
               Unregistered Lots
             </h5>
             <button
-              data-bs-toggle='modal'
-              data-bs-target={`#staticBackdrop${modalId}`}
               onClick={() => {
                 chotaSave();
               }}
@@ -57,14 +32,12 @@ function PopupFormUnR(props) {
             </button>
 
             {/* <button className="propertyPageBtns">Delete</button> */}
-            {isAddTrue == true && (
+            {/**isEditTrue == true && (
               <button className='propertyPageBtns'>Delete</button>
-            )}
+            ) */}
             <button
               className='propertyPageBtns'
-              data-bs-toggle='modal'
-              data-bs-target={`#staticBackdrop${modalId}`}
-              aria-label='Close'
+              onClick={() => setIsEditTrue(false)}
             >
               Cancel
             </button>
@@ -149,4 +122,4 @@ function PopupFormUnR(props) {
   );
 }
 
-export default PopupFormUnR;
+export default EditUnRegFormPopup;

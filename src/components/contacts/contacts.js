@@ -32,6 +32,7 @@ function Contacts() {
   const [filterInput, setFilterInput] = useState(filterFields);
   const [sortOrder, setSortOrder] = useState('');
   const [sortField, setSortField] = useState('');
+  const [originalData, setOriginalData] = useState(false);
 
   useEffect(() => {
     axios
@@ -54,6 +55,14 @@ function Contacts() {
         // setSafeCustodyPackets(response.data.data.safeCustodyPackets);
       });
   }, []);
+
+  useEffect(() => {
+    if (originalData) {
+      // console.log('changed');
+      setFilteredData(contactLists);
+      setOriginalData(false);
+    }
+  }, [originalData]);
 
   const filterData = (obj) => {
     // console.log(obj);
@@ -99,10 +108,11 @@ function Contacts() {
     if (sortOrder === order && sortField === field) {
       setSortOrder('');
       setSortField('');
-      setFilteredData(contactLists);
+      setOriginalData(true);
     } else {
       setSortOrder(order);
       setSortField(field);
+      // console.log()
       let sortedData = filteredData.sort((a, b) => {
         if (order === 'asc') {
           return a[field] < b[field] ? -1 : 1;
@@ -410,7 +420,7 @@ function Contacts() {
             return (
               <div className='contacttdatadiv'>
                 <div className='row'>
-                  <div style={{flex: ".5 0 0%"}}>
+                  <div style={{ flex: '.5 0 0%' }}>
                     <input
                       type='checkbox'
                       style={{ marginLeft: '50%' }}
@@ -420,16 +430,36 @@ function Contacts() {
                     <p>{contact.contactCode}</p>
                   </div>
                   <div className='col-1'>
-                    <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.firstName}</p></Link> 
+                    <Link
+                      style={{ textDecoration: 'none', color: 'black' }}
+                      to='/home/singlecontact'
+                    >
+                      <p>{contact.firstName}</p>
+                    </Link>
                   </div>
                   <div className='col-1'>
-                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.lastName}</p></Link>
+                    <Link
+                      style={{ textDecoration: 'none', color: 'black' }}
+                      to='/home/singlecontact'
+                    >
+                      <p>{contact.lastName}</p>
+                    </Link>
                   </div>
                   <div className='col-2'>
-                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.companyName}</p></Link>
+                    <Link
+                      style={{ textDecoration: 'none', color: 'black' }}
+                      to='/home/singlecontact'
+                    >
+                      <p>{contact.companyName}</p>
+                    </Link>
                   </div>
                   <div className='col-1'>
-                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.contactType}</p></Link>
+                    <Link
+                      style={{ textDecoration: 'none', color: 'black' }}
+                      to='/home/singlecontact'
+                    >
+                      <p>{contact.contactType}</p>
+                    </Link>
                   </div>
                   <div className='col-2'>
                     <OverlayTrigger
@@ -441,11 +471,21 @@ function Contacts() {
                         </Tooltip>
                       }
                     >
-                    <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.emailAddress}</p></Link>
+                      <Link
+                        style={{ textDecoration: 'none', color: 'black' }}
+                        to='/home/singlecontact'
+                      >
+                        <p>{contact.emailAddress}</p>
+                      </Link>
                     </OverlayTrigger>
                   </div>
                   <div className='col-2'>
-                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.telephoneNumber}</p></Link>
+                    <Link
+                      style={{ textDecoration: 'none', color: 'black' }}
+                      to='/home/singlecontact'
+                    >
+                      <p>{contact.telephoneNumber}</p>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -454,26 +494,51 @@ function Contacts() {
             return (
               <div className='lightcontacttdatadiv'>
                 <div className='row'>
-                  <div style={{flex: ".5 0 0%"}}>
+                  <div style={{ flex: '.5 0 0%' }}>
                     <input
                       type='checkbox'
                       style={{ marginLeft: '50%' }}
                     ></input>
                   </div>
                   <div className='col-2'>
-                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.contactCode}</p></Link>
+                    <Link
+                      style={{ textDecoration: 'none', color: 'black' }}
+                      to='/home/singlecontact'
+                    >
+                      <p>{contact.contactCode}</p>
+                    </Link>
                   </div>
                   <div className='col-1'>
-                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.firstName}</p></Link>
+                    <Link
+                      style={{ textDecoration: 'none', color: 'black' }}
+                      to='/home/singlecontact'
+                    >
+                      <p>{contact.firstName}</p>
+                    </Link>
                   </div>
                   <div className='col-1'>
-                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.lastName}</p></Link>
+                    <Link
+                      style={{ textDecoration: 'none', color: 'black' }}
+                      to='/home/singlecontact'
+                    >
+                      <p>{contact.lastName}</p>
+                    </Link>
                   </div>
                   <div className='col-2'>
-                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.companyName}</p></Link>
+                    <Link
+                      style={{ textDecoration: 'none', color: 'black' }}
+                      to='/home/singlecontact'
+                    >
+                      <p>{contact.companyName}</p>
+                    </Link>
                   </div>
                   <div className='col-1'>
-                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.contactType}</p></Link>
+                    <Link
+                      style={{ textDecoration: 'none', color: 'black' }}
+                      to='/home/singlecontact'
+                    >
+                      <p>{contact.contactType}</p>
+                    </Link>
                   </div>
                   <div className='col-2'>
                     <OverlayTrigger
@@ -485,11 +550,22 @@ function Contacts() {
                         </Tooltip>
                       }
                     >
-                    <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"> <p>{contact.emailAddress}</p></Link>
+                      <Link
+                        style={{ textDecoration: 'none', color: 'black' }}
+                        to='/home/singlecontact'
+                      >
+                        {' '}
+                        <p>{contact.emailAddress}</p>
+                      </Link>
                     </OverlayTrigger>
                   </div>
                   <div className='col-2'>
-                  <Link style={{textDecoration:"none",color:"black"}} to="/home/singlecontact"><p>{contact.telephoneNumber}</p></Link>
+                    <Link
+                      style={{ textDecoration: 'none', color: 'black' }}
+                      to='/home/singlecontact'
+                    >
+                      <p>{contact.telephoneNumber}</p>
+                    </Link>
                   </div>
                 </div>
               </div>

@@ -1,5 +1,5 @@
-import react, { useState, useEffect } from 'react';
-import styles from '../../stylesheets/property.css';
+import React, { useState, useEffect } from 'react';
+import '../../stylesheets/property.css';
 
 function PopupForm(props) {
   const {
@@ -8,7 +8,7 @@ function PopupForm(props) {
     countFn,
     tempRegistered,
     setTempRegistered,
-    isEditTrue,
+    isAddTrue,
     idx,
     regLot,
   } = props;
@@ -19,6 +19,7 @@ function PopupForm(props) {
     depositedPlanNumber: '',
     strataPlanNumber: '',
     section: '',
+    description: '',
   });
 
   useEffect(() => {
@@ -75,17 +76,17 @@ function PopupForm(props) {
             >
               Save
             </button>
-            {isEditTrue == true && (
+            {isAddTrue === true && (
               <button className='propertyPageBtns'>Delete</button>
             )}
-            <button className='propertyPageBtns'>Cancel</button>
             <button
-              type='button'
-              class='btn-close'
+              className='propertyPageBtns'
               data-bs-toggle='modal'
               data-bs-target={`#staticBackdrop${modalId}`}
               aria-label='Close'
-            ></button>
+            >
+              Cancel
+            </button>
           </div>
           <div className='modal-body'>
             <div style={{ padding: '12px' }}>
@@ -166,7 +167,16 @@ function PopupForm(props) {
                 </div>
               </div>
               <h6>Description</h6>
-              <textarea rows='2' cols='55' />
+              <textarea
+                rows='2'
+                cols='55'
+                onChange={(e) => {
+                  setChotaForm({
+                    ...chotaForm,
+                    description: e.target.value,
+                  });
+                }}
+              />
             </div>
           </div>
         </div>

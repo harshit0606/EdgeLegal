@@ -1,41 +1,17 @@
 import React, { useState } from 'react';
 import '../../stylesheets/property.css';
 
-function PopupFormUnR(props) {
-  const { modalId, addBtn, tempUnregistered, setTempUnregistered, isAddTrue } =
-    props;
-
-  const [chotaFormUn, setChotaFormUn] = useState({
-    lotNumber: '',
-    partOfLot: '',
-    section: '',
-    planNumber: '',
-    description: '',
-  });
+function EditRegFormPopup(props) {
+  const { regDetails, setIsEditTrue } = props;
+  const [chotaForm, setChotaForm] = useState(regDetails);
 
   function chotaSave() {
-    setTempUnregistered([...tempUnregistered, chotaFormUn]);
-    setChotaFormUn({
-      lotNumber: '',
-      partOfLot: '',
-      section: '',
-      planNumber: '',
-      description: '',
-    });
-    console.log('chotaFormUn', chotaFormUn);
+    console.log('chotaForm', chotaForm);
   }
 
   return (
-    <div
-      className='modal fade'
-      id={`staticBackdrop${modalId}`}
-      data-bs-backdrop='static'
-      data-bs-keyboard='false'
-      tabindex='-1'
-      aria-labelledby='staticBackdropLabel'
-      aria-hidden='true'
-    >
-      <div className='modal-dialog modal-dialog-centered'>
+    <div className='propertyPopup-container'>
+      <div className='propertyPopup-grid'>
         <div className='modal-content'>
           <div class='modal-header'>
             <h5
@@ -43,11 +19,9 @@ function PopupFormUnR(props) {
               className='modal-title'
               id='staticBackdropLabel'
             >
-              Unregistered Lots
+              Registered Lots
             </h5>
             <button
-              data-bs-toggle='modal'
-              data-bs-target={`#staticBackdrop${modalId}`}
               onClick={() => {
                 chotaSave();
               }}
@@ -55,46 +29,46 @@ function PopupFormUnR(props) {
             >
               Save
             </button>
-
-            {/* <button className="propertyPageBtns">Delete</button> */}
-            {isAddTrue == true && (
+            {/**isEditTrue === true && (
               <button className='propertyPageBtns'>Delete</button>
-            )}
+            ) */}
             <button
               className='propertyPageBtns'
-              data-bs-toggle='modal'
-              data-bs-target={`#staticBackdrop${modalId}`}
-              aria-label='Close'
+              onClick={() => setIsEditTrue(false)}
             >
               Cancel
             </button>
           </div>
-          <div class='modal-body'>
+          <div className='modal-body'>
             <div style={{ padding: '12px' }}>
               <div className='row'>
                 <div className='col-4'>
-                  <h6>Lot No.</h6>
+                  <h6>Title Reference</h6>
                   <input
                     className='popupFormInputs'
-                    value={chotaFormUn.lotNumber}
+                    value={chotaForm?.titleReference}
                     onChange={(e) => {
-                      setChotaFormUn({
-                        ...chotaFormUn,
-                        lotNumber: e.target.value,
+                      console.log(
+                        'kuch kr rhe h samajh ni arha',
+                        e.target.value
+                      );
+                      setChotaForm({
+                        ...chotaForm,
+                        titleReference: e.target.value,
                       });
                     }}
                     type='text'
                   ></input>
                 </div>
                 <div className='col-4'>
-                  <h6>Part of lot</h6>
+                  <h6>Lot No.</h6>
                   <input
                     className='popupFormInputs'
-                    value={chotaFormUn.partOfLot}
+                    value={chotaForm?.lotNumber}
                     onChange={(e) => {
-                      setChotaFormUn({
-                        ...chotaFormUn,
-                        partOfLot: e.target.value,
+                      setChotaForm({
+                        ...chotaForm,
+                        lotNumber: e.target.value,
                       });
                     }}
                     type='text'
@@ -104,10 +78,10 @@ function PopupFormUnR(props) {
                   <h6>Section</h6>
                   <input
                     className='popupFormInputs'
-                    value={chotaFormUn.section}
+                    value={chotaForm?.section}
                     onChange={(e) => {
-                      setChotaFormUn({
-                        ...chotaFormUn,
+                      setChotaForm({
+                        ...chotaForm,
                         section: e.target.value,
                       });
                     }}
@@ -115,14 +89,28 @@ function PopupFormUnR(props) {
                   ></input>
                 </div>
                 <div className='col-4'>
-                  <h6>Plan No.</h6>
+                  <h6>Deposited Plan No.</h6>
                   <input
                     className='popupFormInputs'
-                    value={chotaFormUn.planNumber}
+                    value={chotaForm?.depositedPlanNumber}
                     onChange={(e) => {
-                      setChotaFormUn({
-                        ...chotaFormUn,
-                        planNumber: e.target.value,
+                      setChotaForm({
+                        ...chotaForm,
+                        depositedPlanNumber: e.target.value,
+                      });
+                    }}
+                    type='text'
+                  ></input>
+                </div>
+                <div className='col-4'>
+                  <h6>Strata Plan No.</h6>
+                  <input
+                    className='popupFormInputs'
+                    value={chotaForm?.strataPlanNumber}
+                    onChange={(e) => {
+                      setChotaForm({
+                        ...chotaForm,
+                        strataPlanNumber: e.target.value,
                       });
                     }}
                     type='text'
@@ -131,15 +119,14 @@ function PopupFormUnR(props) {
               </div>
               <h6>Description</h6>
               <textarea
-                value={chotaFormUn.description}
+                rows='2'
+                cols='55'
                 onChange={(e) => {
-                  setChotaFormUn({
-                    ...chotaFormUn,
+                  setChotaForm({
+                    ...chotaForm,
                     description: e.target.value,
                   });
                 }}
-                rows='2'
-                cols='55'
               />
             </div>
           </div>
@@ -149,4 +136,4 @@ function PopupFormUnR(props) {
   );
 }
 
-export default PopupFormUnR;
+export default EditRegFormPopup;
