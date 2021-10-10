@@ -1,28 +1,60 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import url from '../../config.js';
+import { useCookies } from 'react-cookie';
 import '../../stylesheets/property.css';
 
 function PopupFormUnR(props) {
-  const { modalId, addBtn, tempUnregistered, setTempUnregistered, isAddTrue } =
-    props;
+  const {
+    modalId,
+    // addBtn,
+    tempUnregistered,
+    // setTempUnregistered,
+    specifiedDetails,
+    isAddTrue,
+  } = props;
+
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const loggedInToken = cookies.token;
 
   const [chotaFormUn, setChotaFormUn] = useState({
-    lotNumber: '',
+    lot: '',
     partOfLot: '',
     section: '',
-    planNumber: '',
+    plan: '',
     description: '',
   });
 
   function chotaSave() {
-    setTempUnregistered([...tempUnregistered, chotaFormUn]);
-    setChotaFormUn({
-      lotNumber: '',
-      partOfLot: '',
-      section: '',
-      planNumber: '',
-      description: '',
-    });
-    console.log('chotaFormUn', chotaFormUn);
+    const dataToBeSent = {
+      ...specifiedDetails,
+      unregisteredProperties: [...tempUnregistered, chotaFormUn],
+    };
+    axios
+      .post(
+        `${url}/api/property`,
+        {
+          requestId: '1123445',
+          data: dataToBeSent,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        // console.log('property update response', response.data);
+        // setSpecificProperty(dataToBeSent);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -76,11 +108,11 @@ function PopupFormUnR(props) {
                   <h6>Lot No.</h6>
                   <input
                     className='popupFormInputs'
-                    value={chotaFormUn.lotNumber}
+                    value={chotaFormUn.lot}
                     onChange={(e) => {
                       setChotaFormUn({
                         ...chotaFormUn,
-                        lotNumber: e.target.value,
+                        lot: e.target.value,
                       });
                     }}
                     type='text'
@@ -118,11 +150,11 @@ function PopupFormUnR(props) {
                   <h6>Plan No.</h6>
                   <input
                     className='popupFormInputs'
-                    value={chotaFormUn.planNumber}
+                    value={chotaFormUn.plan}
                     onChange={(e) => {
                       setChotaFormUn({
                         ...chotaFormUn,
-                        planNumber: e.target.value,
+                        plan: e.target.value,
                       });
                     }}
                     type='text'

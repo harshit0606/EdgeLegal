@@ -5,7 +5,7 @@ import { FiEdit2 } from 'react-icons/fi';
 import EditRegFormPopup from './EditRegFormPopup';
 
 function RegisteredLot(props) {
-  const { registeredLot, idx } = props;
+  const { registeredLot, idx, specifiedDetails } = props;
   const [selectedLot, setSelectedLot] = useState([]);
   const [isEditTrue, setIsEditTrue] = useState(false);
   return (
@@ -27,6 +27,7 @@ function RegisteredLot(props) {
             <EditRegFormPopup
               setIsEditTrue={setIsEditTrue}
               regDetails={registeredLot}
+              specifiedDetails={specifiedDetails}
             />
           )}
         </div>
@@ -50,7 +51,7 @@ function RegisteredLot(props) {
           <input disabled value={registeredLot?.strataPlanNumber} type='text' />
         </div>
         <div className='col-2'>
-          <input disabled type='text' />
+          <input disabled type='text' value={registeredLot?.description} />
         </div>
       </div>
     </div>

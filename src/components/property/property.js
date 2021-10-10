@@ -290,7 +290,8 @@ function RenderProperty() {
             withCredentials: true,
           }
         );
-        console.log('single delete', res);
+        // console.log('single delete', res);
+        window.reload();
       } catch (err) {
         console.log(err);
       }
@@ -308,7 +309,8 @@ function RenderProperty() {
             withCredentials: true,
           }
         );
-        console.log('bulk delete', res);
+        // console.log('bulk delete', res);
+        window.reload();
       } catch (err) {
         console.log(err);
       }
@@ -412,8 +414,7 @@ function RenderProperty() {
           modal={1}
           registeredLot={registeredLot}
           handleFilter={handleFilterRegister}
-          isEditTrue={isEditTrue}
-          setIsEditTrue={setIsEditTrue}
+          specifiedDetails={specificProperty}
           idx={idx}
         />
       );
@@ -787,6 +788,7 @@ function RenderProperty() {
                   modalId={1}
                   addBtn={1}
                   tempRegistered={registeredLots}
+                  specifiedDetails={specificProperty}
                   setTempRegistered={setRegisteredLots}
                   isAddTrue={isAddTrue}
                 />
@@ -1122,6 +1124,7 @@ function RenderProperty() {
                   modalId={2}
                   addBtn={1}
                   tempUnregistered={unregisteredLots}
+                  specifiedDetails={specificProperty}
                   setTempUnregistered={setUnregisteredLots}
                   isAddTrue={isAddTrue}
                 />
