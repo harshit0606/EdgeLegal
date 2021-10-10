@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import url from '../../config.js';
+import { useCookies } from 'react-cookie';
 import '../../stylesheets/property.css';
 
 function PopupForm(props) {
   const {
     modalId,
-    addBtncount,
-    countFn,
+    // addBtncount,
+    // countFn,
     tempRegistered,
     setTempRegistered,
+    specifiedDetails,
     isAddTrue,
-    idx,
-    regLot,
+    // idx,
+    // regLot,
   } = props;
 
   const [chotaForm, setChotaForm] = useState({
@@ -22,29 +26,44 @@ function PopupForm(props) {
     description: '',
   });
 
-  useEffect(() => {
-    // if(regLot){
-    console.log('setting reg lot', regLot);
-    setChotaForm(regLot);
-    // }
-  }, [regLot]);
-
-  useEffect(() => {
-    console.log('chota form hu mai', chotaForm);
-  }, [chotaForm]);
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const loggedInToken = cookies.token;
 
   function chotaSave() {
-    console.log(tempRegistered);
-    setTempRegistered([...tempRegistered, chotaForm]);
-    setChotaForm({
-      titleReference: '',
-      lotNumber: '',
-      depositedPlanNumber: '',
-      strataPlanNumber: '',
-      section: '',
-    });
-    console.log('chotaForm', chotaForm);
+    const dataToBeSent = {
+      ...specifiedDetails,
+      registeredProperties: [...tempRegistered, chotaForm],
+    };
+    axios
+      .post(
+        `${url}/api/property`,
+        {
+          requestId: '1123445',
+          data: dataToBeSent,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        // console.log('property update response', response.data);
+        // setSpecificProperty(dataToBeSent);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // console.log('update property', dataToBeSent);
+    //console.log("update property", specificProperty);
   }
+
+  // console.log('specified', specifiedDetails);
 
   return (
     <div
@@ -97,10 +116,6 @@ function PopupForm(props) {
                     className='popupFormInputs'
                     value={chotaForm?.titleReference}
                     onChange={(e) => {
-                      console.log(
-                        'kuch kr rhe h samajh ni arha',
-                        e.target.value
-                      );
                       setChotaForm({
                         ...chotaForm,
                         titleReference: e.target.value,

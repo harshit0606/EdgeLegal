@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import '../../stylesheets/property.css';
 
 function EditRegFormPopup(props) {
-  const { regDetails, setIsEditTrue } = props;
+  const { regDetails, setIsEditTrue, specifiedDetails } = props;
   const [chotaForm, setChotaForm] = useState(regDetails);
 
   function chotaSave() {
     console.log('chotaForm', chotaForm);
   }
+
+  console.log('specific', specifiedDetails);
 
   return (
     <div className='propertyPopup-container'>
@@ -48,10 +50,6 @@ function EditRegFormPopup(props) {
                     className='popupFormInputs'
                     value={chotaForm?.titleReference}
                     onChange={(e) => {
-                      console.log(
-                        'kuch kr rhe h samajh ni arha',
-                        e.target.value
-                      );
                       setChotaForm({
                         ...chotaForm,
                         titleReference: e.target.value,

@@ -29,7 +29,7 @@ function UnregisteredLot(props) {
           )}
         </div>
         <div className='col-2'>
-          <input value={unregisteredLot?.lotNumber} disabled type='text' />
+          <input value={unregisteredLot?.lot} disabled type='text' />
         </div>
         <div className='col-2'>
           <input value={unregisteredLot?.partOfLot} disabled type='text' />
@@ -38,7 +38,7 @@ function UnregisteredLot(props) {
           <input value={unregisteredLot?.section} disabled type='text' />
         </div>
         <div className='col-3'>
-          <input value={unregisteredLot?.planNumber} disabled type='text' />
+          <input value={unregisteredLot?.plan} disabled type='text' />
         </div>
         <div className='col-3'>
           <input type='text' value={unregisteredLot?.description} disabled />

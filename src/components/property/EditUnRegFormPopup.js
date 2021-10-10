@@ -49,11 +49,11 @@ function EditUnRegFormPopup(props) {
                   <h6>Lot No.</h6>
                   <input
                     className='popupFormInputs'
-                    value={chotaFormUn.lotNumber}
+                    value={chotaFormUn.lot}
                     onChange={(e) => {
                       setChotaFormUn({
                         ...chotaFormUn,
-                        lotNumber: e.target.value,
+                        lot: e.target.value,
                       });
                     }}
                     type='text'
@@ -91,11 +91,11 @@ function EditUnRegFormPopup(props) {
                   <h6>Plan No.</h6>
                   <input
                     className='popupFormInputs'
-                    value={chotaFormUn.planNumber}
+                    value={chotaFormUn.plan}
                     onChange={(e) => {
                       setChotaFormUn({
                         ...chotaFormUn,
-                        planNumber: e.target.value,
+                        plan: e.target.value,
                       });
                     }}
                     type='text'
