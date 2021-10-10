@@ -428,6 +428,7 @@ function RenderProperty() {
           modal={2}
           unregisteredLot={unregisteredLot}
           isEditTrue={isEditTrue}
+          specifiedDetails={specificProperty}
           setIsEditTrue={setIsEditTrue}
         />
       );

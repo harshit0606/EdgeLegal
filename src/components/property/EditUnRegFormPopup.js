@@ -1,13 +1,43 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import url from '../../config.js';
+import { useCookies } from 'react-cookie';
 import '../../stylesheets/property.css';
 
 function EditUnRegFormPopup(props) {
-  const { setIsEditTrue, unregDetails } = props;
-
+  const { setIsEditTrue, unregDetails, specifiedDetails } = props;
   const [chotaFormUn, setChotaFormUn] = useState(unregDetails);
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const loggedInToken = cookies.token;
 
   function chotaSave() {
-    console.log('chotaFormUn', chotaFormUn);
+    const dataToBeSent = {
+      ...specifiedDetails,
+      unregisteredProperties: [{ id: unregDetails.id, ...chotaFormUn }],
+    };
+    axios
+      .put(
+        `${url}/api/property`,
+        {
+          requestId: '1123445',
+          data: dataToBeSent,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (

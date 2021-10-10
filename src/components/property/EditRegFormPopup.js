@@ -1,15 +1,50 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import url from '../../config.js';
+import { useCookies } from 'react-cookie';
 import '../../stylesheets/property.css';
 
 function EditRegFormPopup(props) {
   const { regDetails, setIsEditTrue, specifiedDetails } = props;
   const [chotaForm, setChotaForm] = useState(regDetails);
 
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const loggedInToken = cookies.token;
+
   function chotaSave() {
-    console.log('chotaForm', chotaForm);
+    // console.log('regDetails', regDetails);
+    // console.log('specifiedDetails', specifiedDetails);
+
+    const dataToBeSent = {
+      ...specifiedDetails,
+      registeredProperties: [{ id: regDetails.id, ...chotaForm }],
+    };
+    axios
+      .put(
+        `${url}/api/property`,
+        {
+          requestId: '1123445',
+          data: dataToBeSent,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
-  console.log('specific', specifiedDetails);
+  // console.log('specific', specifiedDetails);
 
   return (
     <div className='propertyPopup-container'>
