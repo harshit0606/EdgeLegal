@@ -31,7 +31,7 @@ function PopupFormUnR(props) {
       unregisteredProperties: [...tempUnregistered, chotaFormUn],
     };
     axios
-      .post(
+      .put(
         `${url}/api/property`,
         {
           requestId: '1123445',
@@ -48,8 +48,6 @@ function PopupFormUnR(props) {
         }
       )
       .then((response) => {
-        // console.log('property update response', response.data);
-        // setSpecificProperty(dataToBeSent);
         window.location.reload();
       })
       .catch((err) => {

@@ -35,7 +35,7 @@ function PopupForm(props) {
       registeredProperties: [...tempRegistered, chotaForm],
     };
     axios
-      .post(
+      .put(
         `${url}/api/property`,
         {
           requestId: '1123445',
