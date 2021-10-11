@@ -1,101 +1,36 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import url from '../../config.js';
-import { useCookies } from 'react-cookie';
-import closeBtn from '../../images/close-white-btn.svg';
 import '../../stylesheets/property.css';
 
-const ConfirmationPopup = (props) => {
-  const { regDetails, closePopup, loggedInToken } = props;
-  const handleDelete = () => {
-    axios
-      .delete(
-        `${url}/api/property/deletereglot/${regDetails.id}?requestId=1234567`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+import { FiEdit2 } from 'react-icons/fi';
 
-  return (
-    <div className='confirmation-popup-container'>
-      <div className='confirmation-popup-grid'>
-        <div className='confirmation-header'>
-          <h2 className='confirmation-heading'>Confirm Your Action</h2>
-          <button className='close-form-btn' onClick={closePopup}>
-            {' '}
-            <img src={closeBtn} alt='close-btn' />
-          </button>
-        </div>
-        <div className='confirmation-para'>
-          <p>Are you sure you want to delete the record?</p>
-        </div>
-        <div className='confirmation-buttonDiv'>
-          <button className='cancelButton' onClick={closePopup}>
-            No
-          </button>
-          <button className='addButton' onClick={handleDelete}>
-            Yes
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+const ConfirmationPopup = (props) => {
+  // const { regDetails, closePopup, loggedInToken } = props;
 };
 
-function EditRegFormPopup(props) {
-  const { regDetails, setIsEditTrue, specifiedDetails } = props;
+const EditForm = (props) => {
+  const {
+    regDetails,
+    setIsEditTrue,
+    setTempRegistered,
+    tempRegistered,
+    index,
+  } = props;
   const [chotaForm, setChotaForm] = useState(regDetails);
   const [openConfirm, setOpenConfirm] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
-  const loggedInToken = cookies.token;
 
   function chotaSave() {
     // console.log('regDetails', regDetails);
-    // console.log('specifiedDetails', specifiedDetails);
-
-    const dataToBeSent = {
-      ...specifiedDetails,
-      registeredProperties: [{ id: regDetails.id, ...chotaForm }],
-    };
-    axios
-      .put(
-        `${url}/api/property`,
-        {
-          requestId: '1123445',
-          data: dataToBeSent,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    let list = [...tempRegistered];
+    list[index] = chotaForm;
+    setTempRegistered(list);
+    setIsEditTrue(false);
   }
 
-  // console.log('specific', specifiedDetails);
+  const deleteRegLot = () => {
+    let list = [...tempRegistered];
+    list.splice(index, 1);
+    setTempRegistered(list);
+  };
 
   return (
     <div className='propertyPopup-container'>
@@ -117,10 +52,7 @@ function EditRegFormPopup(props) {
             >
               Save
             </button>
-            <button
-              className='propertyPageBtns'
-              onClick={() => setOpenConfirm(true)}
-            >
+            <button className='propertyPageBtns' onClick={deleteRegLot}>
               Delete
             </button>
             <button
@@ -208,6 +140,7 @@ function EditRegFormPopup(props) {
               <textarea
                 rows='2'
                 cols='55'
+                value={chotaForm?.description}
                 onChange={(e) => {
                   setChotaForm({
                     ...chotaForm,
@@ -223,11 +156,65 @@ function EditRegFormPopup(props) {
         <ConfirmationPopup
           closePopup={() => setOpenConfirm(false)}
           regDetails={regDetails}
-          loggedInToken={loggedInToken}
         />
       )}
     </div>
   );
+};
+
+function NewRegisteredLot(props) {
+  const { registeredLot, index, setTempRegistered, tempRegistered } = props;
+  const [isEditTrue, setIsEditTrue] = useState(false);
+  return (
+    <div>
+      <div className='row'>
+        <div className='col-1'>
+          <button
+            id={index}
+            className='editBtn'
+            onClick={() => {
+              // setSelectedLot(registeredLot);
+              // console.log('i got clicked');
+              setIsEditTrue(true);
+            }}
+          >
+            <FiEdit2 />
+          </button>
+          {isEditTrue && (
+            <EditForm
+              index={index}
+              setIsEditTrue={setIsEditTrue}
+              tempRegistered={tempRegistered}
+              setTempRegistered={setTempRegistered}
+              regDetails={registeredLot}
+            />
+          )}
+        </div>
+        <div className='col-2'>
+          <input value={registeredLot?.titleReference} disabled type='text' />
+        </div>
+        <div className='col-1'>
+          <input value={registeredLot?.lotNumber} disabled type='text' />
+        </div>
+        <div className='col-1'>
+          <input value={registeredLot?.section} disabled type='text' />
+        </div>
+        <div className='col-3'>
+          <input
+            value={registeredLot?.depositedPlanNumber}
+            disabled
+            type='text'
+          />
+        </div>
+        <div className='col-2'>
+          <input disabled value={registeredLot?.strataPlanNumber} type='text' />
+        </div>
+        <div className='col-2'>
+          <input disabled type='text' value={registeredLot?.description} />
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default EditRegFormPopup;
+export default NewRegisteredLot;

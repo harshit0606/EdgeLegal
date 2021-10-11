@@ -17,7 +17,7 @@
   background-color: #fff;
   border-radius: 5px;
   width: 70%;
-  height: 85%;
+  /* height: 85%; */
   text-align: center;
   /* padding: 0px 10px 0px 10px; */
   /* box-shadow: 0px 6px 35px rgba(85, 85, 85, 0.7); */
@@ -133,6 +133,7 @@
 .addCustody-comment-div {
   width: 55%;
   margin: 0 1.5rem;
+  margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
   /* justify-content: left; */
@@ -148,7 +149,7 @@
   flex-direction: row;
   justify-content: space-evenly;
   margin-right: 1.5rem;
-  margin-bottom: -0.8rem;
+  margin-bottom: 1.8rem;
 }
 
 .cancelButton {

@@ -1,102 +1,63 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import url from '../../config.js';
-import { useCookies } from 'react-cookie';
-import closeBtn from '../../images/close-white-btn.svg';
 import '../../stylesheets/property.css';
 
-const ConfirmationPopup = (props) => {
-  const { unregDetails, closePopup, loggedInToken } = props;
+function AddUnregisteredLots(props) {
+  const { modalId, tempUnregistered, setTempUnregistered, isAddTrue } = props;
 
-  const handleDelete = () => {
-    // console.log(unregDetails);
-    axios
-      .delete(
-        `${url}/api/property/deletereglot/${unregDetails.id}?requestId=1234567`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  return (
-    <div className='confirmation-popup-container'>
-      <div className='confirmation-popup-grid'>
-        <div className='confirmation-header'>
-          <h2 className='confirmation-heading'>Confirm Your Action</h2>
-          <button className='close-form-btn' onClick={closePopup}>
-            {' '}
-            <img src={closeBtn} alt='close-btn' />
-          </button>
-        </div>
-        <div className='confirmation-para'>
-          <p>Are you sure you want to delete the record?</p>
-        </div>
-        <div className='confirmation-buttonDiv'>
-          <button className='cancelButton' onClick={closePopup}>
-            No
-          </button>
-          <button className='addButton' onClick={handleDelete}>
-            Yes
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-function EditUnRegFormPopup(props) {
-  const { setIsEditTrue, unregDetails, specifiedDetails } = props;
-  const [chotaFormUn, setChotaFormUn] = useState(unregDetails);
-  const [openConfirm, setOpenConfirm] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
-  const loggedInToken = cookies.token;
+  const [chotaFormUn, setChotaFormUn] = useState({
+    lot: '',
+    partOfLot: '',
+    section: '',
+    plan: '',
+    description: '',
+  });
 
   function chotaSave() {
-    const dataToBeSent = {
-      ...specifiedDetails,
-      unregisteredProperties: [{ id: unregDetails.id, ...chotaFormUn }],
-    };
-    axios
-      .put(
-        `${url}/api/property`,
-        {
-          requestId: '1123445',
-          data: dataToBeSent,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setTempUnregistered([...tempUnregistered, chotaFormUn]);
+    setChotaFormUn({
+      lot: '',
+      partOfLot: '',
+      section: '',
+      plan: '',
+      description: '',
+    });
+    // axios
+    //   .put(
+    //     `${url}/api/property`,
+    //     {
+    //       requestId: '1123445',
+    //       data: dataToBeSent,
+    //     },
+    //     {
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         Authorization: `Bearer ${loggedInToken}`,
+    //       },
+    //     },
+    //     {
+    //       withCredentials: true,
+    //     }
+    //   )
+    //   .then((response) => {
+    //     window.location.reload();
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    // console.log('unregLots', dataToBeSent);
   }
 
   return (
-    <div className='propertyPopup-container'>
-      <div className='propertyPopup-grid'>
+    <div
+      className='modal fade'
+      id={`staticBackdrop${modalId}`}
+      data-bs-backdrop='static'
+      data-bs-keyboard='false'
+      tabindex='-1'
+      aria-labelledby='staticBackdropLabel'
+      aria-hidden='true'
+    >
+      <div className='modal-dialog modal-dialog-centered'>
         <div className='modal-content'>
           <div class='modal-header'>
             <h5
@@ -107,6 +68,8 @@ function EditUnRegFormPopup(props) {
               Unregistered Lots
             </h5>
             <button
+              data-bs-toggle='modal'
+              data-bs-target={`#staticBackdrop${modalId}`}
               onClick={() => {
                 chotaSave();
               }}
@@ -115,15 +78,15 @@ function EditUnRegFormPopup(props) {
               Save
             </button>
 
+            {/* <button className="propertyPageBtns">Delete</button> */}
+            {isAddTrue == true && (
+              <button className='propertyPageBtns'>Delete</button>
+            )}
             <button
               className='propertyPageBtns'
-              onClick={() => setOpenConfirm(true)}
-            >
-              Delete
-            </button>
-            <button
-              className='propertyPageBtns'
-              onClick={() => setIsEditTrue(false)}
+              data-bs-toggle='modal'
+              data-bs-target={`#staticBackdrop${modalId}`}
+              aria-label='Close'
             >
               Cancel
             </button>
@@ -204,15 +167,8 @@ function EditUnRegFormPopup(props) {
           </div>
         </div>
       </div>
-      {openConfirm && (
-        <ConfirmationPopup
-          closePopup={() => setOpenConfirm(false)}
-          unregDetails={unregDetails}
-          loggedInToken={loggedInToken}
-        />
-      )}
     </div>
   );
 }
 
-export default EditUnRegFormPopup;
+export default AddUnregisteredLots;

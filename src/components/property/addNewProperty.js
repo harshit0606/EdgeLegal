@@ -1,25 +1,42 @@
 import React, { useState } from 'react';
 import '../../stylesheets/property.css';
 import axios from 'axios';
+import NewRegisteredLots from './NewRegisteredLots.js';
+import NewUnregisteredLots from './NewUnregisteredLots';
 
-import PopupFormR from './popupformR.js';
-import PopupFormUnR from './popupformUnR.js';
-import RegisteredLot from './registeredLot.js';
-import UnregisteredLot from './unregisteredLot.js';
 import url from '../../config.js';
 
 import { useCookies } from 'react-cookie';
+import AddRegisteredLots from './AddRegisteredLots';
+import AddUnregisteredLots from './AddUnregisteredLots';
+
+const initialRegLot = {
+  depositedPlanNumber: '',
+  description: '',
+  lotNumber: '',
+  section: '',
+  strataPlanNumber: '',
+  titleReference: '',
+};
+
+const initialUnRegLot = {
+  description: '',
+  lot: '',
+  partOfLot: '',
+  plan: '',
+  section: '',
+};
 
 function AddNewProperty(props) {
   const { modalId, isEditTrue, setIsEditTrue, setBoolVal } = props;
-  const [buildingName, setBuildingName] = useState(null);
-  const [unit, setUnit] = useState(null);
-  const [streetNo, setStreetNo] = useState(null);
-  const [street, setStreet] = useState(null);
-  const [suburb, setSuburb] = useState(null);
-  const [state, setState] = useState(null);
-  const [postCode, setPostCode] = useState(null);
-  const [country, setCountry] = useState(null);
+  const [buildingName, setBuildingName] = useState('');
+  const [unit, setUnit] = useState('');
+  const [streetNo, setStreetNo] = useState('');
+  const [street, setStreet] = useState('');
+  const [suburb, setSuburb] = useState('');
+  const [state, setState] = useState('');
+  const [postCode, setPostCode] = useState('');
+  const [country, setCountry] = useState('');
   const [current, setCurrent] = useState('general');
   const [tempRegistered, setTempRegistered] = useState([]);
   const [tempUnregistered, setTempUnregistered] = useState([]);
@@ -27,27 +44,81 @@ function AddNewProperty(props) {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
 
+  const handleSetInitial = () => {
+    setBuildingName('');
+    setUnit('');
+    setStreetNo('');
+    setStreet('');
+    setSuburb('');
+    setState('');
+    setPostCode('');
+    setCountry('');
+    setCurrent('general');
+    setTempRegistered([]);
+    setTempUnregistered([]);
+  };
+
+  // const handleRegInputChange = (e, index) => {
+  //   const { name, value } = e.target;
+  //   const list = [...tempRegistered];
+  //   list[index][name] = value;
+  //   setTempRegistered(list);
+  // };
+
+  // // handle click event of the Remove button
+  // const handleRemoveReg = (index) => {
+  //   const list = [...tempRegistered];
+  //   list.splice(index, 1);
+  //   setTempRegistered(list);
+  // };
+
+  // // handle click event of the Add button
+  // const handleAddReg = () => {
+  //   setTempRegistered([...tempRegistered, { ...initialRegLot }]);
+  // };
+
+  // const handleUnRegInputChange = (e, index) => {
+  //   const { name, value } = e.target;
+  //   const list = [...tempUnregistered];
+  //   list[index][name] = value;
+  //   setTempUnregistered(list);
+  // };
+
+  // // handle click event of the Remove button
+  // const handleRemoveUnReg = (index) => {
+  //   const list = [...tempUnregistered];
+  //   list.splice(index, 1);
+  //   setTempUnregistered(list);
+  // };
+
+  // handle click event of the Add button
+  // const handleAddUnReg = () => {
+  //   setTempUnregistered([...tempUnregistered, { ...initialUnRegLot }]);
+  // };
+
   function renderRegisteredLots() {
-    return tempRegistered?.map((registeredLot) => {
+    return tempRegistered?.map((registeredLot, ind) => {
       return (
-        <RegisteredLot
+        <NewRegisteredLots
           modal={9}
           registeredLot={registeredLot}
-          isEditTrue={isEditTrue}
-          setIsEditTrue={setIsEditTrue}
+          setTempRegistered={setTempRegistered}
+          tempRegistered={tempRegistered}
+          index={ind}
         />
       );
     });
   }
 
   function renderUnregisteredLots() {
-    return tempUnregistered?.map((unregisteredLot) => {
+    return tempUnregistered?.map((unregisteredLot, ind) => {
       return (
-        <UnregisteredLot
+        <NewUnregisteredLots
           modal={10}
           unregisteredLot={unregisteredLot}
-          isEditTrue={isEditTrue}
-          setIsEditTrue={setIsEditTrue}
+          setTempUnregistered={setTempUnregistered}
+          tempUnregistered={tempUnregistered}
+          index={ind}
         />
       );
     });
@@ -173,11 +244,10 @@ function AddNewProperty(props) {
             >
               + Add
             </button>
-            <PopupFormR
+            <AddRegisteredLots
               modalId={4}
               tempRegistered={tempRegistered}
               setTempRegistered={setTempRegistered}
-              isEditTrue={isEditTrue}
             />
           </div>
           <div className='propertyPagesubHeads'>
@@ -187,27 +257,27 @@ function AddNewProperty(props) {
               </div>
               <div className='col-2'>
                 <h6>Title Ref</h6>
-                <input type='text'></input>
+                {/*<input type='text'></input> */}
               </div>
               <div className='col-1'>
                 <h6>LotNo.</h6>
-                <input type='text'></input>
+                {/*<input type='text'></input> */}
               </div>
               <div className='col-1'>
                 <h6>Section</h6>
-                <input type='text'></input>
+                {/*<input type='text'></input> */}
               </div>
               <div className='col-3'>
                 <h6>Deposited Plan No.</h6>
-                <input type='text'></input>
+                {/*<input type='text'></input> */}
               </div>
               <div className='col-2'>
                 <h6>Strata Plan</h6>
-                <input type='text'></input>
+                {/*<input type='text'></input> */}
               </div>
               <div className='col-2'>
                 <h6>Description</h6>
-                <input type='text'></input>
+                {/*<input type='text'></input> */}
               </div>
             </div>
             <div className='lotsScrollDiv'>{renderRegisteredLots()}</div>
@@ -223,11 +293,10 @@ function AddNewProperty(props) {
             >
               + Add
             </button>
-            <PopupFormUnR
+            <AddUnregisteredLots
               modalId={5}
               tempUnregistered={tempUnregistered}
               setTempUnregistered={setTempUnregistered}
-              addBtn={1}
             />
           </div>
           <div className='propertyPagesubHeads'>
@@ -237,23 +306,23 @@ function AddNewProperty(props) {
               </div>
               <div className='col-2'>
                 <h6>LotNo.</h6>
-                <input type='text'></input>
+                {/*<input type='text'></input> */}
               </div>
               <div className='col-2'>
                 <h6>Part of Lot</h6>
-                <input type='text'></input>
+                {/*<input type='text'></input> */}
               </div>
               <div className='col-1'>
                 <h6>Section</h6>
-                <input type='text'></input>
+                {/*<input type='text'></input> */}
               </div>
               <div className='col-3'>
                 <h6>Plan Number</h6>
-                <input type='text'></input>
+                {/*<input type='text'></input> */}
               </div>
               <div className='col-3'>
                 <h6>Description</h6>
-                <input type='text'></input>
+                {/*<input type='text'></input> */}
               </div>
             </div>
             <div className='lotsScrollDiv'>{renderUnregisteredLots()}</div>
@@ -264,8 +333,6 @@ function AddNewProperty(props) {
   }
 
   function onSave() {
-    console.log('in bada save reg', tempRegistered);
-    console.log('in bada save unreg', tempUnregistered);
     const data = {
       buildingName: buildingName,
       unit: unit,
@@ -278,7 +345,8 @@ function AddNewProperty(props) {
       registeredProperties: tempRegistered,
       unregisteredProperties: tempUnregistered,
     };
-    console.log(data);
+    // console.log(data);
+
     axios
       .post(
         `${url}/api/property`,
@@ -297,7 +365,9 @@ function AddNewProperty(props) {
         }
       )
       .then((response) => {
-        console.log('adding new property', response.data);
+        // console.log('adding new property', response.data);
+        handleSetInitial();
+        window.location.reload();
         setBoolVal(false);
       });
   }
@@ -326,6 +396,7 @@ function AddNewProperty(props) {
               class='btn-close'
               data-bs-dismiss='modal'
               aria-label='Close'
+              onClick={handleSetInitial}
             ></button>
           </div>
           <div className='newPropertyBtnTray'>
@@ -343,6 +414,16 @@ function AddNewProperty(props) {
                 General
               </button>
               <button
+                disabled={
+                  !buildingName ||
+                  !unit ||
+                  !streetNo ||
+                  !street ||
+                  !suburb ||
+                  !state ||
+                  !postCode ||
+                  !country
+                }
                 className={
                   current === 'attached'
                     ? 'newPropertyMainBtns newPropertyMainBtnsClicked'
@@ -388,7 +469,11 @@ function AddNewProperty(props) {
                   Save
                 </button>
               )}
-              <button className='propertyPageBtns' data-bs-dismiss='modal'>
+              <button
+                className='propertyPageBtns'
+                data-bs-dismiss='modal'
+                onClick={handleSetInitial}
+              >
                 Cancel
               </button>
             </div>

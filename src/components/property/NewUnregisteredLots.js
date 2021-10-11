@@ -1,98 +1,32 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import url from '../../config.js';
-import { useCookies } from 'react-cookie';
-import closeBtn from '../../images/close-white-btn.svg';
 import '../../stylesheets/property.css';
+import { FiEdit2 } from 'react-icons/fi';
 
-const ConfirmationPopup = (props) => {
-  const { unregDetails, closePopup, loggedInToken } = props;
+const ConfirmationPopup = (props) => {};
 
-  const handleDelete = () => {
-    // console.log(unregDetails);
-    axios
-      .delete(
-        `${url}/api/property/deletereglot/${unregDetails.id}?requestId=1234567`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  return (
-    <div className='confirmation-popup-container'>
-      <div className='confirmation-popup-grid'>
-        <div className='confirmation-header'>
-          <h2 className='confirmation-heading'>Confirm Your Action</h2>
-          <button className='close-form-btn' onClick={closePopup}>
-            {' '}
-            <img src={closeBtn} alt='close-btn' />
-          </button>
-        </div>
-        <div className='confirmation-para'>
-          <p>Are you sure you want to delete the record?</p>
-        </div>
-        <div className='confirmation-buttonDiv'>
-          <button className='cancelButton' onClick={closePopup}>
-            No
-          </button>
-          <button className='addButton' onClick={handleDelete}>
-            Yes
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-function EditUnRegFormPopup(props) {
-  const { setIsEditTrue, unregDetails, specifiedDetails } = props;
+function EditForm(props) {
+  const {
+    setIsEditTrue,
+    unregDetails,
+    setTempUnregistered,
+    tempUnregistered,
+    index,
+  } = props;
   const [chotaFormUn, setChotaFormUn] = useState(unregDetails);
   const [openConfirm, setOpenConfirm] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
-  const loggedInToken = cookies.token;
 
   function chotaSave() {
-    const dataToBeSent = {
-      ...specifiedDetails,
-      unregisteredProperties: [{ id: unregDetails.id, ...chotaFormUn }],
-    };
-    axios
-      .put(
-        `${url}/api/property`,
-        {
-          requestId: '1123445',
-          data: dataToBeSent,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    let list = [...tempUnregistered];
+    list[index] = chotaFormUn;
+    setTempUnregistered(list);
+    setIsEditTrue(false);
   }
+
+  const deleteUnregLot = () => {
+    let list = [...tempUnregistered];
+    list.splice(index, 1);
+    setTempUnregistered(list);
+  };
 
   return (
     <div className='propertyPopup-container'>
@@ -115,10 +49,7 @@ function EditUnRegFormPopup(props) {
               Save
             </button>
 
-            <button
-              className='propertyPageBtns'
-              onClick={() => setOpenConfirm(true)}
-            >
+            <button className='propertyPageBtns' onClick={deleteUnregLot}>
               Delete
             </button>
             <button
@@ -208,11 +139,58 @@ function EditUnRegFormPopup(props) {
         <ConfirmationPopup
           closePopup={() => setOpenConfirm(false)}
           unregDetails={unregDetails}
-          loggedInToken={loggedInToken}
         />
       )}
     </div>
   );
 }
 
-export default EditUnRegFormPopup;
+function NewUnregisteredLots(props) {
+  const { unregisteredLot, setTempUnregistered, tempUnregistered, index } =
+    props;
+  const [isEditTrue, setIsEditTrue] = useState(false);
+  // console.log('modal', modal);
+
+  return (
+    <div>
+      <div className='row'>
+        <div className='col-1'>
+          <button
+            className='editBtn'
+            onClick={() => {
+              setIsEditTrue(true);
+            }}
+          >
+            <FiEdit2 />
+          </button>
+          {isEditTrue && (
+            <EditForm
+              index={index}
+              setIsEditTrue={setIsEditTrue}
+              unregDetails={unregisteredLot}
+              tempUnregistered={tempUnregistered}
+              setTempUnregistered={setTempUnregistered}
+            />
+          )}
+        </div>
+        <div className='col-2'>
+          <input value={unregisteredLot?.lot} disabled type='text' />
+        </div>
+        <div className='col-2'>
+          <input value={unregisteredLot?.partOfLot} disabled type='text' />
+        </div>
+        <div className='col-1'>
+          <input value={unregisteredLot?.section} disabled type='text' />
+        </div>
+        <div className='col-3'>
+          <input value={unregisteredLot?.plan} disabled type='text' />
+        </div>
+        <div className='col-3'>
+          <input type='text' value={unregisteredLot?.description} disabled />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default NewUnregisteredLots;
