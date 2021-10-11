@@ -1,105 +1,66 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import url from '../../config.js';
-import { useCookies } from 'react-cookie';
-import closeBtn from '../../images/close-white-btn.svg';
 import '../../stylesheets/property.css';
 
-const ConfirmationPopup = (props) => {
-  const { regDetails, closePopup, loggedInToken } = props;
-  const handleDelete = () => {
-    axios
-      .delete(
-        `${url}/api/property/deletereglot/${regDetails.id}?requestId=1234567`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+function AddRegisteredLots(props) {
+  const { modalId, tempRegistered, setTempRegistered, isAddTrue } = props;
 
-  return (
-    <div className='confirmation-popup-container'>
-      <div className='confirmation-popup-grid'>
-        <div className='confirmation-header'>
-          <h2 className='confirmation-heading'>Confirm Your Action</h2>
-          <button className='close-form-btn' onClick={closePopup}>
-            {' '}
-            <img src={closeBtn} alt='close-btn' />
-          </button>
-        </div>
-        <div className='confirmation-para'>
-          <p>Are you sure you want to delete the record?</p>
-        </div>
-        <div className='confirmation-buttonDiv'>
-          <button className='cancelButton' onClick={closePopup}>
-            No
-          </button>
-          <button className='addButton' onClick={handleDelete}>
-            Yes
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-function EditRegFormPopup(props) {
-  const { regDetails, setIsEditTrue, specifiedDetails } = props;
-  const [chotaForm, setChotaForm] = useState(regDetails);
-  const [openConfirm, setOpenConfirm] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
-  const loggedInToken = cookies.token;
+  const [chotaForm, setChotaForm] = useState({
+    titleReference: '',
+    lotNumber: '',
+    depositedPlanNumber: '',
+    strataPlanNumber: '',
+    section: '',
+    description: '',
+  });
 
   function chotaSave() {
-    // console.log('regDetails', regDetails);
-    // console.log('specifiedDetails', specifiedDetails);
-
-    const dataToBeSent = {
-      ...specifiedDetails,
-      registeredProperties: [{ id: regDetails.id, ...chotaForm }],
-    };
-    axios
-      .put(
-        `${url}/api/property`,
-        {
-          requestId: '1123445',
-          data: dataToBeSent,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setTempRegistered([...tempRegistered, chotaForm]);
+    setChotaForm({
+      titleReference: '',
+      lotNumber: '',
+      depositedPlanNumber: '',
+      strataPlanNumber: '',
+      section: '',
+      description: '',
+    });
+    // axios
+    //   .put(
+    //     `${url}/api/property`,
+    //     {
+    //       requestId: '1123445',
+    //       data: dataToBeSent,
+    //     },
+    //     {
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         Authorization: `Bearer ${loggedInToken}`,
+    //       },
+    //     },
+    //     {
+    //       withCredentials: true,
+    //     }
+    //   )
+    //   .then((response) => {
+    //     // console.log('property update response', response.data);
+    //     // setSpecificProperty(dataToBeSent);
+    //     window.location.reload();
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }
 
-  // console.log('specific', specifiedDetails);
-
   return (
-    <div className='propertyPopup-container'>
-      <div className='propertyPopup-grid'>
+    <div
+      className='modal fade'
+      id={`staticBackdrop${modalId}`}
+      data-bs-backdrop='static'
+      data-bs-keyboard='false'
+      tabindex='-1'
+      aria-labelledby='staticBackdropLabel'
+      aria-hidden='true'
+    >
+      <div className='modal-dialog modal-dialog-centered'>
         <div className='modal-content'>
           <div class='modal-header'>
             <h5
@@ -110,6 +71,8 @@ function EditRegFormPopup(props) {
               Registered Lots
             </h5>
             <button
+              data-bs-toggle='modal'
+              data-bs-target={`#staticBackdrop${modalId}`}
               onClick={() => {
                 chotaSave();
               }}
@@ -117,15 +80,14 @@ function EditRegFormPopup(props) {
             >
               Save
             </button>
+            {isAddTrue === true && (
+              <button className='propertyPageBtns'>Delete</button>
+            )}
             <button
               className='propertyPageBtns'
-              onClick={() => setOpenConfirm(true)}
-            >
-              Delete
-            </button>
-            <button
-              className='propertyPageBtns'
-              onClick={() => setIsEditTrue(false)}
+              data-bs-toggle='modal'
+              data-bs-target={`#staticBackdrop${modalId}`}
+              aria-label='Close'
             >
               Cancel
             </button>
@@ -208,6 +170,7 @@ function EditRegFormPopup(props) {
               <textarea
                 rows='2'
                 cols='55'
+                value={chotaForm.description}
                 onChange={(e) => {
                   setChotaForm({
                     ...chotaForm,
@@ -219,15 +182,8 @@ function EditRegFormPopup(props) {
           </div>
         </div>
       </div>
-      {openConfirm && (
-        <ConfirmationPopup
-          closePopup={() => setOpenConfirm(false)}
-          regDetails={regDetails}
-          loggedInToken={loggedInToken}
-        />
-      )}
     </div>
   );
 }
 
-export default EditRegFormPopup;
+export default AddRegisteredLots;

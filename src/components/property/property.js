@@ -276,44 +276,23 @@ function RenderProperty() {
   const deletePropertyOnMain = async () => {
     let str = selected.join(',');
     // console.log('str', str);
-    if (selected.length === 1) {
-      try {
-        const res = await axios.delete(
-          `${url}/api/property/${str}?requestId=1234567`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${loggedInToken}`,
-            },
+    try {
+      const res = await axios.delete(
+        `${url}/api/property/delete/${str}?requestId=1234567`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
           },
-          {
-            withCredentials: true,
-          }
-        );
-        // console.log('single delete', res);
-        window.reload();
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      try {
-        const res = await axios.delete(
-          `${url}/api/property/m/${str}?requestId=1234567`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${loggedInToken}`,
-            },
-          },
-          {
-            withCredentials: true,
-          }
-        );
-        // console.log('bulk delete', res);
-        window.reload();
-      } catch (err) {
-        console.log(err);
-      }
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      // console.log('bulk delete', res);
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -365,7 +344,7 @@ function RenderProperty() {
             onChange={() => handleSelectToDelete(property.details.id)}
           />
           <h6
-            style={{ padding: '0 15px' }}
+            style={{ padding: '0 15px', cursor: 'pointer' }}
             onClick={() => {
               fetchPropertyData(property.details);
             }}
@@ -374,7 +353,7 @@ function RenderProperty() {
             {property.titleRef}
           </h6>
           <h6
-            style={{ padding: '0 15px' }}
+            style={{ padding: '0 15px', cursor: 'pointer' }}
             onClick={() => {
               fetchPropertyData(property.details);
             }}
