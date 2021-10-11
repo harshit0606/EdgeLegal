@@ -622,14 +622,16 @@ function RenderProperty() {
                   >
                     Save
                   </button>
-                  <button
-                    className='propertyPageBtns'
-                    onClick={() => {
-                      deleteProperty();
-                    }}
-                  >
-                    Delete
-                  </button>
+                  {specificProperty?.registeredProperties?.length === 0 && (
+                    <button
+                      className='propertyPageBtns'
+                      onClick={() => {
+                        deleteProperty();
+                      }}
+                    >
+                      Delete
+                    </button>
+                  )}
                   <button
                     onClick={() => {
                       backToSearch();

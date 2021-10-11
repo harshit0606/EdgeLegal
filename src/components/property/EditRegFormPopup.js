@@ -206,6 +206,7 @@ function EditRegFormPopup(props) {
               </div>
               <h6>Description</h6>
               <textarea
+                value={chotaForm.description}
                 rows='2'
                 cols='55'
                 onChange={(e) => {

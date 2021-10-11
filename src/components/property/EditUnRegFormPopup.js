@@ -12,7 +12,7 @@ const ConfirmationPopup = (props) => {
     // console.log(unregDetails);
     axios
       .delete(
-        `${url}/api/property/deletereglot/${unregDetails.id}?requestId=1234567`,
+        `${url}/api/property/deleteunreglot/${unregDetails.id}?requestId=1234567`,
         {
           headers: {
             'Content-Type': 'application/json',
