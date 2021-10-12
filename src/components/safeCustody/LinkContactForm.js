@@ -6,7 +6,7 @@ import url from '../../config.js';
 import { useCookies } from 'react-cookie';
 
 // const initialData = {
-//   safeCustodyPacketId: 1, // will make it dynamic later because now it is coming in custodyPacketContact
+//   safeCustodyPacketId: '', // will make it dynamic later because now it is coming in custodyPacketContact
 //   contactId: '',
 //   contactRole: '',
 //   contactType: '',
@@ -37,14 +37,14 @@ const LinkContactForm = (props) => {
     e.preventDefault();
 
     let formData = {
-      safeCustodyPacketId: '1',
-      contactId: selected?.contactId ? selected?.contactId : 5,
+      safeCustodyPacketId: safeCustodyPacketId,
+      contactId: selected?.contactId,
       contactType: selected.contactType,
-      contactRole: selected?.contactRole ? selected?.contactRole : 'client',
+      contactRole: selected?.role,
       primaryContact: false,
     };
 
-    // console.log(formData);
+    // console.log(selected);
 
     await axios
       .post(

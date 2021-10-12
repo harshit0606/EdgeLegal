@@ -9,14 +9,14 @@ import { useCookies } from 'react-cookie';
 
 const initialData = {
   name: '',
-  safeCustodyPacketId: 1, // will make it dynamic later because now it is coming in custodyPacketContact
+  safeCustodyPacketId: '',
   dateOfDocument: '',
   dateReceived: '',
   comments: '',
 };
 
 const AddCustodyForm = (props) => {
-  const { closeForm } = props;
+  const { closeForm, safeCustodyPacketId } = props;
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
   const [formData, setFormData] = useState(initialData);
@@ -46,9 +46,11 @@ const AddCustodyForm = (props) => {
         requestId: 11223,
         data: {
           ...formData,
+          name: fileName,
+          safeCustodyPacketId,
         },
       };
-      inputData.append('custodyAttachment', data);
+      inputData.append('custodyAttachment', JSON.stringify(data));
       inputData.append('attachment', uploadedFile);
       try {
         const { data } = await axios.post(
@@ -65,9 +67,8 @@ const AddCustodyForm = (props) => {
           }
         );
         // console.log(data);
-        setFormData(initialData);
-        setUploadedFile(null);
-        setFileName('');
+        closeForm();
+        window.location.reload();
       } catch (err) {
         console.log(err);
       }

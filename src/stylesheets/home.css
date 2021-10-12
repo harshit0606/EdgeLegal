@@ -1,15 +1,14 @@
-.pagesDiv{
-    margin-left: 270px;
-    transition: 1s ease;
-    
-    background-color: #F7F8FC;
-    min-height: 100vh;
-    height: 100%;
-    padding-bottom: 40px;
+.pagesDiv {
+  margin-left: 250px;
+  transition: 1s ease;
+
+  background-color: #f7f8fc;
+  min-height: 100vh;
+  height: 100%;
+  padding-bottom: 40px;
 }
-.pagesDiv.fullwidth{
-    margin-left: 70px;
+.pagesDiv.fullwidth {
+  margin-left: 70px;
 }
-.stripes{
-    
+.stripes {
 }

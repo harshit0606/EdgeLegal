@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import '../../stylesheets/safeCustody.css';
 
 function AssociatedContacts(props) {
@@ -41,7 +42,19 @@ function AssociatedContacts(props) {
                   <p>{contact.contactType}</p>
                 </div>
                 <div className='col-2'>
-                  <p>{contact.contactDetails.emailAddress}</p>
+                  <OverlayTrigger
+                    key='bottom'
+                    placement='bottom'
+                    overlay={
+                      <Tooltip id={`tooltip-bottom`}>
+                        {contact.contactDetails.emailAddress}
+                      </Tooltip>
+                    }
+                  >
+                    <p style={{ textAlign: 'center', paddingLeft: '8px' }}>
+                      {contact.contactDetails.emailAddress}
+                    </p>
+                  </OverlayTrigger>
                 </div>
                 <div className='col-2'>
                   <p>{contact.contactDetails.telephoneNumber}</p>
@@ -77,7 +90,19 @@ function AssociatedContacts(props) {
                   <p>{contact.contactType}</p>
                 </div>
                 <div className='col-2'>
-                  <p>{contact.contactDetails.emailAddress}</p>
+                  <OverlayTrigger
+                    key='bottom'
+                    placement='bottom'
+                    overlay={
+                      <Tooltip id={`tooltip-bottom`}>
+                        {contact.contactDetails.emailAddress}
+                      </Tooltip>
+                    }
+                  >
+                    <p style={{ textAlign: 'center', paddingLeft: '8px' }}>
+                      {contact.contactDetails.emailAddress}
+                    </p>
+                  </OverlayTrigger>
                 </div>
                 <div className='col-2'>
                   <p>{contact.contactDetails.telephoneNumber}</p>

@@ -128,8 +128,8 @@ function Contacts() {
     <div
       style={{
         backgroundColor: 'white',
-        marginLeft: '30px',
-        marginRight: '30px',
+        marginLeft: '20px',
+        marginRight: '20px',
         paddingBottom: '30px',
         overflow: 'hidden',
       }}
@@ -139,6 +139,9 @@ function Contacts() {
       </div>
 
       <div className='row associatedContacts'>
+        <div className='col-1' style={{ paddingRight: '3rem' }}>
+          <input type='checkbox'></input>
+        </div>
         <div className='col-2'>
           <label className='associatedContacts-label'>
             Contact Code
@@ -179,7 +182,7 @@ function Contacts() {
         </div>
         <div className='col-1'>
           <label className='associatedContacts-label'>
-            First Name
+            F. Name
             <div className='associatedContacts-label-btn'>
               {sortOrder === 'asc' && sortField === 'firstName' ? (
                 <img
@@ -217,7 +220,7 @@ function Contacts() {
         </div>
         <div className='col-1'>
           <label className='associatedContacts-label'>
-            Last Name
+            L. Name
             <div className='associatedContacts-label-btn'>
               {sortOrder === 'asc' && sortField === 'lastName' ? (
                 <img
@@ -432,7 +435,10 @@ function Contacts() {
                   <div className='col-1'>
                     <Link
                       style={{ textDecoration: 'none', color: 'black' }}
-                      to='/home/singlecontact'
+                      to={{
+                        pathname: '/home/singlecontact',
+                        aboutProps: contact,
+                      }}
                     >
                       <p>{contact.firstName}</p>
                     </Link>
@@ -440,7 +446,10 @@ function Contacts() {
                   <div className='col-1'>
                     <Link
                       style={{ textDecoration: 'none', color: 'black' }}
-                      to='/home/singlecontact'
+                      to={{
+                        pathname: '/home/singlecontact',
+                        aboutProps: contact,
+                      }}
                     >
                       <p>{contact.lastName}</p>
                     </Link>
@@ -448,7 +457,10 @@ function Contacts() {
                   <div className='col-2'>
                     <Link
                       style={{ textDecoration: 'none', color: 'black' }}
-                      to='/home/singlecontact'
+                      to={{
+                        pathname: '/home/singlecontact',
+                        aboutProps: contact,
+                      }}
                     >
                       <p>{contact.companyName}</p>
                     </Link>
@@ -456,7 +468,10 @@ function Contacts() {
                   <div className='col-1'>
                     <Link
                       style={{ textDecoration: 'none', color: 'black' }}
-                      to='/home/singlecontact'
+                      to={{
+                        pathname: '/home/singlecontact',
+                        aboutProps: contact,
+                      }}
                     >
                       <p>{contact.contactType}</p>
                     </Link>
@@ -467,24 +482,34 @@ function Contacts() {
                       placement='bottom'
                       overlay={
                         <Tooltip id={`tooltip-bottom`}>
-                          {contact.emailAddress}.
+                          {contact.emailAddress}
                         </Tooltip>
                       }
                     >
                       <Link
                         style={{ textDecoration: 'none', color: 'black' }}
-                        to='/home/singlecontact'
+                        to={{
+                          pathname: '/home/singlecontact',
+                          aboutProps: contact,
+                        }}
                       >
-                        <p>{contact.emailAddress}</p>
+                        <p style={{ textAlign: 'center', paddingLeft: '8px' }}>
+                          {contact.emailAddress}
+                        </p>
                       </Link>
                     </OverlayTrigger>
                   </div>
                   <div className='col-2'>
                     <Link
                       style={{ textDecoration: 'none', color: 'black' }}
-                      to='/home/singlecontact'
+                      to={{
+                        pathname: '/home/singlecontact',
+                        aboutProps: contact,
+                      }}
                     >
-                      <p>{contact.telephoneNumber}</p>
+                      <p style={{ textAlign: 'center' }}>
+                        {contact.telephoneNumber}
+                      </p>
                     </Link>
                   </div>
                 </div>
@@ -503,7 +528,10 @@ function Contacts() {
                   <div className='col-2'>
                     <Link
                       style={{ textDecoration: 'none', color: 'black' }}
-                      to='/home/singlecontact'
+                      to={{
+                        pathname: '/home/singlecontact',
+                        aboutProps: contact,
+                      }}
                     >
                       <p>{contact.contactCode}</p>
                     </Link>
@@ -511,7 +539,10 @@ function Contacts() {
                   <div className='col-1'>
                     <Link
                       style={{ textDecoration: 'none', color: 'black' }}
-                      to='/home/singlecontact'
+                      to={{
+                        pathname: '/home/singlecontact',
+                        aboutProps: contact,
+                      }}
                     >
                       <p>{contact.firstName}</p>
                     </Link>
@@ -519,7 +550,10 @@ function Contacts() {
                   <div className='col-1'>
                     <Link
                       style={{ textDecoration: 'none', color: 'black' }}
-                      to='/home/singlecontact'
+                      to={{
+                        pathname: '/home/singlecontact',
+                        aboutProps: contact,
+                      }}
                     >
                       <p>{contact.lastName}</p>
                     </Link>
@@ -527,7 +561,10 @@ function Contacts() {
                   <div className='col-2'>
                     <Link
                       style={{ textDecoration: 'none', color: 'black' }}
-                      to='/home/singlecontact'
+                      to={{
+                        pathname: '/home/singlecontact',
+                        aboutProps: contact,
+                      }}
                     >
                       <p>{contact.companyName}</p>
                     </Link>
@@ -535,7 +572,10 @@ function Contacts() {
                   <div className='col-1'>
                     <Link
                       style={{ textDecoration: 'none', color: 'black' }}
-                      to='/home/singlecontact'
+                      to={{
+                        pathname: '/home/singlecontact',
+                        aboutProps: contact,
+                      }}
                     >
                       <p>{contact.contactType}</p>
                     </Link>
@@ -546,25 +586,35 @@ function Contacts() {
                       placement='bottom'
                       overlay={
                         <Tooltip id={`tooltip-bottom`}>
-                          {contact.emailAddress}.
+                          {contact.emailAddress}
                         </Tooltip>
                       }
                     >
                       <Link
                         style={{ textDecoration: 'none', color: 'black' }}
-                        to='/home/singlecontact'
+                        to={{
+                          pathname: '/home/singlecontact',
+                          aboutProps: contact,
+                        }}
                       >
                         {' '}
-                        <p>{contact.emailAddress}</p>
+                        <p style={{ textAlign: 'center', paddingLeft: '8px' }}>
+                          {contact.emailAddress}
+                        </p>
                       </Link>
                     </OverlayTrigger>
                   </div>
                   <div className='col-2'>
                     <Link
                       style={{ textDecoration: 'none', color: 'black' }}
-                      to='/home/singlecontact'
+                      to={{
+                        pathname: '/home/singlecontact',
+                        aboutProps: contact,
+                      }}
                     >
-                      <p>{contact.telephoneNumber}</p>
+                      <p style={{ textAlign: 'center' }}>
+                        {contact.telephoneNumber}
+                      </p>
                     </Link>
                   </div>
                 </div>
