@@ -4,7 +4,8 @@
   padding-top: 2.5%;
   color: #212529;
   padding-left: 30px;
-  margin-right: -90px;
+  /* margin-right: -90px; */
+  width: 100%;
 }
 
 .associatedContacts label {
@@ -42,9 +43,8 @@
   padding-top: 15px;
   color: #1f252c;
 }
-.col-1{
+.col-1 {
   padding: 0px 5px;
-
 }
 .col-2 {
   text-overflow: ellipsis ' [..]' !important;
@@ -54,10 +54,20 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .lightcontacttdatadiv {
   height: 50px;
   padding-top: 15px;
 }
+
+.lightcontacttdatadiv p {
+  font-size: 15px;
+}
+
+.contacttdatadiv p {
+  font-size: 15px;
+}
+
 .contacttdatadiv:hover {
   background-color: #dceeff;
 }
@@ -156,4 +166,3 @@
   margin-right: 2%;
   font-size: small;
 }
-

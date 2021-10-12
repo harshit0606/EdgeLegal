@@ -1,5 +1,5 @@
 .sidebarDiv {
-  width: 270px;
+  width: 250px;
   background-color: #002b5c;
   height: 100vh;
   position: fixed;
@@ -9,7 +9,7 @@
   transition: 1s ease;
 }
 .sidebarDiv.collapsse {
-  left: -290px;
+  left: -250px;
 }
 .logo_div {
   display: flex;
@@ -83,7 +83,6 @@
   position: fixed;
   left: 0;
   top: 0;
-  
 }
 .minisidebar img {
   /* margin-left: 20px;
