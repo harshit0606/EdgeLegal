@@ -139,7 +139,7 @@
 }
 
 .newPropertyHead {
-  background-color: #f0f0f0;
+  background-color: #002b5c;
 }
 
 .newPropertyBtnTray {
@@ -280,12 +280,12 @@
   width: 20%;
   font-size: 0.9rem;
   font-weight: 600;
-  border: 1px solid #cbd1d1;
   border-radius: 5px;
   padding: 5px 10px;
   outline: none;
-  color: #616666;
+  color: Black;
   margin: 0 10px;
+  background-color: #c4cacd;
   box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
     0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
 }
@@ -295,12 +295,11 @@
   font-size: 0.9rem;
   font-weight: 600;
   padding: 5px 8px;
-  color: #fff;
-  background-color: #002b5c;
-  border: 1px solid #002b5c;
+  color: Black;
+  margin: 0 10px;
+  background-color: #c4cacd;
   border-radius: 5px;
   outline: none;
-  margin: 0 10px;
   box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
     0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
 }

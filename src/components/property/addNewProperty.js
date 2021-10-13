@@ -1,59 +1,59 @@
-import React, { useState } from 'react';
-import '../../stylesheets/property.css';
-import axios from 'axios';
-import NewRegisteredLots from './NewRegisteredLots.js';
-import NewUnregisteredLots from './NewUnregisteredLots';
+import React, { useState } from "react";
+import "../../stylesheets/property.css";
+import axios from "axios";
+import NewRegisteredLots from "./NewRegisteredLots.js";
+import NewUnregisteredLots from "./NewUnregisteredLots";
 
-import url from '../../config.js';
+import url from "../../config.js";
 
-import { useCookies } from 'react-cookie';
-import AddRegisteredLots from './AddRegisteredLots';
-import AddUnregisteredLots from './AddUnregisteredLots';
+import { useCookies } from "react-cookie";
+import AddRegisteredLots from "./AddRegisteredLots";
+import AddUnregisteredLots from "./AddUnregisteredLots";
 
 const initialRegLot = {
-  depositedPlanNumber: '',
-  description: '',
-  lotNumber: '',
-  section: '',
-  strataPlanNumber: '',
-  titleReference: '',
+  depositedPlanNumber: "",
+  description: "",
+  lotNumber: "",
+  section: "",
+  strataPlanNumber: "",
+  titleReference: "",
 };
 
 const initialUnRegLot = {
-  description: '',
-  lot: '',
-  partOfLot: '',
-  plan: '',
-  section: '',
+  description: "",
+  lot: "",
+  partOfLot: "",
+  plan: "",
+  section: "",
 };
 
 function AddNewProperty(props) {
   const { modalId, isEditTrue, setIsEditTrue, setBoolVal } = props;
-  const [buildingName, setBuildingName] = useState('');
-  const [unit, setUnit] = useState('');
-  const [streetNo, setStreetNo] = useState('');
-  const [street, setStreet] = useState('');
-  const [suburb, setSuburb] = useState('');
-  const [state, setState] = useState('');
-  const [postCode, setPostCode] = useState('');
-  const [country, setCountry] = useState('');
-  const [current, setCurrent] = useState('general');
+  const [buildingName, setBuildingName] = useState("");
+  const [unit, setUnit] = useState("");
+  const [streetNo, setStreetNo] = useState("");
+  const [street, setStreet] = useState("");
+  const [suburb, setSuburb] = useState("");
+  const [state, setState] = useState("");
+  const [postCode, setPostCode] = useState("");
+  const [country, setCountry] = useState("");
+  const [current, setCurrent] = useState("general");
   const [tempRegistered, setTempRegistered] = useState([]);
   const [tempUnregistered, setTempUnregistered] = useState([]);
 
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const loggedInToken = cookies.token;
 
   const handleSetInitial = () => {
-    setBuildingName('');
-    setUnit('');
-    setStreetNo('');
-    setStreet('');
-    setSuburb('');
-    setState('');
-    setPostCode('');
-    setCountry('');
-    setCurrent('general');
+    setBuildingName("");
+    setUnit("");
+    setStreetNo("");
+    setStreet("");
+    setSuburb("");
+    setState("");
+    setPostCode("");
+    setCountry("");
+    setCurrent("general");
     setTempRegistered([]);
     setTempUnregistered([]);
   };
@@ -126,97 +126,97 @@ function AddNewProperty(props) {
 
   function renderGeneral() {
     return (
-      <div className='generalDiv'>
+      <div className="generalDiv">
         <div
           // style={{ marginTop: "10%" }}
-          className='row '
+          className="row "
         >
-          <div className='col-4'>
+          <div className="col-4">
             <p>Building Name</p>
           </div>
-          <div className='col-4'>
+          <div className="col-4">
             <p>Unit</p>
           </div>
-          <div className='col-4'>
+          <div className="col-4">
             <p>Street No.</p>
           </div>
-          <div className='col-4'>
+          <div className="col-4">
             <input
-              type='text'
+              type="text"
               value={buildingName}
               onChange={(e) => {
                 setBuildingName(e.target.value);
               }}
             />
           </div>
-          <div className='col-4'>
+          <div className="col-4">
             <input
-              type='text'
+              type="text"
               value={unit}
               onChange={(e) => {
                 setUnit(e.target.value);
               }}
             />
           </div>
-          <div className='col-4'>
+          <div className="col-4">
             <input
-              type='text'
+              type="text"
               value={streetNo}
               onChange={(e) => {
                 setStreetNo(e.target.value);
               }}
             />
           </div>
-          <div className='col-4'>
+          <div className="col-4">
             <p>Street</p>
           </div>
-          <div className='col-4'>
+          <div className="col-4">
             <p>Suburb</p>
           </div>
-          <div className='col-4'>
+          <div className="col-4">
             <p>State</p>
           </div>
-          <div className='col-4'>
+          <div className="col-4">
             <input
-              type='text'
+              type="text"
               value={street}
               onChange={(e) => {
                 setStreet(e.target.value);
               }}
             />
           </div>
-          <div className='col-4'>
+          <div className="col-4">
             <input
-              type='text'
+              type="text"
               value={suburb}
               onChange={(e) => {
                 setSuburb(e.target.value);
               }}
             />
           </div>
-          <div className='col-4'>
+          <div className="col-4">
             <input
-              type='text'
+              type="text"
               value={state}
               onChange={(e) => {
                 setState(e.target.value);
               }}
             />
           </div>
-          <div className='col-4'>
+          <div className="col-4">
             <label>Post Code</label>
             <input
-              type='text'
+              type="text"
               value={postCode}
               onChange={(e) => {
                 setPostCode(e.target.value);
               }}
             />
           </div>
-          <div className='col-4'>
+          <div className="col-4">
             <label>Country</label>
             <input
-              type='text'
+              type="text"
               value={country}
               onChange={(e) => {
                 setCountry(e.target.value);
@@ -231,13 +231,13 @@ function AddNewProperty(props) {
   function renderAttachedLots() {
     return (
       <div>
-        <div className='2'>
-          <div className='propertyPageHeadings'>
-            <h6 className='propertyPageHeads'>Add/Edit Registered Lots</h6>
+        <div className="2">
+          <div className="propertyPageHeadings">
+            <h6 className="propertyPageHeads">Add/Edit Registered Lots</h6>
             <button
-              className='propertyPageBtns'
-              data-bs-toggle='modal'
-              data-bs-target='#staticBackdrop4'
+              className="propertyPageBtns"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop4"
               onClick={() => {
                 setIsEditTrue(false);
               }}
@@ -250,46 +250,46 @@ function AddNewProperty(props) {
               setTempRegistered={setTempRegistered}
             />
           </div>
-          <div className='propertyPagesubHeads'>
-            <div className='row'>
-              <div className='col-1'>
+          <div className="propertyPagesubHeads">
+            <div className="row">
+              <div className="col-1">
                 <h6>Edit</h6>
               </div>
-              <div className='col-2'>
+              <div className="col-2">
                 <h6>Title Ref</h6>
                 {/*<input type='text'></input> */}
               </div>
-              <div className='col-1'>
+              <div className="col-1">
                 <h6>LotNo.</h6>
                 {/*<input type='text'></input> */}
               </div>
-              <div className='col-1'>
+              <div className="col-1">
                 <h6>Section</h6>
                 {/*<input type='text'></input> */}
               </div>
-              <div className='col-3'>
+              <div className="col-3">
                 <h6>Deposited Plan No.</h6>
                 {/*<input type='text'></input> */}
               </div>
-              <div className='col-2'>
+              <div className="col-2">
                 <h6>Strata Plan</h6>
                 {/*<input type='text'></input> */}
               </div>
-              <div className='col-2'>
+              <div className="col-2">
                 <h6>Description</h6>
                 {/*<input type='text'></input> */}
               </div>
             </div>
-            <div className='lotsScrollDiv'>{renderRegisteredLots()}</div>
+            <div className="lotsScrollDiv">{renderRegisteredLots()}</div>
           </div>
         </div>
-        <div className='3'>
-          <div className='propertyPageHeadings'>
-            <h6 className='propertyPageHeads'>Add/Edit Unregistered Lots</h6>
+        <div className="3">
+          <div className="propertyPageHeadings">
+            <h6 className="propertyPageHeads">Add/Edit Unregistered Lots</h6>
             <button
-              className='propertyPageBtns'
-              data-bs-toggle='modal'
-              data-bs-target='#staticBackdrop5'
+              className="propertyPageBtns"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop5"
             >
               + Add
             </button>
@@ -299,33 +299,33 @@ function AddNewProperty(props) {
               setTempUnregistered={setTempUnregistered}
             />
           </div>
-          <div className='propertyPagesubHeads'>
-            <div className='row'>
-              <div className='col-1'>
+          <div className="propertyPagesubHeads">
+            <div className="row">
+              <div className="col-1">
                 <h6>Edit</h6>
               </div>
-              <div className='col-2'>
+              <div className="col-2">
                 <h6>LotNo.</h6>
                 {/*<input type='text'></input> */}
               </div>
-              <div className='col-2'>
+              <div className="col-2">
                 <h6>Part of Lot</h6>
                 {/*<input type='text'></input> */}
               </div>
-              <div className='col-1'>
+              <div className="col-1">
                 <h6>Section</h6>
                 {/*<input type='text'></input> */}
               </div>
-              <div className='col-3'>
+              <div className="col-3">
                 <h6>Plan Number</h6>
                 {/*<input type='text'></input> */}
               </div>
-              <div className='col-3'>
+              <div className="col-3">
                 <h6>Description</h6>
                 {/*<input type='text'></input> */}
               </div>
             </div>
-            <div className='lotsScrollDiv'>{renderUnregisteredLots()}</div>
+            <div className="lotsScrollDiv">{renderUnregisteredLots()}</div>
           </div>
         </div>
       </div>
@@ -351,12 +351,12 @@ function AddNewProperty(props) {
       .post(
         `${url}/api/property`,
         {
-          requestId: '1123445',
+          requestId: "1123445",
           data: data,
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${loggedInToken}`,
           },
         },
@@ -374,41 +374,49 @@ function AddNewProperty(props) {
 
   return (
     <div
-      className='modal fade'
-      id='staticBackdrop3'
-      data-bs-backdrop='static'
-      data-bs-keyboard='false'
-      tabindex='-1'
-      aria-labelledby='staticBackdropLabel'
-      aria-hidden='true'
+      className="modal fade"
+      id="staticBackdrop3"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
     >
-      <div className='modal-dialog modal-dialog-centered modal-lg'>
+      <div className="modal-dialog modal-dialog-centered modal-lg">
         <div
           // style={{ height: "32rem" }}
-          className='modal-content popupNewProperty'
+          className="modal-content popupNewProperty"
         >
-          <div className='modal-header newPropertyHead'>
-            <h5 className='modal-title' id='staticBackdropLabel'>
+          <div className="modal-header newPropertyHead">
+            <h5
+              className="modal-title white"
+              style={{ color: "#FFFFFF" }}
+              id="staticBackdropLabel"
+            >
               Add New Property
             </h5>
-            <button
-              type='button'
-              class='btn-close'
-              data-bs-dismiss='modal'
-              aria-label='Close'
+            <p
+              style={{
+                backgroundColor: "transparent",
+                color: "#fff",
+                cursor: "pointer",
+              }}
+              data-bs-dismiss="modal"
               onClick={handleSetInitial}
-            ></button>
+            >
+              &#10006;
+            </p>
           </div>
-          <div className='newPropertyBtnTray'>
+          <div className="newPropertyBtnTray">
             <div>
               <button
                 className={
-                  current === 'general'
-                    ? 'newPropertyMainBtns newPropertyMainBtnsClicked'
-                    : 'newPropertyMainBtns'
+                  current === "general"
+                    ? "newPropertyMainBtns newPropertyMainBtnsClicked"
+                    : "newPropertyMainBtns"
                 }
                 onClick={() => {
-                  setCurrent('general');
+                  setCurrent("general");
                 }}
               >
                 General
@@ -425,21 +433,21 @@ function AddNewProperty(props) {
                   !country
                 }
                 className={
-                  current === 'attached'
-                    ? 'newPropertyMainBtns newPropertyMainBtnsClicked'
-                    : 'newPropertyMainBtns'
+                  current === "attached"
+                    ? "newPropertyMainBtns newPropertyMainBtnsClicked"
+                    : "newPropertyMainBtns"
                 }
                 onClick={() => {
-                  setCurrent('attached');
+                  setCurrent("attached");
                 }}
               >
                 Attached Lots
               </button>
             </div>
             <div
-              style={{ width: '200px', display: 'flex', alignItems: 'center' }}
+              style={{ width: "200px", display: "flex", alignItems: "center" }}
             >
-              {current === 'general' ? (
+              {current === "general" ? (
                 <button
                   disabled={
                     !buildingName ||
@@ -452,16 +460,16 @@ function AddNewProperty(props) {
                     !country
                   }
                   onClick={() => {
-                    setCurrent('attached');
+                    setCurrent("attached");
                   }}
-                  className='propertyPageBtns'
+                  className="propertyPageBtns"
                 >
                   Next
                 </button>
               ) : (
                 <button
-                  data-bs-dismiss='modal'
-                  className='propertyPageBtns'
+                  data-bs-dismiss="modal"
+                  className="propertyPageBtns"
                   onClick={() => {
                     onSave();
                   }}
@@ -470,16 +478,16 @@ function AddNewProperty(props) {
                 </button>
               )}
               <button
-                className='propertyPageBtns'
-                data-bs-dismiss='modal'
+                className="propertyPageBtns"
+                data-bs-dismiss="modal"
                 onClick={handleSetInitial}
               >
                 Cancel
               </button>
             </div>
           </div>
-          <div className='modal-body'>
-            {current === 'general' ? renderGeneral() : renderAttachedLots()}
+          <div className="modal-body">
+            {current === "general" ? renderGeneral() : renderAttachedLots()}
           </div>
         </div>
       </div>

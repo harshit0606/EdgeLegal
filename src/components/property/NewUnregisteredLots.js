@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import '../../stylesheets/property.css';
-import { FiEdit2 } from 'react-icons/fi';
+import React, { useState } from "react";
+import "../../stylesheets/property.css";
+import { FiEdit2 } from "react-icons/fi";
 
 const ConfirmationPopup = (props) => {};
 
@@ -29,14 +29,14 @@ function EditForm(props) {
   };
 
   return (
-    <div className='propertyPopup-container'>
-      <div className='propertyPopup-grid'>
-        <div className='modal-content'>
-          <div class='modal-header'>
+    <div className="propertyPopup-container">
+      <div className="propertyPopup-grid">
+        <div className="modal-content">
+          <div className="modal-header">
             <h5
-              style={{ marginRight: '10%' }}
-              className='modal-title'
-              id='staticBackdropLabel'
+              style={{ marginRight: "10%" }}
+              className="modal-title"
+              id="staticBackdropLabel"
             >
               Unregistered Lots
             </h5>
@@ -44,28 +44,28 @@ function EditForm(props) {
               onClick={() => {
                 chotaSave();
               }}
-              className='propertyPageBtns'
+              className="propertyPageBtns"
             >
               Save
             </button>
 
-            <button className='propertyPageBtns' onClick={deleteUnregLot}>
+            <button className="propertyPageBtns" onClick={deleteUnregLot}>
               Delete
             </button>
             <button
-              className='propertyPageBtns'
+              className="propertyPageBtns"
               onClick={() => setIsEditTrue(false)}
             >
               Cancel
             </button>
           </div>
-          <div class='modal-body'>
-            <div style={{ padding: '12px' }}>
-              <div className='row'>
-                <div className='col-4'>
+          <div className="modal-body">
+            <div style={{ padding: "12px" }}>
+              <div className="row">
+                <div className="col-4">
                   <h6>Lot No.</h6>
                   <input
-                    className='popupFormInputs'
+                    className="popupFormInputs"
                     value={chotaFormUn.lot}
                     onChange={(e) => {
                       setChotaFormUn({
@@ -73,13 +73,13 @@ function EditForm(props) {
                         lot: e.target.value,
                       });
                     }}
-                    type='text'
+                    type="text"
                   ></input>
                 </div>
-                <div className='col-4'>
+                <div className="col-4">
                   <h6>Part of lot</h6>
                   <input
-                    className='popupFormInputs'
+                    className="popupFormInputs"
                     value={chotaFormUn.partOfLot}
                     onChange={(e) => {
                       setChotaFormUn({
@@ -87,13 +87,13 @@ function EditForm(props) {
                         partOfLot: e.target.value,
                       });
                     }}
-                    type='text'
+                    type="text"
                   ></input>
                 </div>
-                <div className='col-4'>
+                <div className="col-4">
                   <h6>Section</h6>
                   <input
-                    className='popupFormInputs'
+                    className="popupFormInputs"
                     value={chotaFormUn.section}
                     onChange={(e) => {
                       setChotaFormUn({
@@ -101,13 +101,13 @@ function EditForm(props) {
                         section: e.target.value,
                       });
                     }}
-                    type='text'
+                    type="text"
                   ></input>
                 </div>
-                <div className='col-4'>
+                <div className="col-4">
                   <h6>Plan No.</h6>
                   <input
-                    className='popupFormInputs'
+                    className="popupFormInputs"
                     value={chotaFormUn.plan}
                     onChange={(e) => {
                       setChotaFormUn({
@@ -115,7 +115,7 @@ function EditForm(props) {
                         plan: e.target.value,
                       });
                     }}
-                    type='text'
+                    type="text"
                   ></input>
                 </div>
               </div>
@@ -128,8 +128,8 @@ function EditForm(props) {
                     description: e.target.value,
                   });
                 }}
-                rows='2'
-                cols='55'
+                rows="2"
+                cols="55"
               />
             </div>
           </div>
@@ -153,10 +153,10 @@ function NewUnregisteredLots(props) {
 
   return (
     <div>
-      <div className='row'>
-        <div className='col-1'>
+      <div className="row">
+        <div className="col-1">
           <button
-            className='editBtn'
+            className="editBtn"
             onClick={() => {
               setIsEditTrue(true);
             }}
@@ -173,20 +173,20 @@ function NewUnregisteredLots(props) {
             />
           )}
         </div>
-        <div className='col-2'>
-          <input value={unregisteredLot?.lot} disabled type='text' />
+        <div className="col-2">
+          <input value={unregisteredLot?.lot} disabled type="text" />
         </div>
-        <div className='col-2'>
-          <input value={unregisteredLot?.partOfLot} disabled type='text' />
+        <div className="col-2">
+          <input value={unregisteredLot?.partOfLot} disabled type="text" />
         </div>
-        <div className='col-1'>
-          <input value={unregisteredLot?.section} disabled type='text' />
+        <div className="col-1">
+          <input value={unregisteredLot?.section} disabled type="text" />
         </div>
-        <div className='col-3'>
-          <input value={unregisteredLot?.plan} disabled type='text' />
+        <div className="col-3">
+          <input value={unregisteredLot?.plan} disabled type="text" />
         </div>
-        <div className='col-3'>
-          <input type='text' value={unregisteredLot?.description} disabled />
+        <div className="col-3">
+          <input type="text" value={unregisteredLot?.description} disabled />
         </div>
       </div>
     </div>
