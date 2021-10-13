@@ -4,7 +4,8 @@ import AttachIDForm from './AttachIDForm';
 import '../../stylesheets/attach.css';
 import { FiDownload } from 'react-icons/fi';
 
-const Attachid = () => {
+const Attachid = (props) => {
+  const { details, changeBool } = props;
   const [showForm, setShowForm] = useState(false);
   return (
     <div className='attach-id-main'>
@@ -58,7 +59,12 @@ const Attachid = () => {
             </div>
           </div>
         </div>
-        {showForm && <AttachIDForm closeForm={() => setShowForm(false)} />}
+        {showForm && (
+          <AttachIDForm
+            closeForm={() => setShowForm(false)}
+            details={details}
+          />
+        )}
       </div>
     </div>
   );

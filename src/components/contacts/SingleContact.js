@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import attachid from './attachid';
 import { Modal } from 'react-bootstrap';
-import Detail from './Detail';
+import PersonDetail from './PersonDetail';
+import OrganisationDetail from './OrganisationDetail';
 import Matter from './matters';
 import EditPersonDetails from './EditPersonDetails';
 import EditOrgDetails from './EditOrgDetails';
@@ -17,7 +18,7 @@ function SingleContact(props) {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const [editPerson, setEditPerson] = useState(false);
   const [editOrg, setEditOrg] = useState(false);
-  const [contactType, setContactType] = useState('person');
+  const [contactType, setContactType] = useState('');
   const loggedInToken = cookies.token;
 
   const aboutProps = props?.location?.aboutProps
@@ -30,7 +31,7 @@ function SingleContact(props) {
 
   const [contactDetails, setContactDetails] = useState({});
   const [boolVal, setBoolVal] = useState(false);
-  // console.log(aboutProps);
+  console.log(aboutProps);
 
   useEffect(async () => {
     if (!boolVal) {
@@ -96,11 +97,20 @@ function SingleContact(props) {
   };
 
   function renderDetails() {
-    return (
-      <div>
-        <Detail contactDetails={contactDetails} />
-      </div>
-    );
+    if (contactType === 'person') {
+      return (
+        <div>
+          <PersonDetail contactDetails={contactDetails} />
+        </div>
+      );
+    }
+    if (contactType === 'org') {
+      return (
+        <div>
+          <OrganisationDetail contactDetails={contactDetails} />
+        </div>
+      );
+    }
   }
   function renderSafeCustody() {
     return <div>Safe Custody</div>;
@@ -115,7 +125,7 @@ function SingleContact(props) {
   function renderAttachId() {
     return (
       <div>
-        <Attachid />
+        <Attachid details={aboutProps} changeBool={setBoolVal} />
       </div>
     );
   }
@@ -129,17 +139,27 @@ function SingleContact(props) {
             <h5 style={{ fontWeight: 'bold' }}>Contacts</h5>
           </div>
           <div className='custodyPageBtns'>
-            <button onClick={handleOpen}>Update</button>
+            <button onClick={handleOpen} disabled={contactType === ''}>
+              Update
+            </button>
           </div>
 
           <Modal size='xl' show={editPerson} onHide={handleClose}>
             <Modal.Body>
-              <EditPersonDetails close={handleClose} />
+              <EditPersonDetails
+                close={handleClose}
+                contactDetails={contactDetails}
+                changeBool={setBoolVal}
+              />
             </Modal.Body>
           </Modal>
           <Modal size='xl' show={editOrg} onHide={handleClose}>
             <Modal.Body>
-              <EditOrgDetails close={handleClose} />
+              <EditOrgDetails
+                close={handleClose}
+                contactDetails={contactDetails}
+                changeBool={setBoolVal}
+              />
             </Modal.Body>
           </Modal>
         </div>

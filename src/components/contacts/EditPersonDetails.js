@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import url from '../../config.js';
 import axios from 'axios';
+import moment from 'moment';
 import { useCookies } from 'react-cookie';
 import '../../stylesheets/contacts.css';
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@material-ui/core';
 
 const initialData = {
   type: '',
@@ -45,16 +53,109 @@ const initialData = {
   deactivatedBy: '',
 };
 
-function EditPersonDetails(props) {
+const CustomTextInput = (props) => {
+  return (
+    <TextField
+      {...props}
+      style={{
+        width: 256,
+        height: 50,
+        marginRight: 7,
+        marginLeft: 9,
+        marginBottom: 10,
+        outline: 'none',
+      }}
+      InputLabelProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      inputProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      type='text'
+    />
+  );
+};
+
+const CustomDropDown = (props) => {
+  const { lableName, labelId, first, second, name, value, onChange } = props;
+  return (
+    <FormControl
+      style={{
+        width: 256,
+        height: 50,
+        marginRight: 7,
+        marginLeft: 9,
+        marginBottom: 10,
+        outline: 'none',
+      }}
+    >
+      <InputLabel
+        htmlFor={labelId}
+        style={{
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 9,
+        }}
+      >
+        {lableName}
+      </InputLabel>
+      <Select
+        native
+        name={name}
+        labelId={labelId}
+        value={value}
+        onChange={onChange}
+        style={{
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+        }}
+        inputProps={{
+          style: {
+            fontSize: 14,
+            fontFamily: 'inherit',
+            color: 'rgb(94, 94, 94)',
+            padding: 5,
+          },
+        }}
+      >
+        <option
+          aria-label='None'
+          selected
+          disabled
+          style={{ display: 'none' }}
+          value=''
+        />
+        <option value={first}>{first}</option>
+        <option value={second}>{second}</option>
+      </Select>
+    </FormControl>
+  );
+};
+
+function AddPerson(props) {
+  const { contactDetails, changeBool } = props;
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
-  const [personDetails, setPersonDetails] = useState(initialData);
+  const [personDetails, setPersonDetails] = useState(contactDetails);
   const [otherDetails, setOtherDetails] = useState({
     companyId: '',
     siteId: '',
   });
   const [sameAddress, setSameAddress] = useState(false);
   const [boolVal, setBoolVal] = useState(false);
+  const [date, setDate] = useState(false);
 
   useEffect(async () => {
     if (!boolVal) {
@@ -71,7 +172,7 @@ function EditPersonDetails(props) {
             withCredentials: true,
           }
         );
-        console.log(data);
+        // console.log(data);
         setOtherDetails({
           ...otherDetails,
           companyId: data?.organizationId,
@@ -107,13 +208,13 @@ function EditPersonDetails(props) {
       setSameAddress(false);
       setPersonDetails({
         ...personDetails,
-        mailingAddress1: '',
-        mailingAddress2: '',
-        mailingAddress3: '',
-        mailingCity: '',
-        mailingState: '',
-        mailingPostCode: '',
-        mailingCountry: '',
+        mailingAddress1: contactDetails.commAddress1,
+        mailingAddress2: contactDetails.commAddress2,
+        mailingAddress3: contactDetails.commAddress3,
+        mailingCity: contactDetails.commCity,
+        mailingState: contactDetails.commState,
+        mailingPostCode: contactDetails.commPostCode,
+        mailingCountry: contactDetails.commCountry,
       });
     }
   };
@@ -127,9 +228,9 @@ function EditPersonDetails(props) {
         ...personDetails,
       },
     };
-    // console.log(formData);
+    console.log(formData);
     try {
-      const { data } = await axios.post(
+      const { data } = await axios.put(
         `${url}/api/contacts`,
         {
           requestId: '1123445',
@@ -146,7 +247,7 @@ function EditPersonDetails(props) {
         }
       );
       // console.log(data);
-      setPersonDetails(initialData);
+      changeBool(false);
       props.close();
       // window.location.reload();
     } catch (err) {
@@ -157,235 +258,222 @@ function EditPersonDetails(props) {
   return (
     <div className='addPersonDiv'>
       <div className='titleDiv'>
-        <h2>Edit Person Details</h2>
+        <h2>Add Person Details</h2>
         <p style={{ cursor: 'pointer' }} onClick={props.close}>
           &#10006;
         </p>
       </div>
       <div className='inputtDiv'>
-        <select className='AddInput' name='type' onChange={handleFormChange}>
-          <option value='' disabled selected>
-            Type
-          </option>
-          <option value='OWNER'>Owner</option>
-          <option value='TENANT'>Tenant</option>
-        </select>
-        <select className='AddInput' name='gender' onChange={handleFormChange}>
-          <option value='Male'>Male</option>
-          <option value='Female'>Female</option>
-        </select>
-        <select
-          className='AddInput'
-          name='salutation'
+        <CustomDropDown
+          lableName='Type'
+          labelId='type-sample'
+          name='type'
+          value={personDetails.type}
+          onChange={(e) => handleFormChange(e)}
+          first='OWNER'
+          second='TENANT'
+        />
+        <CustomDropDown
+          lableName='Gender'
+          labelId='gender-sample'
+          name='gender'
+          value={personDetails.gender}
           onChange={handleFormChange}
-        >
-          <option value='Mr'>Mr</option>
-          <option value='Ms'>Ms</option>
-        </select>
-        <input
-          className='AddInput'
-          type='text'
+          first='Male'
+          second='Female'
+        />
+        <CustomDropDown
+          lableName='Salutation'
+          labelId='salutation-sample'
+          name='salutation'
+          value={personDetails.salutation}
+          onChange={handleFormChange}
+          first='Mr'
+          second='Ms'
+        />
+        <CustomTextInput
           name='firstName'
+          label='First Name'
           value={personDetails.firstName}
           onChange={handleFormChange}
-          placeholder='First Name'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='middleName'
+          label='Middle Name'
           value={personDetails.middleName}
           onChange={handleFormChange}
-          placeholder='Middle Name'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='lastName'
+          label='Last Name'
           value={personDetails.lastName}
           onChange={handleFormChange}
-          placeholder='Last Name'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='phoneNumber1'
+          label='Home Phone'
           value={personDetails.phoneNumber1}
           onChange={handleFormChange}
-          placeholder='Home Phone'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='phoneNumber2'
+          label='Work Phone'
           value={personDetails.phoneNumber2}
           onChange={handleFormChange}
-          placeholder='Work Phone'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='faxNumber'
+          label='Fax'
           value={personDetails.faxNumber}
           onChange={handleFormChange}
-          placeholder='Fax'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='mobilePhoneNumber'
-          value={personDetails.mobilePhoneNumber}
+          label='Mobile Number'
+          state={personDetails.mobilePhoneNumber}
           onChange={handleFormChange}
-          placeholder='Mobile Number'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='website'
+          label='Website'
           value={personDetails.website}
           onChange={handleFormChange}
-          placeholder='Website'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='emailId1'
+          label='Email 1'
           value={personDetails.emailId1}
           onChange={handleFormChange}
-          placeholder='Email 1'
         />
         {/** there is no organisationId in api body */}
-        <input className='AddInput' type='text' placeholder='OrganisationId' />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput label='OrganisationId' />
+        <CustomTextInput
           name='emailId2'
+          label='Email 2'
           value={personDetails.emailId2}
           onChange={handleFormChange}
-          placeholder='Email 2'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='placeOfBirth'
+          label='Place of Birth'
           value={personDetails.placeOfBirth}
           onChange={handleFormChange}
-          placeholder='Place of Birth'
         />
-        <input
-          className='AddInput'
-          type='date'
+        <TextField
+          type={date ? 'date' : 'text'}
           name='dateOfBirth'
+          label='Date of Birth'
+          onFocus={() => setDate(true)}
+          onBlur={() => setDate(false)}
+          value={moment(personDetails.dateOfBirth).format('DD-MM-YYYY')}
           onChange={handleFormChange}
+          style={{
+            width: 256,
+            height: 50,
+            marginRight: 7,
+            marginLeft: 9,
+            marginBottom: 10,
+            outline: 'none',
+          }}
+          InputLabelProps={{
+            style: {
+              fontSize: 14,
+              fontFamily: 'inherit',
+              color: 'rgb(94, 94, 94)',
+              marginLeft: 9,
+            },
+            shrink: date ? true : false,
+          }}
+          inputProps={{
+            style: {
+              fontSize: 14,
+              fontFamily: 'inherit',
+              color: 'rgb(94, 94, 94)',
+            },
+          }}
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='countryOfBirth'
+          label='Country of Birth'
           value={personDetails.countryOfBirth}
           onChange={handleFormChange}
-          placeholder='Country of Birth'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='nationality'
-          onChange={handleFormChange}
+          label='Nationality'
           value={personDetails.nationality}
-          placeholder='Nationality'
+          onChange={handleFormChange}
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='passportNumber'
+          label='Passport No.'
           value={personDetails.passportNumber}
           onChange={handleFormChange}
-          placeholder='Passport No.'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='occupation'
+          label='Occupation'
           value={personDetails.occupation}
           onChange={handleFormChange}
-          placeholder='Occupation'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='practiceCertNumber'
+          label='Practicing Certificate No.'
           value={personDetails.practiceCertNumber}
           onChange={handleFormChange}
-          placeholder='Practicing Certificate No.'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='personComments'
+          label='Comments'
           value={personDetails.personComments}
           onChange={handleFormChange}
-          placeholder='Comments'
         />
       </div>
       <div className='labelll'>
         <h3>Street Address</h3>
       </div>
       <div className='inputtDiv'>
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='commAddress1'
+          label='Address 1'
           value={personDetails.commAddress1}
           onChange={handleFormChange}
-          placeholder='Address 1'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='commAddress2'
+          label='Address 2'
           value={personDetails.commAddress2}
           onChange={handleFormChange}
-          placeholder='Address 2'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='commAddress3'
+          label='Address 3'
           value={personDetails.commAddress3}
           onChange={handleFormChange}
-          placeholder='Address 3'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='commCity'
+          label='Suburb'
           value={personDetails.commCity}
           onChange={handleFormChange}
-          placeholder='Suburb'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='commState'
+          label='State'
           value={personDetails.commState}
           onChange={handleFormChange}
-          placeholder='State'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='commPostCode'
+          label='Zip'
           value={personDetails.commPostCode}
           onChange={handleFormChange}
-          placeholder='Zip'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='commCountry'
+          label='Country'
           value={personDetails.commCountry}
           onChange={handleFormChange}
-          placeholder='Country'
         />
       </div>
       <div className='labelll'>
@@ -403,61 +491,47 @@ function EditPersonDetails(props) {
         <label>Same as Communication Address</label>
       </div>
       <div className='inputtDiv'>
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='mailingAddress1'
+          label='Address 1'
           value={personDetails.mailingAddress1}
           onChange={handleFormChange}
-          placeholder='Address 1'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='mailingAddress2'
+          label='Address 2'
           value={personDetails.mailingAddress2}
           onChange={handleFormChange}
-          placeholder='Address 2'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='mailingAddress3'
+          label='Address 3'
           value={personDetails.mailingAddress3}
           onChange={handleFormChange}
-          placeholder='Address 3'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='mailingCity'
+          label='Suburb'
           value={personDetails.mailingCity}
           onChange={handleFormChange}
-          placeholder='Suburb'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='mailingState'
+          label='State'
           value={personDetails.mailingState}
           onChange={handleFormChange}
-          placeholder='State'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='mailingPostCode'
+          label='Zip'
           value={personDetails.mailingPostCode}
           onChange={handleFormChange}
-          placeholder='Zip'
         />
-        <input
-          className='AddInput'
-          type='text'
+        <CustomTextInput
           name='mailingCountry'
+          label='Country'
           value={personDetails.mailingCountry}
           onChange={handleFormChange}
-          placeholder='Country'
         />
       </div>
       <div className='labelll'>
@@ -474,4 +548,4 @@ function EditPersonDetails(props) {
   );
 }
 
-export default EditPersonDetails;
+export default AddPerson;
