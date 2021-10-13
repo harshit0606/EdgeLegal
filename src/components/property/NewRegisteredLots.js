@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import '../../stylesheets/property.css';
+import React, { useState } from "react";
+import "../../stylesheets/property.css";
 
-import { FiEdit2 } from 'react-icons/fi';
+import { FiEdit2 } from "react-icons/fi";
 
 const ConfirmationPopup = (props) => {
   // const { regDetails, closePopup, loggedInToken } = props;
@@ -33,14 +33,14 @@ const EditForm = (props) => {
   };
 
   return (
-    <div className='propertyPopup-container'>
-      <div className='propertyPopup-grid'>
-        <div className='modal-content'>
-          <div class='modal-header'>
+    <div className="propertyPopup-container">
+      <div className="propertyPopup-grid">
+        <div className="modal-content">
+          <div className="modal-header">
             <h5
-              style={{ marginRight: '10%' }}
-              className='modal-title'
-              id='staticBackdropLabel'
+              style={{ marginRight: "10%" }}
+              className="modal-title"
+              id="staticBackdropLabel"
             >
               Registered Lots
             </h5>
@@ -48,27 +48,27 @@ const EditForm = (props) => {
               onClick={() => {
                 chotaSave();
               }}
-              className='propertyPageBtns'
+              className="propertyPageBtns"
             >
               Save
             </button>
-            <button className='propertyPageBtns' onClick={deleteRegLot}>
+            <button className="propertyPageBtns" onClick={deleteRegLot}>
               Delete
             </button>
             <button
-              className='propertyPageBtns'
+              className="propertyPageBtns"
               onClick={() => setIsEditTrue(false)}
             >
               Cancel
             </button>
           </div>
-          <div className='modal-body'>
-            <div style={{ padding: '12px' }}>
-              <div className='row'>
-                <div className='col-4'>
+          <div className="modal-body">
+            <div style={{ padding: "12px" }}>
+              <div className="row">
+                <div className="col-4">
                   <h6>Title Reference</h6>
                   <input
-                    className='popupFormInputs'
+                    className="popupFormInputs"
                     value={chotaForm?.titleReference}
                     onChange={(e) => {
                       setChotaForm({
@@ -76,13 +76,13 @@ const EditForm = (props) => {
                         titleReference: e.target.value,
                       });
                     }}
-                    type='text'
+                    type="text"
                   ></input>
                 </div>
-                <div className='col-4'>
+                <div className="col-4">
                   <h6>Lot No.</h6>
                   <input
-                    className='popupFormInputs'
+                    className="popupFormInputs"
                     value={chotaForm?.lotNumber}
                     onChange={(e) => {
                       setChotaForm({
@@ -90,13 +90,13 @@ const EditForm = (props) => {
                         lotNumber: e.target.value,
                       });
                     }}
-                    type='text'
+                    type="text"
                   ></input>
                 </div>
-                <div className='col-4'>
+                <div className="col-4">
                   <h6>Section</h6>
                   <input
-                    className='popupFormInputs'
+                    className="popupFormInputs"
                     value={chotaForm?.section}
                     onChange={(e) => {
                       setChotaForm({
@@ -104,13 +104,13 @@ const EditForm = (props) => {
                         section: e.target.value,
                       });
                     }}
-                    type='text'
+                    type="text"
                   ></input>
                 </div>
-                <div className='col-4'>
+                <div className="col-4">
                   <h6>Deposited Plan No.</h6>
                   <input
-                    className='popupFormInputs'
+                    className="popupFormInputs"
                     value={chotaForm?.depositedPlanNumber}
                     onChange={(e) => {
                       setChotaForm({
@@ -118,13 +118,13 @@ const EditForm = (props) => {
                         depositedPlanNumber: e.target.value,
                       });
                     }}
-                    type='text'
+                    type="text"
                   ></input>
                 </div>
-                <div className='col-4'>
+                <div className="col-4">
                   <h6>Strata Plan No.</h6>
                   <input
-                    className='popupFormInputs'
+                    className="popupFormInputs"
                     value={chotaForm?.strataPlanNumber}
                     onChange={(e) => {
                       setChotaForm({
@@ -132,14 +132,14 @@ const EditForm = (props) => {
                         strataPlanNumber: e.target.value,
                       });
                     }}
-                    type='text'
+                    type="text"
                   ></input>
                 </div>
               </div>
               <h6>Description</h6>
               <textarea
-                rows='2'
-                cols='55'
+                rows="2"
+                cols="55"
                 value={chotaForm?.description}
                 onChange={(e) => {
                   setChotaForm({
@@ -167,11 +167,11 @@ function NewRegisteredLot(props) {
   const [isEditTrue, setIsEditTrue] = useState(false);
   return (
     <div>
-      <div className='row'>
-        <div className='col-1'>
+      <div className="row">
+        <div className="col-1">
           <button
             id={index}
-            className='editBtn'
+            className="editBtn"
             onClick={() => {
               // setSelectedLot(registeredLot);
               // console.log('i got clicked');
@@ -190,27 +190,27 @@ function NewRegisteredLot(props) {
             />
           )}
         </div>
-        <div className='col-2'>
-          <input value={registeredLot?.titleReference} disabled type='text' />
+        <div className="col-2">
+          <input value={registeredLot?.titleReference} disabled type="text" />
         </div>
-        <div className='col-1'>
-          <input value={registeredLot?.lotNumber} disabled type='text' />
+        <div className="col-1">
+          <input value={registeredLot?.lotNumber} disabled type="text" />
         </div>
-        <div className='col-1'>
-          <input value={registeredLot?.section} disabled type='text' />
+        <div className="col-1">
+          <input value={registeredLot?.section} disabled type="text" />
         </div>
-        <div className='col-3'>
+        <div className="col-3">
           <input
             value={registeredLot?.depositedPlanNumber}
             disabled
-            type='text'
+            type="text"
           />
         </div>
-        <div className='col-2'>
-          <input disabled value={registeredLot?.strataPlanNumber} type='text' />
+        <div className="col-2">
+          <input disabled value={registeredLot?.strataPlanNumber} type="text" />
         </div>
-        <div className='col-2'>
-          <input disabled type='text' value={registeredLot?.description} />
+        <div className="col-2">
+          <input disabled type="text" value={registeredLot?.description} />
         </div>
       </div>
     </div>

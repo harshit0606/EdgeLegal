@@ -3,7 +3,7 @@
   margin-bottom: 4%;
   padding-top: 2.5%;
   color: #212529;
-  padding-left: 30px;
+  padding-left: 15px;
   /* margin-right: -90px; */
   width: 100%;
 }
@@ -56,7 +56,7 @@
   padding: 0px 5px;
 }
 .col-2 {
-  text-overflow: ellipsis ' [..]' !important;
+  text-overflow: ellipsis " [..]" !important;
 }
 .col-2 p {
   white-space: nowrap;
@@ -165,21 +165,27 @@
   margin-left: 80%;
 }
 .personncancel {
-  background-color: #707070;
+  background-color: #c4cacd;
   border-radius: 0.4rem;
-  color: white;
+  /* color: white; */
   padding: 10px 14px;
   margin-right: 2%;
   font-size: small;
+  color: black;
   margin-right: 10px;
   border: none;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
 }
 .personnAdd {
-  background-color: #002b5c;
+  background-color: #c4cacd;
   border-radius: 0.4rem;
-  color: white;
+  /* color: white; */
   padding: 10px 14px;
   border: none;
   margin-right: 2%;
   font-size: small;
+  color: black;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
 }
