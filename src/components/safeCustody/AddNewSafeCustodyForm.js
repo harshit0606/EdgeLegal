@@ -134,6 +134,7 @@ const AddNewSafeCustodyForm = (props) => {
             <img src={closeBtn} alt="close-btn" />
           </button>
         </div>
+
         <div className="addNewCustody-form-div">
           <div className="addNewCustody-input-div">
             <CustomTextInput

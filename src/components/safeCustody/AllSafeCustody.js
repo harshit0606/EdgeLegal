@@ -20,7 +20,6 @@ import upArrow from "../../images/upArrow.svg";
 import downArrow from "../../images/downArrow.svg";
 import downArrowColoured from "../../images/downArrowColoured.svg";
 import upArrowColoured from "../../images/upArrowColoured.svg";
-
 import SafeStripe from "../topStripes/SafeStripe";
 import { Link } from "react-router-dom";
 
@@ -153,15 +152,13 @@ function AllSafeCustody() {
           .includes(obj["companyName"].toLowerCase()) &&
         data["packetNumber"]
           .toLowerCase()
-          .includes(obj["packetNumber"].toLowerCase()) &&
-        data["siteName"]
-          .toLowerCase()
-          .includes(obj["siteName"].toLowerCase()) &&
-        data["status"].toLowerCase().includes(obj["status"].toLowerCase()) &&
-        (data["comment"]
-          ? data["comment"]
+          .includes(obj['siteName'].toLowerCase()) &&
+        data['status'].toLowerCase().includes(obj['status'].toLowerCase()) &&
+        (data['comment']
+          ? data['comment']
               ?.toLowerCase()
-              .includes(obj["comment"].toLowerCase())
+              .includes(obj['comment'].toLowerCase())
+
           : true)
     );
     setFilteredData(newData);
@@ -277,8 +274,9 @@ function AllSafeCustody() {
               </div>
             </label>
             <input
-              type="text"
-              name="packetNumber"
+              type='text'
+              name='packetNumber'
+
               onChange={handleFilter}
             ></input>
           </div>
@@ -319,8 +317,11 @@ function AllSafeCustody() {
               </div>
             </label>
             <input
-              type="text"
-              name="companyName"
+
+
+              type='text'
+              name='companyName'
+
               onChange={handleFilter}
             ></input>
           </div>
@@ -410,12 +411,10 @@ function AllSafeCustody() {
                   to={`/home/safecustody/${packet.id}`}
                   key={index}
                 >
-                  <div className="contacttdatadiv">
-                    <div className="row ">
-                      <div className="col-1">
-                        <input style={{ marginLeft: "20px" }} type="checkbox" />
-                      </div>
-                      <div className="col-2">
+
+                  <div className='all-contacttdatadiv'>
+                    <div className='row '>
+                      <div className='col-2'>
                         <h6>{packet.siteName}</h6>
                       </div>
                       <div className="col-2">
@@ -441,12 +440,10 @@ function AllSafeCustody() {
                   to={`/home/safecustody/${packet.id}`}
                   key={index}
                 >
-                  <div className="lightcontacttdatadiv">
-                    <div className="row ">
-                      <div className="col-1">
-                        <input style={{ marginLeft: "20px" }} type="checkbox" />
-                      </div>
-                      <div className="col-2">
+
+                  <div className='all-lightcontacttdatadiv'>
+                    <div className='row '>
+                      <div className='col-2'>
                         <h6>{packet.siteName}</h6>
                       </div>
                       <div className="col-2">

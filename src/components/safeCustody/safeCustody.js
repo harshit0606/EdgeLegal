@@ -1,13 +1,15 @@
-import React, { useState, useEffect, Fragment } from "react";
-import moment from "moment";
-import axios from "axios";
-import "../../stylesheets/safeCustody.css";
-import url from "../../config.js";
-import Document from "./document.js";
-import AddCustodyPopup from "./addCustodyPopup.js";
-import AssociatedContacts from "./associatedContacts.js";
-import File from "./file.js";
-import { useCookies } from "react-cookie";
+import React, { useState, useEffect, Fragment } from 'react';
+import moment from 'moment';
+import axios from 'axios';
+import '../../stylesheets/safeCustody.css';
+import url from '../../config.js';
+import Document from './document.js';
+import ReceiptDocument from './ReceiptDocument';
+import AddCustodyPopup from './addCustodyPopup.js';
+import AssociatedContacts from './associatedContacts.js';
+import File from './file.js';
+import { useCookies } from 'react-cookie';
+
 import {
   FormControl,
   InputLabel,
@@ -1248,7 +1250,7 @@ function RenderSafeCustody(props) {
           </div>
         </div>
         <div>
-          <Document data={custodyPacket} />
+          <ReceiptDocument data={custodyPacket} />
         </div>
       </div>
     );

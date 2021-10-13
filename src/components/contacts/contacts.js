@@ -473,7 +473,7 @@ function Contacts() {
                         aboutProps: contact,
                       }}
                     >
-                      <p>{contact.contactType}</p>
+                      <p>{contact.role}</p>
                     </Link>
                   </div>
                   <div className="col-2">
@@ -577,7 +577,7 @@ function Contacts() {
                         aboutProps: contact,
                       }}
                     >
-                      <p>{contact.contactType}</p>
+                      <p>{contact.role}</p>
                     </Link>
                   </div>
                   <div className="col-2">

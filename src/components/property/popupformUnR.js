@@ -12,6 +12,7 @@ function PopupFormUnR(props) {
     // setTempUnregistered,
     specifiedDetails,
     isAddTrue,
+    setBoolVal,
   } = props;
 
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
@@ -48,7 +49,8 @@ function PopupFormUnR(props) {
         }
       )
       .then((response) => {
-        window.location.reload();
+        // window.location.reload();
+        setBoolVal(false);
       })
       .catch((err) => {
         console.log(err);

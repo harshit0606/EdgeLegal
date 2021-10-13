@@ -367,7 +367,7 @@ function AddNewProperty(props) {
       .then((response) => {
         // console.log('adding new property', response.data);
         handleSetInitial();
-        window.location.reload();
+        // window.location.reload();
         setBoolVal(false);
       });
   }

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import attachid from './attachid';
+import { Modal } from 'react-bootstrap';
 import Detail from './Detail';
 import Matter from './matters';
+import EditPersonDetails from './EditPersonDetails';
+import EditOrgDetails from './EditOrgDetails';
 import Attachid from './attachid';
 import axios from 'axios';
 import url from '../../config.js';
@@ -12,6 +15,9 @@ function SingleContact(props) {
   const history = useHistory();
   const [currScreen, setCurrScreen] = useState('details');
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [editPerson, setEditPerson] = useState(false);
+  const [editOrg, setEditOrg] = useState(false);
+  const [contactType, setContactType] = useState('person');
   const loggedInToken = cookies.token;
 
   const aboutProps = props?.location?.aboutProps
@@ -24,7 +30,7 @@ function SingleContact(props) {
 
   const [contactDetails, setContactDetails] = useState({});
   const [boolVal, setBoolVal] = useState(false);
-  console.log(aboutProps);
+  // console.log(aboutProps);
 
   useEffect(async () => {
     if (!boolVal) {
@@ -45,7 +51,7 @@ function SingleContact(props) {
           .then((response) => {
             // console.log(response.data.data);
             setContactDetails(response.data.data);
-            // setSafeCustodyPackets(response.data.data.safeCustodyPackets);
+            setContactType('org');
           });
       } else if (aboutProps.contactType === 'PERSON') {
         axios
@@ -64,12 +70,30 @@ function SingleContact(props) {
           .then((response) => {
             // console.log(response.data.data);
             setContactDetails(response.data.data);
-            // setSafeCustodyPackets(response.data.data.safeCustodyPackets);
+            setContactType('person');
           });
       }
       setBoolVal(true);
     }
   }, [boolVal]);
+
+  const handleOpen = () => {
+    if (contactType === 'org') {
+      setEditOrg(true);
+    }
+    if (contactType === 'person') {
+      setEditPerson(true);
+    }
+  };
+
+  const handleClose = () => {
+    if (contactType === 'org') {
+      setEditOrg(false);
+    }
+    if (contactType === 'person') {
+      setEditPerson(false);
+    }
+  };
 
   function renderDetails() {
     return (
@@ -100,10 +124,24 @@ function SingleContact(props) {
     <div>
       <div className='safe-custody-stripe'></div>
       <div className='safe-custody-div'>
-        <div className='safeContacts'>
+        <div className='safeContacts '>
           <div>
             <h5 style={{ fontWeight: 'bold' }}>Contacts</h5>
           </div>
+          <div className='custodyPageBtns'>
+            <button onClick={handleOpen}>Update</button>
+          </div>
+
+          <Modal size='xl' show={editPerson} onHide={handleClose}>
+            <Modal.Body>
+              <EditPersonDetails close={handleClose} />
+            </Modal.Body>
+          </Modal>
+          <Modal size='xl' show={editOrg} onHide={handleClose}>
+            <Modal.Body>
+              <EditOrgDetails close={handleClose} />
+            </Modal.Body>
+          </Modal>
         </div>
         <div className='safe-custody-btns-div'>
           <button
