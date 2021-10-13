@@ -43,6 +43,15 @@
   padding-top: 15px;
   color: #1f252c;
 }
+
+.all-contacttdatadiv {
+  height: 50px;
+  background-color: #e8ebed;
+  padding-top: 15px;
+  color: #1f252c;
+  padding-left: 2rem;
+}
+
 .col-1 {
   padding: 0px 5px;
 }
@@ -58,6 +67,14 @@
 .lightcontacttdatadiv {
   height: 50px;
   padding-top: 15px;
+  color: #1f252c;
+}
+
+.all-lightcontacttdatadiv {
+  height: 50px;
+  padding-top: 15px;
+  padding-left: 2rem;
+  color: #1f252c;
 }
 
 .lightcontacttdatadiv p {

@@ -6,7 +6,8 @@ import closeBtn from '../../images/close-white-btn.svg';
 import '../../stylesheets/property.css';
 
 const ConfirmationPopup = (props) => {
-  const { regDetails, closePopup, loggedInToken } = props;
+  const { regDetails, closePopup, loggedInToken, setBoolVal, setIsEditTrue } =
+    props;
   const handleDelete = () => {
     axios
       .delete(
@@ -22,7 +23,10 @@ const ConfirmationPopup = (props) => {
         }
       )
       .then((response) => {
-        window.location.reload();
+        // window.location.reload();
+        closePopup();
+        setIsEditTrue(false);
+        setBoolVal(false);
       })
       .catch((err) => {
         console.log(err);
@@ -56,7 +60,7 @@ const ConfirmationPopup = (props) => {
 };
 
 function EditRegFormPopup(props) {
-  const { regDetails, setIsEditTrue, specifiedDetails } = props;
+  const { regDetails, setIsEditTrue, specifiedDetails, setBoolVal } = props;
   const [chotaForm, setChotaForm] = useState(regDetails);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
@@ -88,7 +92,8 @@ function EditRegFormPopup(props) {
         }
       )
       .then((response) => {
-        window.location.reload();
+        // window.location.reload();
+        setBoolVal(false);
       })
       .catch((err) => {
         console.log(err);
@@ -225,6 +230,8 @@ function EditRegFormPopup(props) {
           closePopup={() => setOpenConfirm(false)}
           regDetails={regDetails}
           loggedInToken={loggedInToken}
+          setBoolVal={setBoolVal}
+          setIsEditTrue={setIsEditTrue}
         />
       )}
     </div>

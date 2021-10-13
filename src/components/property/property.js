@@ -267,7 +267,7 @@ function RenderProperty() {
         }
       )
       .then((response) => {
-        setBoolVal(false);
+        // setBoolVal(false);
         // console.log(response.data);
         window.location.reload();
       });
@@ -290,7 +290,8 @@ function RenderProperty() {
         }
       );
       // console.log('bulk delete', res);
-      window.location.reload();
+      // window.location.reload();
+      setBoolVal(false);
     } catch (err) {
       console.log(err);
     }
@@ -394,6 +395,7 @@ function RenderProperty() {
           registeredLot={registeredLot}
           handleFilter={handleFilterRegister}
           specifiedDetails={specificProperty}
+          setBoolVal={setBoolVal}
           idx={idx}
         />
       );
@@ -406,6 +408,7 @@ function RenderProperty() {
         <UnregisteredLot
           modal={2}
           unregisteredLot={unregisteredLot}
+          setBoolVal={setBoolVal}
           isEditTrue={isEditTrue}
           specifiedDetails={specificProperty}
           setIsEditTrue={setIsEditTrue}
@@ -440,7 +443,8 @@ function RenderProperty() {
       .then((response) => {
         // console.log('property update response', response.data);
         // setSpecificProperty(dataToBeSent);
-        window.location.reload();
+        setBoolVal(false);
+        // window.location.reload();
       });
     // console.log('update property', dataToBeSent);
     //console.log("update property", specificProperty);
@@ -771,6 +775,7 @@ function RenderProperty() {
                   specifiedDetails={specificProperty}
                   setTempRegistered={setRegisteredLots}
                   isAddTrue={isAddTrue}
+                  setBoolVal={setBoolVal}
                 />
               </div>
               <div className='propertyPagesubHeads'>
@@ -1107,6 +1112,7 @@ function RenderProperty() {
                   specifiedDetails={specificProperty}
                   setTempUnregistered={setUnregisteredLots}
                   isAddTrue={isAddTrue}
+                  setBoolVal={setBoolVal}
                 />
               </div>
               <div className='propertyPagesubHeads'>

@@ -67,7 +67,7 @@
   border: none;
   outline: none;
   padding: 10px;
-  border-bottom: 1px solid #555;
+  border-bottom: 1px solid rgb(167, 165, 165);
   width: 45%;
 }
 
@@ -76,7 +76,7 @@
   margin-top: 10px;
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid #555;
+  border: 1px solid rgb(167, 165, 165);
 }
 
 .addNewCustody-buttonDiv {

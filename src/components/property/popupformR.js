@@ -13,6 +13,7 @@ function PopupForm(props) {
     setTempRegistered,
     specifiedDetails,
     isAddTrue,
+    setBoolVal,
     // idx,
     // regLot,
   } = props;
@@ -54,7 +55,8 @@ function PopupForm(props) {
       .then((response) => {
         // console.log('property update response', response.data);
         // setSpecificProperty(dataToBeSent);
-        window.location.reload();
+        // window.location.reload();
+        setBoolVal(false);
       })
       .catch((err) => {
         console.log(err);

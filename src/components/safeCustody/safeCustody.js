@@ -4,6 +4,7 @@ import axios from 'axios';
 import '../../stylesheets/safeCustody.css';
 import url from '../../config.js';
 import Document from './document.js';
+import ReceiptDocument from './ReceiptDocument';
 import AddCustodyPopup from './addCustodyPopup.js';
 import AssociatedContacts from './associatedContacts.js';
 import File from './file.js';
@@ -1248,7 +1249,7 @@ function RenderSafeCustody(props) {
           </div>
         </div>
         <div>
-          <Document data={custodyPacket} />
+          <ReceiptDocument data={custodyPacket} />
         </div>
       </div>
     );

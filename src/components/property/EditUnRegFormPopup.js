@@ -6,7 +6,8 @@ import closeBtn from '../../images/close-white-btn.svg';
 import '../../stylesheets/property.css';
 
 const ConfirmationPopup = (props) => {
-  const { unregDetails, closePopup, loggedInToken } = props;
+  const { unregDetails, closePopup, loggedInToken, setBoolVal, setIsEditTrue } =
+    props;
 
   const handleDelete = () => {
     // console.log(unregDetails);
@@ -24,7 +25,10 @@ const ConfirmationPopup = (props) => {
         }
       )
       .then((response) => {
-        window.location.reload();
+        // window.location.reload();
+        setBoolVal(false);
+        setIsEditTrue(false);
+        closePopup();
       })
       .catch((err) => {
         console.log(err);
@@ -58,7 +62,7 @@ const ConfirmationPopup = (props) => {
 };
 
 function EditUnRegFormPopup(props) {
-  const { setIsEditTrue, unregDetails, specifiedDetails } = props;
+  const { setIsEditTrue, unregDetails, specifiedDetails, setBoolVal } = props;
   const [chotaFormUn, setChotaFormUn] = useState(unregDetails);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
@@ -87,7 +91,8 @@ function EditUnRegFormPopup(props) {
         }
       )
       .then((response) => {
-        window.location.reload();
+        // window.location.reload();
+        setBoolVal(false);
       })
       .catch((err) => {
         console.log(err);
@@ -209,6 +214,8 @@ function EditUnRegFormPopup(props) {
           closePopup={() => setOpenConfirm(false)}
           unregDetails={unregDetails}
           loggedInToken={loggedInToken}
+          setBoolVal={setBoolVal}
+          setIsEditTrue={setIsEditTrue}
         />
       )}
     </div>

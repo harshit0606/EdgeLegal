@@ -88,26 +88,29 @@ const AddNewSafeCustodyForm = (props) => {
         </div>
         <div className='addNewCustody-form-div'>
           <div className='addNewCustody-input-div'>
-            <input placeholder='Location' type='text' name='siteName'/>
-            <input placeholder='Packet No.' type='text' name='packetNumber'/>
-            
+            <input placeholder='Location' type='text' name='siteName' />
+            <input placeholder='Packet No.' type='text' name='packetNumber' />
           </div>
           <div className='addNewCustody-input-div'>
-            <input placeholder='Contacts' type='text' name='companyName'/>
-            <input placeholder='Status' type='text' name='status'/>
+            <input placeholder='Contacts' type='text' name='companyName' />
+            <input placeholder='Status' type='text' name='status' />
           </div>
           <div className='addNewCustody-input-div'>
-            <textArea className='addNewCustody-textArea' placeholder='Comment' name='comment' rows='3' cols='20'/>
+            <textArea
+              className='addNewCustody-textArea'
+              placeholder='Comment'
+              name='comment'
+              rows='3'
+              cols='20'
+            />
           </div>
         </div>
         <div className='addNewCustody-buttonDiv'>
-            <button className='cancelButton' onClick={closeForm}>
-              Cancel
-            </button>
-            <button className='addButton' >
-              Add
-            </button>
-          </div>
+          <button className='cancelButton' onClick={closeForm}>
+            Cancel
+          </button>
+          <button className='addButton'>Add</button>
+        </div>
       </div>
     </div>
   );

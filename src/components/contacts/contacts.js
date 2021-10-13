@@ -430,7 +430,15 @@ function Contacts() {
                     ></input>
                   </div>
                   <div className='col-2'>
-                    <p>{contact.contactCode}</p>
+                    <Link
+                      style={{ textDecoration: 'none', color: 'black' }}
+                      to={{
+                        pathname: '/home/singlecontact',
+                        aboutProps: contact,
+                      }}
+                    >
+                      <p>{contact.contactCode}</p>
+                    </Link>
                   </div>
                   <div className='col-1'>
                     <Link
@@ -473,7 +481,7 @@ function Contacts() {
                         aboutProps: contact,
                       }}
                     >
-                      <p>{contact.contactType}</p>
+                      <p>{contact.role}</p>
                     </Link>
                   </div>
                   <div className='col-2'>
@@ -577,7 +585,7 @@ function Contacts() {
                         aboutProps: contact,
                       }}
                     >
-                      <p>{contact.contactType}</p>
+                      <p>{contact.role}</p>
                     </Link>
                   </div>
                   <div className='col-2'>

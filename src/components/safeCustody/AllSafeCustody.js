@@ -24,7 +24,6 @@ import upArrowColoured from '../../images/upArrowColoured.svg';
 import SafeStripe from '../topStripes/SafeStripe';
 import { Link } from 'react-router-dom';
 
-
 const filterFields = {
   companyName: '',
   packetNumber: '',
@@ -33,8 +32,6 @@ const filterFields = {
   comment: '',
 };
 
-
-
 function AllSafeCustody() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
@@ -42,7 +39,9 @@ function AllSafeCustody() {
   const [filteredData, setFilteredData] = useState([]);
   const [filterInput, setFilterInput] = useState(filterFields);
   const [safeCustodyPackets, setSafeCustodyPackets] = useState([]);
-  const [filteredSafeCustodyPackets, setFilteredSafeCustodyPackets] = useState([]);
+  const [filteredSafeCustodyPackets, setFilteredSafeCustodyPackets] = useState(
+    []
+  );
   const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
   const [isAddCustodyOpen, setIsAddCustoduOpen] = useState(false);
   const [newCustodyForm, setNewCustodyForm] = useState(false);
@@ -66,7 +65,7 @@ function AllSafeCustody() {
       .then((response) => {
         console.log(response.data?.data?.safeCustodyPackets);
         setSafeCustodyPackets(response.data?.data?.safeCustodyPackets);
-        setFilteredData(response.data?.data?.safeCustodyPackets)
+        setFilteredData(response.data?.data?.safeCustodyPackets);
       });
   }, []);
 
@@ -95,7 +94,7 @@ function AllSafeCustody() {
       .then((response) => {
         console.log(response.data?.data?.safeCustodyPackets);
         setSafeCustodyPackets(response.data?.data?.safeCustodyPackets);
-        setFilteredData(response.data?.data?.safeCustodyPackets)
+        setFilteredData(response.data?.data?.safeCustodyPackets);
       });
   }
 
@@ -145,7 +144,7 @@ function AllSafeCustody() {
     );
   }
 
-const filterData = (obj) => {
+  const filterData = (obj) => {
     // console.log(obj);
     const newData = safeCustodyPackets.filter(
       (data) =>
@@ -158,11 +157,12 @@ const filterData = (obj) => {
         data['siteName']
           .toLowerCase()
           .includes(obj['siteName'].toLowerCase()) &&
-        data['status']
-          .toLowerCase()
-          .includes(obj['status'].toLowerCase()) &&
-        (data['comment'] ? 
-        data['comment']?.toLowerCase().includes(obj['comment'].toLowerCase()) : true)
+        data['status'].toLowerCase().includes(obj['status'].toLowerCase()) &&
+        (data['comment']
+          ? data['comment']
+              ?.toLowerCase()
+              .includes(obj['comment'].toLowerCase())
+          : true)
     );
     setFilteredData(newData);
   };
@@ -276,7 +276,11 @@ const filterData = (obj) => {
                 )}
               </div>
             </label>
-            <input type='text' name='packetNumber' onChange={handleFilter}></input>
+            <input
+              type='text'
+              name='packetNumber'
+              onChange={handleFilter}
+            ></input>
           </div>
           <div className='col-2'>
             <label className='associatedContacts-label'>
@@ -314,7 +318,11 @@ const filterData = (obj) => {
                 )}
               </div>
             </label>
-            <input type='text' name='companyName' onChange={handleFilter}></input>
+            <input
+              type='text'
+              name='companyName'
+              onChange={handleFilter}
+            ></input>
           </div>
           <div className='col-2'>
             <label className='associatedContacts-label'>
@@ -401,11 +409,8 @@ const filterData = (obj) => {
                   style={{ textDecoration: 'none' }}
                   to={`/home/safecustody/${packet.id}`}
                 >
-                  <div className='contacttdatadiv'>
+                  <div className='all-contacttdatadiv'>
                     <div className='row '>
-                      <div className='col-1'>
-                        <input style={{ marginLeft: '20px' }} type='checkbox' />
-                      </div>
                       <div className='col-2'>
                         <h6>{packet.siteName}</h6>
                       </div>
@@ -431,11 +436,8 @@ const filterData = (obj) => {
                   style={{ textDecoration: 'none' }}
                   to={`/home/safecustody/${packet.id}`}
                 >
-                  <div className='lightcontacttdatadiv'>
+                  <div className='all-lightcontacttdatadiv'>
                     <div className='row '>
-                      <div className='col-1'>
-                        <input style={{ marginLeft: '20px' }} type='checkbox' />
-                      </div>
                       <div className='col-2'>
                         <h6>{packet.siteName}</h6>
                       </div>
