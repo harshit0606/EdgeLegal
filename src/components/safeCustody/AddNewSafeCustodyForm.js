@@ -165,7 +165,14 @@ const AddNewSafeCustodyForm = (props) => {
             />
           </div>
           <div className="addNewCustody-input-div">
-            <TextField
+            <textArea
+              className="addNewCustody-textArea"
+              placeholder="Comment"
+              name="comment"
+              rows="3"
+              cols="20"
+            />
+            {/* <TextField
               label="Comments"
               multiline
               rows={3}
@@ -173,12 +180,13 @@ const AddNewSafeCustodyForm = (props) => {
               type="text"
               value={itemDetails.comment}
               onChange={handleItemChange}
-              variant="outlined"
+              // variant="outlined"
               fullWidth
               style={{
                 marginRight: 7,
                 marginLeft: 9,
                 marginBottom: 10,
+                borderWidth: 0.5,
               }}
               InputLabelProps={{
                 style: {
@@ -196,7 +204,7 @@ const AddNewSafeCustodyForm = (props) => {
                   marginLeft: 10,
                 },
               }}
-            />
+            /> */}
           </div>
         </div>
         <div className="addNewCustody-buttonDiv">

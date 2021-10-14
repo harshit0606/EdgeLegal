@@ -72,11 +72,11 @@
 } */
 
 .addNewCustody-textArea {
-  width: 90%;
+  width: 100%;
   margin-top: 10px;
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid rgb(167, 165, 165);
+  border: 1px solid #555;
 }
 
 .addNewCustody-buttonDiv {
