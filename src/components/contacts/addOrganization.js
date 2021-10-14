@@ -1,43 +1,43 @@
-import React, { useState, useEffect } from "react";
-import url from "../../config.js";
-import axios from "axios";
-import { useCookies } from "react-cookie";
-import "../../stylesheets/contacts.css";
-import { TextField } from "@material-ui/core";
+import React, { useState, useEffect } from 'react';
+import url from '../../config.js';
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
+import '../../stylesheets/contacts.css';
+import { TextField } from '@material-ui/core';
 
 const initialData = {
-  type: "",
-  subType: "",
-  legalName: "",
-  name: "",
-  title: "",
-  phoneNumber1: "",
-  phoneNumber2: "",
-  phoneNumber3: "",
-  faxNumber: "",
-  mobilePhoneNumber: "",
-  website: "",
-  emailId1: "",
-  emailId2: "",
-  dxNumber: "",
-  dxCity: "",
-  abn: "",
-  acn: "",
-  commAddress1: "",
-  commAddress2: "",
-  commAddress3: "",
-  commCity: "",
-  commState: "",
-  commPostCode: "",
-  commCountry: "",
-  mailingAddress1: "",
-  mailingAddress2: "",
-  mailingAddress3: "",
-  mailingCity: "",
-  mailingState: "",
-  mailingPostCode: "",
-  mailingCountry: "",
-  representativeId: "",
+  role: '',
+  subType: '',
+  legalName: '',
+  name: '',
+  title: '',
+  phoneNumber1: '',
+  phoneNumber2: '',
+  phoneNumber3: '',
+  faxNumber: '',
+  mobilePhoneNumber: '',
+  website: '',
+  emailId1: '',
+  emailId2: '',
+  dxNumber: '',
+  dxCity: '',
+  abn: '',
+  acn: '',
+  commAddress1: '',
+  commAddress2: '',
+  commAddress3: '',
+  commCity: '',
+  commState: '',
+  commPostCode: '',
+  commCountry: '',
+  mailingAddress1: '',
+  mailingAddress2: '',
+  mailingAddress3: '',
+  mailingCity: '',
+  mailingState: '',
+  mailingPostCode: '',
+  mailingCountry: '',
+  representativeId: '',
 };
 
 const CustomTextInput = (props) => {
@@ -50,37 +50,37 @@ const CustomTextInput = (props) => {
         marginRight: 7,
         marginLeft: 9,
         marginBottom: 10,
-        outline: "none",
+        outline: 'none',
       }}
       InputLabelProps={{
         style: {
           fontSize: 14,
-          fontFamily: "inherit",
-          color: "rgb(94, 94, 94)",
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
           marginLeft: 10,
         },
       }}
       inputProps={{
         style: {
           fontSize: 14,
-          fontFamily: "inherit",
-          color: "rgb(94, 94, 94)",
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
           marginLeft: 10,
         },
       }}
-      type="text"
+      type='text'
     />
   );
 };
 
 function AddOrganization(props) {
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
   const [organizationDetails, setOrganizationDetails] = useState(initialData);
   const [sameAddress, setSameAddress] = useState(false);
   const [otherDetails, setOtherDetails] = useState({
-    companyId: "",
-    siteId: "",
+    companyId: '',
+    siteId: '',
   });
   const [boolVal, setBoolVal] = useState(false);
 
@@ -91,7 +91,7 @@ function AddOrganization(props) {
           `${url}/api/user/1`,
           {
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
               Authorization: `Bearer ${loggedInToken}`,
             },
           },
@@ -135,13 +135,13 @@ function AddOrganization(props) {
       setSameAddress(false);
       setOrganizationDetails({
         ...organizationDetails,
-        mailingAddress1: "",
-        mailingAddress2: "",
-        mailingAddress3: "",
-        mailingCity: "",
-        mailingState: "",
-        mailingPostCode: "",
-        mailingCountry: "",
+        mailingAddress1: '',
+        mailingAddress2: '',
+        mailingAddress3: '',
+        mailingCity: '',
+        mailingState: '',
+        mailingPostCode: '',
+        mailingCountry: '',
       });
     }
   };
@@ -161,12 +161,12 @@ function AddOrganization(props) {
       const { data } = await axios.post(
         `${url}/api/contacts`,
         {
-          requestId: "1123445",
+          requestId: '1123445',
           data: formData,
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${loggedInToken}`,
           },
         },
@@ -183,253 +183,253 @@ function AddOrganization(props) {
   };
 
   return (
-    <div className="addPersonDiv">
-      <div className="titleDiv">
+    <div className='addPersonDiv'>
+      <div className='titleDiv'>
         <h2>Add Organisation Details</h2>
-        <p style={{ cursor: "pointer" }} onClick={props.close}>
+        <p style={{ cursor: 'pointer' }} onClick={props.close}>
           &#10006;
         </p>
       </div>
-      <div style={{ marginLeft: "20px", marginTop: "10px", fontSize: "14px" }}>
-        <p style={{ marginBottom: "10px" }}>Organisation Type</p>
+      <div style={{ marginLeft: '20px', marginTop: '10px', fontSize: '14px' }}>
+        <p style={{ marginBottom: '10px' }}>Organisation Type</p>
         <input
-          type="radio"
-          name="type"
-          value="Bussiness/Partnership"
+          type='radio'
+          name='role'
+          value='Bussiness/Partnership'
           onChange={handleFormChange}
-        ></input>{" "}
+        ></input>{' '}
         Bussiness/Partnership&nbsp;&nbsp;&nbsp;
         <input
-          type="radio"
-          name="type"
-          value="Company"
+          type='radio'
+          name='role'
+          value='Company'
           onChange={handleFormChange}
-        />{" "}
+        />{' '}
         Company&nbsp;&nbsp;&nbsp;
         <input
-          type="radio"
-          name="type"
-          value="Government Department"
+          type='radio'
+          name='role'
+          value='Government Department'
           onChange={handleFormChange}
-        />{" "}
+        />{' '}
         Government Department&nbsp;&nbsp;&nbsp;
         <input
-          type="radio"
-          name="type"
-          value="Trust"
+          type='radio'
+          name='role'
+          value='Trust'
           onChange={handleFormChange}
-        />{" "}
+        />{' '}
         Trust&nbsp;&nbsp;&nbsp;
       </div>
-      <div className="inputtDiv">
+      <div className='inputtDiv'>
         <CustomTextInput
-          name="name"
-          label="Name"
+          name='name'
+          label='Name'
           value={organizationDetails.name}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="subType"
-          label="Sub Type"
+          name='subType'
+          label='Sub Type'
           value={organizationDetails.subType}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="legalName"
-          label="Legal Name"
+          name='legalName'
+          label='Legal Name'
           value={organizationDetails.legalName}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="title"
-          label="Title"
+          name='title'
+          label='Title'
           value={organizationDetails.title}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="phoneNumber1"
-          label="Phone Number 1"
+          name='phoneNumber1'
+          label='Phone Number 1'
           value={organizationDetails.phoneNumber1}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="phoneNumber2"
-          label="Phone Number 2"
+          name='phoneNumber2'
+          label='Phone Number 2'
           value={organizationDetails.phoneNumber2}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="phoneNumber3"
-          label="Phone Number 3"
+          name='phoneNumber3'
+          label='Phone Number 3'
           value={organizationDetails.phoneNumber3}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="faxNumber"
-          label="Fax"
+          name='faxNumber'
+          label='Fax'
           value={organizationDetails.faxNumber}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="website"
-          label="Website"
+          name='website'
+          label='Website'
           value={organizationDetails.website}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="emailId1"
-          label="Email 1"
+          name='emailId1'
+          label='Email 1'
           value={organizationDetails.emailId1}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="emailId2"
-          label="Email 2"
+          name='emailId2'
+          label='Email 2'
           value={organizationDetails.emailId2}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="dxNumber"
-          label="DX Number"
+          name='dxNumber'
+          label='DX Number'
           value={organizationDetails.dxNumber}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="dxCity"
-          label="DX City"
+          name='dxCity'
+          label='DX City'
           value={organizationDetails.dxCity}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="representativeId"
-          label="RepresentativeId"
+          name='representativeId'
+          label='RepresentativeId'
           value={organizationDetails.representativeId}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="abn"
-          label="ABN"
+          name='abn'
+          label='ABN'
           value={organizationDetails.abn}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="acn"
-          label="ACN"
+          name='acn'
+          label='ACN'
           value={organizationDetails.acn}
           onChange={handleFormChange}
         />
       </div>
-      <div className="labelll">
+      <div className='labelll'>
         <h3>Street Address</h3>
       </div>
-      <div className="inputtDiv">
+      <div className='inputtDiv'>
         <CustomTextInput
-          name="commAddress1"
-          label="Address 1"
+          name='commAddress1'
+          label='Address 1'
           value={organizationDetails.commAddress1}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="commAddress2"
-          label="Address 2"
+          name='commAddress2'
+          label='Address 2'
           value={organizationDetails.commAddress2}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="commAddress3"
-          label="Address 3"
+          name='commAddress3'
+          label='Address 3'
           value={organizationDetails.commAddress3}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="commCity"
-          label="Suburb"
+          name='commCity'
+          label='Suburb'
           value={organizationDetails.commCity}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="commState"
-          label="State"
+          name='commState'
+          label='State'
           value={organizationDetails.commState}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="commPostCode"
-          label="Zip"
+          name='commPostCode'
+          label='Zip'
           value={organizationDetails.commPostCode}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="commCountry"
-          label="Country"
+          name='commCountry'
+          label='Country'
           value={organizationDetails.commCountry}
           onChange={handleFormChange}
         />
       </div>
-      <div className="labelll">
+      <div className='labelll'>
         <h3>Postal Address</h3>
         <input
           style={{
-            marginLeft: "58%",
-            marginRight: "5px",
-            height: "15px",
-            width: "15px",
+            marginLeft: '58%',
+            marginRight: '5px',
+            height: '15px',
+            width: '15px',
           }}
           onClick={handleMailingAddress}
-          type="checkbox"
+          type='checkbox'
         ></input>
         <label>Same as Communication Address</label>
       </div>
-      <div className="inputtDiv">
+      <div className='inputtDiv'>
         <CustomTextInput
-          name="mailingAddress1"
-          label="Address 1"
+          name='mailingAddress1'
+          label='Address 1'
           value={organizationDetails.mailingAddress1}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="mailingAddress2"
-          label="Address 2"
+          name='mailingAddress2'
+          label='Address 2'
           value={organizationDetails.mailingAddress2}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="mailingAddress3"
-          label="Address 3"
+          name='mailingAddress3'
+          label='Address 3'
           value={organizationDetails.mailingAddress3}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="mailingCity"
-          label="Suburb"
+          name='mailingCity'
+          label='Suburb'
           value={organizationDetails.mailingCity}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="mailingState"
-          label="State"
+          name='mailingState'
+          label='State'
           value={organizationDetails.mailingState}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="mailingPostCode"
-          label="Zip"
+          name='mailingPostCode'
+          label='Zip'
           value={organizationDetails.mailingPostCode}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="mailingCountry"
-          label="Country"
+          name='mailingCountry'
+          label='Country'
           value={organizationDetails.mailingCountry}
           onChange={handleFormChange}
         />
       </div>
-      <div className="labelll">
-        <div className="personnbtnDiv">
-          <button onClick={props.close} className="personncancel">
+      <div className='labelll'>
+        <div className='personnbtnDiv'>
+          <button onClick={props.close} className='personncancel'>
             Cancel
           </button>
-          <button className="personnAdd" onClick={handleSubmit}>
+          <button className='personnAdd' onClick={handleSubmit}>
             Add
           </button>
         </div>

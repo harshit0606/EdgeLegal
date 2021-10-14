@@ -35,16 +35,18 @@ const AttachIDForm = (props) => {
     var inputData = new FormData();
     if (uploadedFile) {
       const newData = {
-        requestId: 11223,
+        requestId: '11223',
         data: {
           ...formData,
           name: fileName,
           contactId: details.contactId,
           contactType: details.contactType,
+          // type: 'email',
+          // comments: 'sample',
         },
       };
       // console.log(data);
-      inputData.append('custodyAttachment', JSON.stringify(newData));
+      inputData.append('contactAttachment', JSON.stringify(newData));
       inputData.append('attachment', uploadedFile);
       try {
         const { data } = await axios.post(

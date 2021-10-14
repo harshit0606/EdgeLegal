@@ -53,7 +53,7 @@ function SingleContact(props) {
             }
           )
           .then((response) => {
-            // console.log(response.data.data);
+            console.log(response.data.data);
             setContactDetails(response.data.data);
             setContactType('org');
           });
@@ -100,25 +100,25 @@ function SingleContact(props) {
   };
 
   const handleRenderSafecustody = () => {
-    // axios
-    //   .get(
-    //     `${url}/api/contact/${aboutProps.contactId}?requestId=1124455&contactType=${aboutProps.contactType}`,
-    //     {
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //         Authorization: `Bearer ${loggedInToken}`,
-    //       },
-    //     },
-    //     {
-    //       withCredentials: true,
-    //     }
-    //   )
-    //   .then((response) => {
-    //     console.log(response.data.data);
-    //     setCustodyDetails(response.data.data);
-    //     setCurrScreen('safe custody');
-    //   });
-    setCurrScreen('safe custody');
+    axios
+      .get(
+        `${url}/api/safecustody/contact/${aboutProps.contactId}?requestId=123456&contactType=${aboutProps.contactType}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response.data.data);
+        setCustodyDetails(response.data.data);
+        setCurrScreen('safe custody');
+      });
+    // setCurrScreen('safe custody');
   };
 
   function renderDetails() {
@@ -144,10 +144,10 @@ function SingleContact(props) {
           <div className='contactDetail-header'>Packet Id</div>
           <div className='contactDetail-header'>Contact Role</div>
         </div>
-        {[1, 2, 3].map(() => (
+        {custodyDetails.map((d) => (
           <div className='contactDetail-content-div'>
-            <div className='contactDetail-val'>Id</div>
-            <div className='contactDetail-val'>Role</div>
+            <div className='contactDetail-val'>{d.id.safeCustodyPacketId}</div>
+            <div className='contactDetail-val'>{d.contactRole}</div>
           </div>
         ))}
       </div>

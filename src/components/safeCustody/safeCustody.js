@@ -38,8 +38,16 @@ const filterFields = {
   telephoneNumber: '',
 };
 
+const initialPrimart = {
+  firstName: '',
+  lastName: '',
+  contactType: '',
+  emailAddress: '',
+};
+
 const ConfirmationPopup = (props) => {
-  const { formData, closeForm, loggedInToken, setBoolVal } = props;
+  const { formData, closeForm, loggedInToken, setBoolVal, clearSelected } =
+    props;
   const handleDeleteContact = async () => {
     await axios
       .delete(
@@ -56,6 +64,7 @@ const ConfirmationPopup = (props) => {
         }
       )
       .then((res) => {
+        clearSelected();
         setBoolVal(false);
         closeForm();
         // window.location.reload()
@@ -114,12 +123,23 @@ function RenderSafeCustody(props) {
   const [selectPrepare, setSelectPrepare] = useState([]);
   const [contentShow, setContentShow] = useState(false);
   const [confirmScreen, setConfirmScreen] = useState(false);
+  const [primaryContact, setPrimaryContact] = useState([]);
+  const [primaryContactDetail, setPrimaryContactDetail] = useState({});
   const [formDataForUnlink, setFormDataForUnlink] = useState({});
-  const [size, setSize] = useState(1);
   const [sortOrder, setSortOrder] = useState('');
   const [sortField, setSortField] = useState('');
 
   useEffect(() => {
+    const findPrimary = (data) => {
+      const primary = data.filter((ele) => ele.primaryContact === true);
+      setPrimaryContactDetail({
+        ...primaryContactDetail,
+        firstName: primary[0].contactDetails.firstName,
+        lastName: primary[0].contactDetails.lastName,
+        contactType: primary[0].contactType,
+      });
+    };
+
     if (!boolVal) {
       axios
         .get(
@@ -135,11 +155,13 @@ function RenderSafeCustody(props) {
           }
         )
         .then((response) => {
-          console.log('all data', response.data.data);
+          // console.log('all data', response.data.data);
+          findPrimary(response.data?.data?.custodyPacketContacts);
           setCustodyPacketContacts(response.data?.data?.custodyPacketContacts);
           setCustodyPacket(response.data?.data);
           setFilteredData(response.data?.data?.custodyPacketContacts);
           setFilterPrepare(response.data?.data?.custodyPacketContacts);
+
           setBoolVal(true);
         });
     }
@@ -163,13 +185,13 @@ function RenderSafeCustody(props) {
   //   setSelectedContact([...selectedContact, data]);
   // };
 
-  const handleSelectContactForContact = (data) => {
-    const selectedIndex = selectedContactId.indexOf(data.contactId);
+  const handleSelectContactForContact = (data, index) => {
+    const selectedIndex = selectedContactId.indexOf(index);
     let newSelectedId = [];
     let newSelectedContact = [];
 
     if (selectedIndex === -1) {
-      newSelectedId = newSelectedId.concat(selectedContactId, data.contactId);
+      newSelectedId = newSelectedId.concat(selectedContactId, index);
       newSelectedContact = newSelectedContact.concat(selectedContact, {
         safeCustodyPacketId: data.safeCustodyPacketId,
         contactId: data.contactId,
@@ -201,7 +223,7 @@ function RenderSafeCustody(props) {
 
   const handleSelectAllContact = (event) => {
     if (event.target.checked) {
-      const newSelectedId = filteredData?.map((row) => row.contactId);
+      const newSelectedId = filteredData?.map((row, index) => index);
       const newSelectedContact = filteredData?.map((row) => {
         return {
           safeCustodyPacketId: row.safeCustodyPacketId,
@@ -211,8 +233,6 @@ function RenderSafeCustody(props) {
           primaryContact: row.primaryContact,
         };
       });
-      console.log('new select id', newSelectedId);
-      console.log('new select', newSelectedContact);
       setSelectedContactId(newSelectedId);
       setSelectedContact(newSelectedContact);
       return;
@@ -313,12 +333,12 @@ function RenderSafeCustody(props) {
           safeCustodyPacketId: selectedContact[0].safeCustodyPacketId,
           contactId: selectedContact[0].contactId,
           contactType: selectedContact[0].contactType,
-          contactRole: selectedContact[0].role,
+          contactRole: selectedContact[0].contactRole,
           primaryContact: true,
         },
       };
 
-      // console.log(formData);
+      // console.log(selectedContact);
 
       await axios
         .post(
@@ -527,6 +547,11 @@ function RenderSafeCustody(props) {
     } else {
       alert('Select attachment');
     }
+  };
+
+  const handleClearSelected = () => {
+    selectedContact([]);
+    selectedContactId([]);
   };
 
   function renderSafeSelectTop() {
@@ -1167,6 +1192,10 @@ function RenderSafeCustody(props) {
             formData={formDataForUnlink}
             loggedInToken={loggedInToken}
             setBoolVal={setBoolVal}
+            clearSelected={() => {
+              setSelectedContact([]);
+              setSelectedContactId([]);
+            }}
           />
         )}
       </div>
@@ -1174,6 +1203,7 @@ function RenderSafeCustody(props) {
   }
   function renderSafeContents() {
     // var x = 'client';
+    console.log(primaryContactDetail);
     return (
       <div>
         <div>
@@ -1201,14 +1231,15 @@ function RenderSafeCustody(props) {
               >
                 <div className='data-show-div'>
                   <span>First Name : </span>
-                  <p>firstname</p>
+                  <p>{primaryContactDetail.firstName}</p>
                 </div>
                 <div className='data-show-div'>
                   <span>Last Name : </span>
-                  <p> lastname</p>
+                  <p>{primaryContactDetail.lastName}</p>
                 </div>
                 <div className='data-show-div'>
-                  <span>Contact Type : </span> <p> type</p>
+                  <span>Contact Type : </span>{' '}
+                  <p>{primaryContactDetail.contactType}</p>
                 </div>
               </div>
 
@@ -1502,7 +1533,6 @@ function RenderSafeCustody(props) {
       </div>
     );
   }
-
 
   const [currentSafe, setCurrentSafe] = useState('contacts');
   const [a, setA] = useState(null);
