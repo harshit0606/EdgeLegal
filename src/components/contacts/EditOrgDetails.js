@@ -73,9 +73,11 @@ const CustomTextInput = (props) => {
 };
 
 function EditOrgDetails(props) {
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const { contactDetails, changeBool } = props;
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
-  const [organizationDetails, setOrganizationDetails] = useState(initialData);
+  const [organizationDetails, setOrganizationDetails] =
+    useState(contactDetails);
   const [sameAddress, setSameAddress] = useState(false);
   const [otherDetails, setOtherDetails] = useState({
     companyId: "",
@@ -98,7 +100,7 @@ function EditOrgDetails(props) {
             withCredentials: true,
           }
         );
-        console.log(data);
+        // console.log(data);
         setOtherDetails({
           ...otherDetails,
           companyId: data?.organizationId,
@@ -134,13 +136,14 @@ function EditOrgDetails(props) {
       setSameAddress(false);
       setOrganizationDetails({
         ...organizationDetails,
-        mailingAddress1: "",
-        mailingAddress2: "",
-        mailingAddress3: "",
-        mailingCity: "",
-        mailingState: "",
-        mailingPostCode: "",
-        mailingCountry: "",
+        mailingAddress1: contactDetails.commAddress1,
+        mailingAddress2: contactDetails.commAddress2,
+        mailingAddress3: contactDetails.commAddress3,
+        mailingCity: contactDetails.commCity,
+        mailingState: contactDetails.commState,
+        mailingPostCode: contactDetails.commPostCode,
+        mailingCountry: contactDetails.commCountry,
+
       });
     }
   };
@@ -157,7 +160,7 @@ function EditOrgDetails(props) {
     };
     // console.log(formData);
     try {
-      const { data } = await axios.post(
+      const { data } = await axios.put(
         `${url}/api/contacts`,
         {
           requestId: "1123445",
@@ -174,7 +177,7 @@ function EditOrgDetails(props) {
         }
       );
       // console.log(data);
-      setOrganizationDetails(initialData);
+      changeBool(false);
       props.close();
     } catch (err) {
       console.log(err);
@@ -192,110 +195,114 @@ function EditOrgDetails(props) {
       <div style={{ marginLeft: "20px", marginTop: "10px", fontSize: "14px" }}>
         <p style={{ marginBottom: "10px" }}>Organisation Type</p>
         <input
-          type="radio"
-          name="type"
-          value="Bussiness/Partnership"
+          type='radio'
+          name='type'
+          value='Bussiness/Partnership'
+          checked={organizationDetails.type === 'Bussiness/Partnership'}
           onChange={handleFormChange}
         ></input>{" "}
         Bussiness/Partnership&nbsp;&nbsp;&nbsp;
         <input
-          type="radio"
-          name="type"
-          value="Company"
+          type='radio'
+          name='type'
+          value='Company'
+          checked={organizationDetails.type === 'Company'}
           onChange={handleFormChange}
         />{" "}
         Company&nbsp;&nbsp;&nbsp;
         <input
-          type="radio"
-          name="type"
-          value="Government Department"
+          type='radio'
+          name='type'
+          value='Government Department'
+          checked={organizationDetails.type === 'Government Department'}
           onChange={handleFormChange}
         />{" "}
         Government Department&nbsp;&nbsp;&nbsp;
         <input
-          type="radio"
-          name="type"
-          value="Trust"
+          type='radio'
+          name='type'
+          value='Trust'
+          checked={organizationDetails.type === 'Trust'}
           onChange={handleFormChange}
         />{" "}
         Trust&nbsp;&nbsp;&nbsp;
       </div>
-      <div className="inputtDiv">
+      <div className='inputtDiv'>
         <CustomTextInput
-          name="name"
-          label="Name"
+          name='name'
+          label='Name'
           value={organizationDetails.name}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="subType"
-          label="Sub Type"
+          name='subType'
+          label='Sub Type'
           value={organizationDetails.subType}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="legalName"
-          label="Legal Name"
+          name='legalName'
+          label='Legal Name'
           value={organizationDetails.legalName}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="title"
-          label="Title"
+          name='title'
+          label='Title'
           value={organizationDetails.title}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="phoneNumber1"
-          label="Phone Number 1"
+          name='phoneNumber1'
+          label='Phone Number 1'
           value={organizationDetails.phoneNumber1}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="phoneNumber2"
-          label="Phone Number 2"
+          name='phoneNumber2'
+          label='Phone Number 2'
           value={organizationDetails.phoneNumber2}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="phoneNumber3"
-          label="Phone Number 3"
+          name='phoneNumber3'
+          label='Phone Number 3'
           value={organizationDetails.phoneNumber3}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="faxNumber"
-          label="Fax"
+          name='faxNumber'
+          label='Fax'
           value={organizationDetails.faxNumber}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="website"
-          label="Website"
+          name='website'
+          label='Website'
           value={organizationDetails.website}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="emailId1"
-          label="Email 1"
+          name='emailId1'
+          label='Email 1'
           value={organizationDetails.emailId1}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="emailId2"
-          label="Email 2"
+          name='emailId2'
+          label='Email 2'
           value={organizationDetails.emailId2}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="dxNumber"
-          label="DX Number"
+          name='dxNumber'
+          label='DX Number'
           value={organizationDetails.dxNumber}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="dxCity"
-          label="DX City"
+          name='dxCity'
+          label='DX City'
           value={organizationDetails.dxCity}
           onChange={handleFormChange}
         />
@@ -306,14 +313,14 @@ function EditOrgDetails(props) {
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="abn"
-          label="ABN"
+          name='abn'
+          label='ABN'
           value={organizationDetails.abn}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="acn"
-          label="ACN"
+          name='acn'
+          label='ACN'
           value={organizationDetails.acn}
           onChange={handleFormChange}
         />
@@ -321,22 +328,22 @@ function EditOrgDetails(props) {
       <div className="labelll">
         <h3>Street Address</h3>
       </div>
-      <div className="inputtDiv">
+      <div className='inputtDiv'>
         <CustomTextInput
-          name="commAddress1"
-          label="Address 1"
+          name='commAddress1'
+          label='Address 1'
           value={organizationDetails.commAddress1}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="commAddress2"
-          label="Address 2"
+          name='commAddress2'
+          label='Address 2'
           value={organizationDetails.commAddress2}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="commAddress3"
-          label="Address 3"
+          name='commAddress3'
+          label='Address 3'
           value={organizationDetails.commAddress3}
           onChange={handleFormChange}
         />
@@ -347,20 +354,20 @@ function EditOrgDetails(props) {
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="commState"
-          label="State"
+          name='commState'
+          label='State'
           value={organizationDetails.commState}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="commPostCode"
-          label="Zip"
+          name='commPostCode'
+          label='Zip'
           value={organizationDetails.commPostCode}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="commCountry"
-          label="Country"
+          name='commCountry'
+          label='Country'
           value={organizationDetails.commCountry}
           onChange={handleFormChange}
         />
@@ -379,40 +386,40 @@ function EditOrgDetails(props) {
         ></input>
         <label>Same as Communication Address</label>
       </div>
-      <div className="inputtDiv">
+      <div className='inputtDiv'>
         <CustomTextInput
-          name="mailingAddress1"
-          label="Address 1"
+          name='mailingAddress1'
+          label='Address 1'
           value={organizationDetails.mailingAddress1}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="mailingAddress2"
-          label="Address 2"
+          name='mailingAddress2'
+          label='Address 2'
           value={organizationDetails.mailingAddress2}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="mailingAddress3"
-          label="Address 3"
+          name='mailingAddress3'
+          label='Address 3'
           value={organizationDetails.mailingAddress3}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="mailingCity"
-          label="Suburb"
+          name='mailingCity'
+          label='Suburb'
           value={organizationDetails.mailingCity}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="mailingState"
-          label="State"
+          name='mailingState'
+          label='State'
           value={organizationDetails.mailingState}
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="mailingPostCode"
-          label="Zip"
+          name='mailingPostCode'
+          label='Zip'
           value={organizationDetails.mailingPostCode}
           onChange={handleFormChange}
         />

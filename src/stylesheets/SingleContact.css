@@ -1,0 +1,38 @@
+.renderSafecustody-container {
+  width: 50%;
+  margin-top: 2rem;
+}
+
+.contactDetail-header-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background-color: #f0f0f0;
+}
+
+.contactDetail-header {
+  font-size: 1rem;
+  font-weight: 600;
+  width: 45%;
+  text-align: left;
+  padding: 0 20px;
+}
+
+.contactDetail-content-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+.contactDetail-content-div:nth-child(odd) {
+  background-color: #f0f0f0;
+}
+
+.contactDetail-val {
+  width: 45%;
+  text-align: left;
+  padding: 0 30px;
+}

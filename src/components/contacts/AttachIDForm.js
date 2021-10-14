@@ -12,7 +12,7 @@ const initialData = {
 };
 
 const AttachIDForm = (props) => {
-  const { closeForm } = props;
+  const { closeForm, details, changeBool } = props;
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
   const [formData, setFormData] = useState(initialData);
@@ -34,38 +34,38 @@ const AttachIDForm = (props) => {
     e.preventDefault();
     var inputData = new FormData();
     if (uploadedFile) {
-      const data = {
+      const newData = {
         requestId: 11223,
         data: {
           ...formData,
           name: fileName,
-          contactId: '1', // this will change to dynamic,
-          contactType: 'PERSON', // this will change to dynamic,
+          contactId: details.contactId,
+          contactType: details.contactType,
         },
       };
-      console.log(data);
-      inputData.append('custodyAttachment', JSON.stringify(data));
+      // console.log(data);
+      inputData.append('custodyAttachment', JSON.stringify(newData));
       inputData.append('attachment', uploadedFile);
-      // try {
-      //   const { data } = await axios.post(
-      //     `${url}/api/contact-attachment`,
-      //     inputData,
-      //     {
-      //       headers: {
-      //         'Content-Type': 'multipart/form-data',
-      //         Authorization: `Bearer ${loggedInToken}`,
-      //       },
-      //     },
-      //     {
-      //       withCredentials: true,
-      //     }
-      //   );
-      //   // console.log(data);
-      //   closeForm();
-      //   window.location.reload();
-      // } catch (err) {
-      //   console.log(err);
-      // }
+      try {
+        const { data } = await axios.post(
+          `${url}/api/contact-attachment`,
+          inputData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${loggedInToken}`,
+            },
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        // console.log(data);
+        changeBool(false);
+        closeForm();
+      } catch (err) {
+        console.log(err);
+      }
     } else {
       alert('Please upload file');
     }

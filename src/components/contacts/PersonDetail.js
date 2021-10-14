@@ -1,8 +1,9 @@
 import React from 'react';
+import moment from 'moment';
 import '../../stylesheets/contact-details.css';
-function Detail(props) {
+function PersonDetail(props) {
   const { contactDetails } = props;
-  // console.log(props.contactDetails);
+  console.log(contactDetails);
   return (
     <div className='main-contact-detail-div'>
       <div className='contact-detail-horizontal'>
@@ -14,34 +15,30 @@ function Detail(props) {
         </div>
         <div className='smaller-detail-div'>
           <p>Type</p>
-          <h3>{contactDetails?.role ? contactDetails?.role : 'Staff'}</h3>
+          <h3>{contactDetails?.role ? contactDetails?.role : ''}</h3>
         </div>
         <div className='smaller-detail-div'>
           <p>Salutaion</p>
           <h3>
-            {contactDetails?.salutation ? contactDetails?.salutation : 'Mr'}
+            {contactDetails?.salutation ? contactDetails?.salutation : ''}
           </h3>
         </div>
       </div>
       <div className='contact-detail-horizontal'>
         <div className='smaller-detail-div'>
           <p>First Name</p>
-          <h3>
-            {contactDetails?.firstName ? contactDetails?.firstName : 'Test'}
-          </h3>
+          <h3>{contactDetails?.firstName ? contactDetails?.firstName : ''}</h3>
         </div>
         <div className='smaller-detail-div'>
           <p>Middle Name</p>
           <h3>
-            {contactDetails?.middleName ? contactDetails?.middleName : 'middle'}
+            {contactDetails?.middleName ? contactDetails?.middleName : ''}
           </h3>
         </div>
 
         <div className='smaller-detail-div'>
           <p>Last Name</p>
-          <h3>
-            {contactDetails?.lastName ? contactDetails?.lastName : 'lastName'}
-          </h3>
+          <h3>{contactDetails?.lastName ? contactDetails?.lastName : ''}</h3>
         </div>
       </div>
       <div className='contact-detail-horizontal'>
@@ -50,47 +47,43 @@ function Detail(props) {
           <h3>
             {contactDetails?.countryOfBirth
               ? contactDetails?.countryOfBirth
-              : 'USA'}
+              : ''}
           </h3>
         </div>
         <div className='smaller-detail-div'>
           <p>Date of Birth</p>
           <h3>
-            {contactDetails?.dateOfBirth ? contactDetails?.dateOfBirth : 'USA'}
+            {contactDetails?.dateOfBirth
+              ? moment(contactDetails?.dateOfBirth).format('DD-MM-YYYY')
+              : ''}
           </h3>
         </div>
         <div className='smaller-detail-div'>
           <p>Place of birth</p>
           <h3>
-            {contactDetails?.placeOfBirth ? contactDetails?.placeOfBirth : 'NY'}
+            {contactDetails?.placeOfBirth ? contactDetails?.placeOfBirth : ''}
           </h3>
         </div>
       </div>
       <div className='contact-detail-horizontal'>
         <div className='smaller-detail-div'>
           <p>Gender</p>
-          <h3>{contactDetails?.gender ? contactDetails?.gender : 'NY'}</h3>
+          <h3>{contactDetails?.gender ? contactDetails?.gender : ''}</h3>
         </div>
         <div className='smaller-detail-div'>
           <p>Email 1</p>
-          <h3>
-            {contactDetails?.emailId1 ? contactDetails?.emailId1 : 'email1'}
-          </h3>
+          <h3>{contactDetails?.emailId1 ? contactDetails?.emailId1 : ''}</h3>
         </div>
         <div className='smaller-detail-div'>
           <p>Email 2</p>
-          <h3>
-            {contactDetails?.emailId2 ? contactDetails?.emailId2 : 'email1'}
-          </h3>
+          <h3>{contactDetails?.emailId2 ? contactDetails?.emailId2 : ''}</h3>
         </div>
       </div>
       <div className='contact-detail-horizontal'>
         <div className='smaller-detail-div'>
           <p>Home Phone</p>
           <h3>
-            {contactDetails?.phoneNumber1
-              ? contactDetails?.phoneNumber1
-              : 'phone no.'}
+            {contactDetails?.phoneNumber1 ? contactDetails?.phoneNumber1 : ''}
           </h3>
         </div>
         <div className='smaller-detail-div'>
@@ -98,16 +91,12 @@ function Detail(props) {
           <h3>
             {contactDetails?.mobilePhoneNumber
               ? contactDetails?.mobilePhoneNumber
-              : 'phone no.'}
+              : ''}
           </h3>
         </div>
         <div className='smaller-detail-div'>
-          <p>Fax</p>
-          <h3>
-            {contactDetails?.faxNumber
-              ? contactDetails?.faxNumber
-              : 'Fax number'}
-          </h3>
+          <p>Fax Number</p>
+          <h3>{contactDetails?.faxNumber ? contactDetails?.faxNumber : ''}</h3>
         </div>
       </div>
       <div className='contact-detail-horizontal'>
@@ -116,18 +105,16 @@ function Detail(props) {
           <h3>
             {contactDetails?.passportNumber
               ? contactDetails?.passportNumber
-              : 'passport number'}
+              : ''}
           </h3>
         </div>
         <div className='smaller-detail-div'>
           <p>Website</p>
-          <h3>
-            {contactDetails?.website ? contactDetails?.website : 'website'}
-          </h3>
+          <h3>{contactDetails?.website ? contactDetails?.website : ''}</h3>
         </div>
         <div className='smaller-detail-div'>
-          <p>Comment</p>
-          <h3>{'comment'}</h3>
+          {/**<p>Comment</p>
+            <h3>{'comment'}</h3> */}
         </div>
       </div>
       <div className='contact-detail-horizontal'>
@@ -136,7 +123,7 @@ function Detail(props) {
           <h3>
             {contactDetails?.commAddress1
               ? `${contactDetails?.commAddress1}, ${contactDetails?.commAddress2} ${contactDetails?.commAddress3}`
-              : 'Address'}
+              : ''}
           </h3>
         </div>
 
@@ -145,7 +132,7 @@ function Detail(props) {
           <h3>
             {contactDetails?.commAddress1
               ? `${contactDetails?.mailingAddress1}, ${contactDetails?.mailingAddress2} ${contactDetails?.mailingAddress3}`
-              : 'Address'}
+              : ''}
           </h3>
         </div>
         <div className='smaller-detail-div'></div>
@@ -154,4 +141,4 @@ function Detail(props) {
   );
 }
 
-export default Detail;
+export default PersonDetail;

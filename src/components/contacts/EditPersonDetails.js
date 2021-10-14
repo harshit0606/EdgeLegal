@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import url from "../../config.js";
 import axios from "axios";
+import moment from 'moment';
 import { useCookies } from "react-cookie";
 import "../../stylesheets/contacts.css";
 import { FormControl, InputLabel, Select, TextField } from "@material-ui/core";
@@ -137,10 +138,101 @@ const CustomDropDown = (props) => {
   );
 };
 
+
 function EditPersonDetails(props) {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+const CustomTextInput = (props) => {
+  return (
+    <TextField
+      {...props}
+      style={{
+        width: 256,
+        height: 50,
+        marginRight: 7,
+        marginLeft: 9,
+        marginBottom: 10,
+        outline: 'none',
+      }}
+      InputLabelProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      inputProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      type='text'
+    />
+  );
+};
+
+const CustomDropDown = (props) => {
+  const { lableName, labelId, first, second, name, value, onChange } = props;
+  return (
+    <FormControl
+      style={{
+        width: 256,
+        height: 50,
+        marginRight: 7,
+        marginLeft: 9,
+        marginBottom: 10,
+        outline: 'none',
+      }}
+    >
+      <InputLabel
+        htmlFor={labelId}
+        style={{
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 9,
+        }}
+      >
+        {lableName}
+      </InputLabel>
+      <Select
+        native
+        name={name}
+        labelId={labelId}
+        value={value}
+        onChange={onChange}
+        style={{
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+        }}
+        inputProps={{
+          style: {
+            fontSize: 14,
+            fontFamily: 'inherit',
+            color: 'rgb(94, 94, 94)',
+            padding: 5,
+          },
+        }}
+      >
+        <option
+          aria-label='None'
+          selected
+          disabled
+          style={{ display: 'none' }}
+          value=''
+        />
+        <option value={first}>{first}</option>
+        <option value={second}>{second}</option>
+      </Select>
+    </FormControl>
+  );
+};
   const loggedInToken = cookies.token;
-  const [personDetails, setPersonDetails] = useState(initialData);
+  const [personDetails, setPersonDetails] = useState(contactDetails);
   const [otherDetails, setOtherDetails] = useState({
     companyId: "",
     siteId: "",
@@ -164,7 +256,7 @@ function EditPersonDetails(props) {
             withCredentials: true,
           }
         );
-        console.log(data);
+        // console.log(data);
         setOtherDetails({
           ...otherDetails,
           companyId: data?.organizationId,
@@ -200,13 +292,13 @@ function EditPersonDetails(props) {
       setSameAddress(false);
       setPersonDetails({
         ...personDetails,
-        mailingAddress1: "",
-        mailingAddress2: "",
-        mailingAddress3: "",
-        mailingCity: "",
-        mailingState: "",
-        mailingPostCode: "",
-        mailingCountry: "",
+        mailingAddress1: contactDetails.commAddress1,
+        mailingAddress2: contactDetails.commAddress2,
+        mailingAddress3: contactDetails.commAddress3,
+        mailingCity: contactDetails.commCity,
+        mailingState: contactDetails.commState,
+        mailingPostCode: contactDetails.commPostCode,
+        mailingCountry: contactDetails.commCountry,
       });
     }
   };
@@ -220,9 +312,9 @@ function EditPersonDetails(props) {
         ...personDetails,
       },
     };
-    // console.log(formData);
+    console.log(formData);
     try {
-      const { data } = await axios.post(
+      const { data } = await axios.put(
         `${url}/api/contacts`,
         {
           requestId: "1123445",
@@ -239,7 +331,7 @@ function EditPersonDetails(props) {
         }
       );
       // console.log(data);
-      setPersonDetails(initialData);
+      changeBool(false);
       props.close();
       // window.location.reload();
     } catch (err) {
@@ -296,44 +388,57 @@ function EditPersonDetails(props) {
           onChange={handleFormChange}
         />
         <CustomTextInput
-          name="lastName"
-          label="Last Name"
+
+          name='lastName'
+          label='Last Name'
           value={personDetails.lastName}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="phoneNumber1"
           label="Home Phone"
+
           value={personDetails.phoneNumber1}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="phoneNumber2"
           label="Work Phone"
+
           value={personDetails.phoneNumber2}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="faxNumber"
           label="Fax"
+
           value={personDetails.faxNumber}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="mobilePhoneNumber"
           label="Mobile Number"
+
           state={personDetails.mobilePhoneNumber}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="website"
           label="Website"
+
           value={personDetails.website}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="emailId1"
           label="Email 1"
+
           value={personDetails.emailId1}
           onChange={handleFormChange}
         />
@@ -346,18 +451,20 @@ function EditPersonDetails(props) {
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="placeOfBirth"
           label="Place of Birth"
+
           value={personDetails.placeOfBirth}
           onChange={handleFormChange}
         />
         <TextField
-          type={date ? "date" : "text"}
-          name="dateOfBirth"
-          label="Date of Birth"
+          type={date ? 'date' : 'text'}
+          name='dateOfBirth'
+          label='Date of Birth'
           onFocus={() => setDate(true)}
           onBlur={() => setDate(false)}
-          value={personDetails.dateOfBirth}
+          value={moment(personDetails.dateOfBirth).format('DD-MM-YYYY')}
           onChange={handleFormChange}
           style={{
             width: 256,
@@ -365,7 +472,9 @@ function EditPersonDetails(props) {
             marginRight: 7,
             marginLeft: 9,
             marginBottom: 10,
+
             outline: "none",
+
           }}
           InputLabelProps={{
             style: {
@@ -379,44 +488,58 @@ function EditPersonDetails(props) {
           inputProps={{
             style: {
               fontSize: 14,
+
               fontFamily: "inherit",
               color: "rgb(94, 94, 94)",
+
             },
           }}
         />
         <CustomTextInput
+
           name="countryOfBirth"
           label="Country of Birth"
+
           value={personDetails.countryOfBirth}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="nationality"
           label="Nationality"
+
           value={personDetails.nationality}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="passportNumber"
           label="Passport No."
+
           value={personDetails.passportNumber}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="occupation"
           label="Occupation"
+
           value={personDetails.occupation}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="practiceCertNumber"
           label="Practicing Certificate No."
+
           value={personDetails.practiceCertNumber}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="personComments"
           label="Comments"
+
           value={personDetails.personComments}
           onChange={handleFormChange}
         />
@@ -424,46 +547,58 @@ function EditPersonDetails(props) {
       <div className="labelll">
         <h3>Street Address</h3>
       </div>
+
       <div className="inputtDiv">
         <CustomTextInput
           name="commAddress1"
           label="Address 1"
+
           value={personDetails.commAddress1}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="commAddress2"
           label="Address 2"
+
           value={personDetails.commAddress2}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="commAddress3"
           label="Address 3"
+
           value={personDetails.commAddress3}
           onChange={handleFormChange}
         />
         <CustomTextInput
           name="commCity"
           label="Suburb"
+
           value={personDetails.commCity}
           onChange={handleFormChange}
         />
         <CustomTextInput
           name="commState"
           label="State"
+
           value={personDetails.commState}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="commPostCode"
           label="Zip"
+
           value={personDetails.commPostCode}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="commCountry"
           label="Country"
+
           value={personDetails.commCountry}
           onChange={handleFormChange}
         />
@@ -482,46 +617,59 @@ function EditPersonDetails(props) {
         />
         <label>Same as Communication Address</label>
       </div>
+
       <div className="inputtDiv">
         <CustomTextInput
           name="mailingAddress1"
           label="Address 1"
+
           value={personDetails.mailingAddress1}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="mailingAddress2"
           label="Address 2"
+
           value={personDetails.mailingAddress2}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="mailingAddress3"
           label="Address 3"
+
           value={personDetails.mailingAddress3}
           onChange={handleFormChange}
         />
         <CustomTextInput
           name="mailingCity"
           label="Suburb"
+
           value={personDetails.mailingCity}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="mailingState"
           label="State"
+
           value={personDetails.mailingState}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="mailingPostCode"
           label="Zip"
+
           value={personDetails.mailingPostCode}
           onChange={handleFormChange}
         />
         <CustomTextInput
+
           name="mailingCountry"
           label="Country"
+
           value={personDetails.mailingCountry}
           onChange={handleFormChange}
         />
@@ -540,4 +688,4 @@ function EditPersonDetails(props) {
   );
 }
 
-export default EditPersonDetails;
+export default AddPerson;
