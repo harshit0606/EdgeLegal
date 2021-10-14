@@ -11,6 +11,7 @@ import Attachid from './attachid';
 import axios from 'axios';
 import url from '../../config.js';
 import { useCookies } from 'react-cookie';
+import '../../stylesheets/SingleContact.css';
 
 function SingleContact(props) {
   const history = useHistory();
@@ -30,8 +31,10 @@ function SingleContact(props) {
   }
 
   const [contactDetails, setContactDetails] = useState({});
+  const [custodyDetails, setCustodyDetails] = useState([]);
   const [boolVal, setBoolVal] = useState(false);
-  console.log(aboutProps);
+
+  // console.log(aboutProps);
 
   useEffect(async () => {
     if (!boolVal) {
@@ -96,6 +99,28 @@ function SingleContact(props) {
     }
   };
 
+  const handleRenderSafecustody = () => {
+    // axios
+    //   .get(
+    //     `${url}/api/contact/${aboutProps.contactId}?requestId=1124455&contactType=${aboutProps.contactType}`,
+    //     {
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         Authorization: `Bearer ${loggedInToken}`,
+    //       },
+    //     },
+    //     {
+    //       withCredentials: true,
+    //     }
+    //   )
+    //   .then((response) => {
+    //     console.log(response.data.data);
+    //     setCustodyDetails(response.data.data);
+    //     setCurrScreen('safe custody');
+    //   });
+    setCurrScreen('safe custody');
+  };
+
   function renderDetails() {
     if (contactType === 'person') {
       return (
@@ -113,7 +138,20 @@ function SingleContact(props) {
     }
   }
   function renderSafeCustody() {
-    return <div>Safe Custody</div>;
+    return (
+      <div className='renderSafecustody-container'>
+        <div className='contactDetail-header-div'>
+          <div className='contactDetail-header'>Packet Id</div>
+          <div className='contactDetail-header'>Contact Role</div>
+        </div>
+        {[1, 2, 3].map(() => (
+          <div className='contactDetail-content-div'>
+            <div className='contactDetail-val'>Id</div>
+            <div className='contactDetail-val'>Role</div>
+          </div>
+        ))}
+      </div>
+    );
   }
   function renderMatters() {
     return (
@@ -170,9 +208,7 @@ function SingleContact(props) {
                 ? 'safe-custody-btns safe-custody-btns-clicked'
                 : 'safe-custody-btns'
             }
-            onClick={() => {
-              setCurrScreen('details');
-            }}
+            onClick={() => setCurrScreen('details')}
           >
             {' '}
             Details
@@ -198,9 +234,7 @@ function SingleContact(props) {
                 ? 'safe-custody-btns safe-custody-btns-clicked'
                 : 'safe-custody-btns'
             }
-            onClick={() => {
-              setCurrScreen('safe custody');
-            }}
+            onClick={handleRenderSafecustody}
           >
             {' '}
             Safe Custody
