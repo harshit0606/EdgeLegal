@@ -41,20 +41,20 @@ function RenderSafeCustody(props) {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const loggedInToken = cookies.token;
   const { id } = props.match.params;
-  const [safeCustodyPackets, setSafeCustodyPackets] = useState(null);
+  const [safeCustodyPackets, setSafeCustodyPackets] = useState(undefined);
   const [custodyPacketContacts, setCustodyPacketContacts] = useState([]);
   const [filterPerpare, setFilterPrepare] = useState([]);
   const [custodyPacket, setCustodyPacket] = useState({});
   const [filteredData, setFilteredData] = useState([]);
   const [filterInput, setFilterInput] = useState(filterFields);
   const [prepareInput, setPrepareInput] = useState(filterFields);
-  const [prepareReceiptContact, setPrepareReceiptContact] = useState(null);
-  const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
+  const [prepareReceiptContact, setPrepareReceiptContact] = useState(undefined);
+  const [safeCustodyStatus, setSafeCustodyStatus] = useState(undefined);
   const [isAddCustodyOpen, setIsAddCustoduOpen] = useState(false);
 
   const [openLinkContactForm, setOpenLinkContactForm] = useState(false);
   const [contactLists, setContactLists] = useState([]);
-  const [selectedContact, setSelectedContact] = useState(null);
+  const [selectedContact, setSelectedContact] = useState(undefined);
   const [selectedContent, setSelectedContent] = useState("");
   const [selectPrepare, setSelectPrepare] = useState([]);
   const [contentShow, setContentShow] = useState(false);
@@ -92,7 +92,7 @@ function RenderSafeCustody(props) {
     setContentShow(false);
     setPrepareInput(filterFields);
     setSelectPrepare([]);
-    setPrepareReceiptContact(null);
+    setPrepareReceiptContact(undefined);
   };
   const handleContentShow = () => {
     setContentShow(true);
@@ -1257,10 +1257,10 @@ function RenderSafeCustody(props) {
   }
 
   const [currentSafe, setCurrentSafe] = useState("contacts");
-  const [a, setA] = useState(null);
-  const [b, setB] = useState(null);
-  const [c, setC] = useState(null);
-  const [d, setD] = useState(null);
+  const [a, setA] = useState(undefined);
+  const [b, setB] = useState(undefined);
+  const [c, setC] = useState(undefined);
+  const [d, setD] = useState(undefined);
 
   return (
     <div>

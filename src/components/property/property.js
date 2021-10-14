@@ -1,46 +1,46 @@
-import react, { useEffect, useState } from 'react';
-import axios from 'axios';
-import url from '../../config.js';
-import { useCookies } from 'react-cookie';
+import react, { useEffect, useState } from "react";
+import axios from "axios";
+import url from "../../config.js";
+import { useCookies } from "react-cookie";
 
-import upArrow from '../../images/upArrow.svg';
-import downArrow from '../../images/downArrow.svg';
-import downArrowColoured from '../../images/downArrowColoured.svg';
-import upArrowColoured from '../../images/upArrowColoured.svg';
+import upArrow from "../../images/upArrow.svg";
+import downArrow from "../../images/downArrow.svg";
+import downArrowColoured from "../../images/downArrowColoured.svg";
+import upArrowColoured from "../../images/upArrowColoured.svg";
 
-import styles from '../../stylesheets/property.css';
+import styles from "../../stylesheets/property.css";
 
-import PopupFormR from './popupformR.js';
-import PopupFormUnR from './popupformUnR.js';
-import RegisteredLot from './registeredLot.js';
-import UnregisteredLot from './unregisteredLot.js';
-import RelatedMattersLot from './relatedMatters.js';
-import AddNewProperty from './addNewProperty.js';
+import PopupFormR from "./popupformR.js";
+import PopupFormUnR from "./popupformUnR.js";
+import RegisteredLot from "./registeredLot.js";
+import UnregisteredLot from "./unregisteredLot.js";
+import RelatedMattersLot from "./relatedMatters.js";
+import AddNewProperty from "./addNewProperty.js";
 
 const filterRegisterFields = {
-  depositedPlanNumber: '',
-  description: '',
-  lotNumber: '',
-  strataPlanNumber: '',
-  titleReference: '',
-  section: '',
+  depositedPlanNumber: "",
+  description: "",
+  lotNumber: "",
+  strataPlanNumber: "",
+  titleReference: "",
+  section: "",
 };
 
 const filterUnregisterFields = {
-  partOfLot: '',
-  description: '',
-  lot: '',
-  plan: '',
-  section: '',
+  partOfLot: "",
+  description: "",
+  lot: "",
+  plan: "",
+  section: "",
 };
 
 function RenderProperty() {
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const loggedInToken = cookies.token;
 
   const [allProperties, setAllProperties] = useState([]);
-  const [titleRef, setTitleRef] = useState(null);
-  const [address, setAddress] = useState(null);
+  const [titleRef, setTitleRef] = useState(undefined);
+  const [address, setAddress] = useState(undefined);
   const [filteredData, setFilteredData] = useState([]);
   const [filterRegisterInput, setFilterRegisterInput] =
     useState(filterRegisterFields);
@@ -59,10 +59,10 @@ function RenderProperty() {
   const [isEditTrue, setIsEditTrue] = useState(false);
   const [isAddTrue, setIsAddTrue] = useState(false);
   const [boolVal, setBoolVal] = useState(false);
-  const [sortOrder, setSortOrder] = useState('');
-  const [sortField, setSortField] = useState('');
+  const [sortOrder, setSortOrder] = useState("");
+  const [sortField, setSortField] = useState("");
 
-  console.log('length', filteredData.length);
+  console.log("length", filteredData.length);
 
   useEffect(() => {
     const propertyData = (data) => {
@@ -70,10 +70,10 @@ function RenderProperty() {
       var dataArray = [];
       data.forEach((d) => {
         const propertyAddress = `${d.unit}/${d.streetNo}/${d.street}/${d.suburb}/${d.state}/${d.postCode}/${d.country}`;
-        let titleRefs = '';
+        let titleRefs = "";
         if (d.registeredProperties.length > 0) {
           d.registeredProperties.forEach((r) => {
-            if (titleRefs === '') {
+            if (titleRefs === "") {
               titleRefs += `${r.titleReference}`;
             } else {
               titleRefs += `/${r.titleReference}`;
@@ -81,7 +81,7 @@ function RenderProperty() {
           });
         }
         dataArray.push({
-          titleRef: d.registeredProperties.length === 0 ? '' : titleRefs,
+          titleRef: d.registeredProperties.length === 0 ? "" : titleRefs,
           address: propertyAddress,
           id: d.id,
           details: d,
@@ -97,7 +97,7 @@ function RenderProperty() {
           `${url}/api/property?requestId=1234567`,
           {
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
               Authorization: `Bearer ${loggedInToken}`,
             },
           },
@@ -109,7 +109,7 @@ function RenderProperty() {
           // setAllProperties(response.data.data.properties);
           propertyData(response.data.data.properties);
           // setFilteredData(response.data.data.properties);
-          console.log('in axios then', response.data.data);
+          console.log("in axios then", response.data.data);
         });
     }
   }, [boolVal, filteredData]);
@@ -123,7 +123,7 @@ function RenderProperty() {
 
   const handleFilter = (e) => {
     const { name } = e.target;
-    if (e.target.value === '') {
+    if (e.target.value === "") {
       setFilteredData(allProperties);
     } else {
       filterData(name, e.target.value);
@@ -133,22 +133,22 @@ function RenderProperty() {
   const filterRegisterData = (obj) => {
     const newData = registeredLots?.filter(
       (data) =>
-        (data['description']
-          ? data['description']
+        (data["description"]
+          ? data["description"]
               ?.toLowerCase()
-              .includes(obj['description']?.toLowerCase())
+              .includes(obj["description"]?.toLowerCase())
           : true) &&
-        data['depositedPlanNumber'].includes(obj['depositedPlanNumber']) &&
-        data['lotNumber']
+        data["depositedPlanNumber"].includes(obj["depositedPlanNumber"]) &&
+        data["lotNumber"]
           .toLowerCase()
-          .includes(obj['lotNumber'].toLowerCase()) &&
-        data['strataPlanNumber']
+          .includes(obj["lotNumber"].toLowerCase()) &&
+        data["strataPlanNumber"]
           .toLowerCase()
-          .includes(obj['strataPlanNumber'].toLowerCase()) &&
-        data['titleReference']
+          .includes(obj["strataPlanNumber"].toLowerCase()) &&
+        data["titleReference"]
           .toLowerCase()
-          .includes(obj['titleReference'].toLowerCase()) &&
-        data['section'].toLowerCase().includes(obj['section'].toLowerCase())
+          .includes(obj["titleReference"].toLowerCase()) &&
+        data["section"].toLowerCase().includes(obj["section"].toLowerCase())
     );
     // console.log(newData);
     setFilteredRegisterLot(newData);
@@ -164,21 +164,21 @@ function RenderProperty() {
     // console.log(obj);
     const newData = unregisteredLots?.filter(
       (data) =>
-        (data['description']
-          ? data['description']
+        (data["description"]
+          ? data["description"]
               ?.toLowerCase()
-              .includes(obj['description']?.toLowerCase())
+              .includes(obj["description"]?.toLowerCase())
           : true) &&
-        (data['lot']
-          ? data['lot']?.toLowerCase().includes(obj['lot']?.toLowerCase())
+        (data["lot"]
+          ? data["lot"]?.toLowerCase().includes(obj["lot"]?.toLowerCase())
           : true) &&
-        (data['plan']
-          ? data['plan']?.toLowerCase().includes(obj['plan']?.toLowerCase())
+        (data["plan"]
+          ? data["plan"]?.toLowerCase().includes(obj["plan"]?.toLowerCase())
           : true) &&
-        data['partOfLot']
+        data["partOfLot"]
           .toLowerCase()
-          .includes(obj['partOfLot'].toLowerCase()) &&
-        data['section'].toLowerCase().includes(obj['section'].toLowerCase())
+          .includes(obj["partOfLot"].toLowerCase()) &&
+        data["section"].toLowerCase().includes(obj["section"].toLowerCase())
     );
     // console.log(newData);
     setFilteredUnregisterLot(newData);
@@ -195,14 +195,14 @@ function RenderProperty() {
 
   const handleSort = (field, order) => {
     if (sortOrder === order && sortField === field) {
-      setSortOrder('');
-      setSortField('');
+      setSortOrder("");
+      setSortField("");
       setFilteredData(allProperties);
     } else {
       setSortOrder(order);
       setSortField(field);
       let sortedData = filteredData.sort((a, b) => {
-        if (order === 'asc') {
+        if (order === "asc") {
           return a[field] < b[field] ? -1 : 1;
         } else {
           return a[field] < b[field] ? 1 : -1;
@@ -214,14 +214,14 @@ function RenderProperty() {
 
   const handleRegisterSort = (field, order) => {
     if (sortOrder === order && sortField === field) {
-      setSortOrder('');
-      setSortField('');
+      setSortOrder("");
+      setSortField("");
       setFilteredRegisterLot(registeredLots);
     } else {
       setSortOrder(order);
       setSortField(field);
       let sortedData = filteredRegisterLot.sort((a, b) => {
-        if (order === 'asc') {
+        if (order === "asc") {
           return a[field] < b[field] ? -1 : 1;
         } else {
           return a[field] < b[field] ? 1 : -1;
@@ -233,14 +233,14 @@ function RenderProperty() {
 
   const handleUnregisterSort = (field, order) => {
     if (sortOrder === order && sortField === field) {
-      setSortOrder('');
-      setSortField('');
+      setSortOrder("");
+      setSortField("");
       setFilteredUnregisterLot(unregisteredLots);
     } else {
       setSortOrder(order);
       setSortField(field);
       let sortedData = filteredUnregisterLot.sort((a, b) => {
-        if (order === 'asc') {
+        if (order === "asc") {
           return a[field] < b[field] ? -1 : 1;
         } else {
           return a[field] < b[field] ? 1 : -1;
@@ -252,13 +252,13 @@ function RenderProperty() {
 
   function deleteProperty() {
     const id = specificProperty.id;
-    console.log('delete', id);
+    console.log("delete", id);
     axios
       .delete(
         `${url}/api/property/${id}?requestId=1234567`,
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${loggedInToken}`,
           },
         },
@@ -274,14 +274,14 @@ function RenderProperty() {
   }
 
   const deletePropertyOnMain = async () => {
-    let str = selected.join(',');
+    let str = selected.join(",");
     // console.log('str', str);
     try {
       const res = await axios.delete(
         `${url}/api/property/delete/${str}?requestId=1234567`,
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${loggedInToken}`,
           },
         },
@@ -333,32 +333,32 @@ function RenderProperty() {
       return (
         <div
           className={`row ${
-            index % 2 === 0 ? 'contacttdatadiv' : 'lightcontacttdatadiv'
+            index % 2 === 0 ? "contacttdatadiv" : "lightcontacttdatadiv"
           }`}
           key={property.details.id}
         >
           <input
-            className='col-1'
-            style={{ padding: '5px' }}
-            type='checkbox'
+            className="col-1"
+            style={{ padding: "5px" }}
+            type="checkbox"
             checked={isSelected(property.details.id)}
             onChange={() => handleSelectToDelete(property.details.id)}
           />
           <h6
-            style={{ padding: '0 15px', cursor: 'pointer' }}
+            style={{ padding: "0 15px", cursor: "pointer" }}
             onClick={() => {
               fetchPropertyData(property.details);
             }}
-            className='col-4'
+            className="col-4"
           >
             {property.titleRef}
           </h6>
           <h6
-            style={{ padding: '0 15px', cursor: 'pointer' }}
+            style={{ padding: "0 15px", cursor: "pointer" }}
             onClick={() => {
               fetchPropertyData(property.details);
             }}
-            className='col-6'
+            className="col-6"
           >
             {property.address}
           </h6>
@@ -368,23 +368,23 @@ function RenderProperty() {
   }
 
   function fetchPropertyData(details) {
-    console.log('details', details);
+    console.log("details", details);
     setSpecificProperty(details);
     setRegisteredLots(details.registeredProperties);
     setFilteredRegisterLot(details.registeredProperties);
     setUnregisteredLots(details.unregisteredProperties);
     setFilteredUnregisterLot(details.unregisteredProperties);
 
-    document.getElementById('searchPropertyDiv').classList.add('hideSection');
-    document.getElementById('mainPropertyDiv').classList.remove('hideSection');
+    document.getElementById("searchPropertyDiv").classList.add("hideSection");
+    document.getElementById("mainPropertyDiv").classList.remove("hideSection");
   }
 
   function backToSearch() {
-    setSpecificProperty(null);
+    setSpecificProperty(undefined);
     document
-      .getElementById('searchPropertyDiv')
-      .classList.remove('hideSection');
-    document.getElementById('mainPropertyDiv').classList.add('hideSection');
+      .getElementById("searchPropertyDiv")
+      .classList.remove("hideSection");
+    document.getElementById("mainPropertyDiv").classList.add("hideSection");
   }
 
   function renderRegisteredLots() {
@@ -427,12 +427,12 @@ function RenderProperty() {
       .post(
         `${url}/api/property`,
         {
-          requestId: '1123445',
+          requestId: "1123445",
           data: dataToBeSent,
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${loggedInToken}`,
           },
         },
@@ -452,22 +452,22 @@ function RenderProperty() {
 
   return (
     <div>
-      <div className='row propertyDiv'>
-        <div id='searchPropertyDiv'>
+      <div className="row propertyDiv">
+        <div id="searchPropertyDiv">
           <div>
-            <div className='propertyPageHeadings'>
-              <h6 className='propertyPageHeads'>Property</h6>
-              <div className='propertyButton-div'>
+            <div className="propertyPageHeadings">
+              <h6 className="propertyPageHeads">Property</h6>
+              <div className="propertyButton-div">
                 <button
-                  className='propertyPageBtns'
-                  data-bs-toggle='modal'
-                  data-bs-target='#staticBackdrop3'
+                  className="propertyPageBtns"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop3"
                 >
-                  <span className='plusdiv'>+</span>Add New
+                  <span className="plusdiv">+</span>Add New
                 </button>
                 {selected.length > 0 && (
                   <button
-                    className='propertyButton-delete'
+                    className="propertyButton-delete"
                     onClick={deletePropertyOnMain}
                   >
                     Delete
@@ -481,11 +481,11 @@ function RenderProperty() {
                 />
               </div>
             </div>
-            <div className='leftPropertyDiv'>
-              <div className='row'>
-                <div className='col-1' style={{ textAlign: 'center' }}>
+            <div className="leftPropertyDiv">
+              <div className="row">
+                <div className="col-1" style={{ textAlign: "center" }}>
                   <input
-                    type='checkbox'
+                    type="checkbox"
                     checked={
                       filteredData.length > 0 &&
                       selected.length === filteredData.length
@@ -493,108 +493,108 @@ function RenderProperty() {
                     onChange={handleSelectAllClick}
                   />
                 </div>
-                <div className='col-4'>
-                  <p className='associatedContacts-label'>
+                <div className="col-4">
+                  <div className="associatedContacts-label">
                     Title Ref.
-                    <div className='associatedContacts-label-btn'>
-                      {sortOrder === 'asc' && sortField === 'titleRef' ? (
+                    <div className="associatedContacts-label-btn">
+                      {sortOrder === "asc" && sortField === "titleRef" ? (
                         <img
                           src={upArrowColoured}
-                          alt='asc'
-                          className='label-btn-img-1'
-                          onClick={() => handleSort('titleRef', 'asc')}
+                          alt="asc"
+                          className="label-btn-img-1"
+                          onClick={() => handleSort("titleRef", "asc")}
                         />
                       ) : (
                         <img
                           src={upArrow}
-                          alt='asc'
-                          className='label-btn-img-1'
-                          onClick={() => handleSort('titleRef', 'asc')}
+                          alt="asc"
+                          className="label-btn-img-1"
+                          onClick={() => handleSort("titleRef", "asc")}
                         />
                       )}
-                      {sortOrder === 'desc' && sortField === 'titleRef' ? (
+                      {sortOrder === "desc" && sortField === "titleRef" ? (
                         <img
                           src={downArrowColoured}
-                          alt='desc'
-                          className='label-btn-img-2'
-                          onClick={() => handleSort('titleRef', 'desc')}
+                          alt="desc"
+                          className="label-btn-img-2"
+                          onClick={() => handleSort("titleRef", "desc")}
                         />
                       ) : (
                         <img
                           src={downArrow}
-                          alt='desc'
-                          className='label-btn-img-2'
-                          onClick={() => handleSort('titleRef', 'desc')}
+                          alt="desc"
+                          className="label-btn-img-2"
+                          onClick={() => handleSort("titleRef", "desc")}
                         />
                       )}
                     </div>
-                  </p>
+                  </div>
                   {/*<p>Title Ref.</p>*/}
                 </div>
-                <div className='col-6'>
-                  <p className='associatedContacts-label'>
+                <div className="col-6">
+                  <div className="associatedContacts-label">
                     Address
-                    <div className='associatedContacts-label-btn'>
-                      {sortOrder === 'asc' && sortField === 'address' ? (
+                    <div className="associatedContacts-label-btn">
+                      {sortOrder === "asc" && sortField === "address" ? (
                         <img
                           src={upArrowColoured}
-                          alt='asc'
-                          className='label-btn-img-1'
-                          onClick={() => handleSort('address', 'asc')}
+                          alt="asc"
+                          className="label-btn-img-1"
+                          onClick={() => handleSort("address", "asc")}
                         />
                       ) : (
                         <img
                           src={upArrow}
-                          alt='asc'
-                          className='label-btn-img-1'
-                          onClick={() => handleSort('address', 'asc')}
+                          alt="asc"
+                          className="label-btn-img-1"
+                          onClick={() => handleSort("address", "asc")}
                         />
                       )}
-                      {sortOrder === 'desc' && sortField === 'address' ? (
+                      {sortOrder === "desc" && sortField === "address" ? (
                         <img
                           src={downArrowColoured}
-                          alt='desc'
-                          className='label-btn-img-2'
-                          onClick={() => handleSort('address', 'desc')}
+                          alt="desc"
+                          className="label-btn-img-2"
+                          onClick={() => handleSort("address", "desc")}
                         />
                       ) : (
                         <img
                           src={downArrow}
-                          alt='desc'
-                          className='label-btn-img-2'
-                          onClick={() => handleSort('address', 'desc')}
+                          alt="desc"
+                          className="label-btn-img-2"
+                          onClick={() => handleSort("address", "desc")}
                         />
                       )}
                     </div>
-                  </p>
+                  </div>
                 </div>
               </div>
-              <div className='row'>
-                <div className='col-1'></div>
-                <div className='col-4'>
+              <div className="row">
+                <div className="col-1"></div>
+                <div className="col-4">
                   <input
                     style={{
-                      width: '100%',
-                      marginTop: '10px',
-                      marginBottom: '10px',
+                      width: "100%",
+                      marginTop: "10px",
+                      marginBottom: "10px",
                     }}
-                    id='titleReference'
-                    name='titleRef'
+                    id="titleReference"
+                    name="titleRef"
                     onChange={handleFilter}
-                    type='text'
+                    type="text"
                   />
                 </div>
-                <div className='col-6'>
+                <div className="col-6">
                   <input
                     style={{
-                      width: '90%',
-                      marginTop: '10px',
-                      marginBottom: '10px',
+                      width: "90%",
+                      marginTop: "10px",
+                      marginBottom: "10px",
                     }}
-                    id='address'
-                    name='address'
+                    id="address"
+                    name="address"
                     onChange={handleFilter}
-                    type='text'
+                    type="text"
                   />
                 </div>
               </div>
@@ -607,19 +607,19 @@ function RenderProperty() {
                 Search
               </button>*/}
               <br />
-              <div className='row'></div>
+              <div className="row"></div>
               {renderAllProperties()}
             </div>
           </div>
         </div>
-        <div className='col-12 hideSection' id='mainPropertyDiv'>
+        <div className="col-12 hideSection" id="mainPropertyDiv">
           <div>
             <div>
-              <div className='propertyPageHeadings'>
-                <h6 className='propertyPageHeads'>Property</h6>
-                <div style={{ width: '350px', display: 'flex' }}>
+              <div className="propertyPageHeadings">
+                <h6 className="propertyPageHeads">Property</h6>
+                <div style={{ width: "350px", display: "flex" }}>
                   <button
-                    className='propertyPageBtns'
+                    className="propertyPageBtns"
                     onClick={() => {
                       updateProperty();
                     }}
@@ -627,7 +627,7 @@ function RenderProperty() {
                     Save
                   </button>
                   <button
-                    className='propertyPageBtns'
+                    className="propertyPageBtns"
                     onClick={() => {
                       deleteProperty();
                     }}
@@ -638,18 +638,18 @@ function RenderProperty() {
                     onClick={() => {
                       backToSearch();
                     }}
-                    className='propertyPageBtns'
+                    className="propertyPageBtns"
                   >
                     Cancel
                   </button>
                 </div>
               </div>
-              <div className='propertyPagesubHeads propertyPageFirstDiv'>
-                <div className='row'>
-                  <div className='col-3'>
+              <div className="propertyPagesubHeads propertyPageFirstDiv">
+                <div className="row">
+                  <div className="col-3">
                     <label>Building Name</label>
                     <input
-                      type='text'
+                      type="text"
                       onChange={(e) => {
                         setSpecificProperty({
                           ...specificProperty,
@@ -659,10 +659,10 @@ function RenderProperty() {
                       value={specificProperty?.buildingName}
                     />
                   </div>
-                  <div className='col-3'>
+                  <div className="col-3">
                     <label>Unit</label>
                     <input
-                      type='text'
+                      type="text"
                       value={specificProperty?.unit}
                       onChange={(e) => {
                         setSpecificProperty({
@@ -672,10 +672,10 @@ function RenderProperty() {
                       }}
                     />
                   </div>
-                  <div className='col-3'>
+                  <div className="col-3">
                     <label>Street No.</label>
                     <input
-                      type='text'
+                      type="text"
                       value={specificProperty?.streetNo}
                       onChange={(e) => {
                         setSpecificProperty({
@@ -685,10 +685,10 @@ function RenderProperty() {
                       }}
                     />
                   </div>
-                  <div className='col-3'>
+                  <div className="col-3">
                     <label>Street</label>
                     <input
-                      type='text'
+                      type="text"
                       value={specificProperty?.street}
                       onChange={(e) => {
                         setSpecificProperty({
@@ -699,11 +699,11 @@ function RenderProperty() {
                     />
                   </div>
                 </div>
-                <div className='row'>
-                  <div className='col-3'>
+                <div className="row">
+                  <div className="col-3">
                     <label>Suburb</label>
                     <input
-                      type='text'
+                      type="text"
                       value={specificProperty?.suburb}
                       onChange={(e) => {
                         setSpecificProperty({
@@ -713,10 +713,10 @@ function RenderProperty() {
                       }}
                     />
                   </div>
-                  <div className='col-3'>
+                  <div className="col-3">
                     <label>State</label>
                     <input
-                      type='text'
+                      type="text"
                       value={specificProperty?.state}
                       onChange={(e) => {
                         setSpecificProperty({
@@ -726,10 +726,10 @@ function RenderProperty() {
                       }}
                     />
                   </div>
-                  <div className='col-3'>
+                  <div className="col-3">
                     <label>Post Code</label>
                     <input
-                      type='text'
+                      type="text"
                       value={specificProperty?.postCode}
                       onChange={(e) => {
                         setSpecificProperty({
@@ -739,10 +739,10 @@ function RenderProperty() {
                       }}
                     />
                   </div>
-                  <div className='col-3'>
+                  <div className="col-3">
                     <label>County</label>
                     <input
-                      type='text'
+                      type="text"
                       value={specificProperty?.county}
                       onChange={(e) => {
                         setSpecificProperty({
@@ -755,13 +755,13 @@ function RenderProperty() {
                 </div>
               </div>
             </div>
-            <div className='2'>
-              <div className='propertyPageHeadings'>
-                <h6 className='propertyPageHeads'>Add/Edit Registered Lots</h6>
+            <div className="2">
+              <div className="propertyPageHeadings">
+                <h6 className="propertyPageHeads">Add/Edit Registered Lots</h6>
                 <button
-                  className='propertyPageBtns'
-                  data-bs-toggle='modal'
-                  data-bs-target='#staticBackdrop1'
+                  className="propertyPageBtns"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop1"
                   onClick={() => {
                     setIsAddTrue(false);
                   }}
@@ -778,326 +778,326 @@ function RenderProperty() {
                   setBoolVal={setBoolVal}
                 />
               </div>
-              <div className='propertyPagesubHeads'>
-                <div className='row'>
-                  <div className='col-1'>
+              <div className="propertyPagesubHeads">
+                <div className="row">
+                  <div className="col-1">
                     <h6>Edit</h6>
                   </div>
-                  <div className='col-2'>
-                    <label className='associatedContacts-label'>
+                  <div className="col-2">
+                    <label className="associatedContacts-label">
                       Title Reference
-                      <div className='associatedContacts-label-btn'>
-                        {sortOrder === 'asc' &&
-                        sortField === 'titleReference' ? (
+                      <div className="associatedContacts-label-btn">
+                        {sortOrder === "asc" &&
+                        sortField === "titleReference" ? (
                           <img
                             src={upArrowColoured}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleRegisterSort('titleReference', 'asc')
+                              handleRegisterSort("titleReference", "asc")
                             }
                           />
                         ) : (
                           <img
                             src={upArrow}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleRegisterSort('titleReference', 'asc')
+                              handleRegisterSort("titleReference", "asc")
                             }
                           />
                         )}
-                        {sortOrder === 'desc' &&
-                        sortField === 'titleReference' ? (
+                        {sortOrder === "desc" &&
+                        sortField === "titleReference" ? (
                           <img
                             src={downArrowColoured}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleRegisterSort('titleReference', 'desc')
+                              handleRegisterSort("titleReference", "desc")
                             }
                           />
                         ) : (
                           <img
                             src={downArrow}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleRegisterSort('titleReference', 'desc')
+                              handleRegisterSort("titleReference", "desc")
                             }
                           />
                         )}
                       </div>
                     </label>
                     <input
-                      type='text'
-                      name='titleReference'
+                      type="text"
+                      name="titleReference"
                       onChange={handleFilterRegister}
                     ></input>
                   </div>
-                  <div className='col-1'>
-                    <label className='associatedContacts-label'>
+                  <div className="col-1">
+                    <label className="associatedContacts-label">
                       Lot No.
-                      <div className='associatedContacts-label-btn'>
-                        {sortOrder === 'asc' && sortField === 'lotNumber' ? (
+                      <div className="associatedContacts-label-btn">
+                        {sortOrder === "asc" && sortField === "lotNumber" ? (
                           <img
                             src={upArrowColoured}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleRegisterSort('lotNumber', 'asc')
+                              handleRegisterSort("lotNumber", "asc")
                             }
                           />
                         ) : (
                           <img
                             src={upArrow}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleRegisterSort('lotNumber', 'asc')
+                              handleRegisterSort("lotNumber", "asc")
                             }
                           />
                         )}
-                        {sortOrder === 'desc' && sortField === 'lotNumber' ? (
+                        {sortOrder === "desc" && sortField === "lotNumber" ? (
                           <img
                             src={downArrowColoured}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleRegisterSort('lotNumber', 'desc')
+                              handleRegisterSort("lotNumber", "desc")
                             }
                           />
                         ) : (
                           <img
                             src={downArrow}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleRegisterSort('lotNumber', 'desc')
+                              handleRegisterSort("lotNumber", "desc")
                             }
                           />
                         )}
                       </div>
                     </label>
                     <input
-                      type='text'
-                      name='lotNumber'
+                      type="text"
+                      name="lotNumber"
                       onChange={handleFilterRegister}
                     ></input>
                   </div>
-                  <div className='col-1'>
-                    <label className='associatedContacts-label'>
+                  <div className="col-1">
+                    <label className="associatedContacts-label">
                       Section
-                      <div className='associatedContacts-label-btn'>
-                        {sortOrder === 'asc' && sortField === 'section' ? (
+                      <div className="associatedContacts-label-btn">
+                        {sortOrder === "asc" && sortField === "section" ? (
                           <img
                             src={upArrowColoured}
-                            alt='asc'
-                            className='label-btn-img-1'
-                            onClick={() => handleRegisterSort('section', 'asc')}
+                            alt="asc"
+                            className="label-btn-img-1"
+                            onClick={() => handleRegisterSort("section", "asc")}
                           />
                         ) : (
                           <img
                             src={upArrow}
-                            alt='asc'
-                            className='label-btn-img-1'
-                            onClick={() => handleRegisterSort('section', 'asc')}
+                            alt="asc"
+                            className="label-btn-img-1"
+                            onClick={() => handleRegisterSort("section", "asc")}
                           />
                         )}
-                        {sortOrder === 'desc' && sortField === 'section' ? (
+                        {sortOrder === "desc" && sortField === "section" ? (
                           <img
                             src={downArrowColoured}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleRegisterSort('section', 'desc')
+                              handleRegisterSort("section", "desc")
                             }
                           />
                         ) : (
                           <img
                             src={downArrow}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleRegisterSort('section', 'desc')
+                              handleRegisterSort("section", "desc")
                             }
                           />
                         )}
                       </div>
                     </label>
                     <input
-                      type='text'
-                      name='section'
+                      type="text"
+                      name="section"
                       onChange={handleFilterRegister}
                     ></input>
                   </div>
-                  <div className='col-3'>
-                    <label className='associatedContacts-label'>
+                  <div className="col-3">
+                    <label className="associatedContacts-label">
                       Deposited Plan No.
-                      <div className='associatedContacts-label-btn'>
-                        {sortOrder === 'asc' &&
-                        sortField === 'depositedPlanNumber' ? (
+                      <div className="associatedContacts-label-btn">
+                        {sortOrder === "asc" &&
+                        sortField === "depositedPlanNumber" ? (
                           <img
                             src={upArrowColoured}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleRegisterSort('depositedPlanNumber', 'asc')
+                              handleRegisterSort("depositedPlanNumber", "asc")
                             }
                           />
                         ) : (
                           <img
                             src={upArrow}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleRegisterSort('depositedPlanNumber', 'asc')
+                              handleRegisterSort("depositedPlanNumber", "asc")
                             }
                           />
                         )}
-                        {sortOrder === 'desc' &&
-                        sortField === 'depositedPlanNumber' ? (
+                        {sortOrder === "desc" &&
+                        sortField === "depositedPlanNumber" ? (
                           <img
                             src={downArrowColoured}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleRegisterSort('depositedPlanNumber', 'desc')
+                              handleRegisterSort("depositedPlanNumber", "desc")
                             }
                           />
                         ) : (
                           <img
                             src={downArrow}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleRegisterSort('depositedPlanNumber', 'desc')
+                              handleRegisterSort("depositedPlanNumber", "desc")
                             }
                           />
                         )}
                       </div>
                     </label>
                     <input
-                      type='text'
-                      name='depositedPlanNumber'
+                      type="text"
+                      name="depositedPlanNumber"
                       onChange={handleFilterRegister}
                     ></input>
                   </div>
-                  <div className='col-2'>
-                    <label className='associatedContacts-label'>
+                  <div className="col-2">
+                    <label className="associatedContacts-label">
                       Strata Plan No.
-                      <div className='associatedContacts-label-btn'>
-                        {sortOrder === 'asc' &&
-                        sortField === 'strataPlanNumber' ? (
+                      <div className="associatedContacts-label-btn">
+                        {sortOrder === "asc" &&
+                        sortField === "strataPlanNumber" ? (
                           <img
                             src={upArrowColoured}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleRegisterSort('strataPlanNumber', 'asc')
+                              handleRegisterSort("strataPlanNumber", "asc")
                             }
                           />
                         ) : (
                           <img
                             src={upArrow}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleRegisterSort('strataPlanNumber', 'asc')
+                              handleRegisterSort("strataPlanNumber", "asc")
                             }
                           />
                         )}
-                        {sortOrder === 'desc' &&
-                        sortField === 'strataPlanNumber' ? (
+                        {sortOrder === "desc" &&
+                        sortField === "strataPlanNumber" ? (
                           <img
                             src={downArrowColoured}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleRegisterSort('strataPlanNumber', 'desc')
+                              handleRegisterSort("strataPlanNumber", "desc")
                             }
                           />
                         ) : (
                           <img
                             src={downArrow}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleRegisterSort('strataPlanNumber', 'desc')
+                              handleRegisterSort("strataPlanNumber", "desc")
                             }
                           />
                         )}
                       </div>
                     </label>
                     <input
-                      type='text'
-                      name='strataPlanNumber'
+                      type="text"
+                      name="strataPlanNumber"
                       onChange={handleFilterRegister}
                     ></input>
                   </div>
-                  <div className='col-2'>
-                    <label className='associatedContacts-label'>
+                  <div className="col-2">
+                    <label className="associatedContacts-label">
                       Description
-                      <div className='associatedContacts-label-btn'>
-                        {sortOrder === 'asc' && sortField === 'description' ? (
+                      <div className="associatedContacts-label-btn">
+                        {sortOrder === "asc" && sortField === "description" ? (
                           <img
                             src={upArrowColoured}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleRegisterSort('description', 'asc')
+                              handleRegisterSort("description", "asc")
                             }
                           />
                         ) : (
                           <img
                             src={upArrow}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleRegisterSort('description', 'asc')
+                              handleRegisterSort("description", "asc")
                             }
                           />
                         )}
-                        {sortOrder === 'desc' && sortField === 'description' ? (
+                        {sortOrder === "desc" && sortField === "description" ? (
                           <img
                             src={downArrowColoured}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleRegisterSort('description', 'desc')
+                              handleRegisterSort("description", "desc")
                             }
                           />
                         ) : (
                           <img
                             src={downArrow}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleRegisterSort('description', 'desc')
+                              handleRegisterSort("description", "desc")
                             }
                           />
                         )}
                       </div>
                     </label>
                     <input
-                      type='text'
-                      name='description'
+                      type="text"
+                      name="description"
                       onChange={handleFilterRegister}
                     ></input>
                   </div>
                 </div>
-                <div className='lotsScrollDiv'>{renderRegisteredLots()}</div>
+                <div className="lotsScrollDiv">{renderRegisteredLots()}</div>
               </div>
             </div>
-            <div className='3'>
-              <div className='propertyPageHeadings'>
-                <h6 className='propertyPageHeads'>
+            <div className="3">
+              <div className="propertyPageHeadings">
+                <h6 className="propertyPageHeads">
                   Add/Edit Unregistered Lots
                 </h6>
                 <button
-                  className='propertyPageBtns'
-                  data-bs-toggle='modal'
-                  data-bs-target='#staticBackdrop2'
+                  className="propertyPageBtns"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop2"
                   onClick={() => {
                     setIsAddTrue(false);
                   }}
@@ -1115,289 +1115,289 @@ function RenderProperty() {
                   setBoolVal={setBoolVal}
                 />
               </div>
-              <div className='propertyPagesubHeads'>
-                <div className='row'>
-                  <div className='col-1'>
+              <div className="propertyPagesubHeads">
+                <div className="row">
+                  <div className="col-1">
                     <h6>Edit</h6>
                   </div>
-                  <div className='col-2'>
-                    <label className='associatedContacts-label'>
+                  <div className="col-2">
+                    <label className="associatedContacts-label">
                       Lot No.
-                      <div className='associatedContacts-label-btn'>
-                        {sortOrder === 'asc' && sortField === 'lot' ? (
+                      <div className="associatedContacts-label-btn">
+                        {sortOrder === "asc" && sortField === "lot" ? (
                           <img
                             src={upArrowColoured}
-                            alt='asc'
-                            className='label-btn-img-1'
-                            onClick={() => handleUnregisterSort('lot', 'asc')}
+                            alt="asc"
+                            className="label-btn-img-1"
+                            onClick={() => handleUnregisterSort("lot", "asc")}
                           />
                         ) : (
                           <img
                             src={upArrow}
-                            alt='asc'
-                            className='label-btn-img-1'
-                            onClick={() => handleUnregisterSort('lot', 'asc')}
+                            alt="asc"
+                            className="label-btn-img-1"
+                            onClick={() => handleUnregisterSort("lot", "asc")}
                           />
                         )}
-                        {sortOrder === 'desc' && sortField === 'lot' ? (
+                        {sortOrder === "desc" && sortField === "lot" ? (
                           <img
                             src={downArrowColoured}
-                            alt='desc'
-                            className='label-btn-img-2'
-                            onClick={() => handleUnregisterSort('lot', 'desc')}
+                            alt="desc"
+                            className="label-btn-img-2"
+                            onClick={() => handleUnregisterSort("lot", "desc")}
                           />
                         ) : (
                           <img
                             src={downArrow}
-                            alt='desc'
-                            className='label-btn-img-2'
-                            onClick={() => handleUnregisterSort('lot', 'desc')}
+                            alt="desc"
+                            className="label-btn-img-2"
+                            onClick={() => handleUnregisterSort("lot", "desc")}
                           />
                         )}
                       </div>
                     </label>
                     <input
-                      type='text'
-                      name='lot'
+                      type="text"
+                      name="lot"
                       onChange={handleFilterUnregister}
                     ></input>
                   </div>
-                  <div className='col-2'>
-                    <label className='associatedContacts-label'>
+                  <div className="col-2">
+                    <label className="associatedContacts-label">
                       Part of lot
-                      <div className='associatedContacts-label-btn'>
-                        {sortOrder === 'asc' && sortField === 'partOfLot' ? (
+                      <div className="associatedContacts-label-btn">
+                        {sortOrder === "asc" && sortField === "partOfLot" ? (
                           <img
                             src={upArrowColoured}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleUnregisterSort('partOfLot', 'asc')
+                              handleUnregisterSort("partOfLot", "asc")
                             }
                           />
                         ) : (
                           <img
                             src={upArrow}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleUnregisterSort('partOfLot', 'asc')
+                              handleUnregisterSort("partOfLot", "asc")
                             }
                           />
                         )}
-                        {sortOrder === 'desc' && sortField === 'partOfLot' ? (
+                        {sortOrder === "desc" && sortField === "partOfLot" ? (
                           <img
                             src={downArrowColoured}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleUnregisterSort('partOfLot', 'desc')
+                              handleUnregisterSort("partOfLot", "desc")
                             }
                           />
                         ) : (
                           <img
                             src={downArrow}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleUnregisterSort('partOfLot', 'desc')
+                              handleUnregisterSort("partOfLot", "desc")
                             }
                           />
                         )}
                       </div>
                     </label>
                     <input
-                      type='text'
-                      name='partOfLot'
+                      type="text"
+                      name="partOfLot"
                       onChange={handleFilterUnregister}
                     ></input>
                   </div>
-                  <div className='col-1'>
-                    <label className='associatedContacts-label'>
+                  <div className="col-1">
+                    <label className="associatedContacts-label">
                       Section
-                      <div className='associatedContacts-label-btn'>
-                        {sortOrder === 'asc' && sortField === 'section' ? (
+                      <div className="associatedContacts-label-btn">
+                        {sortOrder === "asc" && sortField === "section" ? (
                           <img
                             src={upArrowColoured}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleUnregisterSort('section', 'asc')
+                              handleUnregisterSort("section", "asc")
                             }
                           />
                         ) : (
                           <img
                             src={upArrow}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleUnregisterSort('section', 'asc')
+                              handleUnregisterSort("section", "asc")
                             }
                           />
                         )}
-                        {sortOrder === 'desc' && sortField === 'section' ? (
+                        {sortOrder === "desc" && sortField === "section" ? (
                           <img
                             src={downArrowColoured}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleUnregisterSort('section', 'desc')
+                              handleUnregisterSort("section", "desc")
                             }
                           />
                         ) : (
                           <img
                             src={downArrow}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleUnregisterSort('section', 'desc')
+                              handleUnregisterSort("section", "desc")
                             }
                           />
                         )}
                       </div>
                     </label>
                     <input
-                      type='text'
-                      name='section'
+                      type="text"
+                      name="section"
                       onChange={handleFilterUnregister}
                     ></input>
                   </div>
-                  <div className='col-3'>
-                    <label className='associatedContacts-label'>
+                  <div className="col-3">
+                    <label className="associatedContacts-label">
                       Plan Number
-                      <div className='associatedContacts-label-btn'>
-                        {sortOrder === 'asc' && sortField === 'plan' ? (
+                      <div className="associatedContacts-label-btn">
+                        {sortOrder === "asc" && sortField === "plan" ? (
                           <img
                             src={upArrowColoured}
-                            alt='asc'
-                            className='label-btn-img-1'
-                            onClick={() => handleUnregisterSort('plan', 'asc')}
+                            alt="asc"
+                            className="label-btn-img-1"
+                            onClick={() => handleUnregisterSort("plan", "asc")}
                           />
                         ) : (
                           <img
                             src={upArrow}
-                            alt='asc'
-                            className='label-btn-img-1'
-                            onClick={() => handleUnregisterSort('plan', 'asc')}
+                            alt="asc"
+                            className="label-btn-img-1"
+                            onClick={() => handleUnregisterSort("plan", "asc")}
                           />
                         )}
-                        {sortOrder === 'desc' && sortField === 'plan' ? (
+                        {sortOrder === "desc" && sortField === "plan" ? (
                           <img
                             src={downArrowColoured}
-                            alt='desc'
-                            className='label-btn-img-2'
-                            onClick={() => handleUnregisterSort('plan', 'desc')}
+                            alt="desc"
+                            className="label-btn-img-2"
+                            onClick={() => handleUnregisterSort("plan", "desc")}
                           />
                         ) : (
                           <img
                             src={downArrow}
-                            alt='desc'
-                            className='label-btn-img-2'
-                            onClick={() => handleUnregisterSort('plan', 'desc')}
+                            alt="desc"
+                            className="label-btn-img-2"
+                            onClick={() => handleUnregisterSort("plan", "desc")}
                           />
                         )}
                       </div>
                     </label>
                     <input
-                      type='text'
-                      name='plan'
+                      type="text"
+                      name="plan"
                       onChange={handleFilterUnregister}
                     ></input>
                   </div>
-                  <div className='col-3'>
-                    <label className='associatedContacts-label'>
+                  <div className="col-3">
+                    <label className="associatedContacts-label">
                       Description
-                      <div className='associatedContacts-label-btn'>
-                        {sortOrder === 'asc' && sortField === 'description' ? (
+                      <div className="associatedContacts-label-btn">
+                        {sortOrder === "asc" && sortField === "description" ? (
                           <img
                             src={upArrowColoured}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleUnregisterSort('description', 'asc')
+                              handleUnregisterSort("description", "asc")
                             }
                           />
                         ) : (
                           <img
                             src={upArrow}
-                            alt='asc'
-                            className='label-btn-img-1'
+                            alt="asc"
+                            className="label-btn-img-1"
                             onClick={() =>
-                              handleUnregisterSort('description', 'asc')
+                              handleUnregisterSort("description", "asc")
                             }
                           />
                         )}
-                        {sortOrder === 'desc' && sortField === 'description' ? (
+                        {sortOrder === "desc" && sortField === "description" ? (
                           <img
                             src={downArrowColoured}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleUnregisterSort('description', 'desc')
+                              handleUnregisterSort("description", "desc")
                             }
                           />
                         ) : (
                           <img
                             src={downArrow}
-                            alt='desc'
-                            className='label-btn-img-2'
+                            alt="desc"
+                            className="label-btn-img-2"
                             onClick={() =>
-                              handleUnregisterSort('description', 'desc')
+                              handleUnregisterSort("description", "desc")
                             }
                           />
                         )}
                       </div>
                     </label>
                     <input
-                      type='text'
-                      name='description'
+                      type="text"
+                      name="description"
                       onChange={handleFilterUnregister}
                     ></input>
                   </div>
                 </div>
-                <div className='lotsScrollDiv'>{renderUnregisteredLots()}</div>
+                <div className="lotsScrollDiv">{renderUnregisteredLots()}</div>
               </div>
             </div>
-            <div className='4'>
-              <div className='propertyPageHeadings'>
-                <h6 className='propertyPageHeads'>Related Matters</h6>
+            <div className="4">
+              <div className="propertyPageHeadings">
+                <h6 className="propertyPageHeads">Related Matters</h6>
               </div>
-              <div className='propertyPagesubHeads'>
-                <div className='row relatedMattersDiv'>
-                  <div className='col-1'>
+              <div className="propertyPagesubHeads">
+                <div className="row relatedMattersDiv">
+                  <div className="col-1">
                     <h6>Matter</h6>
-                    <input type='text'></input>
+                    <input type="text"></input>
                   </div>
-                  <div className='col-2'>
+                  <div className="col-2">
                     <h6>Client Name</h6>
-                    <input type='text'></input>
+                    <input type="text"></input>
                   </div>
-                  <div className='col-2'>
+                  <div className="col-2">
                     <h6>Responsible Person</h6>
-                    <input type='text'></input>
+                    <input type="text"></input>
                   </div>
-                  <div className='col-1'>
+                  <div className="col-1">
                     <h6>Status</h6>
-                    <input type='text'></input>
+                    <input type="text"></input>
                   </div>
-                  <div className='col-1'>
+                  <div className="col-1">
                     <h6>Sub type</h6>
-                    <input type='text'></input>
+                    <input type="text"></input>
                   </div>
-                  <div className='col-1'>
+                  <div className="col-1">
                     <h6>Total Amount Due</h6>
-                    <input type='text'></input>
+                    <input type="text"></input>
                   </div>
-                  <div className='col-2'>
+                  <div className="col-2">
                     <h6>Start Date</h6>
-                    <input type='text'></input>
+                    <input type="text"></input>
                   </div>
-                  <div className='col-2'>
+                  <div className="col-2">
                     <h6>End Date</h6>
-                    <input type='text'></input>
+                    <input type="text"></input>
                   </div>
                 </div>
-                <div className='lotsScrollDiv'>
+                <div className="lotsScrollDiv">
                   {/* <RelatedMattersLot />
                   <RelatedMattersLot />
                   <RelatedMattersLot />

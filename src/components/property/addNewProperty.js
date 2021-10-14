@@ -378,7 +378,7 @@ function AddNewProperty(props) {
       id="staticBackdrop3"
       data-bs-backdrop="static"
       data-bs-keyboard="false"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="staticBackdropLabel"
       aria-hidden="true"
     >
@@ -387,20 +387,12 @@ function AddNewProperty(props) {
           // style={{ height: "32rem" }}
           className="modal-content popupNewProperty"
         >
-          <div className="modal-header newPropertyHead">
-            <h5
-              className="modal-title white"
-              style={{ color: "#FFFFFF" }}
-              id="staticBackdropLabel"
-            >
+          <div className="modal-header">
+            <h5 className="modal-title white" id="staticBackdropLabel">
               Add New Property
             </h5>
             <p
-              style={{
-                backgroundColor: "transparent",
-                color: "#fff",
-                cursor: "pointer",
-              }}
+              style={{ cursor: "pointer" }}
               data-bs-dismiss="modal"
               onClick={handleSetInitial}
             >

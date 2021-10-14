@@ -63,7 +63,7 @@ const AddNewSafeCustodyForm = (props) => {
   const loggedInToken = cookies.token;
   const [formData, setFormData] = useState(initialData);
   const [itemDetails, setItemDetails] = useState(items);
-  // const [uploadedFile, setUploadedFile] = useState(null);
+  // const [uploadedFile, setUploadedFile] = useState(undefined);
   // const [fileName, setFileName] = useState('');
 
   const handleFormChange = (e) => {
@@ -114,7 +114,7 @@ const AddNewSafeCustodyForm = (props) => {
   //       );
   //       // console.log(data);
   //       setFormData(initialData);
-  //       setUploadedFile(null);
+  //       setUploadedFile(undefined);
   //       setFileName('');
   //     } catch (err) {
   //       console.log(err);

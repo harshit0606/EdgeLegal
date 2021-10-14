@@ -133,13 +133,12 @@
   background-color: transparent;
   border: none;
 }
-
+.modal-header {
+  background-color: #002b5c;
+  color: white;
+}
 .relatedMattersDiv h6 {
   height: 55%;
-}
-
-.newPropertyHead {
-  background-color: #002b5c;
 }
 
 .newPropertyBtnTray {
