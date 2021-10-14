@@ -20,7 +20,7 @@ function HomeStipe() {
     removeCookie("token");
     window.location.href = "/";
   }
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(undefined);
   const [show, setShow] = useState(false);
   useEffect(() => {
     axios

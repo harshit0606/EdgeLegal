@@ -18,7 +18,7 @@ function SafeCustodystripe() {
     removeCookie("token");
     window.location.href = "/login";
   }
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(undefined);
   useEffect(() => {
     axios
       .get(

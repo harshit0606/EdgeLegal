@@ -41,7 +41,7 @@ function AllSafeCustody() {
   const [filteredSafeCustodyPackets, setFilteredSafeCustodyPackets] = useState(
     []
   );
-  const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
+  const [safeCustodyStatus, setSafeCustodyStatus] = useState(undefined);
   const [isAddCustodyOpen, setIsAddCustoduOpen] = useState(false);
   const [newCustodyForm, setNewCustodyForm] = useState(false);
   const [sortOrder, setSortOrder] = useState("");

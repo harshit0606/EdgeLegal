@@ -380,7 +380,7 @@ function AddPerson(props) {
               color: "rgb(94, 94, 94)",
               marginLeft: 9,
             },
-            shrink: date ? true : false,
+            shrink: date || personDetails.dateOfBirth !== "" ? true : false,
           }}
           inputProps={{
             style: {

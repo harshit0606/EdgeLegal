@@ -93,6 +93,7 @@ function RenderSafeCustody(props) {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
   const { id } = props.match.params;
+
   const [boolVal, setBoolVal] = useState(false);
   const [safeCustodyPackets, setSafeCustodyPackets] = useState(null);
   const [custodyPacketContacts, setCustodyPacketContacts] = useState([]);
@@ -101,8 +102,8 @@ function RenderSafeCustody(props) {
   const [filteredData, setFilteredData] = useState([]);
   const [filterInput, setFilterInput] = useState(filterFields);
   const [prepareInput, setPrepareInput] = useState(filterFields);
-  const [prepareReceiptContact, setPrepareReceiptContact] = useState(null);
-  const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
+  const [prepareReceiptContact, setPrepareReceiptContact] = useState(undefined);
+  const [safeCustodyStatus, setSafeCustodyStatus] = useState(undefined);
   const [isAddCustodyOpen, setIsAddCustoduOpen] = useState(false);
 
   const [openLinkContactForm, setOpenLinkContactForm] = useState(false);
@@ -151,7 +152,7 @@ function RenderSafeCustody(props) {
     setContentShow(false);
     setPrepareInput(filterFields);
     setSelectPrepare([]);
-    setPrepareReceiptContact(null);
+    setPrepareReceiptContact(undefined);
   };
   const handleContentShow = () => {
     setContentShow(true);
@@ -1501,6 +1502,7 @@ function RenderSafeCustody(props) {
       </div>
     );
   }
+
 
   const [currentSafe, setCurrentSafe] = useState('contacts');
   const [a, setA] = useState(null);

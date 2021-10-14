@@ -1,4 +1,4 @@
-import react, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "./sidebar";
 import RenderAllSafeCustody from "./safeCustody/AllSafeCustody.js";
 import RenderSafeCustody from "./safeCustody/safeCustody";
@@ -7,19 +7,17 @@ import Matters from "./matters";
 import "../stylesheets/profile.css";
 import "../stylesheets/home.css";
 import Navbar from "./navbar.js";
-import{Link,Switch,Route} from "react-router-dom"
+import { Link, Switch, Route } from "react-router-dom";
 import RenderContacts from "./contacts/contacts.js";
 import safeCustodystripe from "./topStripes/safeCustody";
 import homestripe from "./topStripes/homestripe";
-import SingleContact from "./contacts/SingleContact"
+import SingleContact from "./contacts/SingleContact";
 function Home() {
- 
-
   const [collapse, setCollapse] = useState(false);
   const [current, setCurrent] = useState("safeCustody");
 
   const pagesDiv = document.querySelector(".pagesDiv");
-  useEffect(() => {}, [collapse,current]);
+  useEffect(() => {}, [collapse, current]);
 
   if (collapse == true) {
     if (pagesDiv) pagesDiv.classList.add("fullwidth");
@@ -30,7 +28,7 @@ function Home() {
     return (
       <div className="root">
         <main className="content">
-          <div className="appBarSpacer"/>
+          <div className="appBarSpacer" />
           <div className="bodyDiv">
             <div className="contentDiv">
               <h2 className="contentTitle">Matters</h2>
@@ -77,7 +75,7 @@ function Home() {
       </div>
     );
   }
-  function renderAllSafeCustody(){
+  function renderAllSafeCustody() {
     return (
       <div>
         <RenderAllSafeCustody />
@@ -95,25 +93,33 @@ function Home() {
 
   return (
     <div>
-      <Sidebar 
-      collapse={collapse} 
-      setCollapse={setCollapse}
-      setCurrent={setCurrent}
+      <Sidebar
+        collapse={collapse}
+        setCollapse={setCollapse}
+        setCurrent={setCurrent}
       />
       <div className="pagesDiv">
-      <div className="stripes">
-      <Route path="/home" component={homestripe} />
-      </div>
-      <div className="sidepagecontent">
-      <Switch>
-      <Route path="/home/matters" exact component={Matters} />
-      <Route path="/home/contacts" exact component={RenderContacts} />
-      <Route path="/home/safecustody" exact component={RenderAllSafeCustody} />
-      <Route path="/home/safecustody/:id" exact component={RenderSafeCustody}/>
-      <Route path="/home/property" exact component={RenderProperty} />
-      <Route path="/home/singlecontact" exact component={SingleContact}/>  
-  </Switch>
-    </div>
+        <div className="stripes">
+          <Route path="/home" component={homestripe} />
+        </div>
+        <div className="sidepagecontent">
+          <Switch>
+            <Route path="/home/matters" exact component={Matters} />
+            <Route path="/home/contacts" exact component={RenderContacts} />
+            <Route
+              path="/home/safecustody"
+              exact
+              component={RenderAllSafeCustody}
+            />
+            <Route
+              path="/home/safecustody/:id"
+              exact
+              component={RenderSafeCustody}
+            />
+            <Route path="/home/property" exact component={RenderProperty} />
+            <Route path="/home/singlecontact" exact component={SingleContact} />
+          </Switch>
+        </div>
       </div>
     </div>
   );
