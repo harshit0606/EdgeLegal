@@ -12,7 +12,7 @@ const initialData = {
 };
 
 const AttachIDForm = (props) => {
-  const { closeForm, details, changeBool } = props;
+  const { closeForm, details, handleContactAttachments } = props;
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
   const [formData, setFormData] = useState(initialData);
@@ -63,7 +63,7 @@ const AttachIDForm = (props) => {
           }
         );
         // console.log(data);
-        changeBool(false);
+        handleContactAttachments();
         closeForm();
       } catch (err) {
         console.log(err);

@@ -186,7 +186,7 @@ function EditOrgDetails(props) {
   return (
     <div className='addPersonDiv'>
       <div className='titleDiv'>
-        <h2>Add Organisation Details</h2>
+        <h2>Edit Organisation Details</h2>
         <p style={{ cursor: 'pointer' }} onClick={props.close}>
           &#10006;
         </p>

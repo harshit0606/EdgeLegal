@@ -32,6 +32,7 @@ function SingleContact(props) {
 
   const [contactDetails, setContactDetails] = useState({});
   const [custodyDetails, setCustodyDetails] = useState([]);
+  const [contactAttachments, setContactAttachments] = useState([]);
   const [boolVal, setBoolVal] = useState(false);
 
   // console.log(aboutProps);
@@ -121,6 +122,27 @@ function SingleContact(props) {
     // setCurrScreen('safe custody');
   };
 
+  const handleContactAttachments = () => {
+    axios
+      .get(
+        `${url}/api/contact-attachment/${aboutProps.contactId}?requestId=123456&contactType=${aboutProps.contactType}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response.data.data);
+        setContactAttachments(response.data.data);
+        setCurrScreen('attachid');
+      });
+  };
+
   function renderDetails() {
     if (contactType === 'person') {
       return (
@@ -163,7 +185,12 @@ function SingleContact(props) {
   function renderAttachId() {
     return (
       <div>
-        <Attachid details={aboutProps} changeBool={setBoolVal} />
+        <Attachid
+          details={aboutProps}
+          changeBool={setBoolVal}
+          handleContactAttachments={handleContactAttachments}
+          attach={contactAttachments}
+        />
       </div>
     );
   }
@@ -246,9 +273,7 @@ function SingleContact(props) {
                 ? 'safe-custody-btns safe-custody-btns-clicked'
                 : 'safe-custody-btns'
             }
-            onClick={() => {
-              setCurrScreen('attachid');
-            }}
+            onClick={handleContactAttachments}
           >
             {' '}
             Attach Id
