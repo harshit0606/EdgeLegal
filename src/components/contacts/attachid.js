@@ -52,10 +52,11 @@ const Attachid = (props) => {
           type: response.headers['content-type'],
         });
         var linkSource = window.URL.createObjectURL(blob);
+        console.log(linkSource);
         // const linkSource = `data:${response.headers['content-type']};base64,${response.data}`;
         const downloadLink = document.createElement('a');
         downloadLink.href = linkSource;
-        downloadLink.download = fileName;
+        // downloadLink.download = fileName;
         downloadLink.click();
       });
     // .then((data) => console.log(data));

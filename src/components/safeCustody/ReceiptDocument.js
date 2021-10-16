@@ -1,11 +1,11 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import moment from 'moment';
 import '../../stylesheets/safeCustody.css';
 
 const ReceiptDocument = (props) => {
   // console.log(props?.data);
   const { data } = props;
-
+  const [selected, setSelected] = useState('');
   // const handleContentSelect = (id) => {
   //   const selectedIndex = selectedContent.indexOf(id);
   //   let newSelected = [];
@@ -64,8 +64,8 @@ const ReceiptDocument = (props) => {
                 <input
                   style={{ marginLeft: '50%' }}
                   type='checkbox'
-                  // checked={d.id === selectedContent}
-                  // onChange={() => handleContentSelect(d.id)}
+                  checked={d.id === selected}
+                  onChange={() => setSelected(d.id)}
                 />
               </div>
               <div className='col-2'>
