@@ -3,7 +3,7 @@ import url from '../../config.js';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import '../../stylesheets/contacts.css';
-import { FormControl, InputLabel, Select, TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 
 const initialData = {
   role: '',
@@ -13,7 +13,6 @@ const initialData = {
   title: '',
   phoneNumber1: '',
   phoneNumber2: '',
-  phoneNumber3: '',
   faxNumber: '',
   mobilePhoneNumber: '',
   website: '',
@@ -73,14 +72,13 @@ const CustomTextInput = (props) => {
   );
 };
 
-function AddOrganization(props) {
+function EditOrgDetails(props) {
+  const { contactDetails, changeBool } = props;
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
-  const [organizationDetails, setOrganizationDetails] = useState(initialData);
+  const [organizationDetails, setOrganizationDetails] =
+    useState(contactDetails);
   const [sameAddress, setSameAddress] = useState(false);
-  const [countries, setCountries] = useState([]);
-  const [commStates, setCommStates] = useState([]);
-  const [mailStates, setMailStates] = useState([]);
   const [otherDetails, setOtherDetails] = useState({
     companyId: '',
     siteId: '',
@@ -88,26 +86,6 @@ function AddOrganization(props) {
   const [boolVal, setBoolVal] = useState(false);
 
   useEffect(async () => {
-    const fetchCountries = async () => {
-      try {
-        const response = await axios.get(
-          `${url}/api/dropdown/countries?requestId=1124455`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${loggedInToken}`,
-            },
-          },
-          {
-            withCredentials: true,
-          }
-        );
-        // console.log(response.data);
-        setCountries(response.data?.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
     if (!boolVal) {
       try {
         const { data } = await axios.get(
@@ -128,45 +106,21 @@ function AddOrganization(props) {
           companyId: data?.organizationId,
           siteId: data?.siteId ? data?.siteId : 1, // this will change later
         });
-        fetchCountries();
       } catch (err) {
         console.log(err);
       }
       setBoolVal(true);
     }
-  }, [boolVal, loggedInToken, otherDetails]);
+  }, []);
 
   const handleFormChange = (e) => {
     const { name } = e.target;
     setOrganizationDetails({ ...organizationDetails, [name]: e.target.value });
   };
 
-  const handleChangeCountry = (e) => {
-    const index = e.target.value;
-    const selectedCountry = countries[index];
-    setOrganizationDetails({
-      ...organizationDetails,
-      commCountry: selectedCountry.id,
-    });
-    // console.log(selectedCountry);
-    setCommStates(selectedCountry.states);
-  };
-
-  const handleChangeMailCountry = (e) => {
-    const index = e.target.value;
-    const selectedCountry = countries[index];
-    setOrganizationDetails({
-      ...organizationDetails,
-      mailingCountry: selectedCountry.id,
-    });
-    // console.log(selectedCountry);
-    setMailStates(selectedCountry.states);
-  };
-
   const handleMailingAddress = () => {
     if (sameAddress === false) {
       setSameAddress(true);
-      setMailStates(commStates);
       setOrganizationDetails({
         ...organizationDetails,
         mailingAddress1: organizationDetails.commAddress1,
@@ -182,13 +136,13 @@ function AddOrganization(props) {
       setSameAddress(false);
       setOrganizationDetails({
         ...organizationDetails,
-        mailingAddress1: '',
-        mailingAddress2: '',
-        mailingAddress3: '',
-        mailingCity: '',
-        mailingState: '',
-        mailingPostCode: '',
-        mailingCountry: '',
+        mailingAddress1: contactDetails.commAddress1,
+        mailingAddress2: contactDetails.commAddress2,
+        mailingAddress3: contactDetails.commAddress3,
+        mailingCity: contactDetails.commCity,
+        mailingState: contactDetails.commState,
+        mailingPostCode: contactDetails.commPostCode,
+        mailingCountry: contactDetails.commCountry,
       });
     }
   };
@@ -205,7 +159,7 @@ function AddOrganization(props) {
     };
     // console.log(formData);
     try {
-      const { data } = await axios.post(
+      const { data } = await axios.put(
         `${url}/api/contacts`,
         {
           requestId: '1123445',
@@ -222,7 +176,7 @@ function AddOrganization(props) {
         }
       );
       // console.log(data);
-      setOrganizationDetails(initialData);
+      changeBool(false);
       props.close();
     } catch (err) {
       console.log(err);
@@ -232,7 +186,7 @@ function AddOrganization(props) {
   return (
     <div className='addPersonDiv'>
       <div className='titleDiv'>
-        <h2>Add Organisation Details</h2>
+        <h2>Edit Organisation Details</h2>
         <p style={{ cursor: 'pointer' }} onClick={props.close}>
           &#10006;
         </p>
@@ -243,6 +197,7 @@ function AddOrganization(props) {
           type='radio'
           name='role'
           value='Bussiness/Partnership'
+          checked={organizationDetails.role === 'Bussiness/Partnership'}
           onChange={handleFormChange}
         ></input>{' '}
         Bussiness/Partnership&nbsp;&nbsp;&nbsp;
@@ -250,6 +205,7 @@ function AddOrganization(props) {
           type='radio'
           name='role'
           value='Company'
+          checked={organizationDetails.role === 'Company'}
           onChange={handleFormChange}
         />{' '}
         Company&nbsp;&nbsp;&nbsp;
@@ -257,6 +213,7 @@ function AddOrganization(props) {
           type='radio'
           name='role'
           value='Government Department'
+          checked={organizationDetails.role === 'Government Department'}
           onChange={handleFormChange}
         />{' '}
         Government Department&nbsp;&nbsp;&nbsp;
@@ -264,6 +221,7 @@ function AddOrganization(props) {
           type='radio'
           name='role'
           value='Trust'
+          checked={organizationDetails.role === 'Trust'}
           onChange={handleFormChange}
         />{' '}
         Trust&nbsp;&nbsp;&nbsp;
@@ -394,123 +352,22 @@ function AddOrganization(props) {
           value={organizationDetails.commCity}
           onChange={handleFormChange}
         />
-        <FormControl
-          style={{
-            width: 256,
-            height: 50,
-            marginRight: 7,
-            marginLeft: 9,
-            marginBottom: 10,
-            outline: 'none',
-          }}
-        >
-          <InputLabel
-            id='demo-simple-select-helper-label'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-              marginLeft: 9,
-            }}
-          >
-            Country
-          </InputLabel>
-          <Select
-            native
-            labelId='demo-simple-select-helper-label'
-            id='demo-simple-select-helper'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-            }}
-            inputProps={{
-              style: {
-                fontSize: 14,
-                fontFamily: 'inherit',
-                color: 'rgb(94, 94, 94)',
-                padding: 5,
-              },
-            }}
-            name='commCountry'
-            value={organizationDetails.commCountry}
-            onChange={handleChangeCountry}
-          >
-            <option
-              aria-label='Country'
-              selected
-              disabled
-              style={{ display: 'none' }}
-              value=''
-            />
-            {countries.map((country, index) => (
-              <option value={index} key={country.id}>
-                {country.countryName}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormControl
-          style={{
-            width: 256,
-            height: 50,
-            marginRight: 7,
-            marginLeft: 9,
-            marginBottom: 10,
-            outline: 'none',
-          }}
-        >
-          <InputLabel
-            id='demo-simple-select-helper-label'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-              marginLeft: 9,
-            }}
-          >
-            State
-          </InputLabel>
-          <Select
-            native
-            labelId='demo-simple-select-helper-label'
-            id='demo-simple-select-helper'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-            }}
-            inputProps={{
-              style: {
-                fontSize: 14,
-                fontFamily: 'inherit',
-                color: 'rgb(94, 94, 94)',
-                padding: 5,
-              },
-            }}
-            name='commState'
-            value={organizationDetails.commState}
-            onChange={handleFormChange}
-          >
-            <option
-              aria-label='State'
-              selected
-              disabled
-              style={{ display: 'none' }}
-              value=''
-            />
-            {commStates.map((state) => (
-              <option value={state.id} key={state.id}>
-                {state.stateName}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
+        <CustomTextInput
+          name='commState'
+          label='State'
+          value={organizationDetails.commState}
+          onChange={handleFormChange}
+        />
         <CustomTextInput
           name='commPostCode'
           label='Zip'
           value={organizationDetails.commPostCode}
+          onChange={handleFormChange}
+        />
+        <CustomTextInput
+          name='commCountry'
+          label='Country'
+          value={organizationDetails.commCountry}
           onChange={handleFormChange}
         />
       </div>
@@ -553,131 +410,22 @@ function AddOrganization(props) {
           value={organizationDetails.mailingCity}
           onChange={handleFormChange}
         />
-        <FormControl
-          style={{
-            width: 256,
-            height: 50,
-            marginRight: 7,
-            marginLeft: 9,
-            marginBottom: 10,
-            outline: 'none',
-          }}
-        >
-          <InputLabel
-            id='demo-simple-select-helper-label'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-              marginLeft: 9,
-            }}
-          >
-            Country
-          </InputLabel>
-          <Select
-            native
-            labelId='demo-simple-select-helper-label'
-            id='demo-simple-select-helper'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-            }}
-            inputProps={{
-              style: {
-                fontSize: 14,
-                fontFamily: 'inherit',
-                color: 'rgb(94, 94, 94)',
-                padding: 5,
-              },
-            }}
-            name='mailingCountry'
-            value={organizationDetails.mailingCountry}
-            onChange={handleChangeMailCountry}
-          >
-            <option
-              aria-label='Country'
-              selected={organizationDetails.mailingCountry === ''}
-              disabled
-              style={{ display: 'none' }}
-              value=''
-            />
-            {countries.map((country, index) => (
-              <option
-                key={country.id}
-                value={index}
-                selected={organizationDetails.mailingCountry === country.id}
-              >
-                {country.countryName}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormControl
-          style={{
-            width: 256,
-            height: 50,
-            marginRight: 7,
-            marginLeft: 9,
-            marginBottom: 10,
-            outline: 'none',
-          }}
-        >
-          <InputLabel
-            id='demo-simple-select-helper-label'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-              marginLeft: 9,
-            }}
-          >
-            State
-          </InputLabel>
-          <Select
-            native
-            labelId='demo-simple-select-helper-label'
-            id='demo-simple-select-helper'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-            }}
-            inputProps={{
-              style: {
-                fontSize: 14,
-                fontFamily: 'inherit',
-                color: 'rgb(94, 94, 94)',
-                padding: 5,
-              },
-            }}
-            name='mailingState'
-            value={organizationDetails.mailingState}
-            onChange={handleFormChange}
-          >
-            <option
-              aria-label='State'
-              selected={organizationDetails.mailingState === ''}
-              disabled
-              style={{ display: 'none' }}
-              value=''
-            />
-            {mailStates.map((state) => (
-              <option
-                key={state.id}
-                selected={state.id === organizationDetails.mailingState}
-                value={state.id}
-              >
-                {state.stateName}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
+        <CustomTextInput
+          name='mailingState'
+          label='State'
+          value={organizationDetails.mailingState}
+          onChange={handleFormChange}
+        />
         <CustomTextInput
           name='mailingPostCode'
           label='Zip'
           value={organizationDetails.mailingPostCode}
+          onChange={handleFormChange}
+        />
+        <CustomTextInput
+          name='mailingCountry'
+          label='Country'
+          value={organizationDetails.mailingCountry}
           onChange={handleFormChange}
         />
       </div>
@@ -695,4 +443,4 @@ function AddOrganization(props) {
   );
 }
 
-export default AddOrganization;
+export default EditOrgDetails;

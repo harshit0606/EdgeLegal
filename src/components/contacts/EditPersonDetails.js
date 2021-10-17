@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import url from '../../config.js';
 import axios from 'axios';
+import moment from 'moment';
 import { useCookies } from 'react-cookie';
 import '../../stylesheets/contacts.css';
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from '@material-ui/core';
+import { FormControl, InputLabel, Select, TextField } from '@material-ui/core';
 
 const initialData = {
   type: '',
@@ -143,43 +138,110 @@ const CustomDropDown = (props) => {
   );
 };
 
-function AddPerson(props) {
+function EditPersonDetails(props) {
+  const { contactDetails, changeBool } = props;
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const CustomTextInput = (props) => {
+    return (
+      <TextField
+        {...props}
+        style={{
+          width: 256,
+          height: 50,
+          marginRight: 7,
+          marginLeft: 9,
+          marginBottom: 10,
+          outline: 'none',
+        }}
+        InputLabelProps={{
+          style: {
+            fontSize: 14,
+            fontFamily: 'inherit',
+            color: 'rgb(94, 94, 94)',
+            marginLeft: 10,
+          },
+        }}
+        inputProps={{
+          style: {
+            fontSize: 14,
+            fontFamily: 'inherit',
+            color: 'rgb(94, 94, 94)',
+            marginLeft: 10,
+          },
+        }}
+        type='text'
+      />
+    );
+  };
+
+  const CustomDropDown = (props) => {
+    const { lableName, labelId, first, second, name, value, onChange } = props;
+    return (
+      <FormControl
+        style={{
+          width: 256,
+          height: 50,
+          marginRight: 7,
+          marginLeft: 9,
+          marginBottom: 10,
+          outline: 'none',
+        }}
+      >
+        <InputLabel
+          htmlFor={labelId}
+          style={{
+            fontSize: 14,
+            fontFamily: 'inherit',
+            color: 'rgb(94, 94, 94)',
+            marginLeft: 9,
+          }}
+        >
+          {lableName}
+        </InputLabel>
+        <Select
+          native
+          name={name}
+          labelId={labelId}
+          value={value}
+          onChange={onChange}
+          style={{
+            fontSize: 14,
+            fontFamily: 'inherit',
+            color: 'rgb(94, 94, 94)',
+          }}
+          inputProps={{
+            style: {
+              fontSize: 14,
+              fontFamily: 'inherit',
+              color: 'rgb(94, 94, 94)',
+              padding: 5,
+            },
+          }}
+        >
+          <option
+            aria-label='None'
+            selected
+            disabled
+            style={{ display: 'none' }}
+            value=''
+          />
+          <option value={first}>{first}</option>
+          <option value={second}>{second}</option>
+        </Select>
+      </FormControl>
+    );
+  };
   const loggedInToken = cookies.token;
-  const [personDetails, setPersonDetails] = useState(initialData);
+  const [personDetails, setPersonDetails] = useState(contactDetails);
   const [otherDetails, setOtherDetails] = useState({
     companyId: '',
     siteId: '',
   });
   const [sameAddress, setSameAddress] = useState(false);
-  const [countries, setCountries] = useState([]);
-  const [commStates, setCommStates] = useState([]);
-  const [mailStates, setMailStates] = useState([]);
   const [boolVal, setBoolVal] = useState(false);
   const [date, setDate] = useState(false);
 
   useEffect(async () => {
-    const fetchCountries = async () => {
-      try {
-        const response = await axios.get(
-          `${url}/api/dropdown/countries?requestId=1124455`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${loggedInToken}`,
-            },
-          },
-          {
-            withCredentials: true,
-          }
-        );
-        // console.log(response.data);
-        setCountries(response.data?.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
     if (!boolVal) {
       try {
         const { data } = await axios.get(
@@ -200,39 +262,21 @@ function AddPerson(props) {
           companyId: data?.organizationId,
           siteId: data?.siteId ? data?.siteId : 1, // this will change later
         });
-        fetchCountries();
       } catch (err) {
         console.log(err);
       }
       setBoolVal(true);
     }
-  }, [boolVal, loggedInToken, otherDetails]);
+  }, []);
 
   const handleFormChange = (e) => {
     const { name } = e.target;
     setPersonDetails({ ...personDetails, [name]: e.target.value });
   };
 
-  const handleChangeCountry = (e) => {
-    // console.log(countries);
-    const index = e.target.value;
-    const selectedCountry = countries[index];
-    // console.log(selectedCountry);
-    setPersonDetails({ ...personDetails, commCountry: selectedCountry.id });
-    setCommStates(selectedCountry.states);
-  };
-
-  const handleChangeMailCountry = (e) => {
-    const index = e.target.value;
-    const selectedCountry = countries[index];
-    setPersonDetails({ ...personDetails, mailingCountry: selectedCountry.id });
-    setMailStates(selectedCountry.states);
-  };
-
   const handleMailingAddress = () => {
     if (sameAddress === false) {
       setSameAddress(true);
-      setMailStates(commStates);
       setPersonDetails({
         ...personDetails,
         mailingAddress1: personDetails.commAddress1,
@@ -248,13 +292,13 @@ function AddPerson(props) {
       setSameAddress(false);
       setPersonDetails({
         ...personDetails,
-        mailingAddress1: '',
-        mailingAddress2: '',
-        mailingAddress3: '',
-        mailingCity: '',
-        mailingState: '',
-        mailingPostCode: '',
-        mailingCountry: '',
+        mailingAddress1: contactDetails.commAddress1,
+        mailingAddress2: contactDetails.commAddress2,
+        mailingAddress3: contactDetails.commAddress3,
+        mailingCity: contactDetails.commCity,
+        mailingState: contactDetails.commState,
+        mailingPostCode: contactDetails.commPostCode,
+        mailingCountry: contactDetails.commCountry,
       });
     }
   };
@@ -268,9 +312,9 @@ function AddPerson(props) {
         ...personDetails,
       },
     };
-    // console.log(formData);
+    console.log(formData);
     try {
-      const { data } = await axios.post(
+      const { data } = await axios.put(
         `${url}/api/contacts`,
         {
           requestId: '1123445',
@@ -287,7 +331,7 @@ function AddPerson(props) {
         }
       );
       // console.log(data);
-      setPersonDetails(initialData);
+      changeBool(false);
       props.close();
       // window.location.reload();
     } catch (err) {
@@ -298,7 +342,7 @@ function AddPerson(props) {
   return (
     <div className='addPersonDiv'>
       <div className='titleDiv'>
-        <h2>Add Person Details</h2>
+        <h2>Edit Person Details</h2>
         <p style={{ cursor: 'pointer' }} onClick={props.close}>
           &#10006;
         </p>
@@ -405,7 +449,7 @@ function AddPerson(props) {
           label='Date of Birth'
           onFocus={() => setDate(true)}
           onBlur={() => setDate(false)}
-          value={personDetails.dateOfBirth}
+          value={moment(personDetails.dateOfBirth).format('DD-MM-YYYY')}
           onChange={handleFormChange}
           style={{
             width: 256,
@@ -413,6 +457,7 @@ function AddPerson(props) {
             marginRight: 7,
             marginLeft: 9,
             marginBottom: 10,
+
             outline: 'none',
           }}
           InputLabelProps={{
@@ -427,6 +472,7 @@ function AddPerson(props) {
           inputProps={{
             style: {
               fontSize: 14,
+
               fontFamily: 'inherit',
               color: 'rgb(94, 94, 94)',
             },
@@ -472,6 +518,7 @@ function AddPerson(props) {
       <div className='labelll'>
         <h3>Street Address</h3>
       </div>
+
       <div className='inputtDiv'>
         <CustomTextInput
           name='commAddress1'
@@ -497,125 +544,22 @@ function AddPerson(props) {
           value={personDetails.commCity}
           onChange={handleFormChange}
         />
-
-        <FormControl
-          style={{
-            width: 256,
-            height: 50,
-            marginRight: 7,
-            marginLeft: 9,
-            marginBottom: 10,
-            outline: 'none',
-          }}
-        >
-          <InputLabel
-            id='demo-simple-select-helper-label'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-              marginLeft: 9,
-            }}
-          >
-            Country
-          </InputLabel>
-          <Select
-            native
-            labelId='demo-simple-select-helper-label'
-            id='demo-simple-select-helper'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-            }}
-            inputProps={{
-              style: {
-                fontSize: 14,
-                fontFamily: 'inherit',
-                color: 'rgb(94, 94, 94)',
-                padding: 5,
-              },
-            }}
-            name='commCountry'
-            value={personDetails.commCountry}
-            onChange={handleChangeCountry}
-          >
-            <option
-              aria-label='Country'
-              selected
-              disabled
-              style={{ display: 'none' }}
-              value=''
-            />
-            {countries.map((country, index) => (
-              <option key={country.id} value={index}>
-                {country.countryName}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormControl
-          style={{
-            width: 256,
-            height: 50,
-            marginRight: 7,
-            marginLeft: 9,
-            marginBottom: 10,
-            outline: 'none',
-          }}
-        >
-          <InputLabel
-            id='demo-simple-select-helper-label'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-              marginLeft: 9,
-            }}
-          >
-            State
-          </InputLabel>
-          <Select
-            native
-            labelId='demo-simple-select-helper-label'
-            id='demo-simple-select-helper'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-            }}
-            inputProps={{
-              style: {
-                fontSize: 14,
-                fontFamily: 'inherit',
-                color: 'rgb(94, 94, 94)',
-                padding: 5,
-              },
-            }}
-            name='commState'
-            // value={personDetails.commState}
-            onChange={handleFormChange}
-          >
-            <option
-              aria-label='State'
-              selected
-              disabled
-              style={{ display: 'none' }}
-              value=''
-            />
-            {commStates.map((state) => (
-              <option key={state.id} value={state.id}>
-                {state.stateName}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
-
+        <CustomTextInput
+          name='commState'
+          label='State'
+          value={personDetails.commState}
+          onChange={handleFormChange}
+        />
         <CustomTextInput
           name='commPostCode'
           label='Zip'
           value={personDetails.commPostCode}
+          onChange={handleFormChange}
+        />
+        <CustomTextInput
+          name='commCountry'
+          label='Country'
+          value={personDetails.commCountry}
           onChange={handleFormChange}
         />
       </div>
@@ -633,6 +577,7 @@ function AddPerson(props) {
         />
         <label>Same as Communication Address</label>
       </div>
+
       <div className='inputtDiv'>
         <CustomTextInput
           name='mailingAddress1'
@@ -658,132 +603,22 @@ function AddPerson(props) {
           value={personDetails.mailingCity}
           onChange={handleFormChange}
         />
-        <FormControl
-          style={{
-            width: 256,
-            height: 50,
-            marginRight: 7,
-            marginLeft: 9,
-            marginBottom: 10,
-            outline: 'none',
-          }}
-        >
-          <InputLabel
-            id='demo-simple-select-helper-label'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-              marginLeft: 9,
-            }}
-          >
-            Country
-          </InputLabel>
-          <Select
-            native
-            labelId='demo-simple-select-helper-label'
-            id='demo-simple-select-helper'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-            }}
-            inputProps={{
-              style: {
-                fontSize: 14,
-                fontFamily: 'inherit',
-                color: 'rgb(94, 94, 94)',
-                padding: 5,
-              },
-            }}
-            name='mailingCountry'
-            value={personDetails.mailingCountry}
-            onChange={handleChangeMailCountry}
-          >
-            <option
-              aria-label='Country'
-              selected={personDetails.mailingCountry === ''}
-              disabled
-              style={{ display: 'none' }}
-              value=''
-            />
-            {countries.map((country, index) => (
-              <option
-                key={country.id}
-                value={index}
-                selected={personDetails.mailingCountry === country.id}
-              >
-                {country.countryName}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormControl
-          style={{
-            width: 256,
-            height: 50,
-            marginRight: 7,
-            marginLeft: 9,
-            marginBottom: 10,
-            outline: 'none',
-          }}
-        >
-          <InputLabel
-            id='demo-simple-select-helper-label'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-              marginLeft: 9,
-            }}
-          >
-            State
-          </InputLabel>
-          <Select
-            native
-            labelId='demo-simple-select-helper-label'
-            id='demo-simple-select-helper'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-            }}
-            inputProps={{
-              style: {
-                fontSize: 14,
-                fontFamily: 'inherit',
-                color: 'rgb(94, 94, 94)',
-                padding: 5,
-              },
-            }}
-            name='mailingState'
-            value={personDetails.mailingState}
-            onChange={handleFormChange}
-          >
-            <option
-              aria-label='State'
-              selected={personDetails.mailingState === ''}
-              disabled
-              style={{ display: 'none' }}
-              value=''
-            />
-            {mailStates.length > 0 &&
-              mailStates.map((state) => (
-                <option
-                  selected={personDetails.mailingState === state.id}
-                  key={state.id}
-                  value={state.id}
-                >
-                  {state.stateName}
-                </option>
-              ))}
-          </Select>
-        </FormControl>
+        <CustomTextInput
+          name='mailingState'
+          label='State'
+          value={personDetails.mailingState}
+          onChange={handleFormChange}
+        />
         <CustomTextInput
           name='mailingPostCode'
           label='Zip'
           value={personDetails.mailingPostCode}
+          onChange={handleFormChange}
+        />
+        <CustomTextInput
+          name='mailingCountry'
+          label='Country'
+          value={personDetails.mailingCountry}
           onChange={handleFormChange}
         />
       </div>
@@ -801,4 +636,4 @@ function AddPerson(props) {
   );
 }
 
-export default AddPerson;
+export default EditPersonDetails;

@@ -4,10 +4,13 @@ import axios from 'axios';
 import '../../stylesheets/safeCustody.css';
 import url from '../../config.js';
 import Document from './document.js';
+import ReceiptDocument from './ReceiptDocument';
 import AddCustodyPopup from './addCustodyPopup.js';
 import AssociatedContacts from './associatedContacts.js';
 import File from './file.js';
+import closeBtn from '../../images/close-white-btn.svg';
 import { useCookies } from 'react-cookie';
+
 import {
   FormControl,
   InputLabel,
@@ -35,10 +38,72 @@ const filterFields = {
   telephoneNumber: '',
 };
 
+const initialPrimart = {
+  firstName: '',
+  lastName: '',
+  contactType: '',
+  emailAddress: '',
+};
+
+const ConfirmationPopup = (props) => {
+  const { formData, closeForm, loggedInToken, setBoolVal, clearSelected } =
+    props;
+  const handleDeleteContact = async () => {
+    await axios
+      .delete(
+        `${url}/api/safecustody/contact`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+          data: formData,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        clearSelected();
+        setBoolVal(false);
+        closeForm();
+        // window.location.reload()
+      })
+      .catch((err) => console.log(err));
+  };
+
+  return (
+    <div className='confirmation-popup-container'>
+      <div className='confirmation-popup-grid'>
+        <div className='confirmation-header'>
+          <h2 className='confirmation-heading'>Confirm Your Action</h2>
+          <button className='close-form-btn' onClick={closeForm}>
+            {' '}
+            <img src={closeBtn} alt='close-btn' />
+          </button>
+        </div>
+        <div className='confirmation-para'>
+          <p>Are you sure you want to delete the record?</p>
+        </div>
+        <div className='confirmation-buttonDiv'>
+          <button className='cancelButton' onClick={closeForm}>
+            No
+          </button>
+          <button className='addButton' onClick={handleDeleteContact}>
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function RenderSafeCustody(props) {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
   const { id } = props.match.params;
+
+  const [boolVal, setBoolVal] = useState(false);
   const [safeCustodyPackets, setSafeCustodyPackets] = useState(null);
   const [custodyPacketContacts, setCustodyPacketContacts] = useState([]);
   const [filterPerpare, setFilterPrepare] = useState([]);
@@ -46,42 +111,61 @@ function RenderSafeCustody(props) {
   const [filteredData, setFilteredData] = useState([]);
   const [filterInput, setFilterInput] = useState(filterFields);
   const [prepareInput, setPrepareInput] = useState(filterFields);
-  const [prepareReceiptContact, setPrepareReceiptContact] = useState(null);
-  const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
+  const [prepareReceiptContact, setPrepareReceiptContact] = useState(undefined);
+  const [safeCustodyStatus, setSafeCustodyStatus] = useState(undefined);
   const [isAddCustodyOpen, setIsAddCustoduOpen] = useState(false);
 
   const [openLinkContactForm, setOpenLinkContactForm] = useState(false);
   const [contactLists, setContactLists] = useState([]);
-  const [selectedContact, setSelectedContact] = useState(null);
+  const [selectedContact, setSelectedContact] = useState([]);
+  const [selectedContactId, setSelectedContactId] = useState([]);
   const [selectedContent, setSelectedContent] = useState('');
   const [selectPrepare, setSelectPrepare] = useState([]);
   const [contentShow, setContentShow] = useState(false);
-  const [size, setSize] = useState(1);
+  const [confirmScreen, setConfirmScreen] = useState(false);
+  const [primaryContact, setPrimaryContact] = useState([]);
+  const [primaryContactDetail, setPrimaryContactDetail] = useState({});
+  const [formDataForUnlink, setFormDataForUnlink] = useState({});
   const [sortOrder, setSortOrder] = useState('');
   const [sortField, setSortField] = useState('');
 
   useEffect(() => {
-    axios
-      .get(
-        `${url}/api/safecustody/${id}?requestId=1124455`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        console.log('all data', response.data.data);
-        setCustodyPacketContacts(response.data?.data?.custodyPacketContacts);
-        setCustodyPacket(response.data?.data);
-        setFilteredData(response.data?.data?.custodyPacketContacts);
-        setFilterPrepare(response.data?.data?.custodyPacketContacts);
+    const findPrimary = (data) => {
+      const primary = data.filter((ele) => ele.primaryContact === true);
+      setPrimaryContactDetail({
+        ...primaryContactDetail,
+        firstName: primary[0].contactDetails.firstName,
+        lastName: primary[0].contactDetails.lastName,
+        contactType: primary[0].contactType,
       });
-  }, []);
+    };
+
+    if (!boolVal) {
+      axios
+        .get(
+          `${url}/api/safecustody/${id}?requestId=1124455`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${loggedInToken}`,
+            },
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((response) => {
+          // console.log('all data', response.data.data);
+          findPrimary(response.data?.data?.custodyPacketContacts);
+          setCustodyPacketContacts(response.data?.data?.custodyPacketContacts);
+          setCustodyPacket(response.data?.data);
+          setFilteredData(response.data?.data?.custodyPacketContacts);
+          setFilterPrepare(response.data?.data?.custodyPacketContacts);
+
+          setBoolVal(true);
+        });
+    }
+  }, [boolVal, loggedInToken]);
 
   const handleAddCustody = () => {
     setIsAddCustoduOpen(true);
@@ -90,16 +174,75 @@ function RenderSafeCustody(props) {
     setContentShow(false);
     setPrepareInput(filterFields);
     setSelectPrepare([]);
-    setPrepareReceiptContact(null);
+    setPrepareReceiptContact(undefined);
   };
   const handleContentShow = () => {
     setContentShow(true);
   };
 
-  const handleSelectedContact = (data) => {
-    // console.log(data);
-    setSelectedContact(data);
+  // const handleSelectedContact = (data) => {
+  //   // console.log(data);
+  //   setSelectedContact([...selectedContact, data]);
+  // };
+
+  const handleSelectContactForContact = (data, index) => {
+    const selectedIndex = selectedContactId.indexOf(index);
+    let newSelectedId = [];
+    let newSelectedContact = [];
+
+    if (selectedIndex === -1) {
+      newSelectedId = newSelectedId.concat(selectedContactId, index);
+      newSelectedContact = newSelectedContact.concat(selectedContact, {
+        safeCustodyPacketId: data.safeCustodyPacketId,
+        contactId: data.contactId,
+        contactType: data.contactType,
+        contactRole: data.contactRole,
+        primaryContact: data.primaryContact,
+      });
+    } else if (selectedIndex === 0) {
+      newSelectedId = newSelectedId.concat(selectedContactId.slice(1));
+      newSelectedContact = newSelectedContact.concat(selectedContact.slice(1));
+    } else if (selectedIndex === selectedContactId.length - 1) {
+      newSelectedId = newSelectedId.concat(selectedContactId.slice(0, -1));
+      newSelectedContact = newSelectedContact.concat(
+        selectedContact.slice(0, -1)
+      );
+    } else if (selectedIndex > 0) {
+      newSelectedId = newSelectedId.concat(
+        selectedContactId.slice(0, selectedIndex),
+        selectedContactId.slice(selectedIndex + 1)
+      );
+      newSelectedContact = newSelectedContact.concat(
+        selectedContact.slice(0, selectedIndex),
+        selectedContact.slice(selectedIndex + 1)
+      );
+    }
+    setSelectedContactId(newSelectedId);
+    setSelectedContact(newSelectedContact);
   };
+
+  const handleSelectAllContact = (event) => {
+    if (event.target.checked) {
+      const newSelectedId = filteredData?.map((row, index) => index);
+      const newSelectedContact = filteredData?.map((row) => {
+        return {
+          safeCustodyPacketId: row.safeCustodyPacketId,
+          contactId: row.contactId,
+          contactType: row.contactType,
+          contactRole: row.contactRole,
+          primaryContact: row.primaryContact,
+        };
+      });
+      setSelectedContactId(newSelectedId);
+      setSelectedContact(newSelectedContact);
+      return;
+    }
+    setSelectedContactId([]);
+    setSelectedContact([]);
+  };
+
+  // to check whether the property is selected or not
+  const isContactSelected = (id) => selectedContactId.indexOf(id) !== -1;
 
   const handleShowContacts = () => {
     axios
@@ -148,54 +291,54 @@ function RenderSafeCustody(props) {
   };
 
   const handleUnLink = async () => {
-    if (selectedContact) {
+    if (selectedContact.length !== 0) {
       let formData = {
         requestId: 11223,
-        data: {
-          safeCustodyPacketId: selectedContact.safeCustodyPacketId,
-          contactId: selectedContact.contactId,
-          contactType: selectedContact.contactType,
-          contactRole: selectedContact.contactRole,
-        },
+        data: selectedContact,
       };
+
+      setFormDataForUnlink(formData);
+      setConfirmScreen(true);
 
       // console.log(selectedContact);
 
-      await axios
-        .delete(
-          `${url}/api/safecustody/contact`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${loggedInToken}`,
-            },
-            data: formData,
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((res) => window.location.reload())
-        .catch((err) => console.log(err));
+      // await axios
+      //   .delete(
+      //     `${url}/api/safecustody/contact`,
+      //     {
+      //       headers: {
+      //         'Content-Type': 'application/json',
+      //         Authorization: `Bearer ${loggedInToken}`,
+      //       },
+      //       data: formData,
+      //     },
+      //     {
+      //       withCredentials: true,
+      //     }
+      //   )
+      //   .then((res) => window.location.reload())
+      //   .catch((err) => console.log(err));
     } else {
-      alert('Select contact');
+      alert(
+        'One or more contacts need to be selected before you can Delete contacts'
+      );
     }
   };
 
   const handleSetPrimary = async () => {
-    if (selectedContact) {
+    if (selectedContact.length === 1) {
       let formData = {
         requestId: 11223,
         data: {
-          safeCustodyPacketId: selectedContact.safeCustodyPacketId,
-          contactId: selectedContact.contactId,
-          contactType: selectedContact.contactType,
-          contactRole: selectedContact.role,
+          safeCustodyPacketId: selectedContact[0].safeCustodyPacketId,
+          contactId: selectedContact[0].contactId,
+          contactType: selectedContact[0].contactType,
+          contactRole: selectedContact[0].contactRole,
           primaryContact: true,
         },
       };
 
-      // console.log(formData);
+      // console.log(selectedContact);
 
       await axios
         .post(
@@ -213,6 +356,14 @@ function RenderSafeCustody(props) {
         )
         .then((res) => window.location.reload())
         .catch((e) => console.log(e));
+    } else {
+      if (selectedContact.length === 0) {
+        alert('A contact needs to be selected to assign as a Primary Contact.');
+      } else {
+        alert(
+          'Only 1 contact can be set as a Primary Contact. Please select only 1 contact'
+        );
+      }
     }
   };
 
@@ -398,6 +549,11 @@ function RenderSafeCustody(props) {
     }
   };
 
+  const handleClearSelected = () => {
+    selectedContact([]);
+    selectedContactId([]);
+  };
+
   function renderSafeSelectTop() {
     return (
       <div>
@@ -484,15 +640,113 @@ function RenderSafeCustody(props) {
           <h5 style={{ fontWeight: 'bold' }}>Receipts for packet no.1</h5>
           <div className='recepientsTop'>
             <button className='custodyAddbtn'>Download </button>
-            <button
-              className='custodyAddbtn'
-              onClick={() => {
-                window.print();
-              }}
-            >
+            <button className='custodyAddbtn' onClick={handleContentShow}>
               Prepare Receipt
             </button>
           </div>
+          <Modal centered='true' show={contentShow} onHide={handleContentClose}>
+            <Modal.Body>
+              <div className='title-div-popup'>
+                <h3>Prepare Reciept</h3>
+                <p
+                  style={{
+                    fontSize: '20px',
+                    cursor: 'pointer',
+                    position: 'absolute',
+                    top: '10px',
+                    right: '20px',
+                  }}
+                  onClick={handleContentClose}
+                >
+                  &#10006;
+                </p>
+              </div>
+              <div className='popup-content'>
+                <input
+                  className='filter-input'
+                  placeholder='Search Contact'
+                  name='firstName'
+                  value={prepareInput.firstName}
+                  onChange={handleFilterPrepare}
+                ></input>
+                <div>
+                  <p>Contacts:</p>
+                  <select onChange={handleSelectContact}>
+                    <option disabled selected>
+                      select
+                    </option>
+                    {filterPerpare.map((contact) => (
+                      <option value={JSON.stringify(contact)}>
+                        {contact.contactDetails.firstName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <hr />
+              <div style={{ diplay: 'flex', width: '95%', marginLeft: '0px' }}>
+                <div className='row'>
+                  <div className='smaller-div'>
+                    <input
+                      style={{ marginLeft: '50%' }}
+                      type='checkbox'
+                      checked={
+                        custodyPacket?.custodyPacketAttachments.length > 0 &&
+                        selectPrepare.length ===
+                          custodyPacket?.custodyPacketAttachments.length
+                      }
+                      onChange={handleSelectAllPrepare}
+                    />
+                  </div>
+                  <div className='larger-div'>
+                    <h3>Document Name</h3>
+                  </div>
+                  <div className='medium-div'>
+                    <h3>Date</h3>
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <div className='documentData'>
+                {custodyPacket?.custodyPacketAttachments?.map((d) => {
+                  if (d.dateOut === null) {
+                    return (
+                      <Fragment>
+                        <div className='row'>
+                          <div className='smaller-div'>
+                            <input
+                              style={{ marginLeft: '50%' }}
+                              type='checkbox'
+                              checked={isSelected(d.id)}
+                              onChange={() => handleSelectToPrepare(d.id)}
+                            />
+                          </div>
+                          <div className='larger-div'>
+                            <p>{d.name ? d.name : 'name'}</p>
+                          </div>
+                          <div className='medium-div'>
+                            <p>
+                              {d.dateReceived
+                                ? moment(d.dateReceived).format('DD/MM/YYYY')
+                                : 'date'}
+                            </p>
+                          </div>
+                        </div>
+                      </Fragment>
+                    );
+                  }
+                })}
+              </div>
+              <div className='prepare-btn-div'>
+                <button
+                  className='custodyAddbtn'
+                  onClick={handlePrepareReceipt}
+                >
+                  Prepare
+                </button>
+              </div>
+            </Modal.Body>
+          </Modal>
         </div>
       </div>
     );
@@ -612,7 +866,14 @@ function RenderSafeCustody(props) {
         <div>
           <div className='row associatedContacts'>
             <div className='col-1' style={{ paddingRight: '3rem' }}>
-              <input type='checkbox'></input>
+              <input
+                type='checkbox'
+                checked={
+                  filteredData.length > 0 &&
+                  selectedContact.length === filteredData.length
+                }
+                onChange={handleSelectAllContact}
+              ></input>
             </div>
             <div className='col-2'>
               <label className='associatedContacts-label'>
@@ -913,7 +1174,8 @@ function RenderSafeCustody(props) {
           <div style={{ marginTop: '3%' }}>
             <AssociatedContacts
               contacts={filteredData}
-              selected={handleSelectedContact}
+              handleSelectContact={handleSelectContactForContact}
+              isContactSelected={isContactSelected}
             />
           </div>
         </div>
@@ -924,11 +1186,24 @@ function RenderSafeCustody(props) {
             safeCustodyPacketId={id}
           />
         )}
+        {confirmScreen && (
+          <ConfirmationPopup
+            closeForm={() => setConfirmScreen(false)}
+            formData={formDataForUnlink}
+            loggedInToken={loggedInToken}
+            setBoolVal={setBoolVal}
+            clearSelected={() => {
+              setSelectedContact([]);
+              setSelectedContactId([]);
+            }}
+          />
+        )}
       </div>
     );
   }
   function renderSafeContents() {
     // var x = 'client';
+    console.log(primaryContactDetail);
     return (
       <div>
         <div>
@@ -956,14 +1231,15 @@ function RenderSafeCustody(props) {
               >
                 <div className='data-show-div'>
                   <span>First Name : </span>
-                  <p>firstname</p>
+                  <p>{primaryContactDetail.firstName}</p>
                 </div>
                 <div className='data-show-div'>
                   <span>Last Name : </span>
-                  <p> lastname</p>
+                  <p>{primaryContactDetail.lastName}</p>
                 </div>
                 <div className='data-show-div'>
-                  <span>Contact Type : </span> <p> type</p>
+                  <span>Contact Type : </span>{' '}
+                  <p>{primaryContactDetail.contactType}</p>
                 </div>
               </div>
 
@@ -1025,7 +1301,7 @@ function RenderSafeCustody(props) {
               </div>
               <hr />
               <div style={{ diplay: 'flex', width: '95%', marginLeft: '0px' }}>
-                <div class='row'>
+                <div className='row'>
                   <div className='smaller-div'>
                     <input
                       style={{ marginLeft: '50%' }}
@@ -1048,30 +1324,34 @@ function RenderSafeCustody(props) {
               </div>
               <hr />
               <div className='documentData'>
-                {custodyPacket?.custodyPacketAttachments?.map((d) => (
-                  <Fragment>
-                    <div class='row'>
-                      <div className='smaller-div'>
-                        <input
-                          style={{ marginLeft: '50%' }}
-                          type='checkbox'
-                          checked={isSelected(d.id)}
-                          onChange={() => handleSelectToPrepare(d.id)}
-                        />
-                      </div>
-                      <div className='larger-div'>
-                        <p>{d.name ? d.name : 'name'}</p>
-                      </div>
-                      <div className='medium-div'>
-                        <p>
-                          {d.dateReceived
-                            ? moment(d.dateReceived).format('DD/MM/YYYY')
-                            : 'date'}
-                        </p>
-                      </div>
-                    </div>
-                  </Fragment>
-                ))}
+                {custodyPacket?.custodyPacketAttachments?.map((d) => {
+                  if (d.dateOut === null) {
+                    return (
+                      <Fragment>
+                        <div className='row'>
+                          <div className='smaller-div'>
+                            <input
+                              style={{ marginLeft: '50%' }}
+                              type='checkbox'
+                              checked={isSelected(d.id)}
+                              onChange={() => handleSelectToPrepare(d.id)}
+                            />
+                          </div>
+                          <div className='larger-div'>
+                            <p>{d.name ? d.name : 'name'}</p>
+                          </div>
+                          <div className='medium-div'>
+                            <p>
+                              {d.dateReceived
+                                ? moment(d.dateReceived).format('DD/MM/YYYY')
+                                : 'date'}
+                            </p>
+                          </div>
+                        </div>
+                      </Fragment>
+                    );
+                  }
+                })}
               </div>
               <div className='prepare-btn-div'>
                 <button
@@ -1248,7 +1528,7 @@ function RenderSafeCustody(props) {
           </div>
         </div>
         <div>
-          <Document data={custodyPacket} />
+          <ReceiptDocument data={custodyPacket} />
         </div>
       </div>
     );

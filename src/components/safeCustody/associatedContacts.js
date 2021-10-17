@@ -3,12 +3,11 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import '../../stylesheets/safeCustody.css';
 
 function AssociatedContacts(props) {
-  const { contacts, selected } = props;
+  const { contacts, handleSelectContact, isContactSelected } = props;
   const [selectedIndex, setSelectedIndex] = useState('');
 
-  const handleClick = (data, ind) => {
-    selected(data);
-    setSelectedIndex(ind);
+  const handleClick = (data, index) => {
+    handleSelectContact(data, index);
   };
   // console.log(contacts);
   return (
@@ -21,8 +20,8 @@ function AssociatedContacts(props) {
                 <div className='col-1'>
                   <input
                     type='checkbox'
-                    onClick={() => handleClick(contact, index)}
-                    checked={selectedIndex === index}
+                    onChange={() => handleClick(contact, index)}
+                    checked={isContactSelected(index)}
                     style={{ marginLeft: '50%' }}
                   ></input>
                 </div>
@@ -68,8 +67,8 @@ function AssociatedContacts(props) {
               <div className='row'>
                 <div className='col-1'>
                   <input
-                    onClick={() => handleClick(contact, index)}
-                    checked={selectedIndex === index}
+                    onChange={() => handleClick(contact, index)}
+                    checked={isContactSelected(index)}
                     type='checkbox'
                     style={{ marginLeft: '50%' }}
                   ></input>

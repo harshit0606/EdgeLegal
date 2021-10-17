@@ -1,31 +1,79 @@
-import React, { useState } from 'react';
-import moment from 'moment';
-import axios from 'axios';
-import Dropzone from 'react-dropzone';
-import closeBtn from '../../images/close-white-btn.svg';
-import '../../stylesheets/AddNewSafeCustodyForm.css';
-import url from '../../config.js';
-import { useCookies } from 'react-cookie';
+import React, { useState } from "react";
+import moment from "moment";
+import axios from "axios";
+import Dropzone from "react-dropzone";
+import closeBtn from "../../images/close-white-btn.svg";
+import "../../stylesheets/AddNewSafeCustodyForm.css";
+import url from "../../config.js";
+import { useCookies } from "react-cookie";
+import { TextField } from "@material-ui/core";
 
 const initialData = {
-  name: '',
+  name: "",
   safeCustodyPacketId: 1, // will make it dynamic later because now it is coming in custodyPacketContact
-  dateOfDocument: '',
-  dateReceived: '',
-  comments: '',
+  dateOfDocument: "",
+  dateReceived: "",
+  comments: "",
+};
+
+const items = {
+  siteName: "",
+  packetNumber: "",
+  companyName: "",
+  status: "",
+  comment: "",
+};
+
+const CustomTextInput = (props) => {
+  return (
+    <TextField
+      {...props}
+      style={{
+        width: 200,
+        height: 50,
+        marginRight: 7,
+        marginLeft: 9,
+        marginBottom: 10,
+        outline: "none",
+      }}
+      InputLabelProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: "inherit",
+          color: "rgb(94, 94, 94)",
+          marginLeft: 10,
+        },
+      }}
+      inputProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: "inherit",
+          color: "rgb(94, 94, 94)",
+          marginLeft: 10,
+        },
+      }}
+      type="text"
+    />
+  );
 };
 
 const AddNewSafeCustodyForm = (props) => {
   const { closeForm } = props;
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const loggedInToken = cookies.token;
   const [formData, setFormData] = useState(initialData);
-  // const [uploadedFile, setUploadedFile] = useState(null);
+  const [itemDetails, setItemDetails] = useState(items);
+  // const [uploadedFile, setUploadedFile] = useState(undefined);
   // const [fileName, setFileName] = useState('');
 
   const handleFormChange = (e) => {
     const { name } = e.target;
     setFormData({ ...formData, [name]: e.target.value });
+  };
+
+  const handleItemChange = (e) => {
+    const { name } = e.target;
+    setItemDetails({ ...itemDetails, [name]: e.target.value });
   };
 
   // const handleUploadFile = (acceptedFile) => {
@@ -66,7 +114,7 @@ const AddNewSafeCustodyForm = (props) => {
   //       );
   //       // console.log(data);
   //       setFormData(initialData);
-  //       setUploadedFile(null);
+  //       setUploadedFile(undefined);
   //       setFileName('');
   //     } catch (err) {
   //       console.log(err);
@@ -77,37 +125,94 @@ const AddNewSafeCustodyForm = (props) => {
   // };
 
   return (
-    <div className='addNewCustody-popup-container'>
-      <div className='addNewCustody-popup-grid'>
-        <div className='addNewCustody-header'>
-          <h2 className='addNewCustody-heading'>Add Safe Custody Item</h2>
-          <button onClick={closeForm} className='close-form-btn'>
-            {' '}
-            <img src={closeBtn} alt='close-btn' />
+    <div className="addNewCustody-popup-container">
+      <div className="addNewCustody-popup-grid">
+        <div className="addNewCustody-header">
+          <h2 className="addNewCustody-heading">Add Safe Custody Item</h2>
+          <button onClick={closeForm} className="close-form-btn">
+            {" "}
+            <img src={closeBtn} alt="close-btn" />
           </button>
         </div>
-        <div className='addNewCustody-form-div'>
-          <div className='addNewCustody-input-div'>
-            <input placeholder='Location' type='text' name='siteName'/>
-            <input placeholder='Packet No.' type='text' name='packetNumber'/>
-            
+
+        <div className="addNewCustody-form-div">
+          <div className="addNewCustody-input-div">
+            <CustomTextInput
+              name="siteName"
+              label="Location"
+              value={itemDetails.siteName}
+              onChange={handleItemChange}
+            />
+            <CustomTextInput
+              name="packetNumber"
+              label="Packet No."
+              value={itemDetails.packetNumber}
+              onChange={handleItemChange}
+            />
           </div>
-          <div className='addNewCustody-input-div'>
-            <input placeholder='Contacts' type='text' name='companyName'/>
-            <input placeholder='Status' type='text' name='status'/>
+          <div className="addNewCustody-input-div">
+            <CustomTextInput
+              name="companyName"
+              label="Contacts"
+              value={itemDetails.companyName}
+              onChange={handleItemChange}
+            />
+            <CustomTextInput
+              name="status"
+              label="Status"
+              value={itemDetails.status}
+              onChange={handleItemChange}
+            />
           </div>
-          <div className='addNewCustody-input-div'>
-            <textArea className='addNewCustody-textArea' placeholder='Comment' name='comment' rows='3' cols='20'/>
+          <div className="addNewCustody-input-div">
+            <textArea
+              className="addNewCustody-textArea"
+              placeholder="Comment"
+              name="comment"
+              rows="3"
+              cols="20"
+            />
+            {/* <TextField
+              label="Comments"
+              multiline
+              rows={3}
+              name="comment"
+              type="text"
+              value={itemDetails.comment}
+              onChange={handleItemChange}
+              // variant="outlined"
+              fullWidth
+              style={{
+                marginRight: 7,
+                marginLeft: 9,
+                marginBottom: 10,
+                borderWidth: 0.5,
+              }}
+              InputLabelProps={{
+                style: {
+                  fontSize: 20,
+                  fontFamily: "inherit",
+                  color: "rgb(94, 94, 94)",
+                  marginLeft: 10,
+                },
+              }}
+              inputProps={{
+                style: {
+                  fontSize: 14,
+                  fontFamily: "inherit",
+                  color: "rgb(94, 94, 94)",
+                  marginLeft: 10,
+                },
+              }}
+            /> */}
           </div>
         </div>
-        <div className='addNewCustody-buttonDiv'>
-            <button className='cancelButton' onClick={closeForm}>
-              Cancel
-            </button>
-            <button className='addButton' >
-              Add
-            </button>
-          </div>
+        <div className="addNewCustody-buttonDiv">
+          <button className="cancelButton" onClick={closeForm}>
+            Cancel
+          </button>
+          <button className="addButton">Add</button>
+        </div>
       </div>
     </div>
   );

@@ -54,7 +54,7 @@ function Navbar(props) {
                 <IoIosNotifications size={50} />
               </button>
 
-              <span class="dropdown">
+              <span className="dropdown">
                 <button
                   className="dropdown-toggle"
                   onClick={() => {
@@ -66,7 +66,7 @@ function Navbar(props) {
                   <CgGirl size={50} />
                 </button>
                 <ul
-                  class="dropdown-menu"
+                  className="dropdown-menu"
                   aria-labelledby="dropdownMenuButton1"
                   style={{ width: "100%" }}
                 >

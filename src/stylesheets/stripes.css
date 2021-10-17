@@ -1,187 +1,174 @@
-.safestrip{
-    width:100%;
-    height:60px;
-    display: flex;
-    background-color: white;
-    align-items: center;
-    margin-bottom: 20px;
+.safestrip {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  background-color: white;
+  align-items: center;
+  margin-bottom: 20px;
 }
-.safestrip p{
-    color:lightgray;
-    margin-left: 50px;
+.safestrip p {
+  color: lightgray;
+  margin-left: 50px;
 }
-.safe_iconsDiv{
-    width:150px;
-    display: flex;
-   position: absolute;
-right: 10px;
-    align-items: center;
-    justify-content: space-around;
-  
+.safe_iconsDiv {
+  width: 150px;
+  display: flex;
+  position: absolute;
+  right: 10px;
+  align-items: center;
+  justify-content: space-around;
 }
-.safe_iconsDivimg{
-    height: 27px;
-    width:20px;
+.safe_iconsDivimg {
+  height: 27px;
+  width: 20px;
 }
-.safeadd{
-    background-color: #002B5C;
-  
-    border-radius: 6px;
-    height: 30px;
-    width: 60px;
-    color: white;
-    border:none;
+.safeadd {
+  background-color: #002b5c;
+
+  border-radius: 6px;
+  height: 30px;
+  width: 60px;
+  color: white;
+  border: none;
 }
-.navbarBtns button
-{
-    border: none;
-    background: transparent;
+.navbarBtns button {
+  border: none;
+  background: transparent;
 }
 
-.navbarHeads h5
-{
-    font-weight: bold;
+.navbarHeads h5 {
+  font-weight: bold;
 }
 
-.navbarContactBtns
-{
-    width:30%;
-    display:flex;
-    margin-left: 5%;
+.navbarContactBtns {
+  width: 30%;
+  display: flex;
+  margin-left: 5%;
 }
 
-.navbarContactBtns button
-{
-    background-color: #002B5C;
-    border-radius: 0.4rem;
-    color: white;
-    padding: 0.5% 2%;
-    margin-right: 5%;
-    font-size: small;
+.navbarContactBtns button {
+  background-color: #002b5c;
+  border-radius: 0.4rem;
+  color: white;
+  padding: 0.5% 2%;
+  margin-right: 5%;
+  font-size: small;
 }
 
-.userDiv1
-{
-    padding: 2%;
+.userDiv1 {
+  padding: 2%;
 }
 
-.userDiv2
-{
-    padding: 1% 10% 1% 15%;
+.userDiv2 {
+  padding: 1% 10% 1% 15%;
 }
 
-.userDiv3
-{
-    padding: 8% 10% 1% 15%;
+.userDiv3 {
+  padding: 8% 10% 1% 15%;
 }
 
-.userImage
-{
-    width: 27%;
-    height:auto;
+.userImage {
+  width: 27%;
+  height: auto;
 }
 
-.dropdown-menu
-{
-    min-width:300%;
+.dropdown-menu {
+  min-width: 300%;
 }
 
-.logoutBtn
-{
-    background-color: #002B5C;
-    border-radius: 0.4rem;
-    color: white;
-    padding: 0.5% 2%;
-    margin-right: 2%;
-    font-size: small;
+.logoutBtn {
+  background-color: #002b5c;
+  border-radius: 0.4rem;
+  color: white;
+  padding: 0.5% 2%;
+  margin-right: 2%;
+  font-size: small;
 }
-.safeStripe{
-    display: flex;
-    align-items: center;
-    justify-content:space-between;
-    padding: 15px 20px;
-    border-bottom: 1px solid lightgray;
+.safeStripe {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-bottom: 1px solid lightgray;
 }
-.custodyAddbtn{
-    background-color:#c4cacd;
-    border-radius: 0.4rem;
-    color: black;
-    border: none;
-    padding: 5px 10px;
-    margin-right: 10px;
-    font-size: 16px;
-    width: fit-content;
-    display: flex;
-   align-items: center;
-   box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+.custodyAddbtn {
+  background-color: #c4cacd;
+  border-radius: 0.4rem;
+  color: black;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 10px;
+  font-size: 16px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
     0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
 }
-.safeStripe p{
-    color: rgb(129, 129, 129);
-    font-weight: 500;
-    font-size: 18px;
+.safeStripe p {
+  color: rgb(129, 129, 129);
+  font-weight: 500;
+  font-size: 18px;
 }
-.plusdiv{
-    background-color: white;
-    height: 20px;
-    width:20px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    color:#002B5C;
-    margin-right: 10px;
-    
+.plusdiv {
+  background-color: white;
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #002b5c;
+  margin-right: 10px;
 }
-.editprofileDiv{
-    height: 300px;
-    padding:10px 30px;
+.editprofileDiv {
+  height: 300px;
+  padding: 10px 30px;
 }
-.editprofileDiv h3{
-    text-align: center;
+.editprofileDiv h3 {
+  text-align: center;
 }
 
-.EditProfileBtn{
-    background-color:#c4cacd;
+.EditProfileBtn {
+  background-color: #c4cacd;
   border-radius: 0.4rem;
-  border:none;
+  border: none;
   color: black;
   padding: 6px 20px;
   margin-top: 20px;
-  margin-left:75%;
+  margin-left: 75%;
   width: fit-content;
-    display: flex;
-   align-items: center;
-   box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
     0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
-  
 }
-.editProfile-input{
-    padding: 5px 10px;
-    border: none;
-    border: 1px solid lightgray;
-    margin:10px 10px;
-    width:95%;
-    outline: none;
+.editProfile-input {
+  padding: 5px 10px;
+  border: none;
+  border: 1px solid lightgray;
+  margin: 10px 10px;
+  width: 95%;
+  outline: none;
 }
-.searchhdiv{
-    display: flex;
-    margin-left: 400px;
+.searchhdiv {
+  display: flex;
+  margin-left: 400px;
 }
-.searchhdiv input{
-    width: 340px;
-    outline: none;
-    border: 1px solid lightgray;
+.searchhdiv input {
+  width: 340px;
+  outline: none;
+  border: 1px solid lightgray;
 }
-.logo_divv{
-    height:90px;
-    width:110px;
-    margin-left: 200px;
+.logo_divv {
+  height: 90px;
+  width: 110px;
+  margin-left: 200px;
 }
-.logo_divv img{
-    height: 90px;
-    width: 110px;
-    object-fit: contain;
-    margin:0;
+.logo_divv img {
+  height: 90px;
+  width: 110px;
+  object-fit: contain;
+  margin: 0;
 }

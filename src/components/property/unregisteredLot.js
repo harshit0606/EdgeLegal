@@ -5,7 +5,7 @@ import { FiEdit2 } from 'react-icons/fi';
 import EditUnRegFormPopup from './EditUnRegFormPopup';
 
 function UnregisteredLot(props) {
-  const { unregisteredLot, specifiedDetails } = props;
+  const { unregisteredLot, specifiedDetails, setBoolVal } = props;
   const [isEditTrue, setIsEditTrue] = useState(false);
   // console.log('modal', modal);
 
@@ -26,6 +26,7 @@ function UnregisteredLot(props) {
               setIsEditTrue={setIsEditTrue}
               unregDetails={unregisteredLot}
               specifiedDetails={specifiedDetails}
+              setBoolVal={setBoolVal}
             />
           )}
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../stylesheets/property.css';
 import axios from 'axios';
 import NewRegisteredLots from './NewRegisteredLots.js';
@@ -43,6 +43,33 @@ function AddNewProperty(props) {
 
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
+  const [isBool, setIsBool] = useState(false);
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+
+  useEffect(async () => {
+    if (!isBool) {
+      try {
+        const response = await axios.get(
+          `${url}/api/dropdown/countries?requestId=1124455`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${loggedInToken}`,
+            },
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        // console.log(response.data);
+        setCountries(response.data?.data);
+        setIsBool(true);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, [isBool, loggedInToken]);
 
   const handleSetInitial = () => {
     setBuildingName('');
@@ -56,6 +83,13 @@ function AddNewProperty(props) {
     setCurrent('general');
     setTempRegistered([]);
     setTempUnregistered([]);
+  };
+
+  const handleChangeCountry = (e) => {
+    const index = e.target.value;
+    const selectedCountry = countries[index];
+    setCountry(selectedCountry.id);
+    setStates(selectedCountry.states);
   };
 
   // const handleRegInputChange = (e, index) => {
@@ -72,8 +106,8 @@ function AddNewProperty(props) {
   //   setTempRegistered(list);
   // };
 
-  // // handle click event of the Add button
-  // const handleAddReg = () => {
+  //   handle click event of the Add button
+  //   const handleAddReg = () => {
   //   setTempRegistered([...tempRegistered, { ...initialRegLot }]);
   // };
 
@@ -174,7 +208,7 @@ function AddNewProperty(props) {
             <p>Suburb</p>
           </div>
           <div className='col-4'>
-            <p>State</p>
+            <p>Post Code</p>
           </div>
           <div className='col-4'>
             <input
@@ -197,31 +231,61 @@ function AddNewProperty(props) {
           <div className='col-4'>
             <input
               type='text'
-              value={state}
-              onChange={(e) => {
-                setState(e.target.value);
-              }}
-            />
-          </div>
-          <div className='col-4'>
-            <label>Post Code</label>
-            <input
-              type='text'
               value={postCode}
               onChange={(e) => {
                 setPostCode(e.target.value);
               }}
             />
           </div>
-          <div className='col-4'>
+          <div className='col-4 rowWise'>
             <label>Country</label>
-            <input
+            <select onChange={handleChangeCountry}>
+              <option
+                disabled
+                selected={country === ''}
+                value=''
+                className='demo-select'
+              >
+                Select
+              </option>
+              {countries.map((c, index) => (
+                <option id='options' key={c.id} value={index}>
+                  {c.countryName}
+                </option>
+              ))}
+            </select>
+            {/**<input
               type='text'
               value={country}
               onChange={(e) => {
                 setCountry(e.target.value);
               }}
-            />
+            /> */}
+          </div>
+          <div className='col-4 rowWise'>
+            <label>State</label>
+            <select onChange={(e) => setState(e.target.value)}>
+              <option
+                disabled
+                selected={state === ''}
+                value=''
+                className='demo-select'
+              >
+                Select
+              </option>
+              {states.map((s) => (
+                <option id='options' key={s.id} value={s.id}>
+                  {s.stateName}
+                </option>
+              ))}
+            </select>
+            {/**<input
+              type='text'
+              value={state}
+              onChange={(e) => {
+                setState(e.target.value);
+              }}
+            /> */}
           </div>
         </div>
       </div>
@@ -367,7 +431,7 @@ function AddNewProperty(props) {
       .then((response) => {
         // console.log('adding new property', response.data);
         handleSetInitial();
-        window.location.reload();
+        // window.location.reload();
         setBoolVal(false);
       });
   }
@@ -378,7 +442,7 @@ function AddNewProperty(props) {
       id='staticBackdrop3'
       data-bs-backdrop='static'
       data-bs-keyboard='false'
-      tabindex='-1'
+      tabIndex='-1'
       aria-labelledby='staticBackdropLabel'
       aria-hidden='true'
     >
@@ -387,17 +451,17 @@ function AddNewProperty(props) {
           // style={{ height: "32rem" }}
           className='modal-content popupNewProperty'
         >
-          <div className='modal-header newPropertyHead'>
-            <h5 className='modal-title' id='staticBackdropLabel'>
+          <div className='modal-header'>
+            <h5 className='modal-title white' id='staticBackdropLabel'>
               Add New Property
             </h5>
-            <button
-              type='button'
-              class='btn-close'
+            <p
+              style={{ cursor: 'pointer' }}
               data-bs-dismiss='modal'
-              aria-label='Close'
               onClick={handleSetInitial}
-            ></button>
+            >
+              &#10006;
+            </p>
           </div>
           <div className='newPropertyBtnTray'>
             <div>

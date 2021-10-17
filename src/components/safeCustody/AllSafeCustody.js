@@ -20,10 +20,8 @@ import upArrow from '../../images/upArrow.svg';
 import downArrow from '../../images/downArrow.svg';
 import downArrowColoured from '../../images/downArrowColoured.svg';
 import upArrowColoured from '../../images/upArrowColoured.svg';
-
 import SafeStripe from '../topStripes/SafeStripe';
 import { Link } from 'react-router-dom';
-
 
 const filterFields = {
   companyName: '',
@@ -33,8 +31,6 @@ const filterFields = {
   comment: '',
 };
 
-
-
 function AllSafeCustody() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
@@ -42,8 +38,10 @@ function AllSafeCustody() {
   const [filteredData, setFilteredData] = useState([]);
   const [filterInput, setFilterInput] = useState(filterFields);
   const [safeCustodyPackets, setSafeCustodyPackets] = useState([]);
-  const [filteredSafeCustodyPackets, setFilteredSafeCustodyPackets] = useState([]);
-  const [safeCustodyStatus, setSafeCustodyStatus] = useState(null);
+  const [filteredSafeCustodyPackets, setFilteredSafeCustodyPackets] = useState(
+    []
+  );
+  const [safeCustodyStatus, setSafeCustodyStatus] = useState(undefined);
   const [isAddCustodyOpen, setIsAddCustoduOpen] = useState(false);
   const [newCustodyForm, setNewCustodyForm] = useState(false);
   const [sortOrder, setSortOrder] = useState('');
@@ -64,15 +62,15 @@ function AllSafeCustody() {
         }
       )
       .then((response) => {
-        console.log(response.data?.data?.safeCustodyPackets);
+        // console.log(response.data?.data?.safeCustodyPackets);
         setSafeCustodyPackets(response.data?.data?.safeCustodyPackets);
-        setFilteredData(response.data?.data?.safeCustodyPackets)
+        setFilteredData(response.data?.data?.safeCustodyPackets);
       });
   }, []);
 
   const handleAddCustody = () => {
     setIsAddCustoduOpen(true);
-    console.log('add');
+    // console.log('add');
   };
 
   function getSafeCustody(e) {
@@ -95,7 +93,7 @@ function AllSafeCustody() {
       .then((response) => {
         console.log(response.data?.data?.safeCustodyPackets);
         setSafeCustodyPackets(response.data?.data?.safeCustodyPackets);
-        setFilteredData(response.data?.data?.safeCustodyPackets)
+        setFilteredData(response.data?.data?.safeCustodyPackets);
       });
   }
 
@@ -145,24 +143,25 @@ function AllSafeCustody() {
     );
   }
 
-const filterData = (obj) => {
+  const filterData = (obj) => {
     // console.log(obj);
     const newData = safeCustodyPackets.filter(
       (data) =>
         data['companyName']
           .toLowerCase()
           .includes(obj['companyName'].toLowerCase()) &&
-        data['packetNumber']
-          .toLowerCase()
-          .includes(obj['packetNumber'].toLowerCase()) &&
         data['siteName']
           .toLowerCase()
           .includes(obj['siteName'].toLowerCase()) &&
-        data['status']
+        data['packetNumber']
           .toLowerCase()
-          .includes(obj['status'].toLowerCase()) &&
-        (data['comment'] ? 
-        data['comment']?.toLowerCase().includes(obj['comment'].toLowerCase()) : true)
+          .includes(obj['packetNumber'].toLowerCase()) &&
+        data['status'].toLowerCase().includes(obj['status'].toLowerCase()) &&
+        (data['comment']
+          ? data['comment']
+              ?.toLowerCase()
+              .includes(obj['comment'].toLowerCase())
+          : true)
     );
     setFilteredData(newData);
   };
@@ -276,7 +275,11 @@ const filterData = (obj) => {
                 )}
               </div>
             </label>
-            <input type='text' name='packetNumber' onChange={handleFilter}></input>
+            <input
+              type='text'
+              name='packetNumber'
+              onChange={handleFilter}
+            ></input>
           </div>
           <div className='col-2'>
             <label className='associatedContacts-label'>
@@ -314,7 +317,11 @@ const filterData = (obj) => {
                 )}
               </div>
             </label>
-            <input type='text' name='companyName' onChange={handleFilter}></input>
+            <input
+              type='text'
+              name='companyName'
+              onChange={handleFilter}
+            ></input>
           </div>
           <div className='col-2'>
             <label className='associatedContacts-label'>
@@ -400,12 +407,10 @@ const filterData = (obj) => {
                 <Link
                   style={{ textDecoration: 'none' }}
                   to={`/home/safecustody/${packet.id}`}
+                  key={index}
                 >
-                  <div className='contacttdatadiv'>
+                  <div className='all-contacttdatadiv'>
                     <div className='row '>
-                      <div className='col-1'>
-                        <input style={{ marginLeft: '20px' }} type='checkbox' />
-                      </div>
                       <div className='col-2'>
                         <h6>{packet.siteName}</h6>
                       </div>
@@ -430,12 +435,10 @@ const filterData = (obj) => {
                 <Link
                   style={{ textDecoration: 'none' }}
                   to={`/home/safecustody/${packet.id}`}
+                  key={index}
                 >
-                  <div className='lightcontacttdatadiv'>
+                  <div className='all-lightcontacttdatadiv'>
                     <div className='row '>
-                      <div className='col-1'>
-                        <input style={{ marginLeft: '20px' }} type='checkbox' />
-                      </div>
                       <div className='col-2'>
                         <h6>{packet.siteName}</h6>
                       </div>
