@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import '../../stylesheets/attach.css';
 import { FiDownload } from 'react-icons/fi';
+import fileDownload from 'js-file-download';
 
 const Attachid = (props) => {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
@@ -14,52 +15,18 @@ const Attachid = (props) => {
   const { details, changeBool, attach, handleContactAttachments } = props;
   const [showForm, setShowForm] = useState(false);
 
-  const handleDownloadAttach = async (id, fileName) => {
-    // try {
-    //   const res = await axios.get(
-    //     `${url}/api/contact-attachment/attachment/${id}?requestId=1234`,
-    //     {
-    //       headers: {
-    //         'Content-Type': 'multipart/form-data',
-    //         Authorization: `Bearer ${loggedInToken}`,
-    //       },
-    //     },
-    //     {
-    //       withCredentials: true,
-    //     }
-    //   );
-    //   console.log(res.json());
-    // } catch (err) {
-    //   console.log(err);
-    // }
+  const handleDownload = (id, fileName) => {
     axios
-      .get(
-        `${url}/api/contact-attachment/attachment/${id}?requestId=1234`,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
+      .get(`${url}/api/contact-attachment/attachment/${id}?requestId=1234`, {
+        responseType: 'blob',
+        headers: {
+          Authorization: `Bearer ${loggedInToken}`,
         },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        // console.log('b64', response.headers['content-type']);
-        // var json = JSON.stringify();
-        var blob = new Blob([response.data], {
-          type: response.headers['content-type'],
-        });
-        var linkSource = window.URL.createObjectURL(blob);
-        console.log(linkSource);
-        // const linkSource = `data:${response.headers['content-type']};base64,${response.data}`;
-        const downloadLink = document.createElement('a');
-        downloadLink.href = linkSource;
-        // downloadLink.download = fileName;
-        downloadLink.click();
+      })
+      .then((res) => {
+        // console.log(res);
+        fileDownload(res.data, fileName);
       });
-    // .then((data) => console.log(data));
   };
 
   return (
@@ -84,7 +51,7 @@ const Attachid = (props) => {
             <div className='attach-div6'>
               <div className='download-icon-div'>
                 <FiDownload
-                  onClick={() => handleDownloadAttach(data.id, data.name)}
+                  onClick={() => handleDownload(data.id, data.name)}
                 />
               </div>
             </div>

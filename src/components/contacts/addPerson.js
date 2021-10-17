@@ -214,16 +214,18 @@ function AddPerson(props) {
   };
 
   const handleChangeCountry = (e) => {
-    const selectedCountry = JSON.parse(e.target.value);
+    // console.log(countries);
+    const index = e.target.value;
+    const selectedCountry = countries[index];
+    // console.log(selectedCountry);
     setPersonDetails({ ...personDetails, commCountry: selectedCountry.id });
-    console.log(selectedCountry);
     setCommStates(selectedCountry.states);
   };
 
   const handleChangeMailCountry = (e) => {
-    const selectedCountry = JSON.parse(e.target.value);
+    const index = e.target.value;
+    const selectedCountry = countries[index];
     setPersonDetails({ ...personDetails, mailingCountry: selectedCountry.id });
-    console.log(selectedCountry);
     setMailStates(selectedCountry.states);
   };
 
@@ -535,7 +537,7 @@ function AddPerson(props) {
               },
             }}
             name='commCountry'
-            // value={personDetails.commCountry}
+            value={personDetails.commCountry}
             onChange={handleChangeCountry}
           >
             <option
@@ -545,8 +547,8 @@ function AddPerson(props) {
               style={{ display: 'none' }}
               value=''
             />
-            {countries.map((country) => (
-              <option value={JSON.stringify(country)}>
+            {countries.map((country, index) => (
+              <option key={country.id} value={index}>
                 {country.countryName}
               </option>
             ))}
@@ -603,7 +605,9 @@ function AddPerson(props) {
               value=''
             />
             {commStates.map((state) => (
-              <option value={state.id}>{state.stateName}</option>
+              <option key={state.id} value={state.id}>
+                {state.stateName}
+              </option>
             ))}
           </Select>
         </FormControl>
@@ -693,7 +697,7 @@ function AddPerson(props) {
               },
             }}
             name='mailingCountry'
-            // value={personDetails.mailingCountry}
+            value={personDetails.mailingCountry}
             onChange={handleChangeMailCountry}
           >
             <option
@@ -703,9 +707,10 @@ function AddPerson(props) {
               style={{ display: 'none' }}
               value=''
             />
-            {countries.map((country) => (
+            {countries.map((country, index) => (
               <option
-                value={JSON.stringify(country)}
+                key={country.id}
+                value={index}
                 selected={personDetails.mailingCountry === country.id}
               >
                 {country.countryName}
@@ -753,7 +758,7 @@ function AddPerson(props) {
               },
             }}
             name='mailingState'
-            // value={personDetails.mailingState}
+            value={personDetails.mailingState}
             onChange={handleFormChange}
           >
             <option
@@ -763,14 +768,16 @@ function AddPerson(props) {
               style={{ display: 'none' }}
               value=''
             />
-            {mailStates.map((state) => (
-              <option
-                selected={personDetails.mailingState === state.id}
-                value={state.id}
-              >
-                {state.stateName}
-              </option>
-            ))}
+            {mailStates.length > 0 &&
+              mailStates.map((state) => (
+                <option
+                  selected={personDetails.mailingState === state.id}
+                  key={state.id}
+                  value={state.id}
+                >
+                  {state.stateName}
+                </option>
+              ))}
           </Select>
         </FormControl>
         <CustomTextInput

@@ -142,7 +142,8 @@ function AddOrganization(props) {
   };
 
   const handleChangeCountry = (e) => {
-    const selectedCountry = JSON.parse(e.target.value);
+    const index = e.target.value;
+    const selectedCountry = countries[index];
     setOrganizationDetails({
       ...organizationDetails,
       commCountry: selectedCountry.id,
@@ -152,7 +153,8 @@ function AddOrganization(props) {
   };
 
   const handleChangeMailCountry = (e) => {
-    const selectedCountry = JSON.parse(e.target.value);
+    const index = e.target.value;
+    const selectedCountry = countries[index];
     setOrganizationDetails({
       ...organizationDetails,
       mailingCountry: selectedCountry.id,
@@ -431,7 +433,7 @@ function AddOrganization(props) {
               },
             }}
             name='commCountry'
-            // value={personDetails.commCountry}
+            value={organizationDetails.commCountry}
             onChange={handleChangeCountry}
           >
             <option
@@ -441,8 +443,8 @@ function AddOrganization(props) {
               style={{ display: 'none' }}
               value=''
             />
-            {countries.map((country) => (
-              <option value={JSON.stringify(country)}>
+            {countries.map((country, index) => (
+              <option value={index} key={country.id}>
                 {country.countryName}
               </option>
             ))}
@@ -488,7 +490,7 @@ function AddOrganization(props) {
               },
             }}
             name='commState'
-            // value={personDetails.commState}
+            value={organizationDetails.commState}
             onChange={handleFormChange}
           >
             <option
@@ -499,7 +501,9 @@ function AddOrganization(props) {
               value=''
             />
             {commStates.map((state) => (
-              <option value={state.id}>{state.stateName}</option>
+              <option value={state.id} key={state.id}>
+                {state.stateName}
+              </option>
             ))}
           </Select>
         </FormControl>
@@ -588,7 +592,7 @@ function AddOrganization(props) {
               },
             }}
             name='mailingCountry'
-            // value={personDetails.mailingCountry}
+            value={organizationDetails.mailingCountry}
             onChange={handleChangeMailCountry}
           >
             <option
@@ -598,9 +602,10 @@ function AddOrganization(props) {
               style={{ display: 'none' }}
               value=''
             />
-            {countries.map((country) => (
+            {countries.map((country, index) => (
               <option
-                value={JSON.stringify(country)}
+                key={country.id}
+                value={index}
                 selected={organizationDetails.mailingCountry === country.id}
               >
                 {country.countryName}
@@ -648,7 +653,7 @@ function AddOrganization(props) {
               },
             }}
             name='mailingState'
-            // value={personDetails.mailingState}
+            value={organizationDetails.mailingState}
             onChange={handleFormChange}
           >
             <option
@@ -660,6 +665,7 @@ function AddOrganization(props) {
             />
             {mailStates.map((state) => (
               <option
+                key={state.id}
                 selected={state.id === organizationDetails.mailingState}
                 value={state.id}
               >
