@@ -22,6 +22,7 @@ import downArrowColoured from '../../images/downArrowColoured.svg';
 import upArrowColoured from '../../images/upArrowColoured.svg';
 import SafeStripe from '../topStripes/SafeStripe';
 import { Link } from 'react-router-dom';
+import LoadingPage from '../../utils/LoadingPage';
 
 const filterFields = {
   companyName: '',
@@ -46,27 +47,37 @@ function AllSafeCustody() {
   const [newCustodyForm, setNewCustodyForm] = useState(false);
   const [sortOrder, setSortOrder] = useState('');
   const [sortField, setSortField] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [boolVal, setBoolVal] = useState(false);
 
   useEffect(() => {
-    axios
-      .get(
-        `${url}/api/safecustody?requestId=1124455&status=ALL`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
+    if (!boolVal) {
+      setIsLoading(true);
+      axios
+        .get(
+          `${url}/api/safecustody?requestId=1124455&status=ALL`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${loggedInToken}`,
+            },
           },
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        // console.log(response.data?.data?.safeCustodyPackets);
-        setSafeCustodyPackets(response.data?.data?.safeCustodyPackets);
-        setFilteredData(response.data?.data?.safeCustodyPackets);
-      });
-  }, []);
+          {
+            withCredentials: true,
+          }
+        )
+        .then((response) => {
+          // console.log(response.data?.data?.safeCustodyPackets);
+          setSafeCustodyPackets(response.data?.data?.safeCustodyPackets);
+          setFilteredData(response.data?.data?.safeCustodyPackets);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsLoading(false);
+        });
+    }
+  }, [boolVal, loggedInToken]);
 
   const handleAddCustody = () => {
     setIsAddCustoduOpen(true);
@@ -473,6 +484,7 @@ function AllSafeCustody() {
 
         {currentSafe === 'select' && renderSafeSelect()}
       </div>
+      {isLoading && <LoadingPage />}
     </div>
   );
 }

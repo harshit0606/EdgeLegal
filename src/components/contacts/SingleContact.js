@@ -11,6 +11,7 @@ import Attachid from './attachid';
 import axios from 'axios';
 import url from '../../config.js';
 import { useCookies } from 'react-cookie';
+import LoadingPage from '../../utils/LoadingPage';
 import '../../stylesheets/SingleContact.css';
 
 function SingleContact(props) {
@@ -20,6 +21,8 @@ function SingleContact(props) {
   const [editPerson, setEditPerson] = useState(false);
   const [editOrg, setEditOrg] = useState(false);
   const [contactType, setContactType] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   const loggedInToken = cookies.token;
 
   const aboutProps = props?.location?.aboutProps
@@ -33,12 +36,38 @@ function SingleContact(props) {
   const [contactDetails, setContactDetails] = useState({});
   const [custodyDetails, setCustodyDetails] = useState([]);
   const [contactAttachments, setContactAttachments] = useState([]);
+  const [countries, setCountries] = useState([]);
   const [boolVal, setBoolVal] = useState(false);
+  const [enableButtons, setEnableButtons] = useState(false);
 
   // console.log(aboutProps);
 
   useEffect(async () => {
+    const fetchCountries = async () => {
+      try {
+        const response = await axios.get(
+          `${url}/api/dropdown/countries?requestId=1124455`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${loggedInToken}`,
+            },
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        // console.log(response.data);
+        setCountries(response.data?.data?.countryList);
+        setEnableButtons(true);
+        setIsLoading(false);
+      } catch (err) {
+        console.log(err);
+        setIsLoading(false);
+      }
+    };
     if (!boolVal) {
+      setIsLoading(true);
       if (aboutProps.contactType === 'ORGANISATION') {
         axios
           .get(
@@ -54,11 +83,13 @@ function SingleContact(props) {
             }
           )
           .then((response) => {
-            console.log(response.data.data);
+            fetchCountries();
+            // console.log(response.data.data);
             setContactDetails(response.data.data);
             setContactType('org');
           });
       } else if (aboutProps.contactType === 'PERSON') {
+        setIsLoading(true);
         axios
           .get(
             `${url}/api/contacts/person/${aboutProps.contactId}?requestId=1124455`,
@@ -74,6 +105,7 @@ function SingleContact(props) {
           )
           .then((response) => {
             // console.log(response.data.data);
+            fetchCountries();
             setContactDetails(response.data.data);
             setContactType('person');
           });
@@ -204,9 +236,9 @@ function SingleContact(props) {
             <h5 style={{ fontWeight: 'bold' }}>Contacts</h5>
           </div>
           <div className='custodyPageBtns'>
-            <button onClick={handleOpen} disabled={contactType === ''}>
-              Update
-            </button>
+            {contactType !== '' && enableButtons !== false && (
+              <button onClick={handleOpen}>Update</button>
+            )}
           </div>
 
           <Modal size='xl' show={editPerson} onHide={handleClose}>
@@ -215,6 +247,7 @@ function SingleContact(props) {
                 close={handleClose}
                 contactDetails={contactDetails}
                 changeBool={setBoolVal}
+                allCountries={countries}
               />
             </Modal.Body>
           </Modal>
@@ -224,12 +257,14 @@ function SingleContact(props) {
                 close={handleClose}
                 contactDetails={contactDetails}
                 changeBool={setBoolVal}
+                allCountries={countries}
               />
             </Modal.Body>
           </Modal>
         </div>
         <div className='safe-custody-btns-div'>
           <button
+            disabled={!enableButtons}
             className={
               currScreen === 'details'
                 ? 'safe-custody-btns safe-custody-btns-clicked'
@@ -242,6 +277,7 @@ function SingleContact(props) {
           </button>
           <br />
           <button
+            disabled={!enableButtons}
             className={
               currScreen === 'matters'
                 ? 'safe-custody-btns safe-custody-btns-clicked'
@@ -256,6 +292,7 @@ function SingleContact(props) {
           </button>
           <br />
           <button
+            disabled={!enableButtons}
             className={
               currScreen === 'safe custody'
                 ? 'safe-custody-btns safe-custody-btns-clicked'
@@ -268,6 +305,7 @@ function SingleContact(props) {
           </button>
           <br />
           <button
+            disabled={!enableButtons}
             className={
               currScreen === 'attachid'
                 ? 'safe-custody-btns safe-custody-btns-clicked'
@@ -286,6 +324,7 @@ function SingleContact(props) {
         {currScreen === 'safe custody' && renderSafeCustody()}
         {currScreen === 'attachid' && renderAttachId()}
       </div>
+      {isLoading && <LoadingPage />}
     </div>
   );
 }

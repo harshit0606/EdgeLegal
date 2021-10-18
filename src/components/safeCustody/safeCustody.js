@@ -27,6 +27,7 @@ import upArrow from '../../images/upArrow.svg';
 import downArrow from '../../images/downArrow.svg';
 import downArrowColoured from '../../images/downArrowColoured.svg';
 import upArrowColoured from '../../images/upArrowColoured.svg';
+import LoadingPage from '../../utils/LoadingPage';
 
 const filterFields = {
   contactCode: '',
@@ -38,7 +39,7 @@ const filterFields = {
   telephoneNumber: '',
 };
 
-const initialPrimart = {
+const initialPrimary = {
   firstName: '',
   lastName: '',
   contactType: '',
@@ -128,6 +129,8 @@ function RenderSafeCustody(props) {
   const [formDataForUnlink, setFormDataForUnlink] = useState({});
   const [sortOrder, setSortOrder] = useState('');
   const [sortField, setSortField] = useState('');
+  const [isEnableButtons, setIsEnableButtons] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const findPrimary = (data) => {
@@ -138,9 +141,12 @@ function RenderSafeCustody(props) {
         lastName: primary[0].contactDetails.lastName,
         contactType: primary[0].contactType,
       });
+      setIsEnableButtons(true);
+      setIsLoading(false);
     };
 
     if (!boolVal) {
+      setIsLoading(true);
       axios
         .get(
           `${url}/api/safecustody/${id}?requestId=1124455`,
@@ -155,14 +161,17 @@ function RenderSafeCustody(props) {
           }
         )
         .then((response) => {
-          // console.log('all data', response.data.data);
+          // console.log('all data', response.data?.data?.custodyPacketContacts);
           findPrimary(response.data?.data?.custodyPacketContacts);
           setCustodyPacketContacts(response.data?.data?.custodyPacketContacts);
           setCustodyPacket(response.data?.data);
           setFilteredData(response.data?.data?.custodyPacketContacts);
           setFilterPrepare(response.data?.data?.custodyPacketContacts);
-
           setBoolVal(true);
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsLoading(false);
         });
     }
   }, [boolVal, loggedInToken]);
@@ -354,7 +363,12 @@ function RenderSafeCustody(props) {
             withCredentials: true,
           }
         )
-        .then((res) => window.location.reload())
+        .then((res) => {
+          // window.location.reload()
+          setIsEnableButtons(false);
+          setBoolVal(false);
+          alert('Successfully changed Primary Contact');
+        })
         .catch((e) => console.log(e));
     } else {
       if (selectedContact.length === 0) {
@@ -1551,6 +1565,7 @@ function RenderSafeCustody(props) {
 
         <div className='safe-custody-btns-div'>
           <button
+            disabled={!isEnableButtons}
             className={
               currentSafe === 'contacts'
                 ? 'safe-custody-btns safe-custody-btns-clicked'
@@ -1563,6 +1578,7 @@ function RenderSafeCustody(props) {
           </button>
           <br />
           <button
+            disabled={!isEnableButtons}
             className={
               currentSafe === 'contents'
                 ? 'safe-custody-btns safe-custody-btns-clicked'
@@ -1577,6 +1593,7 @@ function RenderSafeCustody(props) {
           </button>
           <br />
           <button
+            disabled={!isEnableButtons}
             className={
               currentSafe === 'recepients'
                 ? 'safe-custody-btns safe-custody-btns-clicked'
@@ -1597,6 +1614,7 @@ function RenderSafeCustody(props) {
         {currentSafe === 'contents' && renderSafeContents()}
         {currentSafe === 'recepients' && renderSafeReceipts()}
       </div>
+      {isLoading && <LoadingPage />}
     </div>
   );
 }

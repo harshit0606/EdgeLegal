@@ -174,7 +174,7 @@ function AddPerson(props) {
           }
         );
         // console.log(response.data);
-        setCountries(response.data?.data);
+        setCountries(response.data?.data?.countryList);
       } catch (err) {
         console.log(err);
       }

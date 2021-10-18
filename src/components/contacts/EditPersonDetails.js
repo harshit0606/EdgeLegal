@@ -139,7 +139,8 @@ const CustomDropDown = (props) => {
 };
 
 function EditPersonDetails(props) {
-  const { contactDetails, changeBool } = props;
+  const { contactDetails, changeBool, allCountries } = props;
+  // console.log(allCountries);
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const CustomTextInput = (props) => {
     return (
@@ -238,11 +239,24 @@ function EditPersonDetails(props) {
     siteId: '',
   });
   const [sameAddress, setSameAddress] = useState(false);
+  const [countries, setCountries] = useState(allCountries);
+  const [commStates, setCommStates] = useState([]);
+  const [mailStates, setMailStates] = useState([]);
   const [boolVal, setBoolVal] = useState(false);
   const [date, setDate] = useState(false);
 
   useEffect(async () => {
     if (!boolVal) {
+      setCommStates(
+        allCountries[contactDetails.commCountry]
+          ? allCountries[contactDetails.commCountry].states
+          : []
+      );
+      setMailStates(
+        allCountries[contactDetails.mailingCountry]
+          ? allCountries[contactDetails.mailingCountry].states
+          : []
+      );
       try {
         const { data } = await axios.get(
           `${url}/api/user/1`,
@@ -274,9 +288,26 @@ function EditPersonDetails(props) {
     setPersonDetails({ ...personDetails, [name]: e.target.value });
   };
 
+  const handleChangeCountry = (e) => {
+    // console.log(countries);
+    const index = e.target.value;
+    const selectedCountry = countries[index];
+    // console.log(selectedCountry);
+    setPersonDetails({ ...personDetails, commCountry: selectedCountry.id });
+    setCommStates(selectedCountry.states);
+  };
+
+  const handleChangeMailCountry = (e) => {
+    const index = e.target.value;
+    const selectedCountry = countries[index];
+    setPersonDetails({ ...personDetails, mailingCountry: selectedCountry.id });
+    setMailStates(selectedCountry.states);
+  };
+
   const handleMailingAddress = () => {
     if (sameAddress === false) {
       setSameAddress(true);
+      setMailStates(commStates);
       setPersonDetails({
         ...personDetails,
         mailingAddress1: personDetails.commAddress1,
@@ -312,7 +343,7 @@ function EditPersonDetails(props) {
         ...personDetails,
       },
     };
-    console.log(formData);
+    // console.log(formData);
     try {
       const { data } = await axios.put(
         `${url}/api/contacts`,
@@ -544,24 +575,149 @@ function EditPersonDetails(props) {
           value={personDetails.commCity}
           onChange={handleFormChange}
         />
-        <CustomTextInput
-          name='commState'
-          label='State'
-          value={personDetails.commState}
-          onChange={handleFormChange}
-        />
+
         <CustomTextInput
           name='commPostCode'
           label='Zip'
           value={personDetails.commPostCode}
           onChange={handleFormChange}
         />
-        <CustomTextInput
+
+        <FormControl
+          style={{
+            width: 256,
+            height: 50,
+            marginRight: 7,
+            marginLeft: 9,
+            marginBottom: 10,
+            outline: 'none',
+          }}
+        >
+          <InputLabel
+            id='demo-simple-select-helper-label'
+            style={{
+              fontSize: 14,
+              fontFamily: 'inherit',
+              color: 'rgb(94, 94, 94)',
+              marginLeft: 9,
+            }}
+          >
+            Country
+          </InputLabel>
+          <Select
+            native
+            labelId='demo-simple-select-helper-label'
+            id='demo-simple-select-helper'
+            style={{
+              fontSize: 14,
+              fontFamily: 'inherit',
+              color: 'rgb(94, 94, 94)',
+            }}
+            inputProps={{
+              style: {
+                fontSize: 14,
+                fontFamily: 'inherit',
+                color: 'rgb(94, 94, 94)',
+                padding: 5,
+              },
+            }}
+            name='commCountry'
+            value={personDetails.commCountry}
+            onChange={handleChangeCountry}
+          >
+            <option
+              aria-label='Country'
+              selected={personDetails.commCountry === ''}
+              disabled
+              style={{ display: 'none' }}
+              value=''
+            />
+            {countries.map((country, index) => (
+              <option
+                key={country.id}
+                value={index}
+                selected={personDetails.commCountry === country.id}
+              >
+                {country.countryName}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
+
+        {/**<CustomTextInput
           name='commCountry'
           label='Country'
           value={personDetails.commCountry}
           onChange={handleFormChange}
-        />
+        /> */}
+
+        <FormControl
+          style={{
+            width: 256,
+            height: 50,
+            marginRight: 7,
+            marginLeft: 9,
+            marginBottom: 10,
+            outline: 'none',
+          }}
+        >
+          <InputLabel
+            id='demo-simple-select-helper-label'
+            style={{
+              fontSize: 14,
+              fontFamily: 'inherit',
+              color: 'rgb(94, 94, 94)',
+              marginLeft: 9,
+            }}
+          >
+            State
+          </InputLabel>
+          <Select
+            native
+            labelId='demo-simple-select-helper-label'
+            id='demo-simple-select-helper'
+            style={{
+              fontSize: 14,
+              fontFamily: 'inherit',
+              color: 'rgb(94, 94, 94)',
+            }}
+            inputProps={{
+              style: {
+                fontSize: 14,
+                fontFamily: 'inherit',
+                color: 'rgb(94, 94, 94)',
+                padding: 5,
+              },
+            }}
+            name='commState'
+            value={personDetails.commState}
+            onChange={handleFormChange}
+          >
+            <option
+              aria-label='State'
+              selected={personDetails.commState === ''}
+              disabled
+              style={{ display: 'none' }}
+              value=''
+            />
+            {commStates.map((state) => (
+              <option
+                key={state.id}
+                value={state.id}
+                selected={state.id === personDetails.commState}
+              >
+                {state.stateName}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
+
+        {/**<CustomTextInput
+          name='commState'
+          label='State'
+          value={personDetails.commState}
+          onChange={handleFormChange}
+        /> */}
       </div>
       <div className='labelll'>
         <h3>Postal Address</h3>
@@ -603,24 +759,133 @@ function EditPersonDetails(props) {
           value={personDetails.mailingCity}
           onChange={handleFormChange}
         />
-        <CustomTextInput
-          name='mailingState'
-          label='State'
-          value={personDetails.mailingState}
-          onChange={handleFormChange}
-        />
+
         <CustomTextInput
           name='mailingPostCode'
           label='Zip'
           value={personDetails.mailingPostCode}
           onChange={handleFormChange}
         />
-        <CustomTextInput
-          name='mailingCountry'
-          label='Country'
-          value={personDetails.mailingCountry}
-          onChange={handleFormChange}
-        />
+        <FormControl
+          style={{
+            width: 256,
+            height: 50,
+            marginRight: 7,
+            marginLeft: 9,
+            marginBottom: 10,
+            outline: 'none',
+          }}
+        >
+          <InputLabel
+            id='demo-simple-select-helper-label'
+            style={{
+              fontSize: 14,
+              fontFamily: 'inherit',
+              color: 'rgb(94, 94, 94)',
+              marginLeft: 9,
+            }}
+          >
+            Country
+          </InputLabel>
+          <Select
+            native
+            labelId='demo-simple-select-helper-label'
+            id='demo-simple-select-helper'
+            style={{
+              fontSize: 14,
+              fontFamily: 'inherit',
+              color: 'rgb(94, 94, 94)',
+            }}
+            inputProps={{
+              style: {
+                fontSize: 14,
+                fontFamily: 'inherit',
+                color: 'rgb(94, 94, 94)',
+                padding: 5,
+              },
+            }}
+            name='mailingCountry'
+            value={personDetails.mailingCountry}
+            onChange={handleChangeMailCountry}
+          >
+            <option
+              aria-label='Country'
+              selected={personDetails.mailingCountry === ''}
+              disabled
+              style={{ display: 'none' }}
+              value=''
+            />
+            {countries.map((country, index) => (
+              <option
+                key={country.id}
+                value={index}
+                selected={personDetails.mailingCountry === country.id}
+              >
+                {country.countryName}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl
+          style={{
+            width: 256,
+            height: 50,
+            marginRight: 7,
+            marginLeft: 9,
+            marginBottom: 10,
+            outline: 'none',
+          }}
+        >
+          <InputLabel
+            id='demo-simple-select-helper-label'
+            style={{
+              fontSize: 14,
+              fontFamily: 'inherit',
+              color: 'rgb(94, 94, 94)',
+              marginLeft: 9,
+            }}
+          >
+            State
+          </InputLabel>
+          <Select
+            native
+            labelId='demo-simple-select-helper-label'
+            id='demo-simple-select-helper'
+            style={{
+              fontSize: 14,
+              fontFamily: 'inherit',
+              color: 'rgb(94, 94, 94)',
+            }}
+            inputProps={{
+              style: {
+                fontSize: 14,
+                fontFamily: 'inherit',
+                color: 'rgb(94, 94, 94)',
+                padding: 5,
+              },
+            }}
+            name='mailingState'
+            value={personDetails.mailingState}
+            onChange={handleFormChange}
+          >
+            <option
+              aria-label='State'
+              selected={personDetails.mailingState === ''}
+              disabled
+              style={{ display: 'none' }}
+              value=''
+            />
+            {mailStates.map((state) => (
+              <option
+                selected={personDetails.mailingState === state.id}
+                key={state.id}
+                value={state.id}
+              >
+                {state.stateName}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
       </div>
       <div className='labelll'>
         <div className='personnbtnDiv'>

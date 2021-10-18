@@ -11,6 +11,7 @@ import downArrowColoured from '../../images/downArrowColoured.svg';
 import upArrowColoured from '../../images/upArrowColoured.svg';
 import ContactStripe from '../topStripes/ContactStripe';
 import closeBtn from '../../images/close-white-btn.svg';
+import LoadingPage from '../../utils/LoadingPage';
 import { Link } from 'react-router-dom';
 
 const filterFields = {
@@ -91,10 +92,12 @@ function Contacts() {
   const [selectedContactId, setSelectedContactId] = useState([]);
   const [selectedContactInd, setSelectedContactInd] = useState([]);
   const [boolVal, setBoolVal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [confirmScreen, setConfirmScreen] = useState(false);
 
   useEffect(() => {
     if (!boolVal) {
+      setIsLoading(true);
       axios
         .get(
           `${url}/api/contacts?requestId=1124455&textField=&type=`,
@@ -112,8 +115,13 @@ function Contacts() {
           // console.log(response.data.data);
           setContactLists(response.data.data.contactLists);
           setFilteredData(response.data.data.contactLists);
+          setIsLoading(false);
           setBoolVal(true);
           // setSafeCustodyPackets(response.data.data.safeCustodyPackets);
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsLoading(false);
         });
     }
   }, [boolVal, loggedInToken]);
@@ -800,6 +808,7 @@ function Contacts() {
           setAllInitial={handleSetInitial}
         />
       )}
+      {isLoading && <LoadingPage />}
     </div>
   );
 }
