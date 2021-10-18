@@ -38,16 +38,16 @@
 }
 
 .contacttdatadiv {
-  height: 50px;
+  height: 40px;
   background-color: #e8ebed;
-  padding-top: 15px;
+  padding-top: 10px;
   color: #1f252c;
 }
 
 .all-contacttdatadiv {
-  height: 50px;
+  height: 40px;
   background-color: #e8ebed;
-  padding-top: 15px;
+  padding-top: 10px;
   color: #1f252c;
   padding-left: 2rem;
 }
@@ -56,7 +56,7 @@
   padding: 0px 5px;
 }
 .col-2 {
-  text-overflow: ellipsis " [..]" !important;
+  text-overflow: ellipsis ' [..]' !important;
 }
 .col-2 p {
   white-space: nowrap;
@@ -65,14 +65,14 @@
 }
 
 .lightcontacttdatadiv {
-  height: 50px;
-  padding-top: 15px;
+  height: 40px;
+  padding-top: 10px;
   color: #1f252c;
 }
 
 .all-lightcontacttdatadiv {
-  height: 50px;
-  padding-top: 15px;
+  height: 40px;
+  padding-top: 10px;
   padding-left: 2rem;
   color: #1f252c;
 }

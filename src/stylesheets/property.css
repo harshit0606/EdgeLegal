@@ -25,18 +25,18 @@
 }
 
 .propertyDiv {
-  margin: 10px 20px;
+  /* margin: 10px 20px; */
   padding-bottom: 20px;
 }
 
 .propertyPageHeadings {
-  background-color: #f3f5f6;
+  background-color: #dee2e5;
   border-bottom: 1px solid lightgray;
   display: flex;
   justify-content: space-between;
 
   align-items: center;
-  padding: 15px 30px;
+  padding: 8px 30px;
 }
 
 .propertyPagesubHeads {
@@ -64,10 +64,11 @@
 }
 
 .propertyPageHeads {
-  font-size: 18px;
-
+  font-size: 16px;
   margin-bottom: 0px;
-  color: #818181;
+  color: #0c244c;
+  font-weight: 600;
+  font-family: 'Poppins', 'Mulish', sans-serif !important;
 }
 
 .propertyPagesubHeads {
