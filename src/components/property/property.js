@@ -69,7 +69,7 @@ function RenderProperty() {
   // console.log('length', filteredData.length);
 
   useEffect(() => {
-    const fetchCountries = async () => {
+    const fetchCountries = async (propertiesData) => {
       try {
         const response = await axios.get(
           `${url}/api/dropdown/countries?requestId=1124455`,
@@ -85,16 +85,27 @@ function RenderProperty() {
         );
         // console.log(response.data);
         setCountries(response.data?.data?.countryList);
+        propertyData(propertiesData, response.data?.data?.countryList);
       } catch (err) {
         console.log(err);
       }
     };
 
-    const propertyData = (data) => {
-      // console.log('data', data);
+    const propertyData = (data, countryData) => {
+      console.log('data', countryData);
       var dataArray = [];
       data.forEach((d) => {
-        const propertyAddress = `${d.unit}/${d.streetNo}/${d.street}/${d.suburb}/${d.state}/${d.postCode}/${d.country}`;
+        let propertyAddress;
+        propertyAddress = `${d.unit ? d.unit + '/' : ''}${
+          d.streetNo ? d.streetNo + ', ' : ''
+        }${d.street ? d.street + ', ' : ''}${d.suburb ? d.suburb + ', ' : ''}${
+          d.state && d.country
+            ? countryData[d.country]?.states[d.state]?.stateName + ', '
+            : ''
+        }${d.postCode ? d.postCode + ', ' : ''}${
+          d.country ? countryData[d.country]?.countryName : ''
+        }`;
+
         let titleRefs = '';
         if (d.registeredProperties.length > 0) {
           d.registeredProperties.forEach((r) => {
@@ -134,8 +145,8 @@ function RenderProperty() {
         )
         .then((response) => {
           // setAllProperties(response.data.data.properties);
-          propertyData(response.data.data.properties);
-          fetchCountries();
+          // propertyData();
+          fetchCountries(response.data.data.properties);
           // setFilteredData(response.data.data.properties);
           // console.log('in axios then', response.data.data);
         })
@@ -654,7 +665,6 @@ function RenderProperty() {
               >
                 Search
               </button>*/}
-              <br />
               <div className='row'></div>
               {renderAllProperties()}
             </div>

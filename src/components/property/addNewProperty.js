@@ -48,29 +48,16 @@ function AddNewProperty(props) {
   // const [countries, setCountries] = useState(allCountries);
   const [states, setStates] = useState([]);
 
-  // useEffect(async () => {
-  //   if (!isBool) {
-  //     try {
-  //       const response = await axios.get(
-  //         `${url}/api/dropdown/countries?requestId=1124455`,
-  //         {
-  //           headers: {
-  //             'Content-Type': 'application/json',
-  //             Authorization: `Bearer ${loggedInToken}`,
-  //           },
-  //         },
-  //         {
-  //           withCredentials: true,
-  //         }
-  //       );
-  //       // console.log(response.data);
-  //       setCountries(response.data?.data?.countryList);
-  //       setIsBool(true);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  // }, [isBool, loggedInToken]);
+  // console.log(allCountries);
+
+  useEffect(async () => {
+    if (!isBool && allCountries.length !== 0) {
+      setCountry(allCountries[0].id);
+      setStates(allCountries[0].states);
+      setState(allCountries[0].states[0].id);
+      setIsBool(true);
+    }
+  }, [isBool, loggedInToken, allCountries]);
 
   const handleSetInitial = () => {
     setBuildingName('');
@@ -84,6 +71,7 @@ function AddNewProperty(props) {
     setCurrent('general');
     setTempRegistered([]);
     setTempUnregistered([]);
+    setIsBool(false);
   };
 
   const handleChangeCountry = (e) => {
@@ -250,7 +238,12 @@ function AddNewProperty(props) {
                 Select
               </option>
               {allCountries.map((c, index) => (
-                <option id='options' key={c.id} value={index}>
+                <option
+                  id='options'
+                  key={c.id}
+                  value={index}
+                  selected={c.id === country}
+                >
                   {c.countryName}
                 </option>
               ))}
@@ -275,7 +268,12 @@ function AddNewProperty(props) {
                 Select
               </option>
               {states.map((s) => (
-                <option id='options' key={s.id} value={s.id}>
+                <option
+                  id='options'
+                  key={s.id}
+                  value={s.id}
+                  selected={s.id === state}
+                >
                   {s.stateName}
                 </option>
               ))}
@@ -485,9 +483,7 @@ function AddNewProperty(props) {
                   !streetNo ||
                   !street ||
                   !suburb ||
-                  !state ||
-                  !postCode ||
-                  !country
+                  !postCode
                 }
                 className={
                   current === 'attached'
@@ -512,9 +508,7 @@ function AddNewProperty(props) {
                     !streetNo ||
                     !street ||
                     !suburb ||
-                    !state ||
-                    !postCode ||
-                    !country
+                    !postCode
                   }
                   onClick={() => {
                     setCurrent('attached');

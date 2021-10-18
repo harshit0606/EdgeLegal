@@ -175,6 +175,15 @@ function AddPerson(props) {
         );
         // console.log(response.data);
         setCountries(response.data?.data?.countryList);
+        setCommStates(response.data?.data?.countryList[0].states);
+        setMailStates(response.data?.data?.countryList[0].states);
+        setPersonDetails({
+          ...personDetails,
+          commCountry: response.data?.data?.countryList[0].id,
+          commState: response.data?.data?.countryList[0].states[0].id,
+          mailingCountry: response.data?.data?.countryList[0].id,
+          mailingState: response.data?.data?.countryList[0].states[0].id,
+        });
       } catch (err) {
         console.log(err);
       }
@@ -542,13 +551,17 @@ function AddPerson(props) {
           >
             <option
               aria-label='Country'
-              selected
+              selected={personDetails.commCountry === ''}
               disabled
               style={{ display: 'none' }}
               value=''
             />
             {countries.map((country, index) => (
-              <option key={country.id} value={index}>
+              <option
+                key={country.id}
+                value={index}
+                selected={personDetails.commCountry === country.id}
+              >
                 {country.countryName}
               </option>
             ))}
@@ -594,18 +607,22 @@ function AddPerson(props) {
               },
             }}
             name='commState'
-            // value={personDetails.commState}
+            value={personDetails.commState}
             onChange={handleFormChange}
           >
             <option
               aria-label='State'
-              selected
+              selected={personDetails.commState === ''}
               disabled
               style={{ display: 'none' }}
               value=''
             />
             {commStates.map((state) => (
-              <option key={state.id} value={state.id}>
+              <option
+                key={state.id}
+                value={state.id}
+                selected={personDetails.commState === state.id}
+              >
                 {state.stateName}
               </option>
             ))}
