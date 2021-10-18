@@ -855,7 +855,7 @@ function RenderProperty() {
                 />
               </div>
               <div className='propertyPagesubHeads'>
-                <div className='row'>
+                <div className='row' style={{ paddingLeft: '10px' }}>
                   <div className='col-1'>
                     <h6>Edit</h6>
                   </div>
@@ -1192,7 +1192,7 @@ function RenderProperty() {
                 />
               </div>
               <div className='propertyPagesubHeads'>
-                <div className='row'>
+                <div className='row' style={{ paddingLeft: '10px' }}>
                   <div className='col-1'>
                     <h6>Edit</h6>
                   </div>
@@ -1439,7 +1439,10 @@ function RenderProperty() {
                 <h6 className='propertyPageHeads'>Related Matters</h6>
               </div>
               <div className='propertyPagesubHeads'>
-                <div className='row relatedMattersDiv'>
+                <div
+                  className='row relatedMattersDiv'
+                  style={{ paddingLeft: '10px' }}
+                >
                   <div className='col-1'>
                     <h6>Matter</h6>
                     <input type='text'></input>

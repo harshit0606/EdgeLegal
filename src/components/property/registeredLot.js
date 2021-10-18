@@ -9,7 +9,7 @@ function RegisteredLot(props) {
   const [selectedLot, setSelectedLot] = useState([]);
   const [isEditTrue, setIsEditTrue] = useState(false);
   return (
-    <div>
+    <div style={{ paddingLeft: '10px' }}>
       <div className='row'>
         <div className='col-1'>
           <button
