@@ -111,7 +111,7 @@ function AllSafeCustody() {
   function renderSafeSelectTop() {
     return (
       <div>
-        <div>
+        <div className='safeCustodyPageHead'>
           <SafeStripe addCustody={() => setNewCustodyForm(true)} />
         </div>
         <div className='selectsFileDiv'>

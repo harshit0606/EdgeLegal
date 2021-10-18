@@ -276,9 +276,9 @@ function Contacts() {
     <div
       style={{
         backgroundColor: 'white',
-        marginLeft: '20px',
-        marginRight: '20px',
-        paddingBottom: '30px',
+        // marginLeft: '20px',
+        // marginRight: '20px',
+        paddingBottom: '20px',
         overflow: 'hidden',
       }}
     >

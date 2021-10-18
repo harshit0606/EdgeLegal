@@ -6,6 +6,11 @@
   align-items: center;
   margin-bottom: 2px;
 }
+
+.colorOfBackground {
+  background-color: #dee2e5;
+}
+
 .safestrip p {
   color: lightgray;
   margin-left: 50px;
@@ -24,7 +29,6 @@
 }
 .safeadd {
   background-color: #002b5c;
-
   border-radius: 6px;
   height: 30px;
   width: 60px;
@@ -88,7 +92,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 20px;
+  padding: 8px 30px;
   border-bottom: 1px solid lightgray;
 }
 .custodyAddbtn {
