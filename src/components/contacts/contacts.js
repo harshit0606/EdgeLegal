@@ -173,8 +173,8 @@ function Contacts() {
 
   const handleSort = (field, order) => {
     if (sortOrder === order && sortField === field) {
-      setSortOrder('');
-      setSortField('');
+      setSortOrder(order);
+      setSortField(field);
     } else {
       setSortOrder(order);
       setSortField(field);

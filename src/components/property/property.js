@@ -237,9 +237,9 @@ function RenderProperty() {
 
   const handleSort = (field, order) => {
     if (sortOrder === order && sortField === field) {
-      setSortOrder('');
-      setSortField('');
-      setFilteredData(allProperties);
+      setSortOrder(order);
+      setSortField(field);
+      // setFilteredData(allProperties);
     } else {
       setSortOrder(order);
       setSortField(field);
@@ -256,9 +256,9 @@ function RenderProperty() {
 
   const handleRegisterSort = (field, order) => {
     if (sortOrder === order && sortField === field) {
-      setSortOrder('');
-      setSortField('');
-      setFilteredRegisterLot(registeredLots);
+      setSortOrder(order);
+      setSortField(field);
+      // setFilteredRegisterLot(registeredLots);
     } else {
       setSortOrder(order);
       setSortField(field);
@@ -275,9 +275,9 @@ function RenderProperty() {
 
   const handleUnregisterSort = (field, order) => {
     if (sortOrder === order && sortField === field) {
-      setSortOrder('');
-      setSortField('');
-      setFilteredUnregisterLot(unregisteredLots);
+      setSortOrder(order);
+      setSortField(field);
+      // setFilteredUnregisterLot(unregisteredLots);
     } else {
       setSortOrder(order);
       setSortField(field);

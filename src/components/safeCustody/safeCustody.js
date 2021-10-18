@@ -437,9 +437,9 @@ function RenderSafeCustody(props) {
 
   const handleSort = (field, order) => {
     if (sortOrder === order && sortField === field) {
-      setSortOrder('');
-      setSortField('');
-      setFilteredData(custodyPacketContacts);
+      setSortOrder(order);
+      setSortField(field);
+      // setFilteredData(custodyPacketContacts);
     } else {
       setSortOrder(order);
       setSortField(field);
