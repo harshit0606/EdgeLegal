@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import url from "../../config.js";
-import { useCookies } from "react-cookie";
-import "../../stylesheets/property.css";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import url from '../../config.js';
+import { useCookies } from 'react-cookie';
+import '../../stylesheets/property.css';
 
 function PopupForm(props) {
   const {
@@ -14,20 +14,21 @@ function PopupForm(props) {
     specifiedDetails,
     isAddTrue,
     setBoolVal,
+    setIsPopRForm,
     // idx,
     // regLot,
   } = props;
 
   const [chotaForm, setChotaForm] = useState({
-    titleReference: "",
-    lotNumber: "",
-    depositedPlanNumber: "",
-    strataPlanNumber: "",
-    section: "",
-    description: "",
+    titleReference: '',
+    lotNumber: '',
+    depositedPlanNumber: '',
+    strataPlanNumber: '',
+    section: '',
+    description: '',
   });
 
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
 
   function chotaSave() {
@@ -39,12 +40,12 @@ function PopupForm(props) {
       .put(
         `${url}/api/property`,
         {
-          requestId: "1123445",
+          requestId: '1123445',
           data: dataToBeSent,
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${loggedInToken}`,
           },
         },
@@ -56,6 +57,7 @@ function PopupForm(props) {
         // console.log('property update response', response.data);
         // setSpecificProperty(dataToBeSent);
         // window.location.reload();
+        setIsPopRForm(false);
         setBoolVal(false);
       })
       .catch((err) => {
@@ -68,54 +70,49 @@ function PopupForm(props) {
   // console.log('specified', specifiedDetails);
 
   return (
-    <div
-      className="modal fade"
-      id={`staticBackdrop${modalId}`}
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabIndex="-1"
-      aria-labelledby="staticBackdropLabel"
-      aria-hidden="true"
-    >
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          <div className="modal-header">
+    <div className='propertyPopup-container'>
+      <div className='propertyPopup-grid'>
+        <div className='modal-content'>
+          <div className='modal-header'>
             <h5
-              style={{ marginRight: "10%" }}
-              className="modal-title"
-              id="staticBackdropLabel"
+              style={{ marginRight: '10%' }}
+              className='modal-title'
+              id='staticBackdropLabel'
             >
               Registered Lots
             </h5>
-            <button
-              data-bs-toggle="modal"
-              data-bs-target={`#staticBackdrop${modalId}`}
-              onClick={() => {
-                chotaSave();
-              }}
-              className="propertyPageBtns"
-            >
-              Save
-            </button>
-            {isAddTrue === true && (
-              <button className="propertyPageBtns">Delete</button>
-            )}
-            <button
-              className="propertyPageBtns"
-              data-bs-toggle="modal"
-              data-bs-target={`#staticBackdrop${modalId}`}
-              aria-label="Close"
-            >
-              Cancel
-            </button>
+            <div className='addPropertyLot-btnDiv'>
+              <button
+                // data-bs-toggle='modal'
+                // data-bs-target={`#staticBackdrop${modalId}`}
+                onClick={() => {
+                  chotaSave();
+                }}
+                className='propertyPageBtns'
+              >
+                Save
+              </button>
+              {isAddTrue === true && (
+                <button className='propertyPageBtns'>Delete</button>
+              )}
+              <button
+                className='propertyPageBtns'
+                // data-bs-toggle='modal'
+                // data-bs-target={`#staticBackdrop${modalId}`}
+                // aria-label='Close'
+                onClick={() => setIsPopRForm(false)}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
-          <div className="modal-body">
-            <div style={{ padding: "12px" }}>
-              <div className="row">
-                <div className="col-4">
+          <div className='modal-body'>
+            <div style={{ padding: '12px' }}>
+              <div className='row'>
+                <div className='col-4'>
                   <h6>Title Reference</h6>
                   <input
-                    className="popupFormInputs"
+                    className='popupFormInputs'
                     value={chotaForm?.titleReference}
                     onChange={(e) => {
                       setChotaForm({
@@ -123,13 +120,13 @@ function PopupForm(props) {
                         titleReference: e.target.value,
                       });
                     }}
-                    type="text"
+                    type='text'
                   ></input>
                 </div>
-                <div className="col-4">
+                <div className='col-4'>
                   <h6>Lot No.</h6>
                   <input
-                    className="popupFormInputs"
+                    className='popupFormInputs'
                     value={chotaForm?.lotNumber}
                     onChange={(e) => {
                       setChotaForm({
@@ -137,13 +134,13 @@ function PopupForm(props) {
                         lotNumber: e.target.value,
                       });
                     }}
-                    type="text"
+                    type='text'
                   ></input>
                 </div>
-                <div className="col-4">
+                <div className='col-4'>
                   <h6>Section</h6>
                   <input
-                    className="popupFormInputs"
+                    className='popupFormInputs'
                     value={chotaForm?.section}
                     onChange={(e) => {
                       setChotaForm({
@@ -151,13 +148,13 @@ function PopupForm(props) {
                         section: e.target.value,
                       });
                     }}
-                    type="text"
+                    type='text'
                   ></input>
                 </div>
-                <div className="col-4">
+                <div className='col-4'>
                   <h6>Deposited Plan No.</h6>
                   <input
-                    className="popupFormInputs"
+                    className='popupFormInputs'
                     value={chotaForm?.depositedPlanNumber}
                     onChange={(e) => {
                       setChotaForm({
@@ -165,13 +162,13 @@ function PopupForm(props) {
                         depositedPlanNumber: e.target.value,
                       });
                     }}
-                    type="text"
+                    type='text'
                   ></input>
                 </div>
-                <div className="col-4">
+                <div className='col-4'>
                   <h6>Strata Plan No.</h6>
                   <input
-                    className="popupFormInputs"
+                    className='popupFormInputs'
                     value={chotaForm?.strataPlanNumber}
                     onChange={(e) => {
                       setChotaForm({
@@ -179,14 +176,14 @@ function PopupForm(props) {
                         strataPlanNumber: e.target.value,
                       });
                     }}
-                    type="text"
+                    type='text'
                   ></input>
                 </div>
               </div>
               <h6>Description</h6>
               <textarea
-                rows="2"
-                cols="55"
+                rows='2'
+                cols='55'
                 onChange={(e) => {
                   setChotaForm({
                     ...chotaForm,

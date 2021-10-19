@@ -39,15 +39,15 @@
 
 .contacttdatadiv {
   height: 40px;
-  background-color: #e8ebed;
-  padding-top: 10px;
+  background-color: #f3f3f3;
+  padding-top: 11px;
   color: #1f252c;
 }
 
 .all-contacttdatadiv {
   height: 40px;
-  background-color: #e8ebed;
-  padding-top: 10px;
+  background-color: #f3f3f3;
+  padding-top: 11px;
   color: #1f252c;
   padding-left: 2rem;
 }
@@ -66,13 +66,13 @@
 
 .lightcontacttdatadiv {
   height: 40px;
-  padding-top: 10px;
+  padding-top: 11px;
   color: #1f252c;
 }
 
 .all-lightcontacttdatadiv {
   height: 40px;
-  padding-top: 10px;
+  padding-top: 11px;
   padding-left: 2rem;
   color: #1f252c;
 }
@@ -118,6 +118,15 @@
   color: white;
   font-size: 20px;
 }
+
+.singleContact-pageTitle {
+  font-size: 16px;
+  margin-bottom: 0px;
+  color: #0c244c;
+  font-weight: 600;
+  font-family: 'Poppins', 'Mulish', sans-serif !important;
+}
+
 .inputtDiv {
   display: flex !important;
   flex-wrap: wrap;

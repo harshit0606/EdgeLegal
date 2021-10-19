@@ -233,7 +233,7 @@ function SingleContact(props) {
       <div className='safe-custody-div'>
         <div className='safeContacts '>
           <div>
-            <h5 style={{ fontWeight: 'bold' }}>Contacts</h5>
+            <h5 className='singleContact-pageTitle'>Contacts</h5>
           </div>
           <div className='custodyPageBtns'>
             {contactType !== '' && enableButtons !== false && (

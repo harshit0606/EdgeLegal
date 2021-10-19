@@ -616,7 +616,7 @@ function RenderSafeCustody(props) {
       <div>
         <div className='safeContacts'>
           <div>
-            <h5 style={{ fontWeight: 'bold' }}>Associated Contacts</h5>
+            <h5 className='singleContact-pageTitle'>Associated Contacts</h5>
           </div>
           <div className='custodyPageBtns'>
             <button onClick={handleOpenLinkForm}>Add </button>
@@ -634,7 +634,7 @@ function RenderSafeCustody(props) {
     return (
       <div>
         <div className='safeContentsTop'>
-          <h5 style={{ fontWeight: 'bold' }}>Details for packet no.1</h5>
+          <h5 className='singleContact-pageTitle'>Details for packet no.1</h5>
           <div className='custodyPageBtns'>
             <Link to='/home/safecustody'>
               <button>Cancel</button>
@@ -651,7 +651,7 @@ function RenderSafeCustody(props) {
     return (
       <div>
         <div className='safeContentsTop'>
-          <h5 style={{ fontWeight: 'bold' }}>Receipts for packet no.1</h5>
+          <h5 className='singleContact-pageTitle'>Receipts for packet no.1</h5>
           <div className='recepientsTop'>
             <button className='custodyAddbtn'>Download </button>
             <button className='custodyAddbtn' onClick={handleContentShow}>
