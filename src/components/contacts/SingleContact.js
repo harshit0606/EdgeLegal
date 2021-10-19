@@ -240,7 +240,7 @@ function SingleContact(props) {
               <Fragment>
                 <button onClick={handleOpen}>Update</button>
                 <button onClick={() => history.push('/home/contacts')}>
-                  Cancel
+                  Close
                 </button>
               </Fragment>
             )}

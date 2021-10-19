@@ -627,7 +627,7 @@ function RenderSafeCustody(props) {
 
             <button onClick={handleSetPrimary}>Set Primary Contact</button>
             <button onClick={() => history.push('/home/safecustody')}>
-              Cancel
+              Close
             </button>
           </div>
         </div>
