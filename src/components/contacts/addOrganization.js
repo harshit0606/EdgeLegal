@@ -103,7 +103,16 @@ function AddOrganization(props) {
           }
         );
         // console.log(response.data);
-        setCountries(response.data?.data);
+        setCountries(response.data?.data?.countryList);
+        setCommStates(response.data?.data?.countryList[0].states);
+        setMailStates(response.data?.data?.countryList[0].states);
+        setOrganizationDetails({
+          ...organizationDetails,
+          commCountry: response.data?.data?.countryList[0].id,
+          commState: response.data?.data?.countryList[0].states[0].id,
+          mailingCountry: response.data?.data?.countryList[0].id,
+          mailingState: response.data?.data?.countryList[0].states[0].id,
+        });
       } catch (err) {
         console.log(err);
       }
@@ -444,7 +453,11 @@ function AddOrganization(props) {
               value=''
             />
             {countries.map((country, index) => (
-              <option value={index} key={country.id}>
+              <option
+                value={index}
+                key={country.id}
+                selected={organizationDetails.commCountry === country.id}
+              >
                 {country.countryName}
               </option>
             ))}
@@ -501,7 +514,11 @@ function AddOrganization(props) {
               value=''
             />
             {commStates.map((state) => (
-              <option value={state.id} key={state.id}>
+              <option
+                value={state.id}
+                key={state.id}
+                selected={organizationDetails.commState === state.id}
+              >
                 {state.stateName}
               </option>
             ))}

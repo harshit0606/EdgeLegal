@@ -28,7 +28,8 @@ const initialUnRegLot = {
 };
 
 function AddNewProperty(props) {
-  const { modalId, isEditTrue, setIsEditTrue, setBoolVal } = props;
+  const { modalId, isEditTrue, setIsEditTrue, setBoolVal, allCountries } =
+    props;
   const [buildingName, setBuildingName] = useState('');
   const [unit, setUnit] = useState('');
   const [streetNo, setStreetNo] = useState('');
@@ -44,32 +45,19 @@ function AddNewProperty(props) {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
   const [isBool, setIsBool] = useState(false);
-  const [countries, setCountries] = useState([]);
+  // const [countries, setCountries] = useState(allCountries);
   const [states, setStates] = useState([]);
 
+  // console.log(allCountries);
+
   useEffect(async () => {
-    if (!isBool) {
-      try {
-        const response = await axios.get(
-          `${url}/api/dropdown/countries?requestId=1124455`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${loggedInToken}`,
-            },
-          },
-          {
-            withCredentials: true,
-          }
-        );
-        // console.log(response.data);
-        setCountries(response.data?.data);
-        setIsBool(true);
-      } catch (err) {
-        console.log(err);
-      }
+    if (!isBool && allCountries.length !== 0) {
+      setCountry(allCountries[0].id);
+      setStates(allCountries[0].states);
+      setState(allCountries[0].states[0].id);
+      setIsBool(true);
     }
-  }, [isBool, loggedInToken]);
+  }, [isBool, loggedInToken, allCountries]);
 
   const handleSetInitial = () => {
     setBuildingName('');
@@ -83,11 +71,12 @@ function AddNewProperty(props) {
     setCurrent('general');
     setTempRegistered([]);
     setTempUnregistered([]);
+    setIsBool(false);
   };
 
   const handleChangeCountry = (e) => {
     const index = e.target.value;
-    const selectedCountry = countries[index];
+    const selectedCountry = allCountries[index];
     setCountry(selectedCountry.id);
     setStates(selectedCountry.states);
   };
@@ -248,8 +237,13 @@ function AddNewProperty(props) {
               >
                 Select
               </option>
-              {countries.map((c, index) => (
-                <option id='options' key={c.id} value={index}>
+              {allCountries.map((c, index) => (
+                <option
+                  id='options'
+                  key={c.id}
+                  value={index}
+                  selected={c.id === country}
+                >
                   {c.countryName}
                 </option>
               ))}
@@ -274,7 +268,12 @@ function AddNewProperty(props) {
                 Select
               </option>
               {states.map((s) => (
-                <option id='options' key={s.id} value={s.id}>
+                <option
+                  id='options'
+                  key={s.id}
+                  value={s.id}
+                  selected={s.id === state}
+                >
                   {s.stateName}
                 </option>
               ))}
@@ -484,9 +483,7 @@ function AddNewProperty(props) {
                   !streetNo ||
                   !street ||
                   !suburb ||
-                  !state ||
-                  !postCode ||
-                  !country
+                  !postCode
                 }
                 className={
                   current === 'attached'
@@ -511,9 +508,7 @@ function AddNewProperty(props) {
                     !streetNo ||
                     !street ||
                     !suburb ||
-                    !state ||
-                    !postCode ||
-                    !country
+                    !postCode
                   }
                   onClick={() => {
                     setCurrent('attached');

@@ -10,7 +10,7 @@ function UnregisteredLot(props) {
   // console.log('modal', modal);
 
   return (
-    <div>
+    <div style={{ paddingLeft: '10px' }}>
       <div className='row'>
         <div className='col-1'>
           <button

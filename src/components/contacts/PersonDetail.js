@@ -3,7 +3,7 @@ import moment from 'moment';
 import '../../stylesheets/contact-details.css';
 function PersonDetail(props) {
   const { contactDetails } = props;
-  console.log(contactDetails);
+  // console.log(contactDetails);
   return (
     <div className='main-contact-detail-div'>
       <div className='contact-detail-horizontal'>

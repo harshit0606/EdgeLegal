@@ -18,8 +18,18 @@ function ContactStripe(props) {
     setPeopleShow(false);
   }
   return (
-    <div className='safeStripe'>
-      <p>Contacts</p>
+    <div className='safeStripe colorOfBackground'>
+      <p
+        style={{
+          fontSize: '16px',
+          marginBottom: '0px',
+          color: '#0c244c',
+          fontWeight: '600',
+          fontFamily: "'Poppins', 'Mulish', sans-serif !important",
+        }}
+      >
+        Contacts
+      </p>
       <div
         style={{ display: 'flex', width: '500px', justifyContent: 'flex-end' }}
       >

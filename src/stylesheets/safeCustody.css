@@ -7,6 +7,10 @@
   margin: 40px 30px;
 }
 
+.safeCustodyPageHead {
+  background-color: #dee2e5;
+}
+
 .safe-custody-btns {
   background-color: transparent;
   background-repeat: no-repeat;
@@ -23,7 +27,8 @@
 }
 
 .safe-custody-div {
-  margin: 2%;
+  /* margin: 2%; */
+  padding-bottom: 20px;
   background-color: #ffff;
   min-height: 100vh;
   height: 100%;
