@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import { useHistory } from 'react-router';
 import moment from 'moment';
 import axios from 'axios';
 import '../../stylesheets/safeCustody.css';
@@ -100,6 +101,7 @@ const ConfirmationPopup = (props) => {
 };
 
 function RenderSafeCustody(props) {
+  const history = useHistory();
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
   const { id } = props.match.params;
@@ -624,6 +626,9 @@ function RenderSafeCustody(props) {
             <button onClick={handleUnLink}>Delete</button>
 
             <button onClick={handleSetPrimary}>Set Primary Contact</button>
+            <button onClick={() => history.push('/home/safecustody')}>
+              Cancel
+            </button>
           </div>
         </div>
       </div>

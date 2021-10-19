@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useHistory } from 'react-router';
 import attachid from './attachid';
 import { Modal } from 'react-bootstrap';
@@ -237,7 +237,12 @@ function SingleContact(props) {
           </div>
           <div className='custodyPageBtns'>
             {contactType !== '' && enableButtons !== false && (
-              <button onClick={handleOpen}>Update</button>
+              <Fragment>
+                <button onClick={handleOpen}>Update</button>
+                <button onClick={() => history.push('/home/contacts')}>
+                  Cancel
+                </button>
+              </Fragment>
             )}
           </div>
 
