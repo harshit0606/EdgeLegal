@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useHistory } from 'react-router';
 import attachid from './attachid';
 import { Modal } from 'react-bootstrap';
@@ -233,11 +233,16 @@ function SingleContact(props) {
       <div className='safe-custody-div'>
         <div className='safeContacts '>
           <div>
-            <h5 style={{ fontWeight: 'bold' }}>Contacts</h5>
+            <h5 className='singleContact-pageTitle'>Contacts</h5>
           </div>
           <div className='custodyPageBtns'>
             {contactType !== '' && enableButtons !== false && (
-              <button onClick={handleOpen}>Update</button>
+              <Fragment>
+                <button onClick={handleOpen}>Update</button>
+                <button onClick={() => history.push('/home/contacts')}>
+                  Close
+                </button>
+              </Fragment>
             )}
           </div>
 

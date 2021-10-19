@@ -62,6 +62,8 @@ function RenderProperty() {
 
   const [isEditTrue, setIsEditTrue] = useState(false);
   const [isAddTrue, setIsAddTrue] = useState(false);
+  const [isPopRForm, setIsPopRForm] = useState(false);
+  const [isPopUForm, setIsPopUForm] = useState(false);
   const [boolVal, setBoolVal] = useState(false);
   const [sortOrder, setSortOrder] = useState('');
   const [sortField, setSortField] = useState('');
@@ -460,7 +462,7 @@ function RenderProperty() {
   }
 
   function renderUnregisteredLots() {
-    return filteredUnregisterLot?.map((unregisteredLot) => {
+    return filteredUnregisterLot?.map((unregisteredLot, index) => {
       return (
         <UnregisteredLot
           modal={2}
@@ -469,6 +471,7 @@ function RenderProperty() {
           isEditTrue={isEditTrue}
           specifiedDetails={specificProperty}
           setIsEditTrue={setIsEditTrue}
+          index={index}
         />
       );
     });
@@ -521,7 +524,7 @@ function RenderProperty() {
                   data-bs-toggle='modal'
                   data-bs-target='#staticBackdrop3'
                 >
-                  <span className='plusdiv'>+</span>Add New
+                  <span className='plusdiv'>+</span>Add
                 </button>
                 {selected.length > 0 && (
                   <button
@@ -675,7 +678,7 @@ function RenderProperty() {
             <div>
               <div className='propertyPageHeadings'>
                 <h6 className='propertyPageHeads'>Property</h6>
-                <div style={{ width: '350px', display: 'flex' }}>
+                <div className='propertyPageHeads-btnDiv'>
                   <button
                     className='propertyPageBtns'
                     onClick={() => {
@@ -846,23 +849,27 @@ function RenderProperty() {
                 <h6 className='propertyPageHeads'>Add/Edit Registered Lots</h6>
                 <button
                   className='propertyPageBtns'
-                  data-bs-toggle='modal'
-                  data-bs-target='#staticBackdrop1'
+                  // data-bs-toggle='modal'
+                  // data-bs-target='#staticBackdrop1'
                   onClick={() => {
                     setIsAddTrue(false);
+                    setIsPopRForm(true);
                   }}
                 >
                   + Add
                 </button>
-                <PopupFormR
-                  modalId={1}
-                  addBtn={1}
-                  tempRegistered={registeredLots}
-                  specifiedDetails={specificProperty}
-                  setTempRegistered={setRegisteredLots}
-                  isAddTrue={isAddTrue}
-                  setBoolVal={setBoolVal}
-                />
+                {isPopRForm && (
+                  <PopupFormR
+                    modalId={1}
+                    addBtn={1}
+                    tempRegistered={registeredLots}
+                    specifiedDetails={specificProperty}
+                    setTempRegistered={setRegisteredLots}
+                    isAddTrue={isAddTrue}
+                    setBoolVal={setBoolVal}
+                    setIsPopRForm={setIsPopRForm}
+                  />
+                )}
               </div>
               <div className='propertyPagesubHeads'>
                 <div className='row' style={{ paddingLeft: '10px' }}>
@@ -1186,20 +1193,23 @@ function RenderProperty() {
                   data-bs-target='#staticBackdrop2'
                   onClick={() => {
                     setIsAddTrue(false);
+                    setIsPopUForm(true);
                   }}
                 >
                   + Add
                 </button>
-
-                <PopupFormUnR
-                  modalId={2}
-                  addBtn={1}
-                  tempUnregistered={unregisteredLots}
-                  specifiedDetails={specificProperty}
-                  setTempUnregistered={setUnregisteredLots}
-                  isAddTrue={isAddTrue}
-                  setBoolVal={setBoolVal}
-                />
+                {isPopUForm && (
+                  <PopupFormUnR
+                    modalId={2}
+                    addBtn={1}
+                    tempUnregistered={unregisteredLots}
+                    specifiedDetails={specificProperty}
+                    setTempUnregistered={setUnregisteredLots}
+                    isAddTrue={isAddTrue}
+                    setBoolVal={setBoolVal}
+                    setIsPopUForm={setIsPopUForm}
+                  />
+                )}
               </div>
               <div className='propertyPagesubHeads'>
                 <div className='row' style={{ paddingLeft: '10px' }}>
