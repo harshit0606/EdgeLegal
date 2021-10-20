@@ -52,7 +52,7 @@
 
 .safeContentsTop {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 8px 20px;
   background-color: #dee2e5;
@@ -90,11 +90,36 @@
   color: #0354ff;
 }
 
+.contentPageBtns {
+  width: 20%;
+  margin-left: 4%;
+}
+
+.contentPageBtns button {
+  background-color: #f1f3f4;
+  border: none;
+  border-radius: 5px;
+  color: #4b525c;
+  outline: none;
+  padding: 5px 12px;
+  margin-right: 3%;
+  font-size: 13px;
+  /* font-family: 'Open Sans', Verdana, Arial, Helvetica, sans-serif; */
+  font-weight: 600;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+}
+
+.contentPageBtns button:hover {
+  color: #0354ff;
+}
+
 .associatedDocs {
-  background-color: #f0f0f0;
   display: flex;
-  justify-content: space-between;
-  padding: 1%;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 8px 20px;
+  background-color: #dee2e5;
 }
 
 .associatedDocsHead {
@@ -115,8 +140,11 @@
 }
 
 .recepientsTop {
-  width: 270px;
+  width: 22%;
   display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-left: 4%;
 }
 
 .safeContacts {
@@ -167,12 +195,7 @@
   padding-top: 10px;
 }
 .popup-content {
-  padding: 20px 25px;
-
-  margin-left: auto;
-  margin-right: auto;
-  display: flex;
-  align-items: center;
+  padding: 10px 15px;
 }
 .popup-content select {
   position: absolute;
@@ -185,6 +208,34 @@
 .popup-content select::-webkit-scrollbar {
   width: 0px;
 }
+
+.prepareReceipt-searchContact {
+  outline: none;
+  padding: 2px 10px;
+  width: 40%;
+}
+
+.prepareReceipt-searchContact-optionDiv {
+  position: absolute;
+  z-index: 3;
+  top: 120px;
+  left: 15px;
+  width: 38%;
+  outline: none;
+  background-color: #f3f3f3;
+  padding: 5px 0px;
+  box-shadow: 0px 3px 5px rgb(204, 203, 203), -2px 3px 5px rgb(204, 203, 203),
+    2px 3px 5px rgb(204, 203, 203);
+}
+
+.prepareReceipt-searchContact-option {
+  padding: 0 10px;
+}
+
+.prepareReceipt-searchContact-option:hover {
+  background-color: rgb(204, 203, 203);
+}
+
 .filter-input {
   width: 200px;
   height: 30px;

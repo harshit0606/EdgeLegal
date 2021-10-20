@@ -26,12 +26,17 @@ function ContactStripe(props) {
           color: '#0c244c',
           fontWeight: '600',
           fontFamily: "'Poppins', 'Mulish', sans-serif !important",
+          marginRight: '2.2rem',
         }}
       >
         Contacts
       </p>
       <div
-        style={{ display: 'flex', width: '500px', justifyContent: 'flex-end' }}
+        style={{
+          display: 'flex',
+          width: '500px',
+          justifyContent: 'flex-start',
+        }}
       >
         <button onClick={showAddPeople} className='custodyAddbtn'>
           <span className='plusdiv'>+</span> Person

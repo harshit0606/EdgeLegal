@@ -91,10 +91,20 @@
 .safeStripe {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 8px 30px;
   border-bottom: 1px solid lightgray;
 }
+
+.safestrip-headTitle {
+  font-size: 16px;
+  margin-bottom: 0px;
+  color: #0c244c;
+  font-weight: 600;
+  font-family: 'Poppins', 'Mulish', sans-serif !important;
+  margin-right: 2.2rem;
+}
+
 .custodyAddbtn {
   background-color: #f1f3f4;
   border-radius: 0.4rem;
@@ -181,4 +191,11 @@
   width: 110px;
   object-fit: contain;
   margin: 0;
+}
+
+.profile-siteInfo {
+  border: none;
+  outline: none;
+  color: #90a0b7;
+  font-size: 14px;
 }

@@ -1,5 +1,41 @@
 import React, { useState } from 'react';
+import { FormControl, InputLabel, Select, TextField } from '@material-ui/core';
+
 import '../../stylesheets/property.css';
+
+const CustomTextInput = (props) => {
+  return (
+    <TextField
+      {...props}
+      style={{
+        width: 130,
+        height: 40,
+        marginRight: 7,
+        marginLeft: 9,
+        marginBottom: 10,
+        // marginTop: '1rem',
+        outline: 'none',
+      }}
+      InputLabelProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      inputProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      type='text'
+    />
+  );
+};
 
 function AddUnregisteredLots(props) {
   const { modalId, tempUnregistered, setTempUnregistered, isAddTrue } = props;
@@ -67,37 +103,39 @@ function AddUnregisteredLots(props) {
             >
               Unregistered Lots
             </h5>
-            <button
-              data-bs-toggle='modal'
-              data-bs-target={`#staticBackdrop${modalId}`}
-              onClick={() => {
-                chotaSave();
-              }}
-              className='propertyPageBtns'
-            >
-              Save
-            </button>
+            <div className='addNewLots-buttonDiv'>
+              <button
+                data-bs-toggle='modal'
+                data-bs-target={`#staticBackdrop${modalId}`}
+                onClick={() => {
+                  chotaSave();
+                }}
+                className='propertyPageBtns'
+              >
+                Save
+              </button>
 
-            {/* <button className="propertyPageBtns">Delete</button> */}
-            {isAddTrue == true && (
-              <button className='propertyPageBtns'>Delete</button>
-            )}
-            <button
-              className='propertyPageBtns'
-              data-bs-toggle='modal'
-              data-bs-target={`#staticBackdrop${modalId}`}
-              aria-label='Close'
-            >
-              Cancel
-            </button>
+              {/* <button className="propertyPageBtns">Delete</button> */}
+              {isAddTrue == true && (
+                <button className='propertyPageBtns'>Delete</button>
+              )}
+              <button
+                className='propertyPageBtns'
+                data-bs-toggle='modal'
+                data-bs-target={`#staticBackdrop${modalId}`}
+                aria-label='Close'
+              >
+                Cancel
+              </button>
+            </div>
           </div>
           <div className='modal-body'>
             <div style={{ padding: '12px' }}>
               <div className='row'>
                 <div className='col-4'>
-                  <h6>Lot No.</h6>
-                  <input
-                    className='popupFormInputs'
+                  <CustomTextInput
+                    name='lot'
+                    label='Lot No.'
                     value={chotaFormUn.lot}
                     onChange={(e) => {
                       setChotaFormUn({
@@ -105,13 +143,12 @@ function AddUnregisteredLots(props) {
                         lot: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
                 <div className='col-4'>
-                  <h6>Part of lot</h6>
-                  <input
-                    className='popupFormInputs'
+                  <CustomTextInput
+                    name='partOfLot'
+                    label='Part of lot'
                     value={chotaFormUn.partOfLot}
                     onChange={(e) => {
                       setChotaFormUn({
@@ -119,13 +156,12 @@ function AddUnregisteredLots(props) {
                         partOfLot: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
                 <div className='col-4'>
-                  <h6>Section</h6>
-                  <input
-                    className='popupFormInputs'
+                  <CustomTextInput
+                    name='section'
+                    label='Section'
                     value={chotaFormUn.section}
                     onChange={(e) => {
                       setChotaFormUn({
@@ -133,13 +169,12 @@ function AddUnregisteredLots(props) {
                         section: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
-                <div className='col-4'>
-                  <h6>Plan No.</h6>
-                  <input
-                    className='popupFormInputs'
+                <div className='col-4' style={{ margin: '10px 0' }}>
+                  <CustomTextInput
+                    name='plan'
+                    label='Plan No.'
                     value={chotaFormUn.plan}
                     onChange={(e) => {
                       setChotaFormUn({
@@ -147,22 +182,24 @@ function AddUnregisteredLots(props) {
                         plan: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
               </div>
-              <h6>Description</h6>
-              <textarea
-                value={chotaFormUn.description}
-                onChange={(e) => {
-                  setChotaFormUn({
-                    ...chotaFormUn,
-                    description: e.target.value,
-                  });
-                }}
-                rows='2'
-                cols='55'
-              />
+              <div style={{ marginTop: '0.8rem', marginBottom: '0.5rem' }}>
+                <textarea
+                  className='addNewCustody-textArea'
+                  value={chotaFormUn.description}
+                  placeholder='Description'
+                  onChange={(e) => {
+                    setChotaFormUn({
+                      ...chotaFormUn,
+                      description: e.target.value,
+                    });
+                  }}
+                  rows='2'
+                  cols='55'
+                />
+              </div>
             </div>
           </div>
         </div>

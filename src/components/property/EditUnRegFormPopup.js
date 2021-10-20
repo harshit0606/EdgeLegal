@@ -3,7 +3,42 @@ import axios from 'axios';
 import url from '../../config.js';
 import { useCookies } from 'react-cookie';
 import closeBtn from '../../images/close-white-btn.svg';
+import { FormControl, InputLabel, Select, TextField } from '@material-ui/core';
 import '../../stylesheets/property.css';
+
+const CustomTextInput = (props) => {
+  return (
+    <TextField
+      {...props}
+      style={{
+        width: 180,
+        height: 40,
+        marginRight: 7,
+        marginLeft: 9,
+        marginBottom: 10,
+        // marginTop: '1rem',
+        outline: 'none',
+      }}
+      InputLabelProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      inputProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      type='text'
+    />
+  );
+};
 
 const ConfirmationPopup = (props) => {
   const { unregDetails, closePopup, loggedInToken, setBoolVal, setIsEditTrue } =
@@ -139,51 +174,48 @@ function EditUnRegFormPopup(props) {
             <div style={{ padding: '12px' }}>
               <div className='row'>
                 <div className='col-4'>
-                  <h6>Lot No.</h6>
-                  <input
-                    className='popupFormInputs'
-                    value={chotaFormUn.lot}
+                  <CustomTextInput
+                    name='lot'
+                    label='Lot No.'
+                    value={chotaFormUn?.lot}
                     onChange={(e) => {
                       setChotaFormUn({
                         ...chotaFormUn,
                         lot: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
                 <div className='col-4'>
-                  <h6>Part of lot</h6>
-                  <input
-                    className='popupFormInputs'
-                    value={chotaFormUn.partOfLot}
+                  <CustomTextInput
+                    name='partOfLot'
+                    label='Part of lot'
+                    value={chotaFormUn?.partOfLot}
                     onChange={(e) => {
                       setChotaFormUn({
                         ...chotaFormUn,
                         partOfLot: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
                 <div className='col-4'>
-                  <h6>Section</h6>
-                  <input
-                    className='popupFormInputs'
-                    value={chotaFormUn.section}
+                  <CustomTextInput
+                    name='section'
+                    label='Section'
+                    value={chotaFormUn?.section}
                     onChange={(e) => {
                       setChotaFormUn({
                         ...chotaFormUn,
                         section: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
-                <div className='col-4'>
-                  <h6>Plan No.</h6>
-                  <input
-                    className='popupFormInputs'
+                <div className='col-4' style={{ marginTop: '15px' }}>
+                  <CustomTextInput
+                    name='plan'
+                    label='Plan No.'
                     value={chotaFormUn.plan}
                     onChange={(e) => {
                       setChotaFormUn({
@@ -191,22 +223,30 @@ function EditUnRegFormPopup(props) {
                         plan: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
               </div>
-              <h6>Description</h6>
-              <textarea
-                value={chotaFormUn.description}
-                onChange={(e) => {
-                  setChotaFormUn({
-                    ...chotaFormUn,
-                    description: e.target.value,
-                  });
+              <div
+                style={{
+                  marginTop: '15px',
+                  marginBottom: '0.5rem',
+                  padding: '0 10px',
                 }}
-                rows='2'
-                cols='55'
-              />
+              >
+                <textarea
+                  className='addNewCustody-textArea'
+                  value={chotaFormUn.description}
+                  placeholder='Description'
+                  onChange={(e) => {
+                    setChotaFormUn({
+                      ...chotaFormUn,
+                      description: e.target.value,
+                    });
+                  }}
+                  rows='2'
+                  cols='55'
+                />
+              </div>
             </div>
           </div>
         </div>

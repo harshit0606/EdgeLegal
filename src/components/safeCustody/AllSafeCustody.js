@@ -190,14 +190,15 @@ function AllSafeCustody() {
   };
 
   const handleSort = (field, order) => {
+    // console.log(filteredData);
     if (sortOrder === order && sortField === field) {
-      setSortOrder('');
-      setSortField('');
-      setFilteredData(safeCustodyPackets);
+      setSortOrder(order);
+      setSortField(field);
+      // setFilteredData(safeCustodyPackets);
     } else {
       setSortOrder(order);
       setSortField(field);
-      let sortedData = filteredSafeCustodyPackets.sort((a, b) => {
+      let sortedData = filteredData.sort((a, b) => {
         if (order === 'asc') {
           return a[field] < b[field] ? -1 : 1;
         } else {

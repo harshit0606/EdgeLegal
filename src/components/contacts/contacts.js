@@ -181,9 +181,9 @@ function Contacts() {
       // console.log()
       let sortedData = filteredData.sort((a, b) => {
         if (order === 'asc') {
-          return a[field] < b[field] ? -1 : 1;
+          return a[field].toLowerCase() < b[field].toLowerCase() ? -1 : 1;
         } else {
-          return a[field] < b[field] ? 1 : -1;
+          return a[field].toLowerCase() < b[field].toLowerCase() ? 1 : -1;
         }
       });
       setFilteredData(sortedData);

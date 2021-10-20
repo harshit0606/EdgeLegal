@@ -9,6 +9,7 @@ import url from '../../config.js';
 import { useCookies } from 'react-cookie';
 import AddRegisteredLots from './AddRegisteredLots';
 import AddUnregisteredLots from './AddUnregisteredLots';
+import { FormControl, InputLabel, Select, TextField } from '@material-ui/core';
 
 const initialRegLot = {
   depositedPlanNumber: '',
@@ -25,6 +26,40 @@ const initialUnRegLot = {
   partOfLot: '',
   plan: '',
   section: '',
+};
+
+const CustomTextInput = (props) => {
+  return (
+    <TextField
+      {...props}
+      style={{
+        width: 200,
+        height: 40,
+        marginRight: 7,
+        marginLeft: 9,
+        // marginBottom: 10,
+        marginTop: '1rem',
+        outline: 'none',
+      }}
+      InputLabelProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      inputProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      type='text'
+    />
+  );
 };
 
 function AddNewProperty(props) {
@@ -155,17 +190,9 @@ function AddNewProperty(props) {
           className='row '
         >
           <div className='col-4'>
-            <p>Building Name</p>
-          </div>
-          <div className='col-4'>
-            <p>Unit</p>
-          </div>
-          <div className='col-4'>
-            <p>Street No.</p>
-          </div>
-          <div className='col-4'>
-            <input
-              type='text'
+            <CustomTextInput
+              name='buildingName'
+              label='Building Name'
               value={buildingName}
               onChange={(e) => {
                 setBuildingName(e.target.value);
@@ -173,8 +200,9 @@ function AddNewProperty(props) {
             />
           </div>
           <div className='col-4'>
-            <input
-              type='text'
+            <CustomTextInput
+              name='unit'
+              label='Unit'
               value={unit}
               onChange={(e) => {
                 setUnit(e.target.value);
@@ -182,8 +210,9 @@ function AddNewProperty(props) {
             />
           </div>
           <div className='col-4'>
-            <input
-              type='text'
+            <CustomTextInput
+              name='streetNo'
+              label='Street No'
               value={streetNo}
               onChange={(e) => {
                 setStreetNo(e.target.value);
@@ -191,17 +220,9 @@ function AddNewProperty(props) {
             />
           </div>
           <div className='col-4'>
-            <p>Street</p>
-          </div>
-          <div className='col-4'>
-            <p>Suburb</p>
-          </div>
-          <div className='col-4'>
-            <p>Post Code</p>
-          </div>
-          <div className='col-4'>
-            <input
-              type='text'
+            <CustomTextInput
+              name='street'
+              label='Street'
               value={street}
               onChange={(e) => {
                 setStreet(e.target.value);
@@ -209,8 +230,9 @@ function AddNewProperty(props) {
             />
           </div>
           <div className='col-4'>
-            <input
-              type='text'
+            <CustomTextInput
+              name='suburb'
+              label='Suburb'
               value={suburb}
               onChange={(e) => {
                 setSuburb(e.target.value);
@@ -218,8 +240,9 @@ function AddNewProperty(props) {
             />
           </div>
           <div className='col-4'>
-            <input
-              type='text'
+            <CustomTextInput
+              name='postCode'
+              label='Post Code'
               value={postCode}
               onChange={(e) => {
                 setPostCode(e.target.value);
@@ -227,27 +250,63 @@ function AddNewProperty(props) {
             />
           </div>
           <div className='col-4 rowWise'>
-            <label>Country</label>
-            <select onChange={handleChangeCountry}>
-              <option
-                disabled
-                selected={country === ''}
-                value=''
-                className='demo-select'
+            <FormControl
+              style={{
+                width: 200,
+                height: 50,
+                marginRight: 7,
+                marginLeft: 9,
+                marginBottom: 10,
+                marginTop: '1.2rem',
+                outline: 'none',
+              }}
+            >
+              <InputLabel
+                id='demo-simple-select-helper-label'
+                style={{
+                  fontSize: 14,
+                  fontFamily: 'inherit',
+                  color: 'rgb(94, 94, 94)',
+                  marginLeft: 9,
+                }}
               >
-                Select
-              </option>
-              {allCountries.map((c, index) => (
+                Country
+              </InputLabel>
+              <Select
+                native
+                labelId='demo-simple-select-helper-label'
+                id='demo-simple-select-helper'
+                style={{
+                  fontSize: 14,
+                  fontFamily: 'inherit',
+                  color: 'rgb(94, 94, 94)',
+                }}
+                inputProps={{
+                  style: {
+                    fontSize: 14,
+                    fontFamily: 'inherit',
+                    color: 'rgb(94, 94, 94)',
+                    padding: 5,
+                  },
+                }}
+                name='country'
+                value={country}
+                onChange={handleChangeCountry}
+              >
                 <option
-                  id='options'
-                  key={c.id}
-                  value={index}
-                  selected={c.id === country}
-                >
-                  {c.countryName}
-                </option>
-              ))}
-            </select>
+                  aria-label='Country'
+                  selected
+                  disabled
+                  style={{ display: 'none' }}
+                  value=''
+                />
+                {allCountries.map((c, index) => (
+                  <option value={index} key={c.id} selected={country === c.id}>
+                    {c.countryName}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
             {/**<input
               type='text'
               value={country}
@@ -257,27 +316,63 @@ function AddNewProperty(props) {
             /> */}
           </div>
           <div className='col-4 rowWise'>
-            <label>State</label>
-            <select onChange={(e) => setState(e.target.value)}>
-              <option
-                disabled
-                selected={state === ''}
-                value=''
-                className='demo-select'
+            <FormControl
+              style={{
+                width: 200,
+                height: 50,
+                marginRight: 7,
+                marginLeft: 9,
+                marginBottom: 10,
+                marginTop: '1.2rem',
+                outline: 'none',
+              }}
+            >
+              <InputLabel
+                id='demo-simple-select-helper-label'
+                style={{
+                  fontSize: 14,
+                  fontFamily: 'inherit',
+                  color: 'rgb(94, 94, 94)',
+                  marginLeft: 9,
+                }}
               >
-                Select
-              </option>
-              {states.map((s) => (
+                State
+              </InputLabel>
+              <Select
+                native
+                labelId='demo-simple-select-helper-label'
+                id='demo-simple-select-helper'
+                style={{
+                  fontSize: 14,
+                  fontFamily: 'inherit',
+                  color: 'rgb(94, 94, 94)',
+                }}
+                inputProps={{
+                  style: {
+                    fontSize: 14,
+                    fontFamily: 'inherit',
+                    color: 'rgb(94, 94, 94)',
+                    padding: 5,
+                  },
+                }}
+                name='state'
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+              >
                 <option
-                  id='options'
-                  key={s.id}
-                  value={s.id}
-                  selected={s.id === state}
-                >
-                  {s.stateName}
-                </option>
-              ))}
-            </select>
+                  aria-label='State'
+                  selected
+                  disabled
+                  style={{ display: 'none' }}
+                  value=''
+                />
+                {states.map((s) => (
+                  <option value={s.id} key={s.id} selected={state === s.id}>
+                    {s.stateName}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
             {/**<input
               type='text'
               value={state}
@@ -498,7 +593,12 @@ function AddNewProperty(props) {
               </button>
             </div>
             <div
-              style={{ width: '200px', display: 'flex', alignItems: 'center' }}
+              style={{
+                width: '180px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-evenly',
+              }}
             >
               {current === 'general' ? (
                 <button
@@ -512,6 +612,14 @@ function AddNewProperty(props) {
                   }
                   onClick={() => {
                     setCurrent('attached');
+                    // console.log(buildingName);
+                    // console.log(unit);
+                    // console.log(streetNo);
+                    // console.log(street);
+                    // console.log(suburb);
+                    // console.log(postCode);
+                    // console.log(country);
+                    // console.log(state);
                   }}
                   className='propertyPageBtns'
                 >
