@@ -1,5 +1,74 @@
 import React, { useState } from 'react';
+import { FormControl, InputLabel, Select, TextField } from '@material-ui/core';
 import '../../stylesheets/property.css';
+
+const CustomTextInput = (props) => {
+  return (
+    <TextField
+      {...props}
+      style={{
+        width: 130,
+        height: 40,
+        marginRight: 7,
+        marginLeft: 9,
+        marginBottom: 10,
+        // marginTop: '1rem',
+        outline: 'none',
+      }}
+      InputLabelProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      inputProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      type='text'
+    />
+  );
+};
+
+const CustomTextInputLg = (props) => {
+  return (
+    <TextField
+      {...props}
+      style={{
+        width: 180,
+        height: 40,
+        marginRight: 7,
+        marginLeft: 9,
+        marginBottom: 10,
+        marginTop: '0.5rem',
+        outline: 'none',
+      }}
+      InputLabelProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      inputProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      type='text'
+    />
+  );
+};
 
 function AddRegisteredLots(props) {
   const { modalId, tempRegistered, setTempRegistered, isAddTrue } = props;
@@ -70,35 +139,37 @@ function AddRegisteredLots(props) {
             >
               Registered Lots
             </h5>
-            <button
-              data-bs-toggle='modal'
-              data-bs-target={`#staticBackdrop${modalId}`}
-              onClick={() => {
-                chotaSave();
-              }}
-              className='propertyPageBtns'
-            >
-              Save
-            </button>
-            {isAddTrue === true && (
-              <button className='propertyPageBtns'>Delete</button>
-            )}
-            <button
-              className='propertyPageBtns'
-              data-bs-toggle='modal'
-              data-bs-target={`#staticBackdrop${modalId}`}
-              aria-label='Close'
-            >
-              Cancel
-            </button>
+            <div className='addNewLots-buttonDiv'>
+              <button
+                data-bs-toggle='modal'
+                data-bs-target={`#staticBackdrop${modalId}`}
+                onClick={() => {
+                  chotaSave();
+                }}
+                className='propertyPageBtns'
+              >
+                Save
+              </button>
+              {isAddTrue === true && (
+                <button className='propertyPageBtns'>Delete</button>
+              )}
+              <button
+                className='propertyPageBtns'
+                data-bs-toggle='modal'
+                data-bs-target={`#staticBackdrop${modalId}`}
+                aria-label='Close'
+              >
+                Cancel
+              </button>
+            </div>
           </div>
           <div className='modal-body'>
             <div style={{ padding: '12px' }}>
               <div className='row'>
                 <div className='col-4'>
-                  <h6>Title Reference</h6>
-                  <input
-                    className='popupFormInputs'
+                  <CustomTextInput
+                    name='titleReference'
+                    label='Title Reference'
                     value={chotaForm?.titleReference}
                     onChange={(e) => {
                       setChotaForm({
@@ -106,13 +177,12 @@ function AddRegisteredLots(props) {
                         titleReference: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
                 <div className='col-4'>
-                  <h6>Lot No.</h6>
-                  <input
-                    className='popupFormInputs'
+                  <CustomTextInput
+                    name='lotNumber'
+                    label='Lot No.'
                     value={chotaForm?.lotNumber}
                     onChange={(e) => {
                       setChotaForm({
@@ -120,13 +190,12 @@ function AddRegisteredLots(props) {
                         lotNumber: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
                 <div className='col-4'>
-                  <h6>Section</h6>
-                  <input
-                    className='popupFormInputs'
+                  <CustomTextInput
+                    name='section'
+                    label='Section'
                     value={chotaForm?.section}
                     onChange={(e) => {
                       setChotaForm({
@@ -134,13 +203,12 @@ function AddRegisteredLots(props) {
                         section: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
-                <div className='col-4'>
-                  <h6>Deposited Plan No.</h6>
-                  <input
-                    className='popupFormInputs'
+                <div className='col-5'>
+                  <CustomTextInputLg
+                    name='depositedPlanNumber'
+                    label='Deposited Plan No.'
                     value={chotaForm?.depositedPlanNumber}
                     onChange={(e) => {
                       setChotaForm({
@@ -148,13 +216,12 @@ function AddRegisteredLots(props) {
                         depositedPlanNumber: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
-                <div className='col-4'>
-                  <h6>Strata Plan No.</h6>
-                  <input
-                    className='popupFormInputs'
+                <div className='col-5'>
+                  <CustomTextInputLg
+                    name='strataPlanNumber'
+                    label='Strata Plan No.'
                     value={chotaForm?.strataPlanNumber}
                     onChange={(e) => {
                       setChotaForm({
@@ -162,22 +229,24 @@ function AddRegisteredLots(props) {
                         strataPlanNumber: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
               </div>
-              <h6>Description</h6>
-              <textarea
-                rows='2'
-                cols='55'
-                value={chotaForm.description}
-                onChange={(e) => {
-                  setChotaForm({
-                    ...chotaForm,
-                    description: e.target.value,
-                  });
-                }}
-              />
+              <div style={{ marginTop: '2rem', marginBottom: '0.5rem' }}>
+                <textarea
+                  className='addNewCustody-textArea'
+                  rows='2'
+                  cols='55'
+                  value={chotaForm.description}
+                  placeholder='Description'
+                  onChange={(e) => {
+                    setChotaForm({
+                      ...chotaForm,
+                      description: e.target.value,
+                    });
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>

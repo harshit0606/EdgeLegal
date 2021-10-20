@@ -2,6 +2,7 @@ import react, { useEffect, useState } from 'react';
 import axios from 'axios';
 import url from '../../config.js';
 import { useCookies } from 'react-cookie';
+import validator from 'validator';
 
 import upArrow from '../../images/upArrow.svg';
 import downArrow from '../../images/downArrow.svg';
@@ -258,9 +259,15 @@ function RenderProperty() {
       setSortField(field);
       let sortedData = filteredData.sort((a, b) => {
         if (order === 'asc') {
-          return a[field] < b[field] ? -1 : 1;
+          return (a[field] ? a[field].toLowerCase() : '') <
+            (b[field] ? b[field].toLowerCase() : '')
+            ? -1
+            : 1;
         } else {
-          return a[field] < b[field] ? 1 : -1;
+          return (a[field] ? a[field].toLowerCase() : '') <
+            (b[field] ? b[field].toLowerCase() : '')
+            ? 1
+            : -1;
         }
       });
       setFilteredData(sortedData);
@@ -275,11 +282,31 @@ function RenderProperty() {
     } else {
       setSortOrder(order);
       setSortField(field);
+
       let sortedData = filteredRegisterLot.sort((a, b) => {
-        if (order === 'asc') {
-          return a[field] < b[field] ? -1 : 1;
+        if (
+          a[field] &&
+          b[field] &&
+          validator.isInt(a[field]) &&
+          validator.isInt(b[field])
+        ) {
+          if (order === 'asc') {
+            return parseInt(a[field]) < parseInt(b[field]) ? -1 : 1;
+          } else {
+            return parseInt(a[field]) < parseInt(b[field]) ? 1 : -1;
+          }
         } else {
-          return a[field] < b[field] ? 1 : -1;
+          if (order === 'asc') {
+            return (a[field] ? a[field].toLowerCase() : '') <
+              (b[field] ? b[field].toLowerCase() : '')
+              ? -1
+              : 1;
+          } else {
+            return (a[field] ? a[field].toLowerCase() : '') <
+              (b[field] ? b[field].toLowerCase() : '')
+              ? 1
+              : -1;
+          }
         }
       });
       setFilteredRegisterLot(sortedData);
@@ -295,10 +322,29 @@ function RenderProperty() {
       setSortOrder(order);
       setSortField(field);
       let sortedData = filteredUnregisterLot.sort((a, b) => {
-        if (order === 'asc') {
-          return a[field] < b[field] ? -1 : 1;
+        if (
+          a[field] &&
+          b[field] &&
+          validator.isInt(a[field]) &&
+          validator.isInt(b[field])
+        ) {
+          if (order === 'asc') {
+            return parseInt(a[field]) < parseInt(b[field]) ? -1 : 1;
+          } else {
+            return parseInt(a[field]) < parseInt(b[field]) ? 1 : -1;
+          }
         } else {
-          return a[field] < b[field] ? 1 : -1;
+          if (order === 'asc') {
+            return (a[field] ? a[field].toLowerCase() : '') <
+              (b[field] ? b[field].toLowerCase() : '')
+              ? -1
+              : 1;
+          } else {
+            return (a[field] ? a[field].toLowerCase() : '') <
+              (b[field] ? b[field].toLowerCase() : '')
+              ? 1
+              : -1;
+          }
         }
       });
       setFilteredUnregisterLot(sortedData);
@@ -346,6 +392,7 @@ function RenderProperty() {
       );
       // console.log('bulk delete', res);
       // window.location.reload();
+      setSelected([]);
       setBoolVal(false);
     } catch (err) {
       console.log(err);

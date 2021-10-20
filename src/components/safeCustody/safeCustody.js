@@ -114,6 +114,7 @@ function RenderSafeCustody(props) {
   const [filteredData, setFilteredData] = useState([]);
   const [filterInput, setFilterInput] = useState(filterFields);
   const [prepareInput, setPrepareInput] = useState(filterFields);
+  const [prepareSelect, setPrepareSelect] = useState(false);
   const [prepareReceiptContact, setPrepareReceiptContact] = useState(undefined);
   const [safeCustodyStatus, setSafeCustodyStatus] = useState(undefined);
   const [isAddCustodyOpen, setIsAddCustoduOpen] = useState(false);
@@ -433,6 +434,9 @@ function RenderSafeCustody(props) {
 
   const handleFilterPrepare = (e) => {
     const { name } = e.target;
+    if (prepareSelect) {
+      setPrepareSelect(false);
+    }
     setPrepareInput({ ...prepareInput, [name]: e.target.value });
     filterPrepareData({ ...prepareInput, [name]: e.target.value });
   };
@@ -496,6 +500,17 @@ function RenderSafeCustody(props) {
     setPrepareReceiptContact(data);
   };
 
+  const handleSelectContactForReceipt = (i) => {
+    const data = JSON.parse(i);
+    // console.log(data);
+    setPrepareSelect(true);
+    setPrepareInput({
+      ...prepareInput,
+      firstName: data.contactDetails.firstName,
+    });
+    setPrepareReceiptContact(data);
+  };
+
   const handlePrepareReceipt = () => {
     if (prepareReceiptContact && selectPrepare.length !== 0) {
       const data = {
@@ -526,7 +541,8 @@ function RenderSafeCustody(props) {
         )
         .then((response) => {
           handleContentClose();
-          window.location.reload();
+          // window.location.reload();
+          setBoolVal(false);
           // console.log(response.data);
         })
         .catch((err) => {
@@ -555,7 +571,8 @@ function RenderSafeCustody(props) {
         )
         .then((res) => {
           // console.log(res.data);
-          window.location.reload();
+          // window.location.reload();
+          setBoolVal(false);
         })
         .catch((e) => {
           console.log(e);
@@ -640,7 +657,7 @@ function RenderSafeCustody(props) {
       <div>
         <div className='safeContentsTop'>
           <h5 className='singleContact-pageTitle'>Details for packet no.1</h5>
-          <div className='custodyPageBtns'>
+          <div className='contentPageBtns'>
             <Link to='/home/safecustody'>
               <button>Cancel</button>
             </Link>
@@ -681,25 +698,44 @@ function RenderSafeCustody(props) {
                 </p>
               </div>
               <div className='popup-content'>
-                <input
-                  className='filter-input'
-                  placeholder='Search Contact'
-                  name='firstName'
-                  value={prepareInput.firstName}
-                  onChange={handleFilterPrepare}
-                ></input>
                 <div>
-                  <p>Contacts:</p>
-                  <select onChange={handleSelectContact}>
-                    <option disabled selected>
-                      select
-                    </option>
-                    {filterPerpare.map((contact) => (
-                      <option value={JSON.stringify(contact)}>
-                        {contact.contactDetails.firstName}
-                      </option>
-                    ))}
-                  </select>
+                  <p>Contacts</p>
+                  <input
+                    type='text'
+                    name='firstName'
+                    placeholder='Search Contact'
+                    value={prepareInput.firstName}
+                    onChange={handleFilterPrepare}
+                    autoComplete='off'
+                    className='prepareReceipt-searchContact'
+                  />
+                  {prepareInput.firstName.length > 0 && !prepareSelect && (
+                    <div className='prepareReceipt-searchContact-optionDiv'>
+                      {filterPerpare.map((contact) => (
+                        <p
+                          className='prepareReceipt-searchContact-option'
+                          onClick={() =>
+                            handleSelectContactForReceipt(
+                              JSON.stringify(contact)
+                            )
+                          }
+                        >
+                          {contact.contactDetails.firstName}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                  {/*<select onChange={handleSelectContact}>
+                
+                <option disabled selected>
+                  select
+                </option>
+                {filterPerpare.map((contact) => (
+                  <option value={JSON.stringify(contact)}>
+                    {contact.contactDetails.firstName}
+                  </option>
+                ))}
+                </select>*/}
                 </div>
               </div>
               <hr />
@@ -1222,7 +1258,7 @@ function RenderSafeCustody(props) {
   }
   function renderSafeContents() {
     // var x = 'client';
-    console.log(primaryContactDetail);
+    // console.log(primaryContactDetail);
     return (
       <div>
         <div>
@@ -1272,8 +1308,8 @@ function RenderSafeCustody(props) {
           </div>
         </div>
         <div className='associatedDocs'>
-          <h6 style={{ fontWeight: 'bold' }}>Associated documents</h6>
-          <div className='custodyPageBtns' style={{ width: '48%' }}>
+          <h6 className='singleContact-pageTitle'>Associated documents</h6>
+          <div className='custodyPageBtns'>
             <button onClick={handleAddCustody}>ADD</button>
             <button onClick={handleDeleteAttachment}>DELETE</button>
             <button>DOWNLOAD</button>
@@ -1297,16 +1333,44 @@ function RenderSafeCustody(props) {
                 </p>
               </div>
               <div className='popup-content'>
-                <input
+                {/*
+                  <input
                   className='filter-input'
                   placeholder='Search Contact'
                   name='firstName'
                   value={prepareInput.firstName}
                   onChange={handleFilterPrepare}
                 ></input>
+                */}
                 <div>
-                  <p>Contacts:</p>
-                  <select onChange={handleSelectContact}>
+                  <p>Contacts</p>
+                  <input
+                    type='text'
+                    name='firstName'
+                    placeholder='Search Contact'
+                    value={prepareInput.firstName}
+                    onChange={handleFilterPrepare}
+                    autoComplete='off'
+                    className='prepareReceipt-searchContact'
+                  />
+                  {prepareInput?.firstName?.length > 0 && !prepareSelect && (
+                    <div className='prepareReceipt-searchContact-optionDiv'>
+                      {filterPerpare.map((contact) => (
+                        <p
+                          className='prepareReceipt-searchContact-option'
+                          onClick={() =>
+                            handleSelectContactForReceipt(
+                              JSON.stringify(contact)
+                            )
+                          }
+                        >
+                          {contact.contactDetails.firstName}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                  {/*<select onChange={handleSelectContact}>
+                    
                     <option disabled selected>
                       select
                     </option>
@@ -1315,7 +1379,7 @@ function RenderSafeCustody(props) {
                         {contact.contactDetails.firstName}
                       </option>
                     ))}
-                  </select>
+                    </select>*/}
                 </div>
               </div>
               <hr />
@@ -1386,6 +1450,7 @@ function RenderSafeCustody(props) {
         {isAddCustodyOpen && (
           <AddCustodyForm
             closeForm={() => setIsAddCustoduOpen(false)}
+            setBoolVal={setBoolVal}
             safeCustodyPacketId={id}
           />
         )}

@@ -10,6 +10,7 @@ function SafeStripe(props) {
           color: '#0c244c',
           fontWeight: '600',
           fontFamily: "'Poppins', 'Mulish', sans-serif !important",
+          marginRight: '2.2rem',
         }}
       >
         Safe Custody

@@ -3,6 +3,7 @@ import closeBtn from '../../images/close-white-btn.svg';
 import url from '../../config.js';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import Dropzone from 'react-dropzone';
 import '../../stylesheets/AddNewSafeCustodyForm.css';
 
 const initialData = {
@@ -24,9 +25,9 @@ const AttachIDForm = (props) => {
   //   setFormData({ ...formData, [name]: e.target.value });
   // };
 
-  const handleUploadFile = (e) => {
-    setUploadedFile(e.target.files[0]);
-    setFileName(e.target.files[0].name);
+  const handleUploadFile = (acceptedFile) => {
+    setUploadedFile(acceptedFile[0]);
+    setFileName(acceptedFile[0].name);
     // console.log(e.target.files[0]);
   };
 
@@ -83,10 +84,23 @@ const AttachIDForm = (props) => {
             <img src={closeBtn} alt='close-btn' />
           </button>
         </div>
-        <div className='addNewCustody-form-div'>
-          <div>
-            <input type='file' onChange={handleUploadFile} />
-          </div>
+        <div
+          className='addCustody-dropzone-div'
+          style={{ textAlign: 'center' }}
+        >
+          <Dropzone onDrop={handleUploadFile}>
+            {({ getRootProps, getInputProps }) => (
+              <div {...getRootProps({ className: 'addCustody-dropzone' })}>
+                <input {...getInputProps()} />
+                <p style={{ paddingTop: '10px' }}>
+                  Drag and drop to upload or browse for files
+                </p>
+                <span style={{ color: '#555', paddingTop: '10px' }}>
+                  {fileName}
+                </span>
+              </div>
+            )}
+          </Dropzone>
         </div>
         <div className='addNewCustody-buttonDiv'>
           <button className='cancelButton' onClick={closeForm}>

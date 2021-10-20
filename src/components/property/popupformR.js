@@ -2,7 +2,42 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import url from '../../config.js';
 import { useCookies } from 'react-cookie';
+import { FormControl, InputLabel, Select, TextField } from '@material-ui/core';
 import '../../stylesheets/property.css';
+
+const CustomTextInput = (props) => {
+  return (
+    <TextField
+      {...props}
+      style={{
+        width: 180,
+        height: 40,
+        marginRight: 7,
+        marginLeft: 9,
+        marginBottom: 10,
+        // marginTop: '1rem',
+        outline: 'none',
+      }}
+      InputLabelProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      inputProps={{
+        style: {
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: 'rgb(94, 94, 94)',
+          marginLeft: 10,
+        },
+      }}
+      type='text'
+    />
+  );
+};
 
 function PopupForm(props) {
   const {
@@ -110,9 +145,9 @@ function PopupForm(props) {
             <div style={{ padding: '12px' }}>
               <div className='row'>
                 <div className='col-4'>
-                  <h6>Title Reference</h6>
-                  <input
-                    className='popupFormInputs'
+                  <CustomTextInput
+                    name='titleReference'
+                    label='Title Reference'
                     value={chotaForm?.titleReference}
                     onChange={(e) => {
                       setChotaForm({
@@ -120,13 +155,12 @@ function PopupForm(props) {
                         titleReference: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
                 <div className='col-4'>
-                  <h6>Lot No.</h6>
-                  <input
-                    className='popupFormInputs'
+                  <CustomTextInput
+                    name='lotNumber'
+                    label='Lot No.'
                     value={chotaForm?.lotNumber}
                     onChange={(e) => {
                       setChotaForm({
@@ -134,13 +168,12 @@ function PopupForm(props) {
                         lotNumber: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
                 <div className='col-4'>
-                  <h6>Section</h6>
-                  <input
-                    className='popupFormInputs'
+                  <CustomTextInput
+                    name='section'
+                    label='Section'
                     value={chotaForm?.section}
                     onChange={(e) => {
                       setChotaForm({
@@ -148,13 +181,12 @@ function PopupForm(props) {
                         section: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
-                <div className='col-4'>
-                  <h6>Deposited Plan No.</h6>
-                  <input
-                    className='popupFormInputs'
+                <div className='col-4' style={{ marginTop: '15px' }}>
+                  <CustomTextInput
+                    name='depositedPlanNumber'
+                    label='Deposited Plan No.'
                     value={chotaForm?.depositedPlanNumber}
                     onChange={(e) => {
                       setChotaForm({
@@ -162,13 +194,12 @@ function PopupForm(props) {
                         depositedPlanNumber: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
-                <div className='col-4'>
-                  <h6>Strata Plan No.</h6>
-                  <input
-                    className='popupFormInputs'
+                <div className='col-4' style={{ marginTop: '15px' }}>
+                  <CustomTextInput
+                    name='strataPlanNumber'
+                    label='Strata Plan No.'
                     value={chotaForm?.strataPlanNumber}
                     onChange={(e) => {
                       setChotaForm({
@@ -176,21 +207,30 @@ function PopupForm(props) {
                         strataPlanNumber: e.target.value,
                       });
                     }}
-                    type='text'
-                  ></input>
+                  />
                 </div>
               </div>
-              <h6>Description</h6>
-              <textarea
-                rows='2'
-                cols='55'
-                onChange={(e) => {
-                  setChotaForm({
-                    ...chotaForm,
-                    description: e.target.value,
-                  });
+              <div
+                style={{
+                  marginTop: '15px',
+                  marginBottom: '0.5rem',
+                  padding: '0 10px',
                 }}
-              />
+              >
+                <textarea
+                  className='addNewCustody-textArea'
+                  rows='2'
+                  cols='45'
+                  value={chotaForm.description}
+                  placeholder='Description'
+                  onChange={(e) => {
+                    setChotaForm({
+                      ...chotaForm,
+                      description: e.target.value,
+                    });
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
