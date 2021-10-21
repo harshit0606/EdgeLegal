@@ -6,7 +6,7 @@ import '../../stylesheets/contacts.css';
 import { FormControl, InputLabel, Select, TextField } from '@material-ui/core';
 
 const initialData = {
-  role: '',
+  type: '',
   subType: '',
   legalName: '',
   name: '',
@@ -231,33 +231,33 @@ function EditOrgDetails(props) {
         <p style={{ marginBottom: '10px' }}>Organisation Type</p>
         <input
           type='radio'
-          name='role'
+          name='type'
           value='Bussiness/Partnership'
-          checked={organizationDetails.role === 'Bussiness/Partnership'}
+          checked={organizationDetails.type === 'Bussiness/Partnership'}
           onChange={handleFormChange}
         ></input>{' '}
         Bussiness/Partnership&nbsp;&nbsp;&nbsp;
         <input
           type='radio'
-          name='role'
+          name='type'
           value='Company'
-          checked={organizationDetails.role === 'Company'}
+          checked={organizationDetails.type === 'Company'}
           onChange={handleFormChange}
         />{' '}
         Company&nbsp;&nbsp;&nbsp;
         <input
           type='radio'
-          name='role'
+          name='type'
           value='Government Department'
-          checked={organizationDetails.role === 'Government Department'}
+          checked={organizationDetails.type === 'Government Department'}
           onChange={handleFormChange}
         />{' '}
         Government Department&nbsp;&nbsp;&nbsp;
         <input
           type='radio'
-          name='role'
+          name='type'
           value='Trust'
-          checked={organizationDetails.role === 'Trust'}
+          checked={organizationDetails.type === 'Trust'}
           onChange={handleFormChange}
         />{' '}
         Trust&nbsp;&nbsp;&nbsp;

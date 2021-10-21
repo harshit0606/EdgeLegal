@@ -6,7 +6,7 @@ import '../../stylesheets/contacts.css';
 import { FormControl, InputLabel, Select, TextField } from '@material-ui/core';
 
 const initialData = {
-  role: '',
+  type: 'Bussiness/Partnership',
   subType: '',
   legalName: '',
   name: '',
@@ -41,6 +41,10 @@ const initialData = {
 };
 
 const CustomTextInput = (props) => {
+  const organisation = JSON.parse(
+    window.localStorage.getItem('metaData')
+  ).organisation;
+  // console.log(organisation);
   return (
     <TextField
       {...props}
@@ -67,13 +71,20 @@ const CustomTextInput = (props) => {
           color: 'rgb(94, 94, 94)',
           marginLeft: 10,
         },
+        inputMode: `${props.type ? props.type : 'text'}`,
       }}
-      type='text'
+      // type='text'
+      required={organisation.fields.filter((f) => {
+        if (f.fieldName === props.name) {
+          return !f.allowNull;
+        }
+      })}
     />
   );
 };
 
 function AddOrganization(props) {
+  const { allCountries } = props;
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
   const [organizationDetails, setOrganizationDetails] = useState(initialData);
@@ -87,37 +98,38 @@ function AddOrganization(props) {
   });
   const [boolVal, setBoolVal] = useState(false);
 
-  useEffect(async () => {
-    const fetchCountries = async () => {
-      try {
-        const response = await axios.get(
-          `${url}/api/dropdown/countries?requestId=1124455`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${loggedInToken}`,
-            },
-          },
-          {
-            withCredentials: true,
-          }
-        );
-        // console.log(response.data);
-        setCountries(response.data?.data?.countryList);
-        setCommStates(response.data?.data?.countryList[0].states);
-        setMailStates(response.data?.data?.countryList[0].states);
-        setOrganizationDetails({
-          ...organizationDetails,
-          commCountry: response.data?.data?.countryList[0].id,
-          commState: response.data?.data?.countryList[0].states[0].id,
-          mailingCountry: response.data?.data?.countryList[0].id,
-          mailingState: response.data?.data?.countryList[0].states[0].id,
-        });
-      } catch (err) {
-        console.log(err);
+  const [requiredFields, setRequiredFields] = useState([]);
+
+  const fetchRequired = () => {
+    let arr = [];
+    JSON.parse(window.localStorage.getItem('metaData')).organisation.fields.map(
+      (f) => {
+        if (!f.allowNull) {
+          arr.push(f.fieldName);
+        }
       }
+    );
+    setRequiredFields(arr);
+  };
+
+  useEffect(async () => {
+    const setCountriesAndStates = () => {
+      // console.log(response.data);
+      setCountries(allCountries);
+      setCommStates(allCountries[0].states);
+      setMailStates(allCountries[0].states);
+      setOrganizationDetails({
+        ...organizationDetails,
+        commCountry: allCountries[0].id,
+        commState: allCountries[0].states[0].id,
+        mailingCountry: allCountries[0].id,
+        mailingState: allCountries[0].states[0].id,
+      });
     };
+
     if (!boolVal) {
+      fetchRequired();
+      setCountriesAndStates();
       try {
         const { data } = await axios.get(
           `${url}/api/user/1`,
@@ -137,7 +149,6 @@ function AddOrganization(props) {
           companyId: data?.organizationId,
           siteId: data?.siteId ? data?.siteId : 1, // this will change later
         });
-        fetchCountries();
       } catch (err) {
         console.log(err);
       }
@@ -238,6 +249,8 @@ function AddOrganization(props) {
     }
   };
 
+  // console.log(requiredFields);
+
   return (
     <div className='addPersonDiv'>
       <div className='titleDiv'>
@@ -246,468 +259,488 @@ function AddOrganization(props) {
           &#10006;
         </p>
       </div>
-      <div style={{ marginLeft: '20px', marginTop: '10px', fontSize: '14px' }}>
-        <p style={{ marginBottom: '10px' }}>Organisation Type</p>
-        <input
-          type='radio'
-          name='role'
-          value='Bussiness/Partnership'
-          onChange={handleFormChange}
-        ></input>{' '}
-        Bussiness/Partnership&nbsp;&nbsp;&nbsp;
-        <input
-          type='radio'
-          name='role'
-          value='Company'
-          onChange={handleFormChange}
-        />{' '}
-        Company&nbsp;&nbsp;&nbsp;
-        <input
-          type='radio'
-          name='role'
-          value='Government Department'
-          onChange={handleFormChange}
-        />{' '}
-        Government Department&nbsp;&nbsp;&nbsp;
-        <input
-          type='radio'
-          name='role'
-          value='Trust'
-          onChange={handleFormChange}
-        />{' '}
-        Trust&nbsp;&nbsp;&nbsp;
-      </div>
-      <div className='inputtDiv'>
-        <CustomTextInput
-          name='name'
-          label='Name'
-          value={organizationDetails.name}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='subType'
-          label='Sub Type'
-          value={organizationDetails.subType}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='legalName'
-          label='Legal Name'
-          value={organizationDetails.legalName}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='title'
-          label='Title'
-          value={organizationDetails.title}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='phoneNumber1'
-          label='Phone Number 1'
-          value={organizationDetails.phoneNumber1}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='phoneNumber2'
-          label='Phone Number 2'
-          value={organizationDetails.phoneNumber2}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='phoneNumber3'
-          label='Phone Number 3'
-          value={organizationDetails.phoneNumber3}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='faxNumber'
-          label='Fax'
-          value={organizationDetails.faxNumber}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='website'
-          label='Website'
-          value={organizationDetails.website}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='emailId1'
-          label='Email 1'
-          value={organizationDetails.emailId1}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='emailId2'
-          label='Email 2'
-          value={organizationDetails.emailId2}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='dxNumber'
-          label='DX Number'
-          value={organizationDetails.dxNumber}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='dxCity'
-          label='DX City'
-          value={organizationDetails.dxCity}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='representativeId'
-          label='RepresentativeId'
-          value={organizationDetails.representativeId}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='abn'
-          label='ABN'
-          value={organizationDetails.abn}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='acn'
-          label='ACN'
-          value={organizationDetails.acn}
-          onChange={handleFormChange}
-        />
-      </div>
-      <div className='labelll'>
-        <h3>Street Address</h3>
-      </div>
-      <div className='inputtDiv'>
-        <CustomTextInput
-          name='commAddress1'
-          label='Address 1'
-          value={organizationDetails.commAddress1}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='commAddress2'
-          label='Address 2'
-          value={organizationDetails.commAddress2}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='commAddress3'
-          label='Address 3'
-          value={organizationDetails.commAddress3}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='commCity'
-          label='Suburb'
-          value={organizationDetails.commCity}
-          onChange={handleFormChange}
-        />
-        <FormControl
-          style={{
-            width: 256,
-            height: 50,
-            marginRight: 7,
-            marginLeft: 9,
-            marginBottom: 10,
-            outline: 'none',
-          }}
+      <form onSubmit={handleSubmit}>
+        <div
+          style={{ marginLeft: '20px', marginTop: '10px', fontSize: '14px' }}
         >
-          <InputLabel
-            id='demo-simple-select-helper-label'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-              marginLeft: 9,
-            }}
-          >
-            Country
-          </InputLabel>
-          <Select
-            native
-            labelId='demo-simple-select-helper-label'
-            id='demo-simple-select-helper'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-            }}
-            inputProps={{
-              style: {
-                fontSize: 14,
-                fontFamily: 'inherit',
-                color: 'rgb(94, 94, 94)',
-                padding: 5,
-              },
-            }}
-            name='commCountry'
-            value={organizationDetails.commCountry}
-            onChange={handleChangeCountry}
-          >
-            <option
-              aria-label='Country'
-              selected
-              disabled
-              style={{ display: 'none' }}
-              value=''
-            />
-            {countries.map((country, index) => (
-              <option
-                value={index}
-                key={country.id}
-                selected={organizationDetails.commCountry === country.id}
-              >
-                {country.countryName}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormControl
-          style={{
-            width: 256,
-            height: 50,
-            marginRight: 7,
-            marginLeft: 9,
-            marginBottom: 10,
-            outline: 'none',
-          }}
-        >
-          <InputLabel
-            id='demo-simple-select-helper-label'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-              marginLeft: 9,
-            }}
-          >
-            State
-          </InputLabel>
-          <Select
-            native
-            labelId='demo-simple-select-helper-label'
-            id='demo-simple-select-helper'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-            }}
-            inputProps={{
-              style: {
-                fontSize: 14,
-                fontFamily: 'inherit',
-                color: 'rgb(94, 94, 94)',
-                padding: 5,
-              },
-            }}
-            name='commState'
-            value={organizationDetails.commState}
+          <p style={{ marginBottom: '10px' }}>
+            Organisation Type {requiredFields.indexOf('type') >= 0 ? '*' : ''}
+          </p>
+          <input
+            type='radio'
+            name='type'
+            value='Bussiness/Partnership'
             onChange={handleFormChange}
-          >
-            <option
-              aria-label='State'
-              selected
-              disabled
-              style={{ display: 'none' }}
-              value=''
-            />
-            {commStates.map((state) => (
-              <option
-                value={state.id}
-                key={state.id}
-                selected={organizationDetails.commState === state.id}
-              >
-                {state.stateName}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
-        <CustomTextInput
-          name='commPostCode'
-          label='Zip'
-          value={organizationDetails.commPostCode}
-          onChange={handleFormChange}
-        />
-      </div>
-      <div className='labelll'>
-        <h3>Postal Address</h3>
-        <input
-          style={{
-            marginLeft: '58%',
-            marginRight: '5px',
-            height: '15px',
-            width: '15px',
-          }}
-          onClick={handleMailingAddress}
-          type='checkbox'
-        ></input>
-        <label>Same as Communication Address</label>
-      </div>
-      <div className='inputtDiv'>
-        <CustomTextInput
-          name='mailingAddress1'
-          label='Address 1'
-          value={organizationDetails.mailingAddress1}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='mailingAddress2'
-          label='Address 2'
-          value={organizationDetails.mailingAddress2}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='mailingAddress3'
-          label='Address 3'
-          value={organizationDetails.mailingAddress3}
-          onChange={handleFormChange}
-        />
-        <CustomTextInput
-          name='mailingCity'
-          label='Suburb'
-          value={organizationDetails.mailingCity}
-          onChange={handleFormChange}
-        />
-        <FormControl
-          style={{
-            width: 256,
-            height: 50,
-            marginRight: 7,
-            marginLeft: 9,
-            marginBottom: 10,
-            outline: 'none',
-          }}
-        >
-          <InputLabel
-            id='demo-simple-select-helper-label'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-              marginLeft: 9,
-            }}
-          >
-            Country
-          </InputLabel>
-          <Select
-            native
-            labelId='demo-simple-select-helper-label'
-            id='demo-simple-select-helper'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-            }}
-            inputProps={{
-              style: {
-                fontSize: 14,
-                fontFamily: 'inherit',
-                color: 'rgb(94, 94, 94)',
-                padding: 5,
-              },
-            }}
-            name='mailingCountry'
-            value={organizationDetails.mailingCountry}
-            onChange={handleChangeMailCountry}
-          >
-            <option
-              aria-label='Country'
-              selected={organizationDetails.mailingCountry === ''}
-              disabled
-              style={{ display: 'none' }}
-              value=''
-            />
-            {countries.map((country, index) => (
-              <option
-                key={country.id}
-                value={index}
-                selected={organizationDetails.mailingCountry === country.id}
-              >
-                {country.countryName}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormControl
-          style={{
-            width: 256,
-            height: 50,
-            marginRight: 7,
-            marginLeft: 9,
-            marginBottom: 10,
-            outline: 'none',
-          }}
-        >
-          <InputLabel
-            id='demo-simple-select-helper-label'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-              marginLeft: 9,
-            }}
-          >
-            State
-          </InputLabel>
-          <Select
-            native
-            labelId='demo-simple-select-helper-label'
-            id='demo-simple-select-helper'
-            style={{
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-            }}
-            inputProps={{
-              style: {
-                fontSize: 14,
-                fontFamily: 'inherit',
-                color: 'rgb(94, 94, 94)',
-                padding: 5,
-              },
-            }}
-            name='mailingState'
-            value={organizationDetails.mailingState}
+            checked={organizationDetails.type === 'Bussiness/Partnership'}
+          ></input>{' '}
+          Bussiness/Partnership&nbsp;&nbsp;&nbsp;
+          <input
+            type='radio'
+            name='type'
+            value='Company'
             onChange={handleFormChange}
-          >
-            <option
-              aria-label='State'
-              selected={organizationDetails.mailingState === ''}
-              disabled
-              style={{ display: 'none' }}
-              value=''
-            />
-            {mailStates.map((state) => (
-              <option
-                key={state.id}
-                selected={state.id === organizationDetails.mailingState}
-                value={state.id}
-              >
-                {state.stateName}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
-        <CustomTextInput
-          name='mailingPostCode'
-          label='Zip'
-          value={organizationDetails.mailingPostCode}
-          onChange={handleFormChange}
-        />
-      </div>
-      <div className='labelll'>
-        <div className='personnbtnDiv'>
-          <button onClick={props.close} className='personncancel'>
-            Cancel
-          </button>
-          <button className='personnAdd' onClick={handleSubmit}>
-            Add
-          </button>
+            checked={organizationDetails.type === 'Company'}
+          />{' '}
+          Company&nbsp;&nbsp;&nbsp;
+          <input
+            type='radio'
+            name='type'
+            value='Government Department'
+            onChange={handleFormChange}
+            checked={organizationDetails.type === 'Government Department'}
+          />{' '}
+          Government Department&nbsp;&nbsp;&nbsp;
+          <input
+            type='radio'
+            name='type'
+            value='Trust'
+            onChange={handleFormChange}
+            checked={organizationDetails.type === 'Trust'}
+          />{' '}
+          Trust&nbsp;&nbsp;&nbsp;
         </div>
-      </div>
+        <div className='inputtDiv'>
+          <CustomTextInput
+            name='name'
+            label='Name'
+            value={organizationDetails.name}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='subType'
+            label='Sub Type'
+            value={organizationDetails.subType}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='legalName'
+            label='Legal Name'
+            value={organizationDetails.legalName}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='title'
+            label='Title'
+            value={organizationDetails.title}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='phoneNumber1'
+            label='Phone Number 1'
+            value={organizationDetails.phoneNumber1}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='phoneNumber2'
+            label='Phone Number 2'
+            value={organizationDetails.phoneNumber2}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='phoneNumber3'
+            label='Phone Number 3'
+            value={organizationDetails.phoneNumber3}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='faxNumber'
+            label='Fax'
+            value={organizationDetails.faxNumber}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='website'
+            label='Website'
+            value={organizationDetails.website}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='emailId1'
+            label='Email 1'
+            value={organizationDetails.emailId1}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='emailId2'
+            label='Email 2'
+            value={organizationDetails.emailId2}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='dxNumber'
+            label='DX Number'
+            value={organizationDetails.dxNumber}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='dxCity'
+            label='DX City'
+            value={organizationDetails.dxCity}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='representativeId'
+            label='RepresentativeId'
+            type='number'
+            autoComplete='off'
+            value={organizationDetails.representativeId}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='abn'
+            label='ABN'
+            value={organizationDetails.abn}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='acn'
+            label='ACN'
+            value={organizationDetails.acn}
+            onChange={handleFormChange}
+          />
+        </div>
+        <div className='labelll'>
+          <h3>Street Address</h3>
+        </div>
+        <div className='inputtDiv'>
+          <CustomTextInput
+            name='commAddress1'
+            label='Address 1'
+            value={organizationDetails.commAddress1}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='commAddress2'
+            label='Address 2'
+            value={organizationDetails.commAddress2}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='commAddress3'
+            label='Address 3'
+            value={organizationDetails.commAddress3}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='commCity'
+            label='Suburb'
+            value={organizationDetails.commCity}
+            onChange={handleFormChange}
+          />
+          <FormControl
+            style={{
+              width: 256,
+              height: 50,
+              marginRight: 7,
+              marginLeft: 9,
+              marginBottom: 10,
+              outline: 'none',
+            }}
+            required={requiredFields.indexOf('commCountry') >= 0 ? true : false}
+          >
+            <InputLabel
+              id='demo-simple-select-helper-label'
+              style={{
+                fontSize: 14,
+                fontFamily: 'inherit',
+                color: 'rgb(94, 94, 94)',
+                marginLeft: 9,
+              }}
+            >
+              Country
+            </InputLabel>
+            <Select
+              native
+              labelId='demo-simple-select-helper-label'
+              id='demo-simple-select-helper'
+              style={{
+                fontSize: 14,
+                fontFamily: 'inherit',
+                color: 'rgb(94, 94, 94)',
+              }}
+              inputProps={{
+                style: {
+                  fontSize: 14,
+                  fontFamily: 'inherit',
+                  color: 'rgb(94, 94, 94)',
+                  padding: 5,
+                },
+              }}
+              name='commCountry'
+              value={organizationDetails.commCountry}
+              onChange={handleChangeCountry}
+            >
+              <option
+                aria-label='Country'
+                selected
+                disabled
+                style={{ display: 'none' }}
+                value=''
+              />
+              {countries.map((country, index) => (
+                <option
+                  value={index}
+                  key={country.id}
+                  selected={organizationDetails.commCountry === country.id}
+                >
+                  {country.countryName}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl
+            style={{
+              width: 256,
+              height: 50,
+              marginRight: 7,
+              marginLeft: 9,
+              marginBottom: 10,
+              outline: 'none',
+            }}
+            required={requiredFields.indexOf('commState') >= 0 ? true : false}
+          >
+            <InputLabel
+              id='demo-simple-select-helper-label'
+              style={{
+                fontSize: 14,
+                fontFamily: 'inherit',
+                color: 'rgb(94, 94, 94)',
+                marginLeft: 9,
+              }}
+            >
+              State
+            </InputLabel>
+            <Select
+              native
+              labelId='demo-simple-select-helper-label'
+              id='demo-simple-select-helper'
+              style={{
+                fontSize: 14,
+                fontFamily: 'inherit',
+                color: 'rgb(94, 94, 94)',
+              }}
+              inputProps={{
+                style: {
+                  fontSize: 14,
+                  fontFamily: 'inherit',
+                  color: 'rgb(94, 94, 94)',
+                  padding: 5,
+                },
+              }}
+              name='commState'
+              value={organizationDetails.commState}
+              onChange={handleFormChange}
+            >
+              <option
+                aria-label='State'
+                selected
+                disabled
+                style={{ display: 'none' }}
+                value=''
+              />
+              {commStates.map((state) => (
+                <option
+                  value={state.id}
+                  key={state.id}
+                  selected={organizationDetails.commState === state.id}
+                >
+                  {state.stateName}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+          <CustomTextInput
+            name='commPostCode'
+            label='Zip'
+            value={organizationDetails.commPostCode}
+            onChange={handleFormChange}
+          />
+        </div>
+        <div className='labelll'>
+          <h3>Postal Address</h3>
+          <input
+            style={{
+              marginLeft: '58%',
+              marginRight: '5px',
+              height: '15px',
+              width: '15px',
+            }}
+            onClick={handleMailingAddress}
+            type='checkbox'
+          ></input>
+          <label>Same as Communication Address</label>
+        </div>
+        <div className='inputtDiv'>
+          <CustomTextInput
+            name='mailingAddress1'
+            label='Address 1'
+            value={organizationDetails.mailingAddress1}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='mailingAddress2'
+            label='Address 2'
+            value={organizationDetails.mailingAddress2}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='mailingAddress3'
+            label='Address 3'
+            value={organizationDetails.mailingAddress3}
+            onChange={handleFormChange}
+          />
+          <CustomTextInput
+            name='mailingCity'
+            label='Suburb'
+            value={organizationDetails.mailingCity}
+            onChange={handleFormChange}
+          />
+          <FormControl
+            style={{
+              width: 256,
+              height: 50,
+              marginRight: 7,
+              marginLeft: 9,
+              marginBottom: 10,
+              outline: 'none',
+            }}
+            required={
+              requiredFields.indexOf('mailingCountry') >= 0 ? true : false
+            }
+          >
+            <InputLabel
+              id='demo-simple-select-helper-label'
+              style={{
+                fontSize: 14,
+                fontFamily: 'inherit',
+                color: 'rgb(94, 94, 94)',
+                marginLeft: 9,
+              }}
+            >
+              Country
+            </InputLabel>
+            <Select
+              native
+              labelId='demo-simple-select-helper-label'
+              id='demo-simple-select-helper'
+              style={{
+                fontSize: 14,
+                fontFamily: 'inherit',
+                color: 'rgb(94, 94, 94)',
+              }}
+              inputProps={{
+                style: {
+                  fontSize: 14,
+                  fontFamily: 'inherit',
+                  color: 'rgb(94, 94, 94)',
+                  padding: 5,
+                },
+              }}
+              name='mailingCountry'
+              value={organizationDetails.mailingCountry}
+              onChange={handleChangeMailCountry}
+            >
+              <option
+                aria-label='Country'
+                selected={organizationDetails.mailingCountry === ''}
+                disabled
+                style={{ display: 'none' }}
+                value=''
+              />
+              {countries.map((country, index) => (
+                <option
+                  key={country.id}
+                  value={index}
+                  selected={organizationDetails.mailingCountry === country.id}
+                >
+                  {country.countryName}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl
+            style={{
+              width: 256,
+              height: 50,
+              marginRight: 7,
+              marginLeft: 9,
+              marginBottom: 10,
+              outline: 'none',
+            }}
+            required={
+              requiredFields.indexOf('mailingState') >= 0 ? true : false
+            }
+          >
+            <InputLabel
+              id='demo-simple-select-helper-label'
+              style={{
+                fontSize: 14,
+                fontFamily: 'inherit',
+                color: 'rgb(94, 94, 94)',
+                marginLeft: 9,
+              }}
+            >
+              State
+            </InputLabel>
+            <Select
+              native
+              labelId='demo-simple-select-helper-label'
+              id='demo-simple-select-helper'
+              style={{
+                fontSize: 14,
+                fontFamily: 'inherit',
+                color: 'rgb(94, 94, 94)',
+              }}
+              inputProps={{
+                style: {
+                  fontSize: 14,
+                  fontFamily: 'inherit',
+                  color: 'rgb(94, 94, 94)',
+                  padding: 5,
+                },
+              }}
+              name='mailingState'
+              value={organizationDetails.mailingState}
+              onChange={handleFormChange}
+            >
+              <option
+                aria-label='State'
+                selected={organizationDetails.mailingState === ''}
+                disabled
+                style={{ display: 'none' }}
+                value=''
+              />
+              {mailStates.map((state) => (
+                <option
+                  key={state.id}
+                  selected={state.id === organizationDetails.mailingState}
+                  value={state.id}
+                >
+                  {state.stateName}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+          <CustomTextInput
+            name='mailingPostCode'
+            label='Zip'
+            value={organizationDetails.mailingPostCode}
+            onChange={handleFormChange}
+          />
+        </div>
+        <div className='labelll'>
+          <div className='personnbtnDiv'>
+            <button onClick={props.close} className='personncancel'>
+              Cancel
+            </button>
+            <button className='personnAdd' type='submit'>
+              Add
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   );
 }

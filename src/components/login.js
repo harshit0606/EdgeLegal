@@ -1,12 +1,12 @@
-import react, { useState } from "react";
-import styles from "../stylesheets/login.css";
-import url from "../config.js";
-import Logo from "../icons/edgelogo.png";
-import axios from "axios";
-import { useCookies } from "react-cookie";
+import react, { useState } from 'react';
+import styles from '../stylesheets/login.css';
+import url from '../config.js';
+import Logo from '../icons/edgelogo.png';
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 function Login() {
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const [cookies, setCookie, removeCookie] = useCookies(['name']);
 
   const [username, setUsername] = useState(undefined);
   const [password, setPassword] = useState(undefined);
@@ -20,11 +20,11 @@ function Login() {
         password: password,
       })
       .then((response) => {
-        setCookie("token", response.data.accessToken);
-        window.location.href = "/home";
+        setCookie('token', response.data.accessToken);
+        window.location.href = '/home';
       })
       .catch((error) => {
-        setError("Wrong Username or password");
+        setError('Wrong Username or password');
       });
   }
 
@@ -32,54 +32,54 @@ function Login() {
     <div>
       {/* <div className="container"> */}
       <img
-        style={{ height: "70px", width: "200px", marginLeft: "20px" }}
+        style={{ height: '70px', width: '200px', marginLeft: '20px' }}
         src={Logo}
       />
-      <div className="loginCard">
-        <h2 className="loginTitle">Log in to Edge Legal</h2>
+      <div className='loginCard'>
+        <h2 className='loginTitle'>Log in to Edge Legal</h2>
         <form
           onSubmit={(e) => {
             handleSubmit(e);
           }}
         >
-          <div className="inputDiv">
-            <label htmlFor="username" className="labelStyle">
+          <div className='inputDiv'>
+            <label htmlFor='username' className='labelStyle'>
               Username
             </label>
             <input
-              placeholder="Enter username"
-              type="text"
-              name="username"
+              placeholder='Enter username'
+              type='text'
+              name='username'
               value={username}
               onChange={(e) => {
                 setUsername(e.target.value);
               }}
-              className="inputStyle"
+              className='inputStyle'
               required
             />
           </div>
-          <div className="inputDiv">
-            <label htmlFor="password" className="labelStyle">
+          <div className='inputDiv'>
+            <label htmlFor='password' className='labelStyle'>
               Password
             </label>
             <input
-              placeholder="Enter password"
-              type="password"
-              name="password"
+              placeholder='Enter password'
+              type='password'
+              name='password'
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
-              className="inputStyle"
+              className='inputStyle'
               required
             />
           </div>
           {error && (
-            <p style={{ textAlign: "center", color: "red", fontSize: "14px" }}>
+            <p style={{ textAlign: 'center', color: 'red', fontSize: '14px' }}>
               {error}
             </p>
           )}
-          <button className="buttonStyle">Log in</button>
+          <button className='buttonStyle'>Log in</button>
         </form>
       </div>
     </div>

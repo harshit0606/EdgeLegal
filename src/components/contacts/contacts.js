@@ -83,6 +83,7 @@ const ConfirmationPopup = (props) => {
 function Contacts() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
+
   const [contactLists, setContactLists] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [filterInput, setFilterInput] = useState(filterFields);
@@ -181,9 +182,15 @@ function Contacts() {
       // console.log()
       let sortedData = filteredData.sort((a, b) => {
         if (order === 'asc') {
-          return a[field].toLowerCase() < b[field].toLowerCase() ? -1 : 1;
+          return (a[field] ? a[field].toLowerCase() : '') <
+            (b[field] ? b[field].toLowerCase() : '')
+            ? -1
+            : 1;
         } else {
-          return a[field].toLowerCase() < b[field].toLowerCase() ? 1 : -1;
+          return (a[field] ? a[field].toLowerCase() : '') <
+            (b[field] ? b[field].toLowerCase() : '')
+            ? 1
+            : -1;
         }
       });
       setFilteredData(sortedData);
