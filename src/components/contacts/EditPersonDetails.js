@@ -131,8 +131,12 @@ const CustomDropDown = (props) => {
           style={{ display: 'none' }}
           value=''
         />
-        <option value={first}>{first}</option>
-        <option value={second}>{second}</option>
+        <option value={first} selected={value === first}>
+          {first}
+        </option>
+        <option value={second} selected={value === second}>
+          {second}
+        </option>
       </Select>
     </FormControl>
   );
@@ -140,98 +144,8 @@ const CustomDropDown = (props) => {
 
 function EditPersonDetails(props) {
   const { contactDetails, changeBool, allCountries } = props;
-  // console.log(allCountries);
+  // console.log(contactDetails);
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
-  const CustomTextInput = (props) => {
-    return (
-      <TextField
-        {...props}
-        style={{
-          width: 256,
-          height: 50,
-          marginRight: 7,
-          marginLeft: 9,
-          marginBottom: 10,
-          outline: 'none',
-        }}
-        InputLabelProps={{
-          style: {
-            fontSize: 14,
-            fontFamily: 'inherit',
-            color: 'rgb(94, 94, 94)',
-            marginLeft: 10,
-          },
-        }}
-        inputProps={{
-          style: {
-            fontSize: 14,
-            fontFamily: 'inherit',
-            color: 'rgb(94, 94, 94)',
-            marginLeft: 10,
-          },
-        }}
-        type='text'
-      />
-    );
-  };
-
-  const CustomDropDown = (props) => {
-    const { lableName, labelId, first, second, name, value, onChange } = props;
-    return (
-      <FormControl
-        style={{
-          width: 256,
-          height: 50,
-          marginRight: 7,
-          marginLeft: 9,
-          marginBottom: 10,
-          outline: 'none',
-        }}
-      >
-        <InputLabel
-          htmlFor={labelId}
-          style={{
-            fontSize: 14,
-            fontFamily: 'inherit',
-            color: 'rgb(94, 94, 94)',
-            marginLeft: 9,
-          }}
-        >
-          {lableName}
-        </InputLabel>
-        <Select
-          native
-          name={name}
-          labelId={labelId}
-          value={value}
-          onChange={onChange}
-          style={{
-            fontSize: 14,
-            fontFamily: 'inherit',
-            color: 'rgb(94, 94, 94)',
-          }}
-          inputProps={{
-            style: {
-              fontSize: 14,
-              fontFamily: 'inherit',
-              color: 'rgb(94, 94, 94)',
-              padding: 5,
-            },
-          }}
-        >
-          <option
-            aria-label='None'
-            selected
-            disabled
-            style={{ display: 'none' }}
-            value=''
-          />
-          <option value={first}>{first}</option>
-          <option value={second}>{second}</option>
-        </Select>
-      </FormControl>
-    );
-  };
   const loggedInToken = cookies.token;
   const [personDetails, setPersonDetails] = useState(contactDetails);
   const [otherDetails, setOtherDetails] = useState({
@@ -343,7 +257,7 @@ function EditPersonDetails(props) {
         ...personDetails,
       },
     };
-    // console.log(formData);
+    console.log(formData);
     try {
       const { data } = await axios.put(
         `${url}/api/contacts`,
