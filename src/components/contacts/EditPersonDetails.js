@@ -7,7 +7,7 @@ import '../../stylesheets/contacts.css';
 import { FormControl, InputLabel, Select, TextField } from '@material-ui/core';
 
 const initialData = {
-  type: '',
+  role: '',
   gender: '',
   salutation: '',
   firstName: '',
@@ -48,6 +48,7 @@ const initialData = {
 };
 
 const CustomTextInput = (props) => {
+  const person = JSON.parse(window.localStorage.getItem('metaData')).person;
   return (
     <TextField
       {...props}
@@ -74,8 +75,14 @@ const CustomTextInput = (props) => {
           color: 'rgb(94, 94, 94)',
           marginLeft: 10,
         },
+        inputMode: `${props.type ? props.type : 'text'}`,
       }}
-      type='text'
+      // type='text'
+      required={person.fields.filter((f) => {
+        if (f.fieldName === props.name) {
+          return !f.allowNull;
+        }
+      })}
     />
   );
 };
@@ -159,6 +166,20 @@ function EditPersonDetails(props) {
   const [boolVal, setBoolVal] = useState(false);
   const [date, setDate] = useState(false);
 
+  const [requiredFields, setRequiredFields] = useState([]);
+
+  const fetchRequired = () => {
+    let arr = [];
+    JSON.parse(window.localStorage.getItem('metaData')).person.fields.map(
+      (f) => {
+        if (!f.allowNull) {
+          arr.push(f.fieldName);
+        }
+      }
+    );
+    setRequiredFields(arr);
+  };
+
   useEffect(async () => {
     if (!boolVal) {
       setCommStates(
@@ -171,6 +192,7 @@ function EditPersonDetails(props) {
           ? allCountries[contactDetails.mailingCountry].states
           : []
       );
+      fetchRequired();
       try {
         const { data } = await axios.get(
           `${url}/api/user/1`,
@@ -296,11 +318,12 @@ function EditPersonDetails(props) {
         <CustomDropDown
           lableName='Type'
           labelId='type-sample'
-          name='type'
-          value={personDetails.type}
+          name='role'
+          value={personDetails.role}
           onChange={(e) => handleFormChange(e)}
           first='OWNER'
           second='TENANT'
+          required={requiredFields.indexOf('role') >= 0 ? true : false}
         />
         <CustomDropDown
           lableName='Gender'
@@ -310,6 +333,7 @@ function EditPersonDetails(props) {
           onChange={handleFormChange}
           first='Male'
           second='Female'
+          required={requiredFields.indexOf('gender') >= 0 ? true : false}
         />
         <CustomDropDown
           lableName='Salutation'
@@ -319,6 +343,7 @@ function EditPersonDetails(props) {
           onChange={handleFormChange}
           first='Mr'
           second='Ms'
+          required={requiredFields.indexOf('salutation') >= 0 ? true : false}
         />
         <CustomTextInput
           name='firstName'
@@ -375,7 +400,14 @@ function EditPersonDetails(props) {
           onChange={handleFormChange}
         />
         {/** there is no organisationId in api body */}
-        <CustomTextInput label='OrganisationId' />
+        <CustomTextInput
+          label='Company Id'
+          name='companyId'
+          type='number'
+          autoComplete='off'
+          value={personDetails.companyId}
+          onChange={handleFormChange}
+        />
         <CustomTextInput
           name='emailId2'
           label='Email 2'
@@ -417,7 +449,6 @@ function EditPersonDetails(props) {
           inputProps={{
             style: {
               fontSize: 14,
-
               fontFamily: 'inherit',
               color: 'rgb(94, 94, 94)',
             },
@@ -506,6 +537,7 @@ function EditPersonDetails(props) {
             marginBottom: 10,
             outline: 'none',
           }}
+          required={requiredFields.indexOf('commCountry') >= 0 ? true : false}
         >
           <InputLabel
             id='demo-simple-select-helper-label'
@@ -574,6 +606,7 @@ function EditPersonDetails(props) {
             marginBottom: 10,
             outline: 'none',
           }}
+          required={requiredFields.indexOf('commState') >= 0 ? true : false}
         >
           <InputLabel
             id='demo-simple-select-helper-label'
@@ -689,6 +722,9 @@ function EditPersonDetails(props) {
             marginBottom: 10,
             outline: 'none',
           }}
+          required={
+            requiredFields.indexOf('mailingCountry') >= 0 ? true : false
+          }
         >
           <InputLabel
             id='demo-simple-select-helper-label'
@@ -749,6 +785,7 @@ function EditPersonDetails(props) {
             marginBottom: 10,
             outline: 'none',
           }}
+          required={requiredFields.indexOf('mailingState') >= 0 ? true : false}
         >
           <InputLabel
             id='demo-simple-select-helper-label'

@@ -6,6 +6,9 @@ import { FormControl, InputLabel, Select, TextField } from '@material-ui/core';
 import '../../stylesheets/property.css';
 
 const CustomTextInput = (props) => {
+  const registered = JSON.parse(
+    window.localStorage.getItem('metaData')
+  ).registered_property;
   return (
     <TextField
       {...props}
@@ -35,6 +38,11 @@ const CustomTextInput = (props) => {
         },
       }}
       type='text'
+      required={registered.fields.filter((f) => {
+        if (f.fieldName === props.name) {
+          return !f.allowNull;
+        }
+      })}
     />
   );
 };
@@ -65,8 +73,18 @@ function PopupForm(props) {
 
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
+  const requiredFields = JSON.parse(
+    window.localStorage.getItem('metaData')
+  ).registered_property.fields.filter((f) => {
+    if (!f.allowNull) {
+      return f.fieldName;
+    }
+  });
 
-  function chotaSave() {
+  // console.log(requiredFields);
+
+  function chotaSave(e) {
+    e.preventDefault();
     const dataToBeSent = {
       ...specifiedDetails,
       registeredProperties: [...tempRegistered, chotaForm],
@@ -107,133 +125,138 @@ function PopupForm(props) {
   return (
     <div className='propertyPopup-container'>
       <div className='propertyPopup-grid'>
-        <div className='modal-content'>
-          <div className='modal-header'>
-            <h5
-              style={{ marginRight: '10%' }}
-              className='modal-title'
-              id='staticBackdropLabel'
-            >
-              Registered Lots
-            </h5>
-            <div className='addPropertyLot-btnDiv'>
-              <button
-                // data-bs-toggle='modal'
-                // data-bs-target={`#staticBackdrop${modalId}`}
-                onClick={() => {
-                  chotaSave();
-                }}
-                className='propertyPageBtns'
+        <form onSubmit={chotaSave}>
+          <div className='modal-content'>
+            <div className='modal-header'>
+              <h5
+                style={{ marginRight: '10%' }}
+                className='modal-title'
+                id='staticBackdropLabel'
               >
-                Save
-              </button>
-              {isAddTrue === true && (
-                <button className='propertyPageBtns'>Delete</button>
-              )}
-              <button
-                className='propertyPageBtns'
-                // data-bs-toggle='modal'
-                // data-bs-target={`#staticBackdrop${modalId}`}
-                // aria-label='Close'
-                onClick={() => setIsPopRForm(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-          <div className='modal-body'>
-            <div style={{ padding: '12px' }}>
-              <div className='row'>
-                <div className='col-4'>
-                  <CustomTextInput
-                    name='titleReference'
-                    label='Title Reference'
-                    value={chotaForm?.titleReference}
-                    onChange={(e) => {
-                      setChotaForm({
-                        ...chotaForm,
-                        titleReference: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
-                <div className='col-4'>
-                  <CustomTextInput
-                    name='lotNumber'
-                    label='Lot No.'
-                    value={chotaForm?.lotNumber}
-                    onChange={(e) => {
-                      setChotaForm({
-                        ...chotaForm,
-                        lotNumber: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
-                <div className='col-4'>
-                  <CustomTextInput
-                    name='section'
-                    label='Section'
-                    value={chotaForm?.section}
-                    onChange={(e) => {
-                      setChotaForm({
-                        ...chotaForm,
-                        section: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
-                <div className='col-4' style={{ marginTop: '15px' }}>
-                  <CustomTextInput
-                    name='depositedPlanNumber'
-                    label='Deposited Plan No.'
-                    value={chotaForm?.depositedPlanNumber}
-                    onChange={(e) => {
-                      setChotaForm({
-                        ...chotaForm,
-                        depositedPlanNumber: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
-                <div className='col-4' style={{ marginTop: '15px' }}>
-                  <CustomTextInput
-                    name='strataPlanNumber'
-                    label='Strata Plan No.'
-                    value={chotaForm?.strataPlanNumber}
-                    onChange={(e) => {
-                      setChotaForm({
-                        ...chotaForm,
-                        strataPlanNumber: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
+                Registered Lots
+              </h5>
+              <div className='addPropertyLot-btnDiv'>
+                <button
+                  // data-bs-toggle='modal'
+                  // data-bs-target={`#staticBackdrop${modalId}`}
+                  type='submit'
+                  className='propertyPageBtns'
+                >
+                  Save
+                </button>
+                {isAddTrue === true && (
+                  <button className='propertyPageBtns'>Delete</button>
+                )}
+                <button
+                  className='propertyPageBtns'
+                  // data-bs-toggle='modal'
+                  // data-bs-target={`#staticBackdrop${modalId}`}
+                  // aria-label='Close'
+                  onClick={() => setIsPopRForm(false)}
+                >
+                  Cancel
+                </button>
               </div>
-              <div
-                style={{
-                  marginTop: '15px',
-                  marginBottom: '0.5rem',
-                  padding: '0 10px',
-                }}
-              >
-                <textarea
-                  className='addNewCustody-textArea'
-                  rows='2'
-                  cols='45'
-                  value={chotaForm.description}
-                  placeholder='Description'
-                  onChange={(e) => {
-                    setChotaForm({
-                      ...chotaForm,
-                      description: e.target.value,
-                    });
+            </div>
+            <div className='modal-body'>
+              <div style={{ padding: '12px' }}>
+                <div className='row'>
+                  <div className='col-4'>
+                    <CustomTextInput
+                      name='titleReference'
+                      label='Title Reference'
+                      value={chotaForm?.titleReference}
+                      onChange={(e) => {
+                        setChotaForm({
+                          ...chotaForm,
+                          titleReference: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div className='col-4'>
+                    <CustomTextInput
+                      name='lotNumber'
+                      label='Lot No.'
+                      value={chotaForm?.lotNumber}
+                      onChange={(e) => {
+                        setChotaForm({
+                          ...chotaForm,
+                          lotNumber: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div className='col-4'>
+                    <CustomTextInput
+                      name='section'
+                      label='Section'
+                      value={chotaForm?.section}
+                      onChange={(e) => {
+                        setChotaForm({
+                          ...chotaForm,
+                          section: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div className='col-4' style={{ marginTop: '15px' }}>
+                    <CustomTextInput
+                      name='depositedPlanNumber'
+                      label='Deposited Plan No.'
+                      value={chotaForm?.depositedPlanNumber}
+                      onChange={(e) => {
+                        setChotaForm({
+                          ...chotaForm,
+                          depositedPlanNumber: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div className='col-4' style={{ marginTop: '15px' }}>
+                    <CustomTextInput
+                      name='strataPlanNumber'
+                      label='Strata Plan No.'
+                      value={chotaForm?.strataPlanNumber}
+                      onChange={(e) => {
+                        setChotaForm({
+                          ...chotaForm,
+                          strataPlanNumber: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+                <div
+                  style={{
+                    marginTop: '15px',
+                    marginBottom: '0.5rem',
+                    padding: '0 10px',
                   }}
-                />
+                >
+                  <textarea
+                    className='addNewCustody-textArea'
+                    rows='2'
+                    cols='45'
+                    value={chotaForm.description ? chotaForm.description : ''}
+                    placeholder={`Description ${
+                      requiredFields.indexOf('description') >= 0 ? '*' : ''
+                    }`}
+                    onChange={(e) => {
+                      setChotaForm({
+                        ...chotaForm,
+                        description: e.target.value,
+                      });
+                    }}
+                    required={
+                      requiredFields.indexOf('description') >= 0 ? true : false
+                    }
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

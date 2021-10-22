@@ -9,7 +9,7 @@ import downArrow from '../../images/downArrow.svg';
 import downArrowColoured from '../../images/downArrowColoured.svg';
 import upArrowColoured from '../../images/upArrowColoured.svg';
 
-import styles from '../../stylesheets/property.css';
+import '../../stylesheets/property.css';
 
 import PopupFormR from './popupformR.js';
 import PopupFormUnR from './popupformUnR.js';
@@ -95,7 +95,7 @@ function RenderProperty() {
     };
 
     const propertyData = (data, countryData) => {
-      console.log('data', countryData);
+      // console.log('data', countryData);
       var dataArray = [];
       data.forEach((d) => {
         let propertyAddress;
@@ -435,7 +435,7 @@ function RenderProperty() {
       return (
         <div
           className={`row ${
-            index % 2 === 0 ? 'contacttdatadiv' : 'lightcontacttdatadiv'
+            index % 2 === 0 ? 'lightpropertydatadiv' : 'propertydatadiv'
           }`}
           key={property.details.id}
         >

@@ -38,7 +38,8 @@ const CustomTextInput = (props) => {
 };
 
 function AddUnregisteredLots(props) {
-  const { modalId, tempUnregistered, setTempUnregistered, isAddTrue } = props;
+  const { modalId, tempUnregistered, setTempUnregistered, isAddTrue, unreg } =
+    props;
 
   const [chotaFormUn, setChotaFormUn] = useState({
     lot: '',
@@ -48,7 +49,8 @@ function AddUnregisteredLots(props) {
     description: '',
   });
 
-  function chotaSave() {
+  function chotaSave(e) {
+    e.preventDefault();
     setTempUnregistered([...tempUnregistered, chotaFormUn]);
     setChotaFormUn({
       lot: '',
@@ -143,6 +145,9 @@ function AddUnregisteredLots(props) {
                         lot: e.target.value,
                       });
                     }}
+                    required={
+                      unreg.indexOf('lot'.toLowerCase()) >= 0 ? true : false
+                    }
                   />
                 </div>
                 <div className='col-4'>
@@ -156,6 +161,11 @@ function AddUnregisteredLots(props) {
                         partOfLot: e.target.value,
                       });
                     }}
+                    required={
+                      unreg.indexOf('partOfLot'.toLowerCase()) >= 0
+                        ? true
+                        : false
+                    }
                   />
                 </div>
                 <div className='col-4'>
@@ -169,6 +179,9 @@ function AddUnregisteredLots(props) {
                         section: e.target.value,
                       });
                     }}
+                    required={
+                      unreg.indexOf('section'.toLowerCase()) >= 0 ? true : false
+                    }
                   />
                 </div>
                 <div className='col-4' style={{ margin: '10px 0' }}>
@@ -182,6 +195,9 @@ function AddUnregisteredLots(props) {
                         plan: e.target.value,
                       });
                     }}
+                    required={
+                      unreg.indexOf('plan'.toLowerCase()) >= 0 ? true : false
+                    }
                   />
                 </div>
               </div>
@@ -198,6 +214,11 @@ function AddUnregisteredLots(props) {
                   }}
                   rows='2'
                   cols='55'
+                  required={
+                    unreg.indexOf('description'.toLowerCase()) >= 0
+                      ? true
+                      : false
+                  }
                 />
               </div>
             </div>

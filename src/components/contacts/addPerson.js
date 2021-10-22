@@ -12,7 +12,8 @@ import {
 } from '@material-ui/core';
 
 const initialData = {
-  type: '',
+  role: '',
+  companyId: '',
   gender: '',
   salutation: '',
   firstName: '',
@@ -54,6 +55,7 @@ const initialData = {
 
 const CustomTextInput = (props) => {
   const person = JSON.parse(window.localStorage.getItem('metaData')).person;
+
   return (
     <TextField
       {...props}
@@ -80,8 +82,9 @@ const CustomTextInput = (props) => {
           color: 'rgb(94, 94, 94)',
           marginLeft: 10,
         },
+        inputMode: `${props.type ? props.type : 'text'}`,
       }}
-      type='text'
+      // type='text'
       required={person.fields.filter((f) => {
         if (f.fieldName === props.name) {
           return !f.allowNull;
@@ -310,7 +313,9 @@ function AddPerson(props) {
       console.log(err);
     }
   };
-
+  // console.log(
+  //   JSON.parse(window.localStorage.getItem('metaData')).person.fields
+  // );
   return (
     <div className='addPersonDiv'>
       <div className='titleDiv'>
@@ -324,12 +329,12 @@ function AddPerson(props) {
           <CustomDropDown
             lableName='Type'
             labelId='type-sample'
-            name='type'
-            value={personDetails.type}
+            name='role'
+            value={personDetails.role}
             onChange={(e) => handleFormChange(e)}
             first='OWNER'
             second='TENANT'
-            required={requiredFields.indexOf('type') >= 0 ? true : false}
+            required={requiredFields.indexOf('role') >= 0 ? true : false}
           />
           <CustomDropDown
             lableName='Gender'
@@ -406,7 +411,14 @@ function AddPerson(props) {
             onChange={handleFormChange}
           />
           {/** there is no organisationId in api body */}
-          <CustomTextInput label='OrganisationId' />
+          <CustomTextInput
+            label='Company Id'
+            name='companyId'
+            type='number'
+            autoComplete='off'
+            value={personDetails.companyId}
+            onChange={handleFormChange}
+          />
           <CustomTextInput
             name='emailId2'
             label='Email 2'

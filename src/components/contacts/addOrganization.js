@@ -6,7 +6,7 @@ import '../../stylesheets/contacts.css';
 import { FormControl, InputLabel, Select, TextField } from '@material-ui/core';
 
 const initialData = {
-  type: 'Bussiness/Partnership',
+  role: 'Bussiness/Partnership',
   subType: '',
   legalName: '',
   name: '',
@@ -264,38 +264,38 @@ function AddOrganization(props) {
           style={{ marginLeft: '20px', marginTop: '10px', fontSize: '14px' }}
         >
           <p style={{ marginBottom: '10px' }}>
-            Organisation Type {requiredFields.indexOf('type') >= 0 ? '*' : ''}
+            Organisation Type {requiredFields.indexOf('role') >= 0 ? '*' : ''}
           </p>
           <input
             type='radio'
-            name='type'
+            name='role'
             value='Bussiness/Partnership'
             onChange={handleFormChange}
-            checked={organizationDetails.type === 'Bussiness/Partnership'}
+            checked={organizationDetails.role === 'Bussiness/Partnership'}
           ></input>{' '}
           Bussiness/Partnership&nbsp;&nbsp;&nbsp;
           <input
             type='radio'
-            name='type'
+            name='role'
             value='Company'
             onChange={handleFormChange}
-            checked={organizationDetails.type === 'Company'}
+            checked={organizationDetails.role === 'Company'}
           />{' '}
           Company&nbsp;&nbsp;&nbsp;
           <input
             type='radio'
-            name='type'
+            name='role'
             value='Government Department'
             onChange={handleFormChange}
-            checked={organizationDetails.type === 'Government Department'}
+            checked={organizationDetails.role === 'Government Department'}
           />{' '}
           Government Department&nbsp;&nbsp;&nbsp;
           <input
             type='radio'
-            name='type'
+            name='role'
             value='Trust'
             onChange={handleFormChange}
-            checked={organizationDetails.type === 'Trust'}
+            checked={organizationDetails.role === 'Trust'}
           />{' '}
           Trust&nbsp;&nbsp;&nbsp;
         </div>
@@ -379,7 +379,7 @@ function AddOrganization(props) {
             onChange={handleFormChange}
           />
           <CustomTextInput
-            name='representativeId'
+            name='representative Id'
             label='RepresentativeId'
             type='number'
             autoComplete='off'
