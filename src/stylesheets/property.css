@@ -29,6 +29,20 @@
   padding-bottom: 20px;
 }
 
+.propertydatadiv {
+  height: 40px;
+  background-color: #f3f3f3 !important;
+  padding-top: 11px;
+  color: #1f252c;
+}
+
+.lightpropertydatadiv {
+  background-color: #fff !important;
+  height: 40px;
+  padding-top: 11px;
+  color: #1f252c;
+}
+
 .propertyPageHeadings {
   background-color: #dee2e5;
   border-bottom: 1px solid lightgray;

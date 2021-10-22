@@ -293,7 +293,7 @@ function Contacts() {
         <ContactStripe handleDelete={handleDeleteSeletedContact} />
       </div>
 
-      <div className='row associatedContacts'>
+      <div className='row associatedContacts '>
         <div style={{ flex: '.5 0 0%' }}>
           <input
             type='checkbox'
@@ -304,7 +304,7 @@ function Contacts() {
             }
           ></input>
         </div>
-        <div className='col-2'>
+        <div className='col-2 '>
           <label className='associatedContacts-label'>
             Contact Code
             <div className='associatedContacts-label-btn'>

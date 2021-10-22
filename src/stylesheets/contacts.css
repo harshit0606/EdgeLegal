@@ -39,7 +39,7 @@
 
 .contacttdatadiv {
   height: 40px;
-  background-color: #f3f3f3;
+  background-color: #f3f3f3 !important;
   padding-top: 11px;
   color: #1f252c;
 }

@@ -82,11 +82,48 @@ function AddNewProperty(props) {
   const [isBool, setIsBool] = useState(false);
   // const [countries, setCountries] = useState(allCountries);
   const [states, setStates] = useState([]);
+  const [requiredGeneral, setRequiredGeneral] = useState([]);
+  const [requiredRegistered, setRequiredRegistered] = useState([]);
+  const [requiredUnregistered, setRequiredUnregistered] = useState([]);
 
   // console.log(allCountries);
 
+  const fetchRequired = () => {
+    let general = [];
+    JSON.parse(window.localStorage.getItem('metaData')).property.fields.map(
+      (f) => {
+        if (!f.allowNull) {
+          general.push(f.fieldName.toLowerCase());
+        }
+      }
+    );
+    setRequiredGeneral(general);
+    // console.log('general', general);
+    let reg = [];
+    JSON.parse(
+      window.localStorage.getItem('metaData')
+    ).registered_property.fields.map((f) => {
+      if (!f.allowNull) {
+        reg.push(f.fieldName.toLowerCase());
+      }
+    });
+    setRequiredRegistered(reg);
+    // console.log('reg', reg);
+    let unreg = [];
+    JSON.parse(
+      window.localStorage.getItem('metaData')
+    ).unregistered_property.fields.map((f) => {
+      if (!f.allowNull) {
+        unreg.push(f.fieldName.toLowerCase());
+      }
+    });
+    setRequiredUnregistered(unreg);
+  };
+
   useEffect(async () => {
     if (!isBool && allCountries.length !== 0) {
+      fetchRequired();
+      // console.log('run');
       setCountry(allCountries[0].id);
       setStates(allCountries[0].states);
       setState(allCountries[0].states[0].id);
@@ -183,6 +220,7 @@ function AddNewProperty(props) {
   }
 
   function renderGeneral() {
+    // console.log('gen', requiredGeneral);
     return (
       <div className='generalDiv'>
         <div
@@ -197,6 +235,11 @@ function AddNewProperty(props) {
               onChange={(e) => {
                 setBuildingName(e.target.value);
               }}
+              required={
+                requiredGeneral.indexOf('buildingName'.toLowerCase()) >= 0
+                  ? true
+                  : false
+              }
             />
           </div>
           <div className='col-4'>
@@ -207,6 +250,11 @@ function AddNewProperty(props) {
               onChange={(e) => {
                 setUnit(e.target.value);
               }}
+              required={
+                requiredGeneral.indexOf('unit'.toLowerCase()) >= 0
+                  ? true
+                  : false
+              }
             />
           </div>
           <div className='col-4'>
@@ -217,6 +265,11 @@ function AddNewProperty(props) {
               onChange={(e) => {
                 setStreetNo(e.target.value);
               }}
+              required={
+                requiredGeneral.indexOf('streetNo'.toLowerCase()) >= 0
+                  ? true
+                  : false
+              }
             />
           </div>
           <div className='col-4'>
@@ -227,6 +280,11 @@ function AddNewProperty(props) {
               onChange={(e) => {
                 setStreet(e.target.value);
               }}
+              required={
+                requiredGeneral.indexOf('street'.toLowerCase()) >= 0
+                  ? true
+                  : false
+              }
             />
           </div>
           <div className='col-4'>
@@ -237,6 +295,11 @@ function AddNewProperty(props) {
               onChange={(e) => {
                 setSuburb(e.target.value);
               }}
+              required={
+                requiredGeneral.indexOf('suburb'.toLowerCase()) >= 0
+                  ? true
+                  : false
+              }
             />
           </div>
           <div className='col-4'>
@@ -247,6 +310,11 @@ function AddNewProperty(props) {
               onChange={(e) => {
                 setPostCode(e.target.value);
               }}
+              required={
+                requiredGeneral.indexOf('postCode'.toLowerCase()) >= 0
+                  ? true
+                  : false
+              }
             />
           </div>
           <div className='col-4 rowWise'>
@@ -260,6 +328,11 @@ function AddNewProperty(props) {
                 marginTop: '1.2rem',
                 outline: 'none',
               }}
+              required={
+                requiredGeneral.indexOf('country'.toLowerCase()) >= 0
+                  ? true
+                  : false
+              }
             >
               <InputLabel
                 id='demo-simple-select-helper-label'
@@ -326,6 +399,11 @@ function AddNewProperty(props) {
                 marginTop: '1.2rem',
                 outline: 'none',
               }}
+              required={
+                requiredGeneral.indexOf('state'.toLowerCase()) >= 0
+                  ? true
+                  : false
+              }
             >
               <InputLabel
                 id='demo-simple-select-helper-label'
@@ -406,6 +484,7 @@ function AddNewProperty(props) {
               modalId={4}
               tempRegistered={tempRegistered}
               setTempRegistered={setTempRegistered}
+              reg={requiredRegistered}
             />
           </div>
           <div className='propertyPagesubHeads'>
@@ -455,6 +534,7 @@ function AddNewProperty(props) {
               modalId={5}
               tempUnregistered={tempUnregistered}
               setTempUnregistered={setTempUnregistered}
+              unreg={requiredUnregistered}
             />
           </div>
           <div className='propertyPagesubHeads'>

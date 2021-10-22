@@ -15,7 +15,7 @@ function PersonDetail(props) {
         </div>
         <div className='smaller-detail-div'>
           <p>Type</p>
-          <h3>{contactDetails?.type ? contactDetails?.type : ''}</h3>
+          <h3>{contactDetails?.role ? contactDetails?.role : ''}</h3>
         </div>
         <div className='smaller-detail-div'>
           <p>Salutaion</p>
