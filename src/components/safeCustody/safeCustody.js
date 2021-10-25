@@ -148,6 +148,31 @@ function RenderSafeCustody(props) {
       setIsLoading(false);
     };
 
+    const fetchAllContacts = () => {
+      axios
+        .get(
+          `${url}/api/contacts?requestId=1124455&textField=&type=`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${loggedInToken}`,
+            },
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          // console.log(res.data?.data);
+          setContactLists(res.data?.data?.contactLists);
+          setFilterPrepare(res.data?.data?.contactLists);
+          // setOpenLinkContactForm(true);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    };
+
     if (!boolVal) {
       setIsLoading(true);
       axios
@@ -169,7 +194,7 @@ function RenderSafeCustody(props) {
           setCustodyPacketContacts(response.data?.data?.custodyPacketContacts);
           setCustodyPacket(response.data?.data);
           setFilteredData(response.data?.data?.custodyPacketContacts);
-          setFilterPrepare(response.data?.data?.custodyPacketContacts);
+          fetchAllContacts();
           setBoolVal(true);
         })
         .catch((err) => {
@@ -279,27 +304,28 @@ function RenderSafeCustody(props) {
   };
 
   const handleOpenLinkForm = async () => {
-    await axios
-      .get(
-        `${url}/api/contacts?requestId=1124455&textField=&type=`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        // console.log(res.data?.data);
-        setContactLists(res.data?.data?.contactLists);
-        setOpenLinkContactForm(true);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    // await axios
+    //   .get(
+    //     `${url}/api/contacts?requestId=1124455&textField=&type=`,
+    //     {
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         Authorization: `Bearer ${loggedInToken}`,
+    //       },
+    //     },
+    //     {
+    //       withCredentials: true,
+    //     }
+    //   )
+    //   .then((res) => {
+    //     // console.log(res.data?.data);
+    //     setContactLists(res.data?.data?.contactLists);
+    //     setOpenLinkContactForm(true);
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //   });
+    setOpenLinkContactForm(true);
   };
 
   const handleUnLink = async () => {
@@ -423,11 +449,9 @@ function RenderSafeCustody(props) {
   };
 
   const filterPrepareData = (obj) => {
-    // console.log(obj);
-    const newData = custodyPacketContacts.filter((data) =>
-      data.contactDetails['firstName']
-        .toLowerCase()
-        .includes(obj['firstName'].toLowerCase())
+    // console.log(contactLists);
+    const newData = contactLists.filter((data) =>
+      data['firstName'].toLowerCase().includes(obj['firstName'].toLowerCase())
     );
     setFilterPrepare(newData);
   };
@@ -506,7 +530,7 @@ function RenderSafeCustody(props) {
     setPrepareSelect(true);
     setPrepareInput({
       ...prepareInput,
-      firstName: data.contactDetails.firstName,
+      firstName: data.firstName,
     });
     setPrepareReceiptContact(data);
   };
@@ -520,7 +544,7 @@ function RenderSafeCustody(props) {
         custodyPacketAttachmentIdList: selectPrepare,
       };
 
-      console.log(data);
+      // console.log(data);
 
       axios
         .post(
@@ -720,7 +744,7 @@ function RenderSafeCustody(props) {
                             )
                           }
                         >
-                          {contact.contactDetails.firstName}
+                          {contact.firstName}
                         </p>
                       ))}
                     </div>
@@ -1364,7 +1388,7 @@ function RenderSafeCustody(props) {
                             )
                           }
                         >
-                          {contact.contactDetails.firstName}
+                          {contact.firstName}
                         </p>
                       ))}
                     </div>

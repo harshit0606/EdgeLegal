@@ -221,6 +221,8 @@
   top: 120px;
   left: 15px;
   width: 38%;
+  max-height: 145px;
+  overflow-y: auto;
   outline: none;
   background-color: #f3f3f3;
   padding: 5px 0px;

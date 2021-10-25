@@ -1,6 +1,6 @@
 .associatedContacts {
   margin-top: 0%;
-  margin-bottom: 4%;
+  margin-bottom: 1%;
   padding-top: 2.5%;
   color: #212529;
   padding-left: 15px;
@@ -77,6 +77,14 @@
   color: #1f252c;
 }
 
+.all-contacttdatadiv:hover {
+  background-color: #dceeff !important;
+}
+
+.all-lightcontacttdatadiv:hover {
+  background-color: #dceeff !important;
+}
+
 .lightcontacttdatadiv p {
   font-size: 15px;
 }
@@ -86,10 +94,10 @@
 }
 
 .contacttdatadiv:hover {
-  background-color: #dceeff;
+  background-color: #dceeff !important;
 }
 .lightcontacttdatadiv:hover {
-  background-color: #dceeff;
+  background-color: #dceeff !important;
 }
 .associatedContacts input {
   width: 100%;

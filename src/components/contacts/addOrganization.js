@@ -84,7 +84,7 @@ const CustomTextInput = (props) => {
 };
 
 function AddOrganization(props) {
-  const { allCountries } = props;
+  const { allCountries, refresh } = props;
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
   const [organizationDetails, setOrganizationDetails] = useState(initialData);
@@ -244,6 +244,7 @@ function AddOrganization(props) {
       // console.log(data);
       setOrganizationDetails(initialData);
       props.close();
+      refresh(false);
     } catch (err) {
       console.log(err);
     }
@@ -379,8 +380,8 @@ function AddOrganization(props) {
             onChange={handleFormChange}
           />
           <CustomTextInput
-            name='representative Id'
-            label='RepresentativeId'
+            name='representativeId'
+            label='Representative Id'
             type='number'
             autoComplete='off'
             value={organizationDetails.representativeId}
