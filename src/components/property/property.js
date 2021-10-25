@@ -8,6 +8,7 @@ import upArrow from '../../images/upArrow.svg';
 import downArrow from '../../images/downArrow.svg';
 import downArrowColoured from '../../images/downArrowColoured.svg';
 import upArrowColoured from '../../images/upArrowColoured.svg';
+import closeBtn from '../../images/close-white-btn.svg';
 
 import '../../stylesheets/property.css';
 
@@ -18,6 +19,14 @@ import UnregisteredLot from './unregisteredLot.js';
 import RelatedMattersLot from './relatedMatters.js';
 import AddNewProperty from './addNewProperty.js';
 import LoadingPage from '../../utils/LoadingPage.js';
+
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Box,
+} from '@material-ui/core';
 
 const filterRegisterFields = {
   depositedPlanNumber: '',
@@ -34,6 +43,64 @@ const filterUnregisterFields = {
   lot: '',
   plan: '',
   section: '',
+};
+
+const ConfirmationPopup = (props) => {
+  const { closeForm, loggedInToken, setBoolVal, selected, setSelected } = props;
+
+  // console.log(contactIds);
+  // console.log(contactTypes);
+
+  const deletePropertyOnMain = async () => {
+    let str = selected.join(',');
+    console.log('str', str);
+    try {
+      const res = await axios.delete(
+        `${url}/api/property/delete/${str}?requestId=1234567`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      // console.log('bulk delete', res);
+      // window.location.reload();
+      setSelected([]);
+      setBoolVal(false);
+      closeForm();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return (
+    <div className='confirmation-popup-container'>
+      <div className='confirmation-popup-grid'>
+        <div className='confirmation-header'>
+          <h2 className='confirmation-heading'>Confirm Your Action</h2>
+          <button className='close-form-btn' onClick={closeForm}>
+            {' '}
+            <img src={closeBtn} alt='close-btn' />
+          </button>
+        </div>
+        <div className='confirmation-para'>
+          <p>Are you sure you want to delete the record?</p>
+        </div>
+        <div className='confirmation-buttonDiv'>
+          <button className='cancelButton' onClick={closeForm}>
+            No
+          </button>
+          <button className='addButton' onClick={deletePropertyOnMain}>
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 function RenderProperty() {
@@ -55,6 +122,7 @@ function RenderProperty() {
   const [registeredLots, setRegisteredLots] = useState([]);
   const [unregisteredLots, setUnregisteredLots] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   // to delete property
   const [selected, setSelected] = useState([]);
@@ -72,7 +140,7 @@ function RenderProperty() {
   // console.log('length', filteredData.length);
 
   useEffect(() => {
-    const fetchCountries = async (propertiesData) => {
+    const fetchCountries = async () => {
       try {
         const response = await axios.get(
           `${url}/api/dropdown/countries?requestId=1124455`,
@@ -88,7 +156,7 @@ function RenderProperty() {
         );
         // console.log(response.data);
         setCountries(response.data?.data?.countryList);
-        propertyData(propertiesData, response.data?.data?.countryList);
+        // propertyData(propertiesData, response.data?.data?.countryList);
       } catch (err) {
         console.log(err);
       }
@@ -149,9 +217,10 @@ function RenderProperty() {
         .then((response) => {
           // setAllProperties(response.data.data.properties);
           // propertyData();
-          fetchCountries(response.data.data.properties);
-          // setFilteredData(response.data.data.properties);
-          // console.log('in axios then', response.data.data);
+          fetchCountries();
+          setFilteredData(response.data.data.properties);
+          setBoolVal(true);
+          setIsLoading(false);
         })
         .catch((err) => {
           console.log(err);
@@ -420,7 +489,7 @@ function RenderProperty() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = filteredData?.map((row) => row.details.id);
+      const newSelecteds = filteredData?.map((row) => row.id);
       setSelected(newSelecteds);
       return;
     }
@@ -435,30 +504,30 @@ function RenderProperty() {
       return (
         <div
           className={`row ${
-            index % 2 === 0 ? 'lightpropertydatadiv' : 'propertydatadiv'
+            index % 2 === 0 ? 'propertydatadiv' : 'lightpropertydatadiv'
           }`}
-          key={property.details.id}
+          key={property.id}
         >
           <input
             className='col-1'
             style={{ padding: '5px' }}
             type='checkbox'
-            checked={isSelected(property.details.id)}
-            onChange={() => handleSelectToDelete(property.details.id)}
+            checked={isSelected(property.id)}
+            onChange={() => handleSelectToDelete(property.id)}
           />
           <h6
             style={{ padding: '0 15px', cursor: 'pointer' }}
             onClick={() => {
-              fetchPropertyData(property.details);
+              fetchPropertyData(property);
             }}
             className='col-4'
           >
-            {property.titleRef}
+            {property.titleReferences}
           </h6>
           <h6
             style={{ padding: '0 15px', cursor: 'pointer' }}
             onClick={() => {
-              fetchPropertyData(property.details);
+              fetchPropertyData(property);
             }}
             className='col-6'
           >
@@ -476,10 +545,18 @@ function RenderProperty() {
     setStates(
       countries[details.country] ? countries[details.country].states : []
     );
-    setRegisteredLots(details.registeredProperties);
-    setFilteredRegisterLot(details.registeredProperties);
-    setUnregisteredLots(details.unregisteredProperties);
-    setFilteredUnregisterLot(details.unregisteredProperties);
+    setRegisteredLots(
+      details.registeredProperties ? details.registeredProperties : []
+    );
+    setFilteredRegisterLot(
+      details.registeredProperties ? details.registeredProperties : []
+    );
+    setUnregisteredLots(
+      details.unregisteredProperties ? details.registeredProperties : []
+    );
+    setFilteredUnregisterLot(
+      details.unregisteredProperties ? details.registeredProperties : []
+    );
 
     document.getElementById('searchPropertyDiv').classList.add('hideSection');
     document.getElementById('mainPropertyDiv').classList.remove('hideSection');
@@ -558,6 +635,34 @@ function RenderProperty() {
     // console.log('update property', specificProperty);
   }
 
+  const changeNumberOfRows = (e) => {
+    console.log(e.target.value);
+    setIsLoading(true);
+    axios
+      .get(
+        `${url}/api/property?requestId=1234567&pageSize=${e.target.value}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        // setAllProperties(response.data.data.properties);
+        // propertyData();
+        setFilteredData(response.data.data.properties);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  };
+
   return (
     <div>
       <div className='row propertyDiv'>
@@ -565,29 +670,59 @@ function RenderProperty() {
           <div>
             <div className='propertyPageHeadings'>
               <h6 className='propertyPageHeads'>Property</h6>
-              <div className='propertyButton-div'>
-                <button
-                  className='propertyPageBtns'
-                  data-bs-toggle='modal'
-                  data-bs-target='#staticBackdrop3'
-                >
-                  <span className='plusdiv'>+</span>Add
-                </button>
-                {selected.length > 0 && (
+              <div className='propertyHeaderContainer'>
+                <div className='propertyButton-div'>
                   <button
-                    className='propertyButton-delete'
-                    onClick={deletePropertyOnMain}
+                    className='propertyPageBtns'
+                    data-bs-toggle='modal'
+                    data-bs-target='#staticBackdrop3'
                   >
-                    Delete
+                    <span className='plusdiv'>+</span>Add
                   </button>
-                )}
-                <AddNewProperty
-                  isEditTrue={isEditTrue}
-                  setIsEditTrue={setIsEditTrue}
-                  setBoolVal={setBoolVal}
-                  numberOfRegisteredLots={registeredLots.length}
-                  allCountries={countries}
-                />
+                  {selected.length > 0 && (
+                    <button
+                      className='propertyButton-delete'
+                      onClick={() => setShowConfirm(true)}
+                    >
+                      Delete
+                    </button>
+                  )}
+                  <AddNewProperty
+                    isEditTrue={isEditTrue}
+                    setIsEditTrue={setIsEditTrue}
+                    setBoolVal={setBoolVal}
+                    numberOfRegisteredLots={registeredLots.length}
+                    allCountries={countries}
+                  />
+                </div>
+                <div className='property-filterDiv'>
+                  <Box sx={{ minWidth: 120 }} style={{ marginLeft: '25%' }}>
+                    <FormControl fullWidth>
+                      <InputLabel
+                        id='demo-simple-select-label'
+                        style={{ paddingLeft: '6px' }}
+                      >
+                        Filter
+                      </InputLabel>
+                      <Select
+                        labelId='demo-simple-select-label'
+                        id='demo-simple-select'
+                        label='Filter'
+                        onChange={changeNumberOfRows}
+                        InputLabelProps={{
+                          style: {
+                            paddingLeft: '5px',
+                          },
+                        }}
+                      >
+                        <MenuItem value={10}>10</MenuItem>
+                        <MenuItem value={25}>25</MenuItem>
+                        <MenuItem value={50}>50</MenuItem>
+                        <MenuItem value={100}>100</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </div>
               </div>
             </div>
             <div className='leftPropertyDiv'>
@@ -1556,6 +1691,15 @@ function RenderProperty() {
         </div>
       </div>
       {isLoading && <LoadingPage />}
+      {showConfirm && (
+        <ConfirmationPopup
+          selected={selected}
+          setSelected={setSelected}
+          closeForm={() => setShowConfirm(false)}
+          setBoolVal={setBoolVal}
+          loggedInToken={loggedInToken}
+        />
+      )}
     </div>
   );
 }

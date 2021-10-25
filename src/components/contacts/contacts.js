@@ -25,7 +25,8 @@ const filterFields = {
 };
 
 const ConfirmationPopup = (props) => {
-  const { ids, types, closeForm, loggedInToken, setBoolVal } = props;
+  const { ids, types, closeForm, loggedInToken, setBoolVal, setAllInitial } =
+    props;
   const contactIds = ids.join(',');
   const contactTypes = types.join(',');
 
@@ -49,6 +50,7 @@ const ConfirmationPopup = (props) => {
       .then((res) => {
         setBoolVal(false);
         closeForm();
+        setAllInitial();
         // window.location.reload()
       })
       .catch((err) => console.log(err));
@@ -290,7 +292,10 @@ function Contacts() {
       }}
     >
       <div>
-        <ContactStripe handleDelete={handleDeleteSeletedContact} />
+        <ContactStripe
+          handleDelete={handleDeleteSeletedContact}
+          changeBool={setBoolVal}
+        />
       </div>
 
       <div className='row associatedContacts '>

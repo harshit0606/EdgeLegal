@@ -36,11 +36,19 @@
   color: #1f252c;
 }
 
+.propertydatadiv:hover {
+  background-color: #dceeff !important;
+}
+
 .lightpropertydatadiv {
   background-color: #fff !important;
   height: 40px;
   padding-top: 11px;
   color: #1f252c;
+}
+
+.lightpropertydatadiv:hover {
+  background-color: #dceeff !important;
 }
 
 .propertyPageHeadings {
@@ -193,7 +201,7 @@
 }
 
 .leftPropertyDiv {
-  background-color: #f3f5f6;
+  background-color: #fff;
   padding-top: 30px;
   padding-left: 10px;
   padding-right: 10px;
@@ -218,7 +226,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 17%;
+  width: 20%;
 }
 
 .addNewLots-buttonDiv {
@@ -236,13 +244,22 @@
     0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
   padding: 6px 15px;
   margin-right: 3%;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 600;
   background-color: #f1f3f4;
   border: 1px solid #f1f3f4;
 }
 
 .propertyButton-delete:hover {
   color: #0354ff;
+}
+
+.propertyHeaderContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
 }
 
 .editProperty-btnDiv {

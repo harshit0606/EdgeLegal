@@ -17,7 +17,7 @@ function HomeStipe() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
   function logout() {
-    removeCookie('token');
+    removeCookie('token', { path: '/' });
     window.localStorage.removeItem('metaData');
     window.location.href = '/';
   }

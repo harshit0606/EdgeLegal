@@ -96,134 +96,136 @@ function AddUnregisteredLots(props) {
       aria-hidden='true'
     >
       <div className='modal-dialog modal-dialog-centered'>
-        <div className='modal-content'>
-          <div className='modal-header'>
-            <h5
-              style={{ marginRight: '10%' }}
-              className='modal-title'
-              id='staticBackdropLabel'
-            >
-              Unregistered Lots
-            </h5>
-            <div className='addNewLots-buttonDiv'>
-              <button
-                data-bs-toggle='modal'
-                data-bs-target={`#staticBackdrop${modalId}`}
-                onClick={() => {
-                  chotaSave();
-                }}
-                className='propertyPageBtns'
+        <form onSubmit={chotaSave}>
+          <div className='modal-content'>
+            <div className='modal-header'>
+              <h5
+                style={{ marginRight: '10%' }}
+                className='modal-title'
+                id='staticBackdropLabel'
               >
-                Save
-              </button>
+                Unregistered Lots
+              </h5>
+              <div className='addNewLots-buttonDiv'>
+                <button
+                  data-bs-toggle='modal'
+                  data-bs-target={`#staticBackdrop${modalId}`}
+                  type='submit'
+                  className='propertyPageBtns'
+                >
+                  Save
+                </button>
 
-              {/* <button className="propertyPageBtns">Delete</button> */}
-              {isAddTrue == true && (
-                <button className='propertyPageBtns'>Delete</button>
-              )}
-              <button
-                className='propertyPageBtns'
-                data-bs-toggle='modal'
-                data-bs-target={`#staticBackdrop${modalId}`}
-                aria-label='Close'
-              >
-                Cancel
-              </button>
+                {/* <button className="propertyPageBtns">Delete</button> */}
+                {isAddTrue == true && (
+                  <button className='propertyPageBtns'>Delete</button>
+                )}
+                <button
+                  className='propertyPageBtns'
+                  data-bs-toggle='modal'
+                  data-bs-target={`#staticBackdrop${modalId}`}
+                  aria-label='Close'
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
-          </div>
-          <div className='modal-body'>
-            <div style={{ padding: '12px' }}>
-              <div className='row'>
-                <div className='col-4'>
-                  <CustomTextInput
-                    name='lot'
-                    label='Lot No.'
-                    value={chotaFormUn.lot}
-                    onChange={(e) => {
-                      setChotaFormUn({
-                        ...chotaFormUn,
-                        lot: e.target.value,
-                      });
-                    }}
-                    required={
-                      unreg.indexOf('lot'.toLowerCase()) >= 0 ? true : false
-                    }
-                  />
+            <div className='modal-body'>
+              <div style={{ padding: '12px' }}>
+                <div className='row'>
+                  <div className='col-4'>
+                    <CustomTextInput
+                      name='lot'
+                      label='Lot No.'
+                      value={chotaFormUn.lot}
+                      onChange={(e) => {
+                        setChotaFormUn({
+                          ...chotaFormUn,
+                          lot: e.target.value,
+                        });
+                      }}
+                      required={
+                        unreg.indexOf('lot'.toLowerCase()) >= 0 ? true : false
+                      }
+                    />
+                  </div>
+                  <div className='col-4'>
+                    <CustomTextInput
+                      name='partOfLot'
+                      label='Part of lot'
+                      value={chotaFormUn.partOfLot}
+                      onChange={(e) => {
+                        setChotaFormUn({
+                          ...chotaFormUn,
+                          partOfLot: e.target.value,
+                        });
+                      }}
+                      required={
+                        unreg.indexOf('partOfLot'.toLowerCase()) >= 0
+                          ? true
+                          : false
+                      }
+                    />
+                  </div>
+                  <div className='col-4'>
+                    <CustomTextInput
+                      name='section'
+                      label='Section'
+                      value={chotaFormUn.section}
+                      onChange={(e) => {
+                        setChotaFormUn({
+                          ...chotaFormUn,
+                          section: e.target.value,
+                        });
+                      }}
+                      required={
+                        unreg.indexOf('section'.toLowerCase()) >= 0
+                          ? true
+                          : false
+                      }
+                    />
+                  </div>
+                  <div className='col-4' style={{ margin: '10px 0' }}>
+                    <CustomTextInput
+                      name='plan'
+                      label='Plan No.'
+                      value={chotaFormUn.plan}
+                      onChange={(e) => {
+                        setChotaFormUn({
+                          ...chotaFormUn,
+                          plan: e.target.value,
+                        });
+                      }}
+                      required={
+                        unreg.indexOf('plan'.toLowerCase()) >= 0 ? true : false
+                      }
+                    />
+                  </div>
                 </div>
-                <div className='col-4'>
-                  <CustomTextInput
-                    name='partOfLot'
-                    label='Part of lot'
-                    value={chotaFormUn.partOfLot}
+                <div style={{ marginTop: '0.8rem', marginBottom: '0.5rem' }}>
+                  <textarea
+                    className='addNewCustody-textArea'
+                    value={chotaFormUn.description}
+                    placeholder='Description'
                     onChange={(e) => {
                       setChotaFormUn({
                         ...chotaFormUn,
-                        partOfLot: e.target.value,
+                        description: e.target.value,
                       });
                     }}
+                    rows='2'
+                    cols='55'
                     required={
-                      unreg.indexOf('partOfLot'.toLowerCase()) >= 0
+                      unreg.indexOf('description'.toLowerCase()) >= 0
                         ? true
                         : false
                     }
                   />
                 </div>
-                <div className='col-4'>
-                  <CustomTextInput
-                    name='section'
-                    label='Section'
-                    value={chotaFormUn.section}
-                    onChange={(e) => {
-                      setChotaFormUn({
-                        ...chotaFormUn,
-                        section: e.target.value,
-                      });
-                    }}
-                    required={
-                      unreg.indexOf('section'.toLowerCase()) >= 0 ? true : false
-                    }
-                  />
-                </div>
-                <div className='col-4' style={{ margin: '10px 0' }}>
-                  <CustomTextInput
-                    name='plan'
-                    label='Plan No.'
-                    value={chotaFormUn.plan}
-                    onChange={(e) => {
-                      setChotaFormUn({
-                        ...chotaFormUn,
-                        plan: e.target.value,
-                      });
-                    }}
-                    required={
-                      unreg.indexOf('plan'.toLowerCase()) >= 0 ? true : false
-                    }
-                  />
-                </div>
-              </div>
-              <div style={{ marginTop: '0.8rem', marginBottom: '0.5rem' }}>
-                <textarea
-                  className='addNewCustody-textArea'
-                  value={chotaFormUn.description}
-                  placeholder='Description'
-                  onChange={(e) => {
-                    setChotaFormUn({
-                      ...chotaFormUn,
-                      description: e.target.value,
-                    });
-                  }}
-                  rows='2'
-                  cols='55'
-                  required={
-                    unreg.indexOf('description'.toLowerCase()) >= 0
-                      ? true
-                      : false
-                  }
-                />
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

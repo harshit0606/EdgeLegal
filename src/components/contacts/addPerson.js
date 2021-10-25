@@ -154,7 +154,7 @@ const CustomDropDown = (props) => {
 };
 
 function AddPerson(props) {
-  const { allCountries } = props;
+  const { allCountries, refresh } = props;
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
   const [personDetails, setPersonDetails] = useState(initialData);
@@ -308,7 +308,7 @@ function AddPerson(props) {
       // console.log(data);
       setPersonDetails(initialData);
       props.close();
-      window.location.reload();
+      refresh(false);
     } catch (err) {
       console.log(err);
     }
@@ -488,12 +488,12 @@ function AddPerson(props) {
             value={personDetails.occupation}
             onChange={handleFormChange}
           />
-          <CustomTextInput
+          {/**<CustomTextInput
             name='practiceCertNumber'
             label='Practicing Certificate No.'
             value={personDetails.practiceCertNumber}
             onChange={handleFormChange}
-          />
+          /> */}
           <CustomTextInput
             name='personComments'
             label='Comments'

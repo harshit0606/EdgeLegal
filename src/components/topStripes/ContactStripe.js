@@ -8,6 +8,7 @@ import AddPerson from '../contacts/addPerson';
 import AddOrganization from '../contacts/addOrganization';
 
 function ContactStripe(props) {
+  const { changeBool } = props;
   const [peopleShow, setPeopleShow] = useState(false);
   const [orgShow, setOrgShow] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
@@ -86,12 +87,20 @@ function ContactStripe(props) {
       </div>
       <Modal size='xl' show={peopleShow} onHide={handleClose}>
         <Modal.Body>
-          <AddPerson close={handleClose} allCountries={countries} />
+          <AddPerson
+            close={handleClose}
+            allCountries={countries}
+            refresh={changeBool}
+          />
         </Modal.Body>
       </Modal>
       <Modal size='xl' show={orgShow} onHide={handleClose}>
         <Modal.Body>
-          <AddOrganization close={handleClose} allCountries={countries} />
+          <AddOrganization
+            close={handleClose}
+            allCountries={countries}
+            refresh={changeBool}
+          />
         </Modal.Body>
       </Modal>
     </div>
