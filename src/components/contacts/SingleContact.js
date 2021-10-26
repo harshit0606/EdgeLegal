@@ -21,7 +21,7 @@ function SingleContact(props) {
   const [editPerson, setEditPerson] = useState(false);
   const [editOrg, setEditOrg] = useState(false);
   const [contactType, setContactType] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState({});
 
   const loggedInToken = cookies.token;
 
@@ -39,6 +39,7 @@ function SingleContact(props) {
   const [countries, setCountries] = useState([]);
   const [boolVal, setBoolVal] = useState(false);
   const [enableButtons, setEnableButtons] = useState(false);
+  const [updatedData, setUpdatedData] = useState({});
 
   // console.log(aboutProps);
 
@@ -86,6 +87,7 @@ function SingleContact(props) {
             fetchCountries();
             // console.log(response.data.data);
             setContactDetails(response.data.data);
+            // setUpdatedData(response.data.data);
             setContactType('org');
           });
       } else if (aboutProps.contactType === 'PERSON') {
@@ -179,18 +181,58 @@ function SingleContact(props) {
     if (contactType === 'person') {
       return (
         <div>
-          <PersonDetail contactDetails={contactDetails} />
+          <PersonDetail
+            contactDetails={contactDetails}
+            changeBool={setBoolVal}
+            allCountries={countries}
+            setUpdatedData={setUpdatedData}
+            updatedData={updatedData}
+          />
         </div>
       );
     }
     if (contactType === 'org') {
       return (
         <div>
-          <OrganisationDetail contactDetails={contactDetails} />
+          <OrganisationDetail
+            contactDetails={contactDetails}
+            changeBool={setBoolVal}
+            allCountries={countries}
+            setUpdatedData={setUpdatedData}
+            updatedData={updatedData}
+          />
         </div>
       );
     }
   }
+
+  const handleEditInfo = async () => {
+    // console.log(updatedData);
+    try {
+      const { data } = await axios.put(
+        `${url}/api/contacts`,
+        {
+          requestId: '1123445',
+          data: updatedData,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      // console.log(data);
+      setBoolVal(false);
+      // window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   function renderSafeCustody() {
     return (
       <div className='renderSafecustody-container'>
@@ -238,7 +280,7 @@ function SingleContact(props) {
           <div className='custodyPageBtns'>
             {contactType !== '' && enableButtons !== false && (
               <Fragment>
-                <button onClick={handleOpen}>Update</button>
+                <button onClick={handleEditInfo}>Update</button>
                 <button onClick={() => history.push('/home/contacts')}>
                   Close
                 </button>

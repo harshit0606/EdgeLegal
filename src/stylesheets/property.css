@@ -36,6 +36,37 @@
   color: #1f252c;
 }
 
+.property-filterDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.property-paginationDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.pageShift-button {
+  background-color: #dee2e5;
+  border: none;
+  margin-right: 1rem;
+  margin-top: 10px;
+  /* font-size: 16px; */
+  outline: none;
+}
+
+.disabledButton {
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.pageShift-button i {
+  font-size: 22px;
+}
+
 .propertydatadiv:hover {
   background-color: #dceeff !important;
 }

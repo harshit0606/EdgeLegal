@@ -329,77 +329,6 @@ function AddNewProperty(props) {
                 outline: 'none',
               }}
               required={
-                requiredGeneral.indexOf('country'.toLowerCase()) >= 0
-                  ? true
-                  : false
-              }
-            >
-              <InputLabel
-                id='demo-simple-select-helper-label'
-                style={{
-                  fontSize: 14,
-                  fontFamily: 'inherit',
-                  color: 'rgb(94, 94, 94)',
-                  marginLeft: 9,
-                }}
-              >
-                Country
-              </InputLabel>
-              <Select
-                native
-                labelId='demo-simple-select-helper-label'
-                id='demo-simple-select-helper'
-                style={{
-                  fontSize: 14,
-                  fontFamily: 'inherit',
-                  color: 'rgb(94, 94, 94)',
-                }}
-                inputProps={{
-                  style: {
-                    fontSize: 14,
-                    fontFamily: 'inherit',
-                    color: 'rgb(94, 94, 94)',
-                    padding: 5,
-                  },
-                }}
-                name='country'
-                value={country}
-                onChange={handleChangeCountry}
-              >
-                <option
-                  aria-label='Country'
-                  selected
-                  disabled
-                  style={{ display: 'none' }}
-                  value=''
-                />
-                {allCountries.map((c, index) => (
-                  <option value={index} key={c.id} selected={country === c.id}>
-                    {c.countryName}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
-            {/**<input
-              type='text'
-              value={country}
-              onChange={(e) => {
-                setCountry(e.target.value);
-              }}
-            /> */}
-          </div>
-          <div className='col-4 rowWise'>
-            <FormControl
-              style={{
-                width: 200,
-                height: 50,
-                marginRight: 7,
-                marginLeft: 9,
-                marginBottom: 10,
-                marginTop: '1.2rem',
-                outline: 'none',
-              }}
-              required={
                 requiredGeneral.indexOf('state'.toLowerCase()) >= 0
                   ? true
                   : false
@@ -447,6 +376,78 @@ function AddNewProperty(props) {
                 {states.map((s) => (
                   <option value={s.id} key={s.id} selected={state === s.id}>
                     {s.stateName}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
+
+            {/**<input
+              type='text'
+              value={country}
+              onChange={(e) => {
+                setCountry(e.target.value);
+              }}
+            /> */}
+          </div>
+          <div className='col-4 rowWise'>
+            <FormControl
+              style={{
+                width: 200,
+                height: 50,
+                marginRight: 7,
+                marginLeft: 9,
+                marginBottom: 10,
+                marginTop: '1.2rem',
+                outline: 'none',
+              }}
+              required={
+                requiredGeneral.indexOf('country'.toLowerCase()) >= 0
+                  ? true
+                  : false
+              }
+            >
+              <InputLabel
+                id='demo-simple-select-helper-label'
+                style={{
+                  fontSize: 14,
+                  fontFamily: 'inherit',
+                  color: 'rgb(94, 94, 94)',
+                  marginLeft: 9,
+                }}
+              >
+                Country
+              </InputLabel>
+              <Select
+                native
+                labelId='demo-simple-select-helper-label'
+                id='demo-simple-select-helper'
+                style={{
+                  fontSize: 14,
+                  fontFamily: 'inherit',
+                  color: 'rgb(94, 94, 94)',
+                }}
+                inputProps={{
+                  style: {
+                    fontSize: 14,
+                    fontFamily: 'inherit',
+                    color: 'rgb(94, 94, 94)',
+                    padding: 5,
+                  },
+                }}
+                name='country'
+                value={country}
+                onChange={handleChangeCountry}
+              >
+                <option
+                  aria-label='Country'
+                  selected
+                  disabled
+                  style={{ display: 'none' }}
+                  value=''
+                />
+                {allCountries.map((c, index) => (
+                  <option value={index} key={c.id} selected={country === c.id}>
+                    {c.countryName}
                   </option>
                 ))}
               </Select>

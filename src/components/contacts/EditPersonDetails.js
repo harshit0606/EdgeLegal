@@ -150,17 +150,23 @@ const CustomDropDown = (props) => {
 };
 
 function EditPersonDetails(props) {
-  const { contactDetails, changeBool, allCountries } = props;
-  // console.log(contactDetails);
+  const {
+    contactDetails,
+    changeBool,
+    allCountries,
+    setUpdatedData,
+    updatedData,
+  } = props;
+  // console.log(allCountries);
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
-  const [personDetails, setPersonDetails] = useState(contactDetails);
+  const [personDetails, setPersonDetails] = useState(initialData);
   const [otherDetails, setOtherDetails] = useState({
     companyId: '',
     siteId: '',
   });
   const [sameAddress, setSameAddress] = useState(false);
-  const [countries, setCountries] = useState(allCountries);
+  const [countries, setCountries] = useState([]);
   const [commStates, setCommStates] = useState([]);
   const [mailStates, setMailStates] = useState([]);
   const [boolVal, setBoolVal] = useState(false);
@@ -180,18 +186,27 @@ function EditPersonDetails(props) {
     setRequiredFields(arr);
   };
 
+  const setEarlyStates = () => {
+    setPersonDetails(contactDetails);
+    setCountries(allCountries);
+    // console.log(allCountries[parseInt(contactDetails.commCountry)]);
+
+    setCommStates(
+      allCountries[contactDetails.commCountry]
+        ? allCountries[contactDetails.commCountry].states
+        : []
+    );
+    setMailStates(
+      allCountries[contactDetails.mailingCountry]
+        ? allCountries[contactDetails.mailingCountry].states
+        : []
+    );
+    // setPersonDetails({...personDetails, commCountry: contactDetails.commCountry, comm})
+  };
+
   useEffect(async () => {
-    if (!boolVal) {
-      setCommStates(
-        allCountries[contactDetails.commCountry]
-          ? allCountries[contactDetails.commCountry].states
-          : []
-      );
-      setMailStates(
-        allCountries[contactDetails.mailingCountry]
-          ? allCountries[contactDetails.mailingCountry].states
-          : []
-      );
+    if (!boolVal && contactDetails && allCountries.length > 0) {
+      setEarlyStates();
       fetchRequired();
       try {
         const { data } = await axios.get(
@@ -207,21 +222,37 @@ function EditPersonDetails(props) {
           }
         );
         // console.log(data);
+
         setOtherDetails({
           ...otherDetails,
           companyId: data?.organizationId,
           siteId: data?.siteId ? data?.siteId : 1, // this will change later
+        });
+        setUpdatedData({
+          ...updatedData,
+          companyId: data?.organizationId,
+          siteId: data?.siteId ? data?.siteId : 1,
+          person: {
+            ...personDetails,
+          },
         });
       } catch (err) {
         console.log(err);
       }
       setBoolVal(true);
     }
-  }, []);
+  }, [boolVal, loggedInToken, contactDetails, allCountries]);
 
   const handleFormChange = (e) => {
     const { name } = e.target;
     setPersonDetails({ ...personDetails, [name]: e.target.value });
+    setUpdatedData({
+      ...updatedData,
+      person: {
+        ...updatedData.person,
+        [name]: e.target.value,
+      },
+    });
   };
 
   const handleChangeCountry = (e) => {
@@ -230,6 +261,13 @@ function EditPersonDetails(props) {
     const selectedCountry = countries[index];
     // console.log(selectedCountry);
     setPersonDetails({ ...personDetails, commCountry: selectedCountry.id });
+    setUpdatedData({
+      ...updatedData,
+      person: {
+        ...updatedData.person,
+        commCountry: selectedCountry.id,
+      },
+    });
     setCommStates(selectedCountry.states);
   };
 
@@ -237,6 +275,13 @@ function EditPersonDetails(props) {
     const index = e.target.value;
     const selectedCountry = countries[index];
     setPersonDetails({ ...personDetails, mailingCountry: selectedCountry.id });
+    setUpdatedData({
+      ...updatedData,
+      person: {
+        ...updatedData.person,
+        mailingCountry: selectedCountry.id,
+      },
+    });
     setMailStates(selectedCountry.states);
   };
 
@@ -254,18 +299,44 @@ function EditPersonDetails(props) {
         mailingPostCode: personDetails.commPostCode,
         mailingCountry: personDetails.commCountry,
       });
+      setUpdatedData({
+        ...updatedData,
+        person: {
+          ...updatedData.person,
+          mailingAddress1: personDetails.commAddress1,
+          mailingAddress2: personDetails.commAddress2,
+          mailingAddress3: personDetails.commAddress3,
+          mailingCity: personDetails.commCity,
+          mailingState: personDetails.commState,
+          mailingPostCode: personDetails.commPostCode,
+          mailingCountry: personDetails.commCountry,
+        },
+      });
     }
     if (sameAddress === true) {
       setSameAddress(false);
       setPersonDetails({
         ...personDetails,
-        mailingAddress1: contactDetails.commAddress1,
-        mailingAddress2: contactDetails.commAddress2,
-        mailingAddress3: contactDetails.commAddress3,
-        mailingCity: contactDetails.commCity,
-        mailingState: contactDetails.commState,
-        mailingPostCode: contactDetails.commPostCode,
-        mailingCountry: contactDetails.commCountry,
+        mailingAddress1: contactDetails.mailingAddress1,
+        mailingAddress2: contactDetails.mailingAddress2,
+        mailingAddress3: contactDetails.mailingAddress3,
+        mailingCity: contactDetails.mailingCity,
+        mailingState: contactDetails.mailingState,
+        mailingPostCode: contactDetails.mailingPostCode,
+        mailingCountry: contactDetails.mailingCountry,
+      });
+      setUpdatedData({
+        ...updatedData,
+        person: {
+          ...updatedData.person,
+          mailingAddress1: contactDetails.mailingAddress1,
+          mailingAddress2: contactDetails.mailingAddress2,
+          mailingAddress3: contactDetails.mailingAddress3,
+          mailingCity: contactDetails.mailingCity,
+          mailingState: contactDetails.mailingState,
+          mailingPostCode: contactDetails.mailingPostCode,
+          mailingCountry: contactDetails.mailingCountry,
+        },
       });
     }
   };
@@ -308,13 +379,7 @@ function EditPersonDetails(props) {
 
   return (
     <div className='addPersonDiv'>
-      <div className='titleDiv'>
-        <h2>Edit Person Details</h2>
-        <p style={{ cursor: 'pointer' }} onClick={props.close}>
-          &#10006;
-        </p>
-      </div>
-      <div className='inputtDiv'>
+      <div className='editInputDiv'>
         <CustomDropDown
           lableName='Type'
           labelId='type-sample'
@@ -573,7 +638,7 @@ function EditPersonDetails(props) {
           >
             <option
               aria-label='Country'
-              selected={personDetails.commCountry === ''}
+              selected={personDetails.commCountry === '' || personDetails.commCountry === null}
               disabled
               style={{ display: 'none' }}
               value=''
@@ -642,7 +707,7 @@ function EditPersonDetails(props) {
           >
             <option
               aria-label='State'
-              selected={personDetails.commState === ''}
+              selected={personDetails.commState === '' || personDetails.commState === null}
               disabled
               style={{ display: 'none' }}
               value=''
@@ -760,7 +825,10 @@ function EditPersonDetails(props) {
           >
             <option
               aria-label='Country'
-              selected={personDetails.mailingCountry === ''}
+              selected={
+                personDetails.mailingCountry === '' ||
+                personDetails.mailingCountry === null
+              }
               disabled
               style={{ display: 'none' }}
               value=''
@@ -821,7 +889,10 @@ function EditPersonDetails(props) {
           >
             <option
               aria-label='State'
-              selected={personDetails.mailingState === ''}
+              selected={
+                personDetails.mailingState === '' ||
+                personDetails.mailingState === null
+              }
               disabled
               style={{ display: 'none' }}
               value=''
@@ -838,7 +909,7 @@ function EditPersonDetails(props) {
           </Select>
         </FormControl>
       </div>
-      <div className='labelll'>
+      {/**<div className='labelll'>
         <div className='personnbtnDiv'>
           <button onClick={props.close} className='personncancel'>
             Cancel
@@ -847,7 +918,7 @@ function EditPersonDetails(props) {
             Add
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

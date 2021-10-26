@@ -82,16 +82,21 @@ const CustomTextInput = (props) => {
 };
 
 function EditOrgDetails(props) {
-  const { contactDetails, changeBool, allCountries } = props;
+  const {
+    contactDetails,
+    changeBool,
+    allCountries,
+    setUpdatedData,
+    updatedData,
+  } = props;
 
-  // console.log(contactDetails.role);
+  //console.log(allCountries);
 
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const loggedInToken = cookies.token;
-  const [organizationDetails, setOrganizationDetails] =
-    useState(contactDetails);
+  const [organizationDetails, setOrganizationDetails] = useState(initialData);
   const [sameAddress, setSameAddress] = useState(false);
-  const [countries, setCountries] = useState(allCountries);
+  const [countries, setCountries] = useState([]);
   const [commStates, setCommStates] = useState([]);
   const [mailStates, setMailStates] = useState([]);
   const [otherDetails, setOtherDetails] = useState({
@@ -113,18 +118,27 @@ function EditOrgDetails(props) {
     setRequiredFields(arr);
   };
 
+  const setEarlyStates = () => {
+    // console.log(contactDetails);
+    setOrganizationDetails(contactDetails);
+    setCountries(allCountries);
+    // console.log(allCountries[parseInt(contactDetails.commCountry)]);
+
+    setCommStates(
+      allCountries[contactDetails.commCountry]
+        ? allCountries[contactDetails.commCountry].states
+        : []
+    );
+    setMailStates(
+      allCountries[contactDetails.mailingCountry]
+        ? allCountries[contactDetails.mailingCountry].states
+        : []
+    );
+  };
+
   useEffect(async () => {
-    if (!boolVal) {
-      setCommStates(
-        allCountries[contactDetails.commCountry]
-          ? allCountries[contactDetails.commCountry].states
-          : []
-      );
-      setMailStates(
-        allCountries[contactDetails.mailingCountry]
-          ? allCountries[contactDetails.mailingCountry].states
-          : []
-      );
+    if (!boolVal && contactDetails && allCountries.length > 0) {
+      setEarlyStates();
       fetchRequired();
       try {
         const { data } = await axios.get(
@@ -145,16 +159,31 @@ function EditOrgDetails(props) {
           companyId: data?.organizationId,
           siteId: data?.siteId ? data?.siteId : 1, // this will change later
         });
+        setUpdatedData({
+          ...updatedData,
+          companyId: data?.organizationId,
+          siteId: data?.siteId ? data?.siteId : 1,
+          organisation: {
+            ...organizationDetails,
+          },
+        });
       } catch (err) {
         console.log(err);
       }
       setBoolVal(true);
     }
-  }, []);
+  }, [boolVal, contactDetails, allCountries]);
 
   const handleFormChange = (e) => {
     const { name } = e.target;
     setOrganizationDetails({ ...organizationDetails, [name]: e.target.value });
+    setUpdatedData({
+      ...updatedData,
+      organisation: {
+        ...updatedData.organisation,
+        [name]: e.target.value,
+      },
+    });
   };
 
   const handleChangeCountry = (e) => {
@@ -166,6 +195,13 @@ function EditOrgDetails(props) {
       ...organizationDetails,
       commCountry: selectedCountry.id,
     });
+    setUpdatedData({
+      ...updatedData,
+      organisation: {
+        ...updatedData.organisation,
+        commCountry: selectedCountry.id,
+      },
+    });
     setCommStates(selectedCountry.states);
   };
 
@@ -175,6 +211,13 @@ function EditOrgDetails(props) {
     setOrganizationDetails({
       ...organizationDetails,
       mailingCountry: selectedCountry.id,
+    });
+    setUpdatedData({
+      ...updatedData,
+      organisation: {
+        ...updatedData.organisation,
+        mailingCountry: selectedCountry.id,
+      },
     });
     setMailStates(selectedCountry.states);
   };
@@ -193,18 +236,44 @@ function EditOrgDetails(props) {
         mailingPostCode: organizationDetails.commPostCode,
         mailingCountry: organizationDetails.commCountry,
       });
+      setUpdatedData({
+        ...updatedData,
+        organisation: {
+          ...updatedData.organisation,
+          mailingAddress1: organizationDetails.commAddress1,
+          mailingAddress2: organizationDetails.commAddress2,
+          mailingAddress3: organizationDetails.commAddress3,
+          mailingCity: organizationDetails.commCity,
+          mailingState: organizationDetails.commState,
+          mailingPostCode: organizationDetails.commPostCode,
+          mailingCountry: organizationDetails.commCountry,
+        },
+      });
     }
     if (sameAddress === true) {
       setSameAddress(false);
       setOrganizationDetails({
         ...organizationDetails,
-        mailingAddress1: contactDetails.commAddress1,
-        mailingAddress2: contactDetails.commAddress2,
-        mailingAddress3: contactDetails.commAddress3,
-        mailingCity: contactDetails.commCity,
-        mailingState: contactDetails.commState,
-        mailingPostCode: contactDetails.commPostCode,
-        mailingCountry: contactDetails.commCountry,
+        mailingAddress1: contactDetails.mailingAddress1,
+        mailingAddress2: contactDetails.mailingAddress2,
+        mailingAddress3: contactDetails.mailingAddress3,
+        mailingCity: contactDetails.mailingCity,
+        mailingState: contactDetails.mailingState,
+        mailingPostCode: contactDetails.mailingPostCode,
+        mailingCountry: contactDetails.mailingCountry,
+      });
+      setUpdatedData({
+        ...updatedData,
+        organisation: {
+          ...updatedData.organisation,
+          mailingAddress1: contactDetails.mailingAddress1,
+          mailingAddress2: contactDetails.mailingAddress2,
+          mailingAddress3: contactDetails.mailingAddress3,
+          mailingCity: contactDetails.mailingCity,
+          mailingState: contactDetails.mailingState,
+          mailingPostCode: contactDetails.mailingPostCode,
+          mailingCountry: contactDetails.mailingCountry,
+        },
       });
     }
   };
@@ -247,13 +316,7 @@ function EditOrgDetails(props) {
 
   return (
     <div className='addPersonDiv'>
-      <div className='titleDiv'>
-        <h2>Edit Organisation Details</h2>
-        <p style={{ cursor: 'pointer' }} onClick={props.close}>
-          &#10006;
-        </p>
-      </div>
-      <form onSubmit={handleSubmit}>
+      <div className='editInputDiv'>
         <div
           style={{ marginLeft: '20px', marginTop: '10px', fontSize: '14px' }}
         >
@@ -473,7 +536,10 @@ function EditOrgDetails(props) {
             >
               <option
                 aria-label='Country'
-                selected={organizationDetails.commCountry === ''}
+                selected={
+                  organizationDetails.commCountry === '' ||
+                  organizationDetails.commCountry === null
+                }
                 disabled
                 style={{ display: 'none' }}
                 value=''
@@ -491,11 +557,11 @@ function EditOrgDetails(props) {
           </FormControl>
 
           {/**<CustomTextInput
-        name='commCountry'
-        label='Country'
-        value={organizationDetails.commCountry}
-        onChange={handleFormChange}
-      /> */}
+    name='commCountry'
+    label='Country'
+    value={organizationDetails.commCountry}
+    onChange={handleFormChange}
+  /> */}
 
           <FormControl
             style={{
@@ -542,7 +608,10 @@ function EditOrgDetails(props) {
             >
               <option
                 aria-label='State'
-                selected={organizationDetails.commState === ''}
+                selected={
+                  organizationDetails.commState === '' ||
+                  organizationDetails.commState === null
+                }
                 disabled
                 style={{ display: 'none' }}
                 value=''
@@ -560,11 +629,11 @@ function EditOrgDetails(props) {
           </FormControl>
 
           {/*<CustomTextInput
-        name='commState'
-        label='State'
-        value={organizationDetails.commState}
-        onChange={handleFormChange}
-      />*/}
+    name='commState'
+    label='State'
+    value={organizationDetails.commState}
+    onChange={handleFormChange}
+  />*/}
         </div>
         <div className='labelll'>
           <h3>Postal Address</h3>
@@ -660,7 +729,10 @@ function EditOrgDetails(props) {
             >
               <option
                 aria-label='Country'
-                selected={organizationDetails.mailingCountry === ''}
+                selected={
+                  organizationDetails.mailingCountry === '' ||
+                  organizationDetails.mailingCountry === null
+                }
                 disabled
                 style={{ display: 'none' }}
                 value=''
@@ -678,11 +750,11 @@ function EditOrgDetails(props) {
           </FormControl>
 
           {/**<CustomTextInput
-      name='mailingCountry'
-      label='Country'
-      value={organizationDetails.mailingCountry}
-      onChange={handleFormChange}
-    /> */}
+  name='mailingCountry'
+  label='Country'
+  value={organizationDetails.mailingCountry}
+  onChange={handleFormChange}
+/> */}
           <FormControl
             style={{
               width: 256,
@@ -730,7 +802,10 @@ function EditOrgDetails(props) {
             >
               <option
                 aria-label='State'
-                selected={organizationDetails.mailingState === ''}
+                selected={
+                  organizationDetails.mailingState === '' ||
+                  organizationDetails.mailingState === null
+                }
                 disabled
                 style={{ display: 'none' }}
                 value=''
@@ -747,23 +822,13 @@ function EditOrgDetails(props) {
             </Select>
           </FormControl>
           {/**<CustomTextInput
-        name='mailingState'
-        label='State'
-        value={organizationDetails.mailingState}
-        onChange={handleFormChange}
-      /> */}
+    name='mailingState'
+    label='State'
+    value={organizationDetails.mailingState}
+    onChange={handleFormChange}
+  /> */}
         </div>
-        <div className='labelll'>
-          <div className='personnbtnDiv'>
-            <button onClick={props.close} className='personncancel'>
-              Cancel
-            </button>
-            <button className='personnAdd' type='submit'>
-              Add
-            </button>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
   );
 }

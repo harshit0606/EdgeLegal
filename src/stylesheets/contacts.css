@@ -142,6 +142,16 @@
   margin-top: 10px;
   padding-left: 2px;
 }
+
+.editInputDiv {
+  display: flex !important;
+  flex-wrap: wrap;
+  flex-direction: row;
+  /* justify-content: space-evenly; */
+  margin-top: 10px;
+  padding-left: 2px;
+}
+
 .AddInput {
   width: 265px;
   height: 50px;

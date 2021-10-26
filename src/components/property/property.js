@@ -136,7 +136,8 @@ function RenderProperty() {
   const [boolVal, setBoolVal] = useState(false);
   const [sortOrder, setSortOrder] = useState('');
   const [sortField, setSortField] = useState('');
-
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(100);
   // console.log('length', filteredData.length);
 
   useEffect(() => {
@@ -219,6 +220,8 @@ function RenderProperty() {
           // propertyData();
           fetchCountries();
           setFilteredData(response.data.data.properties);
+          setAllProperties(response.data.data.properties);
+
           setBoolVal(true);
           setIsLoading(false);
         })
@@ -636,11 +639,70 @@ function RenderProperty() {
   }
 
   const changeNumberOfRows = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setIsLoading(true);
+    setPageSize(e.target.value);
     axios
       .get(
         `${url}/api/property?requestId=1234567&pageSize=${e.target.value}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        // setAllProperties(response.data.data.properties);
+        // propertyData();
+        setFilteredData(response.data.data.properties);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  };
+
+  const handleNextPage = () => {
+    setIsLoading(true);
+    let pg = pageNo + 1;
+    setPageNo(pg);
+    axios
+      .get(
+        `${url}/api/property?requestId=1234567&page=${pg}&pageSize=${pageSize}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${loggedInToken}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        // setAllProperties(response.data.data.properties);
+        // propertyData();
+        setFilteredData(response.data.data.properties);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  };
+
+  const handlePreviousPage = () => {
+    setIsLoading(true);
+    let pg = pageNo - 1;
+    setPageNo(pg);
+    axios
+      .get(
+        `${url}/api/property?requestId=1234567&page=${pg}&pageSize=${pageSize}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -696,6 +758,23 @@ function RenderProperty() {
                   />
                 </div>
                 <div className='property-filterDiv'>
+                  <div className='property-paginationDiv'>
+                    <button
+                      disabled={pageNo === 0}
+                      className={`pageShift-button ${
+                        pageNo === 0 ? 'disabledButton' : ''
+                      }`}
+                      onClick={handlePreviousPage}
+                    >
+                      <i class='fa fa-angle-left' aria-hidden='true'></i>
+                    </button>
+                    <button
+                      className='pageShift-button'
+                      onClick={handleNextPage}
+                    >
+                      <i class='fa fa-angle-right' aria-hidden='true'></i>
+                    </button>
+                  </div>
                   <Box sx={{ minWidth: 120 }} style={{ marginLeft: '25%' }}>
                     <FormControl fullWidth>
                       <InputLabel
