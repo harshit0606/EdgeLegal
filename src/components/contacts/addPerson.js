@@ -95,6 +95,7 @@ const CustomTextInput = (props) => {
 };
 
 const CustomDropDown = (props) => {
+  const person = JSON.parse(window.localStorage.getItem('metaData')).person;
   const { lableName, labelId, first, second, name, value, onChange } = props;
   return (
     <FormControl
@@ -139,13 +140,11 @@ const CustomDropDown = (props) => {
           },
         }}
       >
-        <option
-          aria-label='None'
-          selected
-          disabled
-          style={{ display: 'none' }}
-          value=''
-        />
+        {!props.required && (
+          <option aria-label='None' selected disabled value=''>
+            None
+          </option>
+        )}
         <option value={first}>{first}</option>
         <option value={second}>{second}</option>
       </Select>

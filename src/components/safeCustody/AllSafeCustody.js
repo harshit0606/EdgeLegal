@@ -121,6 +121,7 @@ function AllSafeCustody() {
               <FormControl fullWidth>
                 <InputLabel id='demo-simple-select-label'>Files</InputLabel>
                 <Select
+                  native
                   labelId='demo-simple-select-label'
                   id='demo-simple-select'
                   value={safeCustodyStatus}
@@ -129,10 +130,27 @@ function AllSafeCustody() {
                     getSafeCustody(e);
                   }}
                 >
-                  <MenuItem value={'ALL'}>All</MenuItem>
-                  <MenuItem value={'ACTIVE'}>Active</MenuItem>
-                  <MenuItem value={'INACTIVE'}>Inactive</MenuItem>
-                  <MenuItem value={'UPLIFTED'}>Uplifted</MenuItem>
+                  <option value={'ALL'} selected={safeCustodyStatus === 'ALL'}>
+                    All
+                  </option>
+                  <option
+                    value={'ACTIVE'}
+                    selected={safeCustodyStatus === 'ACTIVE'}
+                  >
+                    Active
+                  </option>
+                  <option
+                    value={'INACTIVE'}
+                    selected={safeCustodyStatus === 'INACTIVE'}
+                  >
+                    Inactive
+                  </option>
+                  <option
+                    value={'UPLIFTED'}
+                    selected={safeCustodyStatus === 'UPLIFTED'}
+                  >
+                    Uplifted
+                  </option>
                 </Select>
               </FormControl>
             </Box>

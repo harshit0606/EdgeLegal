@@ -137,7 +137,8 @@ function RenderProperty() {
   const [sortOrder, setSortOrder] = useState('');
   const [sortField, setSortField] = useState('');
   const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(100);
+  const [pageSize, setPageSize] = useState(25);
+  const [totalPages, setTotalPages] = useState(1);
   // console.log('length', filteredData.length);
 
   useEffect(() => {
@@ -162,49 +163,11 @@ function RenderProperty() {
         console.log(err);
       }
     };
-
-    const propertyData = (data, countryData) => {
-      // console.log('data', countryData);
-      var dataArray = [];
-      data.forEach((d) => {
-        let propertyAddress;
-        propertyAddress = `${d.unit ? d.unit + '/' : ''}${
-          d.streetNo ? d.streetNo + ', ' : ''
-        }${d.street ? d.street + ', ' : ''}${d.suburb ? d.suburb + ', ' : ''}${
-          d.state && d.country
-            ? countryData[d.country]?.states[d.state]?.stateName + ', '
-            : ''
-        }${d.postCode ? d.postCode + ', ' : ''}${
-          d.country ? countryData[d.country]?.countryName : ''
-        }`;
-
-        let titleRefs = '';
-        if (d.registeredProperties.length > 0) {
-          d.registeredProperties.forEach((r) => {
-            if (titleRefs === '') {
-              titleRefs += `${r.titleReference}`;
-            } else {
-              titleRefs += `/${r.titleReference}`;
-            }
-          });
-        }
-        dataArray.push({
-          titleRef: d.registeredProperties.length === 0 ? '' : titleRefs,
-          address: propertyAddress,
-          id: d.id,
-          details: d,
-        });
-      });
-      setAllProperties(dataArray);
-      setFilteredData(dataArray);
-      setBoolVal(true);
-      setIsLoading(false);
-    };
     if (!boolVal) {
       setIsLoading(true);
       axios
         .get(
-          `${url}/api/property?requestId=1234567`,
+          `${url}/api/property?requestId=1234567&page=${pageNo}&pageSize=${pageSize}`,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -219,9 +182,11 @@ function RenderProperty() {
           // setAllProperties(response.data.data.properties);
           // propertyData();
           fetchCountries();
+          console.log(response.data);
           setFilteredData(response.data.data.properties);
           setAllProperties(response.data.data.properties);
-
+          setTotalPages(response.data.metadata.page.totalPages);
+          // setPageNo(response.data.metadata.page.pageNo);
           setBoolVal(true);
           setIsLoading(false);
         })
@@ -644,7 +609,7 @@ function RenderProperty() {
     setPageSize(e.target.value);
     axios
       .get(
-        `${url}/api/property?requestId=1234567&pageSize=${e.target.value}`,
+        `${url}/api/property?requestId=1234567&page=${pageNo}&pageSize=${e.target.value}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -659,6 +624,7 @@ function RenderProperty() {
         // setAllProperties(response.data.data.properties);
         // propertyData();
         setFilteredData(response.data.data.properties);
+        setTotalPages(response.data.metadata.page.totalPages);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -725,6 +691,8 @@ function RenderProperty() {
       });
   };
 
+  console.log(totalPages, pageNo);
+
   return (
     <div>
       <div className='row propertyDiv'>
@@ -769,7 +737,10 @@ function RenderProperty() {
                       <i class='fa fa-angle-left' aria-hidden='true'></i>
                     </button>
                     <button
-                      className='pageShift-button'
+                      disabled={pageNo === totalPages - 1}
+                      className={`pageShift-button ${
+                        pageNo === totalPages - 1 ? 'disabledButton' : ''
+                      }`}
                       onClick={handleNextPage}
                     >
                       <i class='fa fa-angle-right' aria-hidden='true'></i>
@@ -777,27 +748,26 @@ function RenderProperty() {
                   </div>
                   <Box sx={{ minWidth: 120 }} style={{ marginLeft: '25%' }}>
                     <FormControl fullWidth>
-                      <InputLabel
-                        id='demo-simple-select-label'
-                        style={{ paddingLeft: '6px' }}
-                      >
-                        Filter
+                      <InputLabel id='demo-simple-select-label'>
+                        Page size
                       </InputLabel>
                       <Select
+                        native
                         labelId='demo-simple-select-label'
                         id='demo-simple-select'
-                        label='Filter'
+                        label='Page size'
                         onChange={changeNumberOfRows}
-                        InputLabelProps={{
-                          style: {
-                            paddingLeft: '5px',
-                          },
-                        }}
+                        value={pageSize}
                       >
-                        <MenuItem value={10}>10</MenuItem>
-                        <MenuItem value={25}>25</MenuItem>
-                        <MenuItem value={50}>50</MenuItem>
-                        <MenuItem value={100}>100</MenuItem>
+                        <option value={25} selected={pageSize === 25}>
+                          25
+                        </option>
+                        <option value={50} selected={pageSize === 50}>
+                          50
+                        </option>
+                        <option value={100} selected={pageSize === 100}>
+                          100
+                        </option>
                       </Select>
                     </FormControl>
                   </Box>

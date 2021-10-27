@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import attachid from './attachid';
 import { Modal } from 'react-bootstrap';
 import PersonDetail from './PersonDetail';
@@ -242,7 +243,11 @@ function SingleContact(props) {
         </div>
         {custodyDetails.map((d) => (
           <div className='contactDetail-content-div'>
-            <div className='contactDetail-val'>{d.id.safeCustodyPacketId}</div>
+            <Link to={`/home/safecustody/${d.id.safeCustodyPacketId}`}>
+              <div className='contactDetail-val' style={{ fontWeight: '600' }}>
+                {d.id.safeCustodyPacketId}
+              </div>
+            </Link>
             <div className='contactDetail-val'>{d.contactRole}</div>
           </div>
         ))}
@@ -277,7 +282,7 @@ function SingleContact(props) {
           <div>
             <h5 className='singleContact-pageTitle'>Contacts</h5>
           </div>
-          <div className='custodyPageBtns'>
+          <div className='contactBtnDiv'>
             {contactType !== '' && enableButtons !== false && (
               <Fragment>
                 <button onClick={handleEditInfo}>Update</button>

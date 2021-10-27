@@ -662,9 +662,15 @@ function RenderSafeCustody(props) {
             <h5 className='singleContact-pageTitle'>Associated Contacts</h5>
           </div>
           <div className='custodyPageBtns'>
-            <button onClick={handleOpenLinkForm}>Add </button>
+            <button onClick={handleOpenLinkForm}>
+              {' '}
+              <span className='plusdiv'>+</span> Add{' '}
+            </button>
 
-            <button onClick={handleUnLink}>Delete</button>
+            <button onClick={handleUnLink}>
+              {' '}
+              <span className='plusdiv'>-</span> Delete
+            </button>
 
             <button onClick={handleSetPrimary}>Set Primary Contact</button>
             <button onClick={() => history.push('/home/safecustody')}>
@@ -686,7 +692,7 @@ function RenderSafeCustody(props) {
               <button>Cancel</button>
             </Link>
 
-            <button>Delete</button>
+            {/**<button>Delete</button> */}
           </div>
         </div>
       </div>
@@ -1334,10 +1340,14 @@ function RenderSafeCustody(props) {
         <div className='associatedDocs'>
           <h6 className='singleContact-pageTitle'>Associated documents</h6>
           <div className='custodyPageBtns'>
-            <button onClick={handleAddCustody}>ADD</button>
-            <button onClick={handleDeleteAttachment}>DELETE</button>
-            <button>DOWNLOAD</button>
-            <button onClick={handleContentShow}>PREPARE RECEIPT</button>
+            <button onClick={handleAddCustody}>
+              <span className='plusdiv'>+</span> Add
+            </button>
+            <button onClick={handleDeleteAttachment}>
+              <span className='plusdiv'>-</span> Delete
+            </button>
+            <button>Download</button>
+            <button onClick={handleContentShow}>Prepare Receipt</button>
           </div>
           <Modal centered='true' show={contentShow} onHide={handleContentClose}>
             <Modal.Body>

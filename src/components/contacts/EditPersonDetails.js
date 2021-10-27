@@ -88,6 +88,7 @@ const CustomTextInput = (props) => {
 };
 
 const CustomDropDown = (props) => {
+  const person = JSON.parse(window.localStorage.getItem('metaData')).person;
   const { lableName, labelId, first, second, name, value, onChange } = props;
   return (
     <FormControl
@@ -99,6 +100,11 @@ const CustomDropDown = (props) => {
         marginBottom: 10,
         outline: 'none',
       }}
+      required={person.fields.filter((f) => {
+        if (f.fieldName === props.name) {
+          return !f.allowNull;
+        }
+      })}
     >
       <InputLabel
         htmlFor={labelId}
@@ -131,13 +137,18 @@ const CustomDropDown = (props) => {
           },
         }}
       >
-        <option
-          aria-label='None'
-          selected
-          disabled
-          style={{ display: 'none' }}
-          value=''
-        />
+        {person.fields.filter((f) => {
+          if (f.fieldName === props.name) {
+            return (
+              f.allowNull && (
+                <option aria-label='None' selected disabled value=''>
+                  None
+                </option>
+              )
+            );
+          }
+        })}
+
         <option value={first} selected={value === first}>
           {first}
         </option>
@@ -638,7 +649,10 @@ function EditPersonDetails(props) {
           >
             <option
               aria-label='Country'
-              selected={personDetails.commCountry === '' || personDetails.commCountry === null}
+              selected={
+                personDetails.commCountry === '' ||
+                personDetails.commCountry === null
+              }
               disabled
               style={{ display: 'none' }}
               value=''
@@ -707,7 +721,10 @@ function EditPersonDetails(props) {
           >
             <option
               aria-label='State'
-              selected={personDetails.commState === '' || personDetails.commState === null}
+              selected={
+                personDetails.commState === '' ||
+                personDetails.commState === null
+              }
               disabled
               style={{ display: 'none' }}
               value=''
