@@ -82,7 +82,7 @@ function ContactStripe(props) {
           <span className='plusdiv'>+</span> Organisation
         </button>
         <button onClick={props.handleDelete} className='custodyAddbtn'>
-          Delete
+          <span className='plusdiv'>-</span> Delete
         </button>
       </div>
       <Modal size='xl' show={peopleShow} onHide={handleClose}>
