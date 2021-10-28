@@ -53,9 +53,15 @@ const initialData = {
   deactivatedBy: '',
 };
 
-const CustomTextInput = (props) => {
-  const person = JSON.parse(window.localStorage.getItem('metaData')).person;
+var personField = [];
 
+JSON.parse(window.localStorage.getItem('metaData')).person.fields.map((f) => {
+  if (!f.allowNull) {
+    personField.push(f.fieldName);
+  }
+});
+
+const CustomTextInput = (props) => {
   return (
     <TextField
       {...props}
@@ -85,17 +91,12 @@ const CustomTextInput = (props) => {
         inputMode: `${props.type ? props.type : 'text'}`,
       }}
       // type='text'
-      required={person.fields.filter((f) => {
-        if (f.fieldName === props.name) {
-          return !f.allowNull;
-        }
-      })}
+      required={personField.indexOf(props.name) >= 0 ? true : false}
     />
   );
 };
 
 const CustomDropDown = (props) => {
-  const person = JSON.parse(window.localStorage.getItem('metaData')).person;
   const { lableName, labelId, first, second, name, value, onChange } = props;
   return (
     <FormControl
@@ -107,7 +108,7 @@ const CustomDropDown = (props) => {
         marginBottom: 10,
         outline: 'none',
       }}
-      required={props.required}
+      required={personField.indexOf(props.name) >= 0 ? true : false}
     >
       <InputLabel
         htmlFor={labelId}
@@ -140,7 +141,7 @@ const CustomDropDown = (props) => {
           },
         }}
       >
-        {!props.required && (
+        {personField.indexOf(props.name) < 0 && (
           <option aria-label='None' selected disabled value=''>
             None
           </option>

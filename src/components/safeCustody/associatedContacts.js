@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import '../../stylesheets/safeCustody.css';
 
 function AssociatedContacts(props) {
@@ -26,19 +27,59 @@ function AssociatedContacts(props) {
                   ></input>
                 </div>
                 <div className='col-2'>
-                  <p>{contact.contactDetails.contactCode}</p>
+                  <Link
+                    style={{ textDecoration: 'none', color: 'black' }}
+                    to={{
+                      pathname: '/home/singlecontact',
+                      aboutProps: contact,
+                    }}
+                  >
+                    <p>{contact.contactDetails.contactCode}</p>
+                  </Link>
                 </div>
                 <div className='col-1'>
-                  <p>{contact.contactDetails.firstName}</p>
+                  <Link
+                    style={{ textDecoration: 'none', color: 'black' }}
+                    to={{
+                      pathname: '/home/singlecontact',
+                      aboutProps: contact,
+                    }}
+                  >
+                    <p>{contact.contactDetails.firstName}</p>
+                  </Link>
                 </div>
                 <div className='col-1'>
-                  <p>{contact.contactDetails.lastName}</p>
+                  <Link
+                    style={{ textDecoration: 'none', color: 'black' }}
+                    to={{
+                      pathname: '/home/singlecontact',
+                      aboutProps: contact,
+                    }}
+                  >
+                    <p>{contact.contactDetails.lastName}</p>
+                  </Link>
                 </div>
                 <div className='col-2'>
-                  <p>{contact.contactDetails.companyName}</p>
+                  <Link
+                    style={{ textDecoration: 'none', color: 'black' }}
+                    to={{
+                      pathname: '/home/singlecontact',
+                      aboutProps: contact,
+                    }}
+                  >
+                    <p>{contact.contactDetails.companyName}</p>
+                  </Link>
                 </div>
                 <div className='col-1'>
-                  <p>{contact.contactType}</p>
+                  <Link
+                    style={{ textDecoration: 'none', color: 'black' }}
+                    to={{
+                      pathname: '/home/singlecontact',
+                      aboutProps: contact,
+                    }}
+                  >
+                    <p>{contact.contactType}</p>
+                  </Link>
                 </div>
                 <div className='col-2'>
                   <OverlayTrigger
@@ -50,13 +91,29 @@ function AssociatedContacts(props) {
                       </Tooltip>
                     }
                   >
-                    <p style={{ textAlign: 'center', paddingLeft: '8px' }}>
-                      {contact.contactDetails.emailAddress}
-                    </p>
+                    <Link
+                      style={{ textDecoration: 'none', color: 'black' }}
+                      to={{
+                        pathname: '/home/singlecontact',
+                        aboutProps: contact,
+                      }}
+                    >
+                      <p style={{ textAlign: 'center', paddingLeft: '8px' }}>
+                        {contact.contactDetails.emailAddress}
+                      </p>
+                    </Link>
                   </OverlayTrigger>
                 </div>
                 <div className='col-2'>
-                  <p>{contact.contactDetails.telephoneNumber}</p>
+                  <Link
+                    style={{ textDecoration: 'none', color: 'black' }}
+                    to={{
+                      pathname: '/home/singlecontact',
+                      aboutProps: contact,
+                    }}
+                  >
+                    <p>{contact.contactDetails.telephoneNumber}</p>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -74,19 +131,59 @@ function AssociatedContacts(props) {
                   ></input>
                 </div>
                 <div className='col-2'>
-                  <p>{contact.contactDetails.contactCode}</p>
+                  <Link
+                    style={{ textDecoration: 'none', color: 'black' }}
+                    to={{
+                      pathname: '/home/singlecontact',
+                      aboutProps: contact,
+                    }}
+                  >
+                    <p>{contact.contactDetails.contactCode}</p>
+                  </Link>
                 </div>
                 <div className='col-1'>
-                  <p>{contact.contactDetails.firstName}</p>
+                  <Link
+                    style={{ textDecoration: 'none', color: 'black' }}
+                    to={{
+                      pathname: '/home/singlecontact',
+                      aboutProps: contact,
+                    }}
+                  >
+                    <p>{contact.contactDetails.firstName}</p>
+                  </Link>
                 </div>
                 <div className='col-1'>
-                  <p>{contact.contactDetails.lastName}</p>
+                  <Link
+                    style={{ textDecoration: 'none', color: 'black' }}
+                    to={{
+                      pathname: '/home/singlecontact',
+                      aboutProps: contact,
+                    }}
+                  >
+                    <p>{contact.contactDetails.lastName}</p>
+                  </Link>
                 </div>
                 <div className='col-2'>
-                  <p>{contact.contactDetails.companyName}</p>
+                  <Link
+                    style={{ textDecoration: 'none', color: 'black' }}
+                    to={{
+                      pathname: '/home/singlecontact',
+                      aboutProps: contact,
+                    }}
+                  >
+                    <p>{contact.contactDetails.companyName}</p>
+                  </Link>
                 </div>
                 <div className='col-1'>
-                  <p>{contact.contactType}</p>
+                  <Link
+                    style={{ textDecoration: 'none', color: 'black' }}
+                    to={{
+                      pathname: '/home/singlecontact',
+                      aboutProps: contact,
+                    }}
+                  >
+                    <p>{contact.contactType}</p>
+                  </Link>
                 </div>
                 <div className='col-2'>
                   <OverlayTrigger
@@ -98,13 +195,29 @@ function AssociatedContacts(props) {
                       </Tooltip>
                     }
                   >
-                    <p style={{ textAlign: 'center', paddingLeft: '8px' }}>
-                      {contact.contactDetails.emailAddress}
-                    </p>
+                    <Link
+                      style={{ textDecoration: 'none', color: 'black' }}
+                      to={{
+                        pathname: '/home/singlecontact',
+                        aboutProps: contact,
+                      }}
+                    >
+                      <p style={{ textAlign: 'center', paddingLeft: '8px' }}>
+                        {contact.contactDetails.emailAddress}
+                      </p>
+                    </Link>
                   </OverlayTrigger>
                 </div>
                 <div className='col-2'>
-                  <p>{contact.contactDetails.telephoneNumber}</p>
+                  <Link
+                    style={{ textDecoration: 'none', color: 'black' }}
+                    to={{
+                      pathname: '/home/singlecontact',
+                      aboutProps: contact,
+                    }}
+                  >
+                    <p>{contact.contactDetails.telephoneNumber}</p>
+                  </Link>
                 </div>
               </div>
             </div>

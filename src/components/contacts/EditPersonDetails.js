@@ -47,8 +47,15 @@ const initialData = {
   deactivatedBy: '',
 };
 
+var personField = [];
+
+JSON.parse(window.localStorage.getItem('metaData')).person.fields.map((f) => {
+  if (!f.allowNull) {
+    personField.push(f.fieldName);
+  }
+});
+
 const CustomTextInput = (props) => {
-  const person = JSON.parse(window.localStorage.getItem('metaData')).person;
   return (
     <TextField
       {...props}
@@ -78,17 +85,12 @@ const CustomTextInput = (props) => {
         inputMode: `${props.type ? props.type : 'text'}`,
       }}
       // type='text'
-      required={person.fields.filter((f) => {
-        if (f.fieldName === props.name) {
-          return !f.allowNull;
-        }
-      })}
+      required={personField.indexOf(props.name) >= 0 ? true : false}
     />
   );
 };
 
 const CustomDropDown = (props) => {
-  const person = JSON.parse(window.localStorage.getItem('metaData')).person;
   const { lableName, labelId, first, second, name, value, onChange } = props;
   return (
     <FormControl
@@ -100,11 +102,7 @@ const CustomDropDown = (props) => {
         marginBottom: 10,
         outline: 'none',
       }}
-      required={person.fields.filter((f) => {
-        if (f.fieldName === props.name) {
-          return !f.allowNull;
-        }
-      })}
+      required={personField.indexOf(props.name) >= 0 ? true : false}
     >
       <InputLabel
         htmlFor={labelId}
@@ -137,17 +135,11 @@ const CustomDropDown = (props) => {
           },
         }}
       >
-        {person.fields.filter((f) => {
-          if (f.fieldName === props.name) {
-            return (
-              f.allowNull && (
-                <option aria-label='None' selected disabled value=''>
-                  None
-                </option>
-              )
-            );
-          }
-        })}
+        {personField.indexOf(props.name) < 0 && (
+          <option aria-label='None' selected disabled value=''>
+            None
+          </option>
+        )}
 
         <option value={first} selected={value === first}>
           {first}
@@ -244,7 +236,7 @@ function EditPersonDetails(props) {
           companyId: data?.organizationId,
           siteId: data?.siteId ? data?.siteId : 1,
           person: {
-            ...personDetails,
+            ...contactDetails,
           },
         });
       } catch (err) {
@@ -554,12 +546,12 @@ function EditPersonDetails(props) {
           value={personDetails.occupation}
           onChange={handleFormChange}
         />
-        <CustomTextInput
+        {/**<CustomTextInput
           name='practiceCertNumber'
           label='Practicing Certificate No.'
           value={personDetails.practiceCertNumber}
           onChange={handleFormChange}
-        />
+        /> */}
         <CustomTextInput
           name='personComments'
           label='Comments'

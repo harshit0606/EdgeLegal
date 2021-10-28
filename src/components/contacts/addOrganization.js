@@ -40,11 +40,17 @@ const initialData = {
   representativeId: '',
 };
 
+var orgField = [];
+
+JSON.parse(window.localStorage.getItem('metaData')).organisation.fields.map(
+  (f) => {
+    if (!f.allowNull) {
+      orgField.push(f.fieldName);
+    }
+  }
+);
+
 const CustomTextInput = (props) => {
-  const organisation = JSON.parse(
-    window.localStorage.getItem('metaData')
-  ).organisation;
-  // console.log(organisation);
   return (
     <TextField
       {...props}
@@ -74,11 +80,7 @@ const CustomTextInput = (props) => {
         inputMode: `${props.type ? props.type : 'text'}`,
       }}
       // type='text'
-      required={organisation.fields.filter((f) => {
-        if (f.fieldName === props.name) {
-          return !f.allowNull;
-        }
-      })}
+      required={orgField.indexOf(props.name) >= 0 ? true : false}
     />
   );
 };
@@ -338,9 +340,9 @@ function AddOrganization(props) {
             onChange={handleFormChange}
           />
           <CustomTextInput
-            name='phoneNumber3'
-            label='Phone Number 3'
-            value={organizationDetails.phoneNumber3}
+            name='mobilePhoneNumber'
+            label='Mobile Number'
+            value={organizationDetails.mobilePhoneNumber}
             onChange={handleFormChange}
           />
           <CustomTextInput

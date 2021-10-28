@@ -1019,29 +1019,7 @@ function RenderProperty() {
                       }}
                     />
                   </div>
-                  <div className='col-3 rowWise'>
-                    <label>Country</label>
-                    <select onChange={handleChangeCountry}>
-                      <option
-                        disabled
-                        selected={specificProperty?.country === ''}
-                        value=''
-                        className='demo-select'
-                      >
-                        Select
-                      </option>
-                      {countries.map((c, index) => (
-                        <option
-                          id='options'
-                          key={c.id}
-                          value={index}
-                          selected={c.id === specificProperty?.country}
-                        >
-                          {c.countryName}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  
                   <div className='col-3 rowWise'>
                     <label>State</label>
                     <select
@@ -1068,6 +1046,29 @@ function RenderProperty() {
                           selected={s.id === specificProperty?.state}
                         >
                           {s.stateName}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className='col-3 rowWise'>
+                    <label>Country</label>
+                    <select onChange={handleChangeCountry}>
+                      <option
+                        disabled
+                        selected={specificProperty?.country === ''}
+                        value=''
+                        className='demo-select'
+                      >
+                        Select
+                      </option>
+                      {countries.map((c, index) => (
+                        <option
+                          id='options'
+                          key={c.id}
+                          value={index}
+                          selected={c.id === specificProperty?.country}
+                        >
+                          {c.countryName}
                         </option>
                       ))}
                     </select>

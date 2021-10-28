@@ -9,6 +9,7 @@ import ReceiptDocument from './ReceiptDocument';
 import AddCustodyPopup from './addCustodyPopup.js';
 import AssociatedContacts from './associatedContacts.js';
 import File from './file.js';
+
 import closeBtn from '../../images/close-white-btn.svg';
 import { useCookies } from 'react-cookie';
 
@@ -163,7 +164,7 @@ function RenderSafeCustody(props) {
           }
         )
         .then((res) => {
-          // console.log(res.data?.data);
+          // console.log(res.data?.data?.contactLists);
           setContactLists(res.data?.data?.contactLists);
           setFilterPrepare(res.data?.data?.contactLists);
           // setOpenLinkContactForm(true);
@@ -189,7 +190,7 @@ function RenderSafeCustody(props) {
           }
         )
         .then((response) => {
-          // console.log('all data', response.data?.data?.custodyPacketContacts);
+          console.log('all data', response.data?.data?.custodyPacketContacts);
           findPrimary(response.data?.data?.custodyPacketContacts);
           setCustodyPacketContacts(response.data?.data?.custodyPacketContacts);
           setCustodyPacket(response.data?.data);

@@ -50,6 +50,8 @@ function AllSafeCustody() {
   const [isLoading, setIsLoading] = useState(false);
   const [boolVal, setBoolVal] = useState(false);
 
+  const [selected, setSelected] = useState([]);
+
   useEffect(() => {
     if (!boolVal) {
       setIsLoading(true);
@@ -227,10 +229,51 @@ function AllSafeCustody() {
     }
   };
 
+  const handleSelectToDelete = (id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+    setSelected(newSelected);
+  };
+
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelecteds = filteredData?.map((row) => row.id);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
+
+  // to check whether the property is selected or not
+  const isSelected = (id) => selected.indexOf(id) !== -1;
+
   function renderSafeSelect() {
     return (
       <div>
         <div className='row safeSelectHeads'>
+          <div className='col-1' style={{ paddingRight: '56px' }}>
+            <input
+              type='checkbox'
+              checked={
+                filteredData.length > 0 &&
+                selected.length === filteredData.length
+              }
+              onChange={handleSelectAllClick}
+            />
+          </div>
           <div className='col-2'>
             <label className='associatedContacts-label'>
               Location
@@ -434,59 +477,121 @@ function AllSafeCustody() {
           {filteredData?.map((packet, index) => {
             if (index % 2 == 0)
               return (
-                <Link
-                  style={{ textDecoration: 'none' }}
-                  to={`/home/safecustody/${packet.id}`}
-                  key={index}
-                >
-                  <div className='all-contacttdatadiv'>
-                    <div className='row '>
-                      <div className='col-2'>
+                <div className='all-contacttdatadiv'>
+                  <div className='row '>
+                    <div className='col-1'>
+                      <input
+                        type='checkbox'
+                        checked={isSelected(packet.id)}
+                        onChange={() => handleSelectToDelete(packet.id)}
+                      />
+                    </div>
+                    <div className='col-2'>
+                      <Link
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        to={`/home/safecustody/${packet.id}`}
+                        key={index}
+                      >
                         <h6>{packet.siteName}</h6>
-                      </div>
-                      <div className='col-2'>
+                      </Link>
+                    </div>
+                    <div className='col-2'>
+                      <Link
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        to={`/home/safecustody/${packet.id}`}
+                        key={index}
+                      >
                         <h6>{packet.packetNumber}</h6>
-                      </div>
-                      <div className='col-2'>
+                      </Link>
+                    </div>
+                    <div className='col-2'>
+                      <Link
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        to={`/home/safecustody/${packet.id}`}
+                        key={index}
+                      >
                         <h6>{packet.companyName}</h6>
-                      </div>
-                      <div className='col-2'>
+                      </Link>
+                    </div>
+                    <div className='col-2'>
+                      <Link
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        to={`/home/safecustody/${packet.id}`}
+                        key={index}
+                      >
                         <h6>{packet.status}</h6>
-                      </div>
-                      <div className='col-3'>
+                      </Link>
+                    </div>
+                    <div className='col-3'>
+                      <Link
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        to={`/home/safecustody/${packet.id}`}
+                        key={index}
+                      >
                         <h6>{'comments'}</h6>
-                      </div>
+                      </Link>
                     </div>
                   </div>
-                </Link>
+                </div>
               );
             else {
               return (
-                <Link
-                  style={{ textDecoration: 'none' }}
-                  to={`/home/safecustody/${packet.id}`}
-                  key={index}
-                >
-                  <div className='all-lightcontacttdatadiv'>
-                    <div className='row '>
-                      <div className='col-2'>
+                <div className='all-lightcontacttdatadiv'>
+                  <div className='row '>
+                    <div className='col-1'>
+                      <input
+                        type='checkbox'
+                        checked={isSelected(packet.id)}
+                        onChange={() => handleSelectToDelete(packet.id)}
+                      />
+                    </div>
+                    <div className='col-2'>
+                      <Link
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        to={`/home/safecustody/${packet.id}`}
+                        key={index}
+                      >
                         <h6>{packet.siteName}</h6>
-                      </div>
-                      <div className='col-2'>
+                      </Link>
+                    </div>
+                    <div className='col-2'>
+                      <Link
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        to={`/home/safecustody/${packet.id}`}
+                        key={index}
+                      >
                         <h6>{packet.packetNumber}</h6>
-                      </div>
-                      <div className='col-2'>
+                      </Link>
+                    </div>
+                    <div className='col-2'>
+                      <Link
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        to={`/home/safecustody/${packet.id}`}
+                        key={index}
+                      >
                         <h6>{packet.companyName}</h6>
-                      </div>
-                      <div className='col-2'>
+                      </Link>
+                    </div>
+                    <div className='col-2'>
+                      <Link
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        to={`/home/safecustody/${packet.id}`}
+                        key={index}
+                      >
                         <h6>{packet.status}</h6>
-                      </div>
-                      <div className='col-3'>
+                      </Link>
+                    </div>
+                    <div className='col-3'>
+                      <Link
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        to={`/home/safecustody/${packet.id}`}
+                        key={index}
+                      >
                         <h6>{'comments'}</h6>
-                      </div>
+                      </Link>
                     </div>
                   </div>
-                </Link>
+                </div>
               );
             }
           })}
