@@ -1492,6 +1492,9 @@ function RenderSafeCustody(props) {
         <div className='row associatedDocsHead'>
           <div className='col-1'></div>
           <div className='col-2'>
+            <label>Document Type</label>
+          </div>
+          <div className='col-2'>
             <label>Document Name</label>
           </div>
           <div className='col-2'>
@@ -1505,9 +1508,6 @@ function RenderSafeCustody(props) {
           </div>
           <div className='col-2'>
             <label>Uplifted By</label>
-          </div>
-          <div className='col-2'>
-            <label>Comments</label>
           </div>
         </div>
         <div>
@@ -1628,6 +1628,9 @@ function RenderSafeCustody(props) {
         <div className='row associatedDocsHead'>
           <div className='col-1'></div>
           <div className='col-2'>
+            <label>Document Type</label>
+          </div>
+          <div className='col-2'>
             <label>Document Name</label>
           </div>
           <div className='col-2'>
@@ -1641,9 +1644,6 @@ function RenderSafeCustody(props) {
           </div>
           <div className='col-2'>
             <label>Uplifted By</label>
-          </div>
-          <div className='col-2'>
-            <label>Comments</label>
           </div>
         </div>
         <div>

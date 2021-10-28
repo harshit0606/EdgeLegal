@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react';
 import moment from 'moment';
+import { returnFileIcon } from '../../utils/Icons';
 import '../../stylesheets/safeCustody.css';
 
 const Document = (props) => {
   // console.log(props?.data);
   const { data, setSelectedContent, selectedContent } = props;
 
+  console.log(data);
   // const handleContentSelect = (id) => {
   //   const selectedIndex = selectedContent.indexOf(id);
   //   let newSelected = [];
@@ -57,6 +59,8 @@ const Document = (props) => {
               style={{
                 marginTop: '2%',
                 borderBottom: '1px solid lightgray',
+                paddingLeft: '10px',
+                paddingRight: '15px',
                 paddingBottom: '10px',
               }}
             >
@@ -66,6 +70,14 @@ const Document = (props) => {
                   type='checkbox'
                   checked={d.id === selectedContent}
                   onChange={() => handleContentSelect(d.id)}
+                />
+              </div>
+              <div className='col-2' style={{ textAlign: 'center' }}>
+                <img
+                  src={returnFileIcon(d.type)}
+                  alt={d.type}
+                  width='30px'
+                  height='30px'
                 />
               </div>
               <div className='col-2'>
@@ -86,9 +98,6 @@ const Document = (props) => {
               </div>
               <div className='col-2'>
                 <label>{d.uploadedBy}</label>
-              </div>
-              <div className='col-2'>
-                <label>{d.comment ? d.comment : 'comment'}</label>
               </div>
             </div>
           );
