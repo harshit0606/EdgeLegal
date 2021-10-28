@@ -1,10 +1,11 @@
 .attach-id-main {
   padding: 10px 0px;
 }
-.attach-main-table-row {
-  display: flex;
+.attach-main-table {
+  /* display: flex; */
+  margin-top: 20px;
   margin-bottom: 10px;
-  padding: 10px 10px;
+  padding: 10px 20px;
 }
 .attach-div1 {
   flex: 0.1;

@@ -208,29 +208,81 @@ function SingleContact(props) {
   }
 
   const handleEditInfo = async () => {
-    // console.log(updatedData);
-    try {
-      const { data } = await axios.put(
-        `${url}/api/contacts`,
-        {
-          requestId: '1123445',
-          data: updatedData,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
+    console.log(updatedData);
+    var requiredFields = [];
+    var allFilled = true;
+    if (contactType === 'person') {
+      const person = JSON.parse(window.localStorage.getItem('metaData')).person
+        .fields;
+      // console.log(person);
+      person.map((f) => {
+        if (!f.allowNull) {
+          requiredFields.push(f.fieldName);
         }
-      );
-      // console.log(data);
-      setBoolVal(false);
-      // window.location.reload();
-    } catch (err) {
-      console.log(err);
+      });
+      // console.log(requiredFields);
+      requiredFields.forEach((e) => {
+        if (
+          e !== 'deactivatedBy' &&
+          e !== 'deactivatedOn' &&
+          (updatedData.person[e] === null || updatedData.person[e] === '')
+        ) {
+          allFilled = false;
+          // console.log(e);
+        }
+      });
+    } else {
+      const organisation = JSON.parse(window.localStorage.getItem('metaData'))
+        .organisation.fields;
+      // console.log(organisation);
+      organisation.map((f) => {
+        if (!f.allowNull) {
+          requiredFields.push(f.fieldName);
+        }
+      });
+      // console.log(requiredFields);
+
+      requiredFields.forEach((e) => {
+        if (
+          e !== 'deactivatedBy' &&
+          e !== 'deactivatedOn' &&
+          (updatedData.organisation[e] === null ||
+            updatedData.organisation[e] === '')
+        ) {
+          allFilled = false;
+          console.log(e);
+        }
+      });
+    }
+
+    // console.log(allFilled);
+
+    if (allFilled) {
+      try {
+        const { data } = await axios.put(
+          `${url}/api/contacts`,
+          {
+            requestId: '1123445',
+            data: updatedData,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${loggedInToken}`,
+            },
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        // console.log(data);
+        setBoolVal(false);
+        // window.location.reload();
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      alert('Please fill all required fields');
     }
   };
 

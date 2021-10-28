@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import moment from 'moment';
+import { returnFileIcon } from '../../utils/Icons';
 import '../../stylesheets/safeCustody.css';
 
 const ReceiptDocument = (props) => {
@@ -68,6 +69,14 @@ const ReceiptDocument = (props) => {
                   onChange={() => setSelected(d.id)}
                 />
               </div>
+              <div className='col-2' style={{ textAlign: 'center' }}>
+                <img
+                  src={returnFileIcon(d.type)}
+                  alt={d.type}
+                  width='30px'
+                  height='30px'
+                />
+              </div>
               <div className='col-2'>
                 <label>{d.name ? d.name : 'name'}</label>
               </div>
@@ -86,9 +95,6 @@ const ReceiptDocument = (props) => {
               </div>
               <div className='col-2'>
                 <label>{d.uploadedBy}</label>
-              </div>
-              <div className='col-2'>
-                <label>{d.comment ? d.comment : 'comment'}</label>
               </div>
             </div>
           );

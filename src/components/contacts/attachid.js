@@ -5,6 +5,7 @@ import AttachIDForm from './AttachIDForm';
 import url from '../../config.js';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import { returnFileIcon } from '../../utils/Icons';
 import '../../stylesheets/attach.css';
 import { FiDownload } from 'react-icons/fi';
 import fileDownload from 'js-file-download';
@@ -14,7 +15,7 @@ const Attachid = (props) => {
   const loggedInToken = cookies.token;
   const { details, changeBool, attach, handleContactAttachments } = props;
   const [showForm, setShowForm] = useState(false);
-
+  console.log(attach);
   const handleDownload = (id, fileName) => {
     axios
       .get(`${url}/api/contact-attachment/attachment/${id}?requestId=1234`, {
@@ -39,7 +40,14 @@ const Attachid = (props) => {
       <div className='attach-main-table'>
         {attach?.map((data) => (
           <div className='attach-table-row'>
-            <div className='attach-div1'>{data.type}</div>
+            <div className='attach-div1'>
+              <img
+                src={returnFileIcon(data.type)}
+                alt={data.type}
+                width='30px'
+                height='30px'
+              />
+            </div>
             <div className='attach-div2'>{data.name}</div>
             <div className='attach-div3'>
               {moment(data.uploadDate).format('DD-MM-YYYY')}
