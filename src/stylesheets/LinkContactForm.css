@@ -90,6 +90,11 @@
   justify-content: flex-start;
 }
 
+.linkContact-list-column label {
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
 .linkContact-list-code {
   width: 18%;
   text-align: left;

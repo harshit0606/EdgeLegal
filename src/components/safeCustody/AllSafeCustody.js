@@ -16,10 +16,10 @@ import {
   Box,
 } from '@material-ui/core';
 
-import upArrow from '../../images/upArrow.svg';
-import downArrow from '../../images/downArrow.svg';
-import downArrowColoured from '../../images/downArrowColoured.svg';
-import upArrowColoured from '../../images/upArrowColoured.svg';
+// import upArrow from '../../images/upArrow.svg';
+// import downArrow from '../../images/downArrow.svg';
+// import downArrowColoured from '../../images/downArrowColoured.svg';
+// import upArrowColoured from '../../images/upArrowColoured.svg';
 import SafeStripe from '../topStripes/SafeStripe';
 import { Link } from 'react-router-dom';
 import LoadingPage from '../../utils/LoadingPage';
@@ -45,12 +45,13 @@ function AllSafeCustody() {
   const [safeCustodyStatus, setSafeCustodyStatus] = useState(undefined);
   const [isAddCustodyOpen, setIsAddCustoduOpen] = useState(false);
   const [newCustodyForm, setNewCustodyForm] = useState(false);
-  const [sortOrder, setSortOrder] = useState('');
-  const [sortField, setSortField] = useState('');
+  // const [sortOrder, setSortOrder] = useState('');
+  // const [sortField, setSortField] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [boolVal, setBoolVal] = useState(false);
 
   const [selected, setSelected] = useState([]);
+  const [labelSort, setLabelSort] = useState('');
 
   useEffect(() => {
     if (!boolVal) {
@@ -209,25 +210,44 @@ function AllSafeCustody() {
     // }
   };
 
-  const handleSort = (field, order) => {
-    // console.log(filteredData);
-    if (sortOrder === order && sortField === field) {
-      setSortOrder(order);
-      setSortField(field);
-      // setFilteredData(safeCustodyPackets);
-    } else {
-      setSortOrder(order);
-      setSortField(field);
-      let sortedData = filteredData.sort((a, b) => {
-        if (order === 'asc') {
-          return a[field] < b[field] ? -1 : 1;
-        } else {
-          return a[field] < b[field] ? 1 : -1;
-        }
-      });
-      setFilteredData(sortedData);
-    }
+  const handleSortByLabel = (field) => {
+    let sortedData = filteredData.sort((a, b) => {
+      if (labelSort !== field) {
+        setLabelSort(field);
+        return (a[field] ? a[field].toLowerCase() : '') <
+          (b[field] ? b[field].toLowerCase() : '')
+          ? -1
+          : 1;
+      } else {
+        setLabelSort('');
+        return (a[field] ? a[field].toLowerCase() : '') <
+          (b[field] ? b[field].toLowerCase() : '')
+          ? 1
+          : -1;
+      }
+    });
+    setFilteredData(sortedData);
   };
+
+  // const handleSort = (field, order) => {
+  //   // console.log(filteredData);
+  //   if (sortOrder === order && sortField === field) {
+  //     setSortOrder(order);
+  //     setSortField(field);
+  //     // setFilteredData(safeCustodyPackets);
+  //   } else {
+  //     setSortOrder(order);
+  //     setSortField(field);
+  //     let sortedData = filteredData.sort((a, b) => {
+  //       if (order === 'asc') {
+  //         return a[field] < b[field] ? -1 : 1;
+  //       } else {
+  //         return a[field] < b[field] ? 1 : -1;
+  //       }
+  //     });
+  //     setFilteredData(sortedData);
+  //   }
+  // };
 
   const handleSelectToDelete = (id) => {
     const selectedIndex = selected.indexOf(id);
@@ -275,9 +295,12 @@ function AllSafeCustody() {
             />
           </div>
           <div className='col-2'>
-            <label className='associatedContacts-label'>
+            <label
+              className='associatedContacts-label labelCursor'
+              onClick={() => handleSortByLabel('siteName')}
+            >
               Location
-              <div className='associatedContacts-label-btn'>
+              {/**<div className='associatedContacts-label-btn'>
                 {sortOrder === 'asc' && sortField === 'siteName' ? (
                   <img
                     src={upArrowColoured}
@@ -308,14 +331,17 @@ function AllSafeCustody() {
                     onClick={() => handleSort('siteName', 'desc')}
                   />
                 )}
-              </div>
+              </div> */}
             </label>
             <input type='text' name='siteName' onChange={handleFilter}></input>
           </div>
           <div className='col-2'>
-            <label className='associatedContacts-label'>
+            <label
+              className='associatedContacts-label labelCursor'
+              onClick={() => handleSortByLabel('packetNumber')}
+            >
               Packet No.
-              <div className='associatedContacts-label-btn'>
+              {/**<div className='associatedContacts-label-btn'>
                 {sortOrder === 'asc' && sortField === 'packetNumber' ? (
                   <img
                     src={upArrowColoured}
@@ -346,7 +372,7 @@ function AllSafeCustody() {
                     onClick={() => handleSort('packetNumber', 'desc')}
                   />
                 )}
-              </div>
+              </div> */}
             </label>
             <input
               type='text'
@@ -355,9 +381,12 @@ function AllSafeCustody() {
             ></input>
           </div>
           <div className='col-2'>
-            <label className='associatedContacts-label'>
+            <label
+              className='associatedContacts-label labelCursor'
+              onClick={() => handleSortByLabel('companyName')}
+            >
               Contacts
-              <div className='associatedContacts-label-btn'>
+              {/**<div className='associatedContacts-label-btn'>
                 {sortOrder === 'asc' && sortField === 'companyName' ? (
                   <img
                     src={upArrowColoured}
@@ -388,7 +417,7 @@ function AllSafeCustody() {
                     onClick={() => handleSort('companyName', 'desc')}
                   />
                 )}
-              </div>
+              </div> */}
             </label>
             <input
               type='text'
@@ -397,9 +426,12 @@ function AllSafeCustody() {
             ></input>
           </div>
           <div className='col-2'>
-            <label className='associatedContacts-label'>
+            <label
+              className='associatedContacts-label labelCursor'
+              onClick={() => handleSortByLabel('status')}
+            >
               Status
-              <div className='associatedContacts-label-btn'>
+              {/**<div className='associatedContacts-label-btn'>
                 {sortOrder === 'asc' && sortField === 'status' ? (
                   <img
                     src={upArrowColoured}
@@ -430,14 +462,17 @@ function AllSafeCustody() {
                     onClick={() => handleSort('status', 'desc')}
                   />
                 )}
-              </div>
+              </div> */}
             </label>
             <input type='text' name='status' onChange={handleFilter}></input>
           </div>
           <div className='col-3'>
-            <label className='associatedContacts-label'>
+            <label
+              className='associatedContacts-label labelCursor'
+              onClick={() => handleSortByLabel('comment')}
+            >
               Comment
-              <div className='associatedContacts-label-btn'>
+              {/**<div className='associatedContacts-label-btn'>
                 {sortOrder === 'asc' && sortField === 'comment' ? (
                   <img
                     src={upArrowColoured}
@@ -468,7 +503,7 @@ function AllSafeCustody() {
                     onClick={() => handleSort('comment', 'desc')}
                   />
                 )}
-              </div>
+              </div> */}
             </label>
             <input type='text' name='comment' onChange={handleFilter}></input>
           </div>

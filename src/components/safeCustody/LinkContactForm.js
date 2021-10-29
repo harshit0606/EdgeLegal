@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import closeBtn from '../../images/close-white-btn.svg';
-import upArrow from '../../images/upArrow.svg';
-import downArrow from '../../images/downArrow.svg';
-import downArrowColoured from '../../images/downArrowColoured.svg';
-import upArrowColoured from '../../images/upArrowColoured.svg';
+// import upArrow from '../../images/upArrow.svg';
+// import downArrow from '../../images/downArrow.svg';
+// import downArrowColoured from '../../images/downArrowColoured.svg';
+// import upArrowColoured from '../../images/upArrowColoured.svg';
 import '../../stylesheets/LinkContactForm.css';
 import url from '../../config.js';
 import { useCookies } from 'react-cookie';
@@ -33,8 +33,9 @@ const LinkContactForm = (props) => {
   const [selectedIndex, setSelectedIndex] = useState('');
   const [filteredData, setFilteredData] = useState(contactLists);
   const [filterInput, setFilterInput] = useState(filterFields);
-  const [sortOrder, setSortOrder] = useState('');
-  const [sortField, setSortField] = useState('');
+  // const [sortOrder, setSortOrder] = useState('');
+  // const [sortField, setSortField] = useState('');
+  const [labelSort, setLabelSort] = useState('');
   // console.log(contactLists);
 
   // const handleFormChange = (e) => {
@@ -67,30 +68,49 @@ const LinkContactForm = (props) => {
     filterData({ ...filterInput, [name]: e.target.value });
   };
 
-  const handleSort = (field, order) => {
-    if (sortOrder === order && sortField === field) {
-      setSortOrder(order);
-      setSortField(field);
-    } else {
-      setSortOrder(order);
-      setSortField(field);
-      // console.log()
-      let sortedData = filteredData.sort((a, b) => {
-        if (order === 'asc') {
-          return (a[field] ? a[field].toLowerCase() : '') <
-            (b[field] ? b[field].toLowerCase() : '')
-            ? -1
-            : 1;
-        } else {
-          return (a[field] ? a[field].toLowerCase() : '') <
-            (b[field] ? b[field].toLowerCase() : '')
-            ? 1
-            : -1;
-        }
-      });
-      setFilteredData(sortedData);
-    }
+  const handleLabelClick = (field) => {
+    let sortedData = filteredData.sort((a, b) => {
+      if (labelSort !== field) {
+        setLabelSort(field);
+        return (a[field] ? a[field].toLowerCase() : '') <
+          (b[field] ? b[field].toLowerCase() : '')
+          ? -1
+          : 1;
+      } else {
+        setLabelSort('');
+        return (a[field] ? a[field].toLowerCase() : '') <
+          (b[field] ? b[field].toLowerCase() : '')
+          ? 1
+          : -1;
+      }
+    });
+    setFilteredData(sortedData);
   };
+
+  // const handleSort = (field, order) => {
+  //   if (sortOrder === order && sortField === field) {
+  //     setSortOrder(order);
+  //     setSortField(field);
+  //   } else {
+  //     setSortOrder(order);
+  //     setSortField(field);
+  //     // console.log()
+  //     let sortedData = filteredData.sort((a, b) => {
+  //       if (order === 'asc') {
+  //         return (a[field] ? a[field].toLowerCase() : '') <
+  //           (b[field] ? b[field].toLowerCase() : '')
+  //           ? -1
+  //           : 1;
+  //       } else {
+  //         return (a[field] ? a[field].toLowerCase() : '') <
+  //           (b[field] ? b[field].toLowerCase() : '')
+  //           ? 1
+  //           : -1;
+  //       }
+  //     });
+  //     setFilteredData(sortedData);
+  //   }
+  // };
 
   const handleClick = (data, ind) => {
     setSelected(data);
@@ -145,9 +165,13 @@ const LinkContactForm = (props) => {
           <div className='linkContact-list-head'>
             <span className='linkContact-list-inputSpan'> </span>
             <div className='linkContact-list-column linkContact-list-code'>
-              <label className='associatedContacts-label'>
+              <label
+                className='associatedContacts-label'
+                onClick={() => handleLabelClick('contactCode')}
+              >
                 Contact Code
-                <div className='associatedContacts-label-btn'>
+                {/*
+                  <div className='associatedContacts-label-btn'>
                   {sortOrder === 'asc' && sortField === 'contactCode' ? (
                     <img
                       src={upArrowColoured}
@@ -179,12 +203,17 @@ const LinkContactForm = (props) => {
                     />
                   )}
                 </div>
+                  */}
               </label>
               <input type='text' name='contactCode' onChange={handleFilter} />
             </div>
             <div className='linkContact-list-column linkContact-list-fName'>
-              <label className='associatedContacts-label'>
+              <label
+                className='associatedContacts-label'
+                onClick={() => handleLabelClick('firstName')}
+              >
                 F. Name
+                {/**
                 <div className='associatedContacts-label-btn'>
                   {sortOrder === 'asc' && sortField === 'firstName' ? (
                     <img
@@ -217,13 +246,17 @@ const LinkContactForm = (props) => {
                     />
                   )}
                 </div>
+                */}
               </label>
               <input type='text' name='firstName' onChange={handleFilter} />
             </div>
             <div className='linkContact-list-column linkContact-list-lName'>
-              <label className='associatedContacts-label'>
+              <label
+                className='associatedContacts-label'
+                onClick={() => handleLabelClick('lastName')}
+              >
                 L. Name
-                <div className='associatedContacts-label-btn'>
+                {/**<div className='associatedContacts-label-btn'>
                   {sortOrder === 'asc' && sortField === 'lastName' ? (
                     <img
                       src={upArrowColoured}
@@ -254,14 +287,17 @@ const LinkContactForm = (props) => {
                       onClick={() => handleSort('lastName', 'desc')}
                     />
                   )}
-                </div>
+                </div> */}
               </label>
               <input type='text' name='lastName' onChange={handleFilter} />
             </div>
             <div className='linkContact-list-column linkContact-list-company'>
-              <label className='associatedContacts-label'>
+              <label
+                className='associatedContacts-label'
+                onClick={() => handleLabelClick('companyName')}
+              >
                 Company
-                <div className='associatedContacts-label-btn'>
+                {/**<div className='associatedContacts-label-btn'>
                   {sortOrder === 'asc' && sortField === 'companyName' ? (
                     <img
                       src={upArrowColoured}
@@ -292,7 +328,7 @@ const LinkContactForm = (props) => {
                       onClick={() => handleSort('companyName', 'desc')}
                     />
                   )}
-                </div>
+                </div> */}
               </label>
               <input type='text' name='companyName' onChange={handleFilter} />
             </div>
