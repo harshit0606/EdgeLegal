@@ -25,10 +25,10 @@ import { Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import AddCustodyForm from './AddCustodyForm';
 import LinkContactForm from './LinkContactForm';
-import upArrow from '../../images/upArrow.svg';
-import downArrow from '../../images/downArrow.svg';
-import downArrowColoured from '../../images/downArrowColoured.svg';
-import upArrowColoured from '../../images/upArrowColoured.svg';
+// import upArrow from '../../images/upArrow.svg';
+// import downArrow from '../../images/downArrow.svg';
+// import downArrowColoured from '../../images/downArrowColoured.svg';
+// import upArrowColoured from '../../images/upArrowColoured.svg';
 import LoadingPage from '../../utils/LoadingPage';
 
 const filterFields = {
@@ -131,10 +131,11 @@ function RenderSafeCustody(props) {
   const [primaryContact, setPrimaryContact] = useState([]);
   const [primaryContactDetail, setPrimaryContactDetail] = useState({});
   const [formDataForUnlink, setFormDataForUnlink] = useState({});
-  const [sortOrder, setSortOrder] = useState('');
-  const [sortField, setSortField] = useState('');
+  // const [sortOrder, setSortOrder] = useState('');
+  // const [sortField, setSortField] = useState('');
   const [isEnableButtons, setIsEnableButtons] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [labelSort, setLabelSort] = useState('');
 
   useEffect(() => {
     const findPrimary = (data) => {
@@ -466,24 +467,37 @@ function RenderSafeCustody(props) {
     filterPrepareData({ ...prepareInput, [name]: e.target.value });
   };
 
-  const handleSort = (field, order) => {
-    if (sortOrder === order && sortField === field) {
-      setSortOrder(order);
-      setSortField(field);
-      // setFilteredData(custodyPacketContacts);
-    } else {
-      setSortOrder(order);
-      setSortField(field);
-      let sortedData = filteredData.sort((a, b) => {
-        if (order === 'asc') {
-          return a.contactDetails[field] < b.contactDetails[field] ? -1 : 1;
-        } else {
-          return a.contactDetails[field] < b.contactDetails[field] ? 1 : -1;
-        }
-      });
-      setFilteredData(sortedData);
-    }
+  const handleSortByLabel = (field) => {
+    let sortedData = filteredData.sort((a, b) => {
+      if (labelSort !== field) {
+        setLabelSort(field);
+        return a.contactDetails[field] < b.contactDetails[field] ? -1 : 1;
+      } else {
+        setLabelSort('');
+        return a.contactDetails[field] < b.contactDetails[field] ? 1 : -1;
+      }
+    });
+    setFilteredData(sortedData);
   };
+
+  // const handleSort = (field, order) => {
+  //   if (sortOrder === order && sortField === field) {
+  //     setSortOrder(order);
+  //     setSortField(field);
+  //     // setFilteredData(custodyPacketContacts);
+  //   } else {
+  //     setSortOrder(order);
+  //     setSortField(field);
+  //     let sortedData = filteredData.sort((a, b) => {
+  //       if (order === 'asc') {
+  //         return a.contactDetails[field] < b.contactDetails[field] ? -1 : 1;
+  //       } else {
+  //         return a.contactDetails[field] < b.contactDetails[field] ? 1 : -1;
+  //       }
+  //     });
+  //     setFilteredData(sortedData);
+  //   }
+  // };
 
   const handleSelectToPrepare = (id) => {
     const selectedIndex = selectPrepare.indexOf(id);
@@ -962,9 +976,13 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
             <div className='col-2'>
-              <label className='associatedContacts-label'>
+              <label
+                className='associatedContacts-label labelCursor'
+                onClick={() => handleSortByLabel('contactCode')}
+              >
                 Code
-                <div className='associatedContacts-label-btn'>
+                {/*
+                  <div className='associatedContacts-label-btn'>
                   {sortOrder === 'asc' && sortField === 'contactCode' ? (
                     <img
                       src={upArrowColoured}
@@ -995,7 +1013,7 @@ function RenderSafeCustody(props) {
                       onClick={() => handleSort('contactCode', 'desc')}
                     />
                   )}
-                </div>
+                </div>*/}
               </label>
               <input
                 type='text'
@@ -1004,40 +1022,43 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
             <div className='col-1'>
-              <label className='associatedContacts-label'>
+              <label
+                className='associatedContacts-label labelCursor'
+                onClick={() => handleSortByLabel('firstName')}
+              >
                 F. Name
-                <div className='associatedContacts-label-btn'>
-                  {sortOrder === 'asc' && sortField === 'firstName' ? (
-                    <img
-                      src={upArrowColoured}
-                      alt='asc'
-                      className='label-btn-img-1'
-                      onClick={() => handleSort('firstName', 'asc')}
-                    />
-                  ) : (
-                    <img
-                      src={upArrow}
-                      alt='asc'
-                      className='label-btn-img-1'
-                      onClick={() => handleSort('firstName', 'asc')}
-                    />
-                  )}
-                  {sortOrder === 'desc' && sortField === 'firstName' ? (
-                    <img
-                      src={downArrowColoured}
-                      alt='desc'
-                      className='label-btn-img-2'
-                      onClick={() => handleSort('firstName', 'desc')}
-                    />
-                  ) : (
-                    <img
-                      src={downArrow}
-                      alt='desc'
-                      className='label-btn-img-2'
-                      onClick={() => handleSort('firstName', 'desc')}
-                    />
-                  )}
-                </div>
+                {/*<div className='associatedContacts-label-btn'>
+                {sortOrder === 'asc' && sortField === 'firstName' ? (
+                  <img
+                    src={upArrowColoured}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('firstName', 'asc')}
+                  />
+                ) : (
+                  <img
+                    src={upArrow}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('firstName', 'asc')}
+                  />
+                )}
+                {sortOrder === 'desc' && sortField === 'firstName' ? (
+                  <img
+                    src={downArrowColoured}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('firstName', 'desc')}
+                  />
+                ) : (
+                  <img
+                    src={downArrow}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('firstName', 'desc')}
+                  />
+                )}
+              </div>*/}
               </label>
               <input
                 type='text'
@@ -1046,40 +1067,43 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
             <div className='col-1'>
-              <label className='associatedContacts-label'>
+              <label
+                className='associatedContacts-label labelCursor'
+                onClick={() => handleSortByLabel('lastName')}
+              >
                 L. Name
-                <div className='associatedContacts-label-btn'>
-                  {sortOrder === 'asc' && sortField === 'lastName' ? (
-                    <img
-                      src={upArrowColoured}
-                      alt='asc'
-                      className='label-btn-img-1'
-                      onClick={() => handleSort('lastName', 'asc')}
-                    />
-                  ) : (
-                    <img
-                      src={upArrow}
-                      alt='asc'
-                      className='label-btn-img-1'
-                      onClick={() => handleSort('lastName', 'asc')}
-                    />
-                  )}
-                  {sortOrder === 'desc' && sortField === 'lastName' ? (
-                    <img
-                      src={downArrowColoured}
-                      alt='desc'
-                      className='label-btn-img-2'
-                      onClick={() => handleSort('lastName', 'desc')}
-                    />
-                  ) : (
-                    <img
-                      src={downArrow}
-                      alt='desc'
-                      className='label-btn-img-2'
-                      onClick={() => handleSort('lastName', 'desc')}
-                    />
-                  )}
-                </div>
+                {/*<div className='associatedContacts-label-btn'>
+                {sortOrder === 'asc' && sortField === 'lastName' ? (
+                  <img
+                    src={upArrowColoured}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('lastName', 'asc')}
+                  />
+                ) : (
+                  <img
+                    src={upArrow}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('lastName', 'asc')}
+                  />
+                )}
+                {sortOrder === 'desc' && sortField === 'lastName' ? (
+                  <img
+                    src={downArrowColoured}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('lastName', 'desc')}
+                  />
+                ) : (
+                  <img
+                    src={downArrow}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('lastName', 'desc')}
+                  />
+                )}
+              </div>*/}
               </label>
               <input
                 type='text'
@@ -1088,40 +1112,43 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
             <div className='col-2'>
-              <label className='associatedContacts-label'>
+              <label
+                className='associatedContacts-label labelCursor'
+                onClick={() => handleSortByLabel('companyName')}
+              >
                 Company
-                <div className='associatedContacts-label-btn'>
-                  {sortOrder === 'asc' && sortField === 'companyName' ? (
-                    <img
-                      src={upArrowColoured}
-                      alt='asc'
-                      className='label-btn-img-1'
-                      onClick={() => handleSort('companyName', 'asc')}
-                    />
-                  ) : (
-                    <img
-                      src={upArrow}
-                      alt='asc'
-                      className='label-btn-img-1'
-                      onClick={() => handleSort('companyName', 'asc')}
-                    />
-                  )}
-                  {sortOrder === 'desc' && sortField === 'companyName' ? (
-                    <img
-                      src={downArrowColoured}
-                      alt='desc'
-                      className='label-btn-img-2'
-                      onClick={() => handleSort('companyName', 'desc')}
-                    />
-                  ) : (
-                    <img
-                      src={downArrow}
-                      alt='desc'
-                      className='label-btn-img-2'
-                      onClick={() => handleSort('companyName', 'desc')}
-                    />
-                  )}
-                </div>
+                {/*<div className='associatedContacts-label-btn'>
+                {sortOrder === 'asc' && sortField === 'companyName' ? (
+                  <img
+                    src={upArrowColoured}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('companyName', 'asc')}
+                  />
+                ) : (
+                  <img
+                    src={upArrow}
+                    alt='asc'
+                    className='label-btn-img-1'
+                    onClick={() => handleSort('companyName', 'asc')}
+                  />
+                )}
+                {sortOrder === 'desc' && sortField === 'companyName' ? (
+                  <img
+                    src={downArrowColoured}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('companyName', 'desc')}
+                  />
+                ) : (
+                  <img
+                    src={downArrow}
+                    alt='desc'
+                    className='label-btn-img-2'
+                    onClick={() => handleSort('companyName', 'desc')}
+                  />
+                )}
+              </div>*/}
               </label>
               <input
                 type='text'
@@ -1130,9 +1157,12 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
             <div className='col-1'>
-              <label className='associatedContacts-label'>
+              <label
+                className='associatedContacts-label labelCursor'
+                onClick={() => handleSortByLabel('contactType')}
+              >
                 Type
-                <div className='associatedContacts-label-btn'>
+                {/*<div className='associatedContacts-label-btn'>
                   {sortOrder === 'asc' && sortField === 'contactType' ? (
                     <img
                       src={upArrowColoured}
@@ -1163,7 +1193,7 @@ function RenderSafeCustody(props) {
                       onClick={() => handleSort('contactType', 'desc')}
                     />
                   )}
-                </div>
+                </div>*/}
               </label>
               <input
                 type='text'
@@ -1172,40 +1202,43 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
             <div className='col-2'>
-              <label className='associatedContacts-label'>
+              <label
+                className='associatedContacts-label labelCursor'
+                onClick={() => handleSortByLabel('emailAddress')}
+              >
                 Email Address
-                <div className='associatedContacts-label-btn'>
-                  {sortOrder === 'asc' && sortField === 'emailAddress' ? (
-                    <img
-                      src={upArrowColoured}
-                      alt='asc'
-                      className='label-btn-img-1'
-                      onClick={() => handleSort('emailAddress', 'asc')}
-                    />
-                  ) : (
-                    <img
-                      src={upArrow}
-                      alt='asc'
-                      className='label-btn-img-1'
-                      onClick={() => handleSort('emailAddress', 'asc')}
-                    />
-                  )}
-                  {sortOrder === 'desc' && sortField === 'emailAddress' ? (
-                    <img
-                      src={downArrowColoured}
-                      alt='desc'
-                      className='label-btn-img-2'
-                      onClick={() => handleSort('emailAddress', 'desc')}
-                    />
-                  ) : (
-                    <img
-                      src={downArrow}
-                      alt='desc'
-                      className='label-btn-img-2'
-                      onClick={() => handleSort('emailAddress', 'desc')}
-                    />
-                  )}
-                </div>
+                {/* <div className='associatedContacts-label-btn'>
+                 {sortOrder === 'asc' && sortField === 'emailAddress' ? (
+                   <img
+                     src={upArrowColoured}
+                     alt='asc'
+                     className='label-btn-img-1'
+                     onClick={() => handleSort('emailAddress', 'asc')}
+                   />
+                 ) : (
+                   <img
+                     src={upArrow}
+                     alt='asc'
+                     className='label-btn-img-1'
+                     onClick={() => handleSort('emailAddress', 'asc')}
+                   />
+                 )}
+                 {sortOrder === 'desc' && sortField === 'emailAddress' ? (
+                   <img
+                     src={downArrowColoured}
+                     alt='desc'
+                     className='label-btn-img-2'
+                     onClick={() => handleSort('emailAddress', 'desc')}
+                   />
+                 ) : (
+                   <img
+                     src={downArrow}
+                     alt='desc'
+                     className='label-btn-img-2'
+                     onClick={() => handleSort('emailAddress', 'desc')}
+                   />
+                 )}
+               </div>*/}
               </label>
               <input
                 type='text'
@@ -1214,9 +1247,12 @@ function RenderSafeCustody(props) {
               ></input>
             </div>
             <div className='col-2'>
-              <label className='associatedContacts-label'>
+              <label
+                className='associatedContacts-label labelCursor'
+                onClick={() => handleSortByLabel('telephoneNumber')}
+              >
                 Phone Number
-                <div className='associatedContacts-label-btn'>
+                {/*<div className='associatedContacts-label-btn'>
                   {sortOrder === 'asc' && sortField === 'telephoneNumber' ? (
                     <img
                       src={upArrowColoured}
@@ -1247,7 +1283,7 @@ function RenderSafeCustody(props) {
                       onClick={() => handleSort('telephoneNumber', 'desc')}
                     />
                   )}
-                </div>
+                </div>*/}
               </label>
               <input
                 type='text'

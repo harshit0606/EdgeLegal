@@ -134,8 +134,7 @@ function RenderProperty() {
   const [isPopRForm, setIsPopRForm] = useState(false);
   const [isPopUForm, setIsPopUForm] = useState(false);
   const [boolVal, setBoolVal] = useState(false);
-  const [sortOrder, setSortOrder] = useState('');
-  const [sortField, setSortField] = useState('');
+  const [labelSort, setLabelSort] = useState('');
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(25);
   const [totalPages, setTotalPages] = useState(1);
@@ -286,107 +285,194 @@ function RenderProperty() {
     filterUnregisterData({ ...filterUnregisterInput, [name]: e.target.value });
   };
 
-  const handleSort = (field, order) => {
-    if (sortOrder === order && sortField === field) {
-      setSortOrder(order);
-      setSortField(field);
-      // setFilteredData(allProperties);
-    } else {
-      setSortOrder(order);
-      setSortField(field);
-      let sortedData = filteredData.sort((a, b) => {
-        if (order === 'asc') {
+  const handleSortByLabel = (field) => {
+    let sortedData = filteredData.sort((a, b) => {
+      if (labelSort !== field) {
+        setLabelSort(field);
+        return (a[field] ? a[field].toLowerCase() : '') <
+          (b[field] ? b[field].toLowerCase() : '')
+          ? -1
+          : 1;
+      } else {
+        setLabelSort('');
+        return (a[field] ? a[field].toLowerCase() : '') <
+          (b[field] ? b[field].toLowerCase() : '')
+          ? 1
+          : -1;
+      }
+    });
+    setFilteredData(sortedData);
+  };
+
+  // const handleSort = (field, order) => {
+  //   if (sortOrder === order && sortField === field) {
+  //     setSortOrder(order);
+  //     setSortField(field);
+  //     // setFilteredData(allProperties);
+  //   } else {
+  //     setSortOrder(order);
+  //     setSortField(field);
+  //     let sortedData = filteredData.sort((a, b) => {
+  //       if (order === 'asc') {
+  //         return (a[field] ? a[field].toLowerCase() : '') <
+  //           (b[field] ? b[field].toLowerCase() : '')
+  //           ? -1
+  //           : 1;
+  //       } else {
+  //         return (a[field] ? a[field].toLowerCase() : '') <
+  //           (b[field] ? b[field].toLowerCase() : '')
+  //           ? 1
+  //           : -1;
+  //       }
+  //     });
+  //     setFilteredData(sortedData);
+  //   }
+  // };
+
+  const handleRegisterSort = (field) => {
+    let sortedData = filteredRegisterLot.sort((a, b) => {
+      if (
+        a[field] &&
+        b[field] &&
+        validator.isInt(a[field]) &&
+        validator.isInt(b[field])
+      ) {
+        if (labelSort !== field) {
+          setLabelSort(field);
+          return parseInt(a[field]) < parseInt(b[field]) ? -1 : 1;
+        } else {
+          setLabelSort('');
+          return parseInt(a[field]) < parseInt(b[field]) ? 1 : -1;
+        }
+      } else {
+        if (labelSort !== field) {
+          setLabelSort(field);
           return (a[field] ? a[field].toLowerCase() : '') <
             (b[field] ? b[field].toLowerCase() : '')
             ? -1
             : 1;
         } else {
+          setLabelSort('');
           return (a[field] ? a[field].toLowerCase() : '') <
             (b[field] ? b[field].toLowerCase() : '')
             ? 1
             : -1;
         }
-      });
-      setFilteredData(sortedData);
-    }
+      }
+    });
+    setFilteredRegisterLot(sortedData);
   };
 
-  const handleRegisterSort = (field, order) => {
-    if (sortOrder === order && sortField === field) {
-      setSortOrder(order);
-      setSortField(field);
-      // setFilteredRegisterLot(registeredLots);
-    } else {
-      setSortOrder(order);
-      setSortField(field);
+  // const handleRegisterSort = (field, order) => {
+  //   if (sortOrder === order && sortField === field) {
+  //     setSortOrder(order);
+  //     setSortField(field);
+  //     // setFilteredRegisterLot(registeredLots);
+  //   } else {
+  //     setSortOrder(order);
+  //     setSortField(field);
 
-      let sortedData = filteredRegisterLot.sort((a, b) => {
-        if (
-          a[field] &&
-          b[field] &&
-          validator.isInt(a[field]) &&
-          validator.isInt(b[field])
-        ) {
-          if (order === 'asc') {
-            return parseInt(a[field]) < parseInt(b[field]) ? -1 : 1;
-          } else {
-            return parseInt(a[field]) < parseInt(b[field]) ? 1 : -1;
-          }
+  //     let sortedData = filteredRegisterLot.sort((a, b) => {
+  //       if (
+  //         a[field] &&
+  //         b[field] &&
+  //         validator.isInt(a[field]) &&
+  //         validator.isInt(b[field])
+  //       ) {
+  //         if (order === 'asc') {
+  //           return parseInt(a[field]) < parseInt(b[field]) ? -1 : 1;
+  //         } else {
+  //           return parseInt(a[field]) < parseInt(b[field]) ? 1 : -1;
+  //         }
+  //       } else {
+  //         if (order === 'asc') {
+  //           return (a[field] ? a[field].toLowerCase() : '') <
+  //             (b[field] ? b[field].toLowerCase() : '')
+  //             ? -1
+  //             : 1;
+  //         } else {
+  //           return (a[field] ? a[field].toLowerCase() : '') <
+  //             (b[field] ? b[field].toLowerCase() : '')
+  //             ? 1
+  //             : -1;
+  //         }
+  //       }
+  //     });
+  //     setFilteredRegisterLot(sortedData);
+  //   }
+  // };
+
+  const handleUnregisterSort = (field) => {
+    let sortedData = filteredUnregisterLot.sort((a, b) => {
+      if (
+        a[field] &&
+        b[field] &&
+        validator.isInt(a[field]) &&
+        validator.isInt(b[field])
+      ) {
+        if (labelSort !== field) {
+          setLabelSort(field);
+          return parseInt(a[field]) < parseInt(b[field]) ? -1 : 1;
         } else {
-          if (order === 'asc') {
-            return (a[field] ? a[field].toLowerCase() : '') <
-              (b[field] ? b[field].toLowerCase() : '')
-              ? -1
-              : 1;
-          } else {
-            return (a[field] ? a[field].toLowerCase() : '') <
-              (b[field] ? b[field].toLowerCase() : '')
-              ? 1
-              : -1;
-          }
+          setLabelSort('');
+          return parseInt(a[field]) < parseInt(b[field]) ? 1 : -1;
         }
-      });
-      setFilteredRegisterLot(sortedData);
-    }
+      } else {
+        if (labelSort !== field) {
+          setLabelSort(field);
+          return (a[field] ? a[field].toLowerCase() : '') <
+            (b[field] ? b[field].toLowerCase() : '')
+            ? -1
+            : 1;
+        } else {
+          setLabelSort('');
+          return (a[field] ? a[field].toLowerCase() : '') <
+            (b[field] ? b[field].toLowerCase() : '')
+            ? 1
+            : -1;
+        }
+      }
+    });
+    setFilteredUnregisterLot(sortedData);
   };
 
-  const handleUnregisterSort = (field, order) => {
-    if (sortOrder === order && sortField === field) {
-      setSortOrder(order);
-      setSortField(field);
-      // setFilteredUnregisterLot(unregisteredLots);
-    } else {
-      setSortOrder(order);
-      setSortField(field);
-      let sortedData = filteredUnregisterLot.sort((a, b) => {
-        if (
-          a[field] &&
-          b[field] &&
-          validator.isInt(a[field]) &&
-          validator.isInt(b[field])
-        ) {
-          if (order === 'asc') {
-            return parseInt(a[field]) < parseInt(b[field]) ? -1 : 1;
-          } else {
-            return parseInt(a[field]) < parseInt(b[field]) ? 1 : -1;
-          }
-        } else {
-          if (order === 'asc') {
-            return (a[field] ? a[field].toLowerCase() : '') <
-              (b[field] ? b[field].toLowerCase() : '')
-              ? -1
-              : 1;
-          } else {
-            return (a[field] ? a[field].toLowerCase() : '') <
-              (b[field] ? b[field].toLowerCase() : '')
-              ? 1
-              : -1;
-          }
-        }
-      });
-      setFilteredUnregisterLot(sortedData);
-    }
-  };
+  // const handleUnregisterSort = (field, order) => {
+  //   if (sortOrder === order && sortField === field) {
+  //     setSortOrder(order);
+  //     setSortField(field);
+  //     // setFilteredUnregisterLot(unregisteredLots);
+  //   } else {
+  //     setSortOrder(order);
+  //     setSortField(field);
+  //     let sortedData = filteredUnregisterLot.sort((a, b) => {
+  //       if (
+  //         a[field] &&
+  //         b[field] &&
+  //         validator.isInt(a[field]) &&
+  //         validator.isInt(b[field])
+  //       ) {
+  //         if (order === 'asc') {
+  //           return parseInt(a[field]) < parseInt(b[field]) ? -1 : 1;
+  //         } else {
+  //           return parseInt(a[field]) < parseInt(b[field]) ? 1 : -1;
+  //         }
+  //       } else {
+  //         if (order === 'asc') {
+  //           return (a[field] ? a[field].toLowerCase() : '') <
+  //             (b[field] ? b[field].toLowerCase() : '')
+  //             ? -1
+  //             : 1;
+  //         } else {
+  //           return (a[field] ? a[field].toLowerCase() : '') <
+  //             (b[field] ? b[field].toLowerCase() : '')
+  //             ? 1
+  //             : -1;
+  //         }
+  //       }
+  //     });
+  //     setFilteredUnregisterLot(sortedData);
+  //   }
+  // };
 
   function deleteProperty() {
     const id = specificProperty.id;
@@ -411,30 +497,30 @@ function RenderProperty() {
       });
   }
 
-  const deletePropertyOnMain = async () => {
-    let str = selected.join(',');
-    // console.log('str', str);
-    try {
-      const res = await axios.delete(
-        `${url}/api/property/delete/${str}?requestId=1234567`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${loggedInToken}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      // console.log('bulk delete', res);
-      // window.location.reload();
-      setSelected([]);
-      setBoolVal(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const deletePropertyOnMain = async () => {
+  //   let str = selected.join(',');
+  //   // console.log('str', str);
+  //   try {
+  //     const res = await axios.delete(
+  //       `${url}/api/property/delete/${str}?requestId=1234567`,
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           Authorization: `Bearer ${loggedInToken}`,
+  //         },
+  //       },
+  //       {
+  //         withCredentials: true,
+  //       }
+  //     );
+  //     // console.log('bulk delete', res);
+  //     // window.location.reload();
+  //     setSelected([]);
+  //     setBoolVal(false);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const handleSelectToDelete = (id) => {
     const selectedIndex = selected.indexOf(id);
@@ -787,9 +873,12 @@ function RenderProperty() {
                   />
                 </div>
                 <div className='col-4'>
-                  <div className='associatedContacts-label'>
+                  <div
+                    className='associatedContacts-label labelCursor'
+                    onClick={() => handleSortByLabel('titleRef')}
+                  >
                     Title Ref.
-                    <div className='associatedContacts-label-btn'>
+                    {/**<div className='associatedContacts-label-btn'>
                       {sortOrder === 'asc' && sortField === 'titleRef' ? (
                         <img
                           src={upArrowColoured}
@@ -820,14 +909,17 @@ function RenderProperty() {
                           onClick={() => handleSort('titleRef', 'desc')}
                         />
                       )}
-                    </div>
+                    </div> */}
                   </div>
                   {/*<p>Title Ref.</p>*/}
                 </div>
                 <div className='col-6'>
-                  <div className='associatedContacts-label'>
+                  <div
+                    className='associatedContacts-label labelCursor'
+                    onClick={() => handleSortByLabel('address')}
+                  >
                     Address
-                    <div className='associatedContacts-label-btn'>
+                    {/**<div className='associatedContacts-label-btn'>
                       {sortOrder === 'asc' && sortField === 'address' ? (
                         <img
                           src={upArrowColoured}
@@ -858,7 +950,7 @@ function RenderProperty() {
                           onClick={() => handleSort('address', 'desc')}
                         />
                       )}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -1019,7 +1111,7 @@ function RenderProperty() {
                       }}
                     />
                   </div>
-                  
+
                   <div className='col-3 rowWise'>
                     <label>State</label>
                     <select
@@ -1109,9 +1201,12 @@ function RenderProperty() {
                     <h6>Edit</h6>
                   </div>
                   <div className='col-2'>
-                    <label className='associatedContacts-label'>
+                    <label
+                      className='associatedContacts-label labelCursor'
+                      onClick={() => handleRegisterSort('titleReference')}
+                    >
                       Title Reference
-                      <div className='associatedContacts-label-btn'>
+                      {/**<div className='associatedContacts-label-btn'>
                         {sortOrder === 'asc' &&
                         sortField === 'titleReference' ? (
                           <img
@@ -1152,7 +1247,7 @@ function RenderProperty() {
                             }
                           />
                         )}
-                      </div>
+                      </div> */}
                     </label>
                     <input
                       type='text'
@@ -1161,9 +1256,12 @@ function RenderProperty() {
                     ></input>
                   </div>
                   <div className='col-1'>
-                    <label className='associatedContacts-label'>
+                    <label
+                      className='associatedContacts-label labelCursor'
+                      onClick={() => handleRegisterSort('lotNumber')}
+                    >
                       Lot No.
-                      <div className='associatedContacts-label-btn'>
+                      {/**<div className='associatedContacts-label-btn'>
                         {sortOrder === 'asc' && sortField === 'lotNumber' ? (
                           <img
                             src={upArrowColoured}
@@ -1202,7 +1300,7 @@ function RenderProperty() {
                             }
                           />
                         )}
-                      </div>
+                      </div> */}
                     </label>
                     <input
                       type='text'
@@ -1211,9 +1309,12 @@ function RenderProperty() {
                     ></input>
                   </div>
                   <div className='col-1'>
-                    <label className='associatedContacts-label'>
+                    <label
+                      className='associatedContacts-label labelCursor'
+                      onClick={() => handleRegisterSort('section')}
+                    >
                       Section
-                      <div className='associatedContacts-label-btn'>
+                      {/**<div className='associatedContacts-label-btn'>
                         {sortOrder === 'asc' && sortField === 'section' ? (
                           <img
                             src={upArrowColoured}
@@ -1248,7 +1349,7 @@ function RenderProperty() {
                             }
                           />
                         )}
-                      </div>
+                      </div> */}
                     </label>
                     <input
                       type='text'
@@ -1257,9 +1358,12 @@ function RenderProperty() {
                     ></input>
                   </div>
                   <div className='col-3'>
-                    <label className='associatedContacts-label'>
+                    <label
+                      className='associatedContacts-label labelCursor'
+                      onClick={() => handleRegisterSort('section')}
+                    >
                       Deposited Plan No.
-                      <div className='associatedContacts-label-btn'>
+                      {/**<div className='associatedContacts-label-btn'>
                         {sortOrder === 'asc' &&
                         sortField === 'depositedPlanNumber' ? (
                           <img
@@ -1300,7 +1404,7 @@ function RenderProperty() {
                             }
                           />
                         )}
-                      </div>
+                      </div> */}
                     </label>
                     <input
                       type='text'
@@ -1309,9 +1413,12 @@ function RenderProperty() {
                     ></input>
                   </div>
                   <div className='col-2'>
-                    <label className='associatedContacts-label'>
+                    <label
+                      className='associatedContacts-label labelCursor'
+                      onClick={() => handleRegisterSort('strataPlanNumber')}
+                    >
                       Strata Plan No.
-                      <div className='associatedContacts-label-btn'>
+                      {/**<div className='associatedContacts-label-btn'>
                         {sortOrder === 'asc' &&
                         sortField === 'strataPlanNumber' ? (
                           <img
@@ -1352,7 +1459,7 @@ function RenderProperty() {
                             }
                           />
                         )}
-                      </div>
+                      </div> */}
                     </label>
                     <input
                       type='text'
@@ -1361,9 +1468,12 @@ function RenderProperty() {
                     ></input>
                   </div>
                   <div className='col-2'>
-                    <label className='associatedContacts-label'>
+                    <label
+                      className='associatedContacts-label labelCursor'
+                      onClick={() => handleRegisterSort('description')}
+                    >
                       Description
-                      <div className='associatedContacts-label-btn'>
+                      {/**<div className='associatedContacts-label-btn'>
                         {sortOrder === 'asc' && sortField === 'description' ? (
                           <img
                             src={upArrowColoured}
@@ -1402,7 +1512,7 @@ function RenderProperty() {
                             }
                           />
                         )}
-                      </div>
+                      </div> */}
                     </label>
                     <input
                       type='text'
@@ -1449,9 +1559,12 @@ function RenderProperty() {
                     <h6>Edit</h6>
                   </div>
                   <div className='col-2'>
-                    <label className='associatedContacts-label'>
+                    <label
+                      className='associatedContacts-label labelCursor'
+                      onClick={() => handleUnregisterSort('lot')}
+                    >
                       Lot No.
-                      <div className='associatedContacts-label-btn'>
+                      {/**<div className='associatedContacts-label-btn'>
                         {sortOrder === 'asc' && sortField === 'lot' ? (
                           <img
                             src={upArrowColoured}
@@ -1482,7 +1595,7 @@ function RenderProperty() {
                             onClick={() => handleUnregisterSort('lot', 'desc')}
                           />
                         )}
-                      </div>
+                      </div> */}
                     </label>
                     <input
                       type='text'
@@ -1491,9 +1604,12 @@ function RenderProperty() {
                     ></input>
                   </div>
                   <div className='col-2'>
-                    <label className='associatedContacts-label'>
+                    <label
+                      className='associatedContacts-label labelCursor'
+                      onClick={() => handleUnregisterSort('partOfLot')}
+                    >
                       Part of lot
-                      <div className='associatedContacts-label-btn'>
+                      {/**<div className='associatedContacts-label-btn'>
                         {sortOrder === 'asc' && sortField === 'partOfLot' ? (
                           <img
                             src={upArrowColoured}
@@ -1532,7 +1648,7 @@ function RenderProperty() {
                             }
                           />
                         )}
-                      </div>
+                      </div> */}
                     </label>
                     <input
                       type='text'
@@ -1541,9 +1657,12 @@ function RenderProperty() {
                     ></input>
                   </div>
                   <div className='col-1'>
-                    <label className='associatedContacts-label'>
+                    <label
+                      className='associatedContacts-label labelCursor'
+                      onClick={() => handleUnregisterSort('section')}
+                    >
                       Section
-                      <div className='associatedContacts-label-btn'>
+                      {/**<div className='associatedContacts-label-btn'>
                         {sortOrder === 'asc' && sortField === 'section' ? (
                           <img
                             src={upArrowColoured}
@@ -1582,7 +1701,7 @@ function RenderProperty() {
                             }
                           />
                         )}
-                      </div>
+                      </div> */}
                     </label>
                     <input
                       type='text'
@@ -1591,9 +1710,12 @@ function RenderProperty() {
                     ></input>
                   </div>
                   <div className='col-3'>
-                    <label className='associatedContacts-label'>
+                    <label
+                      className='associatedContacts-label labelCursor'
+                      onClick={() => handleUnregisterSort('plan')}
+                    >
                       Plan Number
-                      <div className='associatedContacts-label-btn'>
+                      {/**<div className='associatedContacts-label-btn'>
                         {sortOrder === 'asc' && sortField === 'plan' ? (
                           <img
                             src={upArrowColoured}
@@ -1624,7 +1746,7 @@ function RenderProperty() {
                             onClick={() => handleUnregisterSort('plan', 'desc')}
                           />
                         )}
-                      </div>
+                      </div> */}
                     </label>
                     <input
                       type='text'
@@ -1633,9 +1755,12 @@ function RenderProperty() {
                     ></input>
                   </div>
                   <div className='col-3'>
-                    <label className='associatedContacts-label'>
+                    <label
+                      className='associatedContacts-label labelCursor'
+                      onClick={() => handleUnregisterSort('description')}
+                    >
                       Description
-                      <div className='associatedContacts-label-btn'>
+                      {/**<div className='associatedContacts-label-btn'>
                         {sortOrder === 'asc' && sortField === 'description' ? (
                           <img
                             src={upArrowColoured}
@@ -1674,7 +1799,7 @@ function RenderProperty() {
                             }
                           />
                         )}
-                      </div>
+                      </div> */}
                     </label>
                     <input
                       type='text'

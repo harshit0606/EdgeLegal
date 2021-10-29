@@ -5,10 +5,10 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import axios from 'axios';
 import url from '../../config.js';
 import { useCookies } from 'react-cookie';
-import upArrow from '../../images/upArrow.svg';
-import downArrow from '../../images/downArrow.svg';
-import downArrowColoured from '../../images/downArrowColoured.svg';
-import upArrowColoured from '../../images/upArrowColoured.svg';
+// import upArrow from '../../images/upArrow.svg';
+// import downArrow from '../../images/downArrow.svg';
+// import downArrowColoured from '../../images/downArrowColoured.svg';
+// import upArrowColoured from '../../images/upArrowColoured.svg';
 import ContactStripe from '../topStripes/ContactStripe';
 import closeBtn from '../../images/close-white-btn.svg';
 import LoadingPage from '../../utils/LoadingPage';
@@ -97,6 +97,7 @@ function Contacts() {
   const [boolVal, setBoolVal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [confirmScreen, setConfirmScreen] = useState(false);
+  const [labelSort, setLabelSort] = useState('');
 
   useEffect(() => {
     if (!boolVal) {
@@ -174,30 +175,49 @@ function Contacts() {
     // }
   };
 
-  const handleSort = (field, order) => {
-    if (sortOrder === order && sortField === field) {
-      setSortOrder(order);
-      setSortField(field);
-    } else {
-      setSortOrder(order);
-      setSortField(field);
-      // console.log()
-      let sortedData = filteredData.sort((a, b) => {
-        if (order === 'asc') {
-          return (a[field] ? a[field].toLowerCase() : '') <
-            (b[field] ? b[field].toLowerCase() : '')
-            ? -1
-            : 1;
-        } else {
-          return (a[field] ? a[field].toLowerCase() : '') <
-            (b[field] ? b[field].toLowerCase() : '')
-            ? 1
-            : -1;
-        }
-      });
-      setFilteredData(sortedData);
-    }
+  const handleSortByLabel = (field) => {
+    let sortedData = filteredData.sort((a, b) => {
+      if (labelSort !== field) {
+        setLabelSort(field);
+        return (a[field] ? a[field].toLowerCase() : '') <
+          (b[field] ? b[field].toLowerCase() : '')
+          ? -1
+          : 1;
+      } else {
+        setLabelSort('');
+        return (a[field] ? a[field].toLowerCase() : '') <
+          (b[field] ? b[field].toLowerCase() : '')
+          ? 1
+          : -1;
+      }
+    });
+    setFilteredData(sortedData);
   };
+
+  // const handleSort = (field, order) => {
+  //   if (sortOrder === order && sortField === field) {
+  //     setSortOrder(order);
+  //     setSortField(field);
+  //   } else {
+  //     setSortOrder(order);
+  //     setSortField(field);
+  //     // console.log()
+  //     let sortedData = filteredData.sort((a, b) => {
+  //       if (order === 'asc') {
+  //         return (a[field] ? a[field].toLowerCase() : '') <
+  //           (b[field] ? b[field].toLowerCase() : '')
+  //           ? -1
+  //           : 1;
+  //       } else {
+  //         return (a[field] ? a[field].toLowerCase() : '') <
+  //           (b[field] ? b[field].toLowerCase() : '')
+  //           ? 1
+  //           : -1;
+  //       }
+  //     });
+  //     setFilteredData(sortedData);
+  //   }
+  // };
 
   const handleSelectContact = (data, index) => {
     const selectedIndex = selectedContactInd.indexOf(index);
@@ -310,9 +330,12 @@ function Contacts() {
           ></input>
         </div>
         <div className='col-2 '>
-          <label className='associatedContacts-label'>
+          <label
+            className='associatedContacts-label labelCursor'
+            onClick={() => handleSortByLabel('contactCode')}
+          >
             Contact Code
-            <div className='associatedContacts-label-btn'>
+            {/**<div className='associatedContacts-label-btn'>
               {sortOrder === 'asc' && sortField === 'contactCode' ? (
                 <img
                   src={upArrowColoured}
@@ -343,14 +366,17 @@ function Contacts() {
                   onClick={() => handleSort('contactCode', 'desc')}
                 />
               )}
-            </div>
+            </div> */}
           </label>
           <input type='text' name='contactCode' onChange={handleFilter}></input>
         </div>
         <div className='col-1'>
-          <label className='associatedContacts-label'>
+          <label
+            className='associatedContacts-label labelCursor'
+            onClick={() => handleSortByLabel('firstName')}
+          >
             F. Name
-            <div className='associatedContacts-label-btn'>
+            {/**<div className='associatedContacts-label-btn'>
               {sortOrder === 'asc' && sortField === 'firstName' ? (
                 <img
                   src={upArrowColoured}
@@ -381,14 +407,17 @@ function Contacts() {
                   onClick={() => handleSort('firstName', 'desc')}
                 />
               )}
-            </div>
+            </div> */}
           </label>
           <input type='text' name='firstName' onChange={handleFilter}></input>
         </div>
         <div className='col-1'>
-          <label className='associatedContacts-label'>
+          <label
+            className='associatedContacts-label labelCursor'
+            onClick={() => handleSortByLabel('lastName')}
+          >
             L. Name
-            <div className='associatedContacts-label-btn'>
+            {/**<div className='associatedContacts-label-btn'>
               {sortOrder === 'asc' && sortField === 'lastName' ? (
                 <img
                   src={upArrowColoured}
@@ -419,14 +448,17 @@ function Contacts() {
                   onClick={() => handleSort('lastName', 'desc')}
                 />
               )}
-            </div>
+            </div> */}
           </label>
           <input type='text' name='lastName' onChange={handleFilter}></input>
         </div>
         <div className='col-2'>
-          <label className='associatedContacts-label'>
+          <label
+            className='associatedContacts-label labelCursor'
+            onClick={() => handleSortByLabel('companyName')}
+          >
             Company
-            <div className='associatedContacts-label-btn'>
+            {/**<div className='associatedContacts-label-btn'>
               {sortOrder === 'asc' && sortField === 'companyName' ? (
                 <img
                   src={upArrowColoured}
@@ -457,14 +489,17 @@ function Contacts() {
                   onClick={() => handleSort('companyName', 'desc')}
                 />
               )}
-            </div>
+            </div> */}
           </label>
           <input type='text' name='companyName' onChange={handleFilter}></input>
         </div>
         <div className='col-1'>
-          <label className='associatedContacts-label'>
+          <label
+            className='associatedContacts-label labelCursor'
+            onClick={() => handleSortByLabel('role')}
+          >
             Role
-            <div className='associatedContacts-label-btn'>
+            {/**<div className='associatedContacts-label-btn'>
               {sortOrder === 'asc' && sortField === 'role' ? (
                 <img
                   src={upArrowColoured}
@@ -495,14 +530,17 @@ function Contacts() {
                   onClick={() => handleSort('role', 'desc')}
                 />
               )}
-            </div>
+            </div> */}
           </label>
           <input type='text' name='role' onChange={handleFilter}></input>
         </div>
         <div className='col-2'>
-          <label className='associatedContacts-label'>
+          <label
+            className='associatedContacts-label labelCursor'
+            onClick={() => handleSortByLabel('emailAddress')}
+          >
             Email Address
-            <div className='associatedContacts-label-btn'>
+            {/**<div className='associatedContacts-label-btn'>
               {sortOrder === 'asc' && sortField === 'emailAddress' ? (
                 <img
                   src={upArrowColoured}
@@ -533,7 +571,7 @@ function Contacts() {
                   onClick={() => handleSort('emailAddress', 'desc')}
                 />
               )}
-            </div>
+            </div> */}
           </label>
           <input
             type='text'
@@ -542,9 +580,12 @@ function Contacts() {
           ></input>
         </div>
         <div className='col-2'>
-          <label className='associatedContacts-label'>
+          <label
+            className='associatedContacts-label labelCursor'
+            onClick={() => handleSortByLabel('telephoneNumber')}
+          >
             Phone Number
-            <div className='associatedContacts-label-btn'>
+            {/**<div className='associatedContacts-label-btn'>
               {sortOrder === 'asc' && sortField === 'telephoneNumber' ? (
                 <img
                   src={upArrowColoured}
@@ -575,7 +616,7 @@ function Contacts() {
                   onClick={() => handleSort('telephoneNumber', 'desc')}
                 />
               )}
-            </div>
+            </div> */}
           </label>
           <input
             type='text'
